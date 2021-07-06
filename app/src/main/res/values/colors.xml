@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="rosewood">#5C000E</color>
+    <color name="temptress">#360000</color>
+    <color name="apricot">#EC9581</color>
+    <color name="santa_fe">#B76654</color>
+    <color name="bright_sun">#FFD740</color>
+    <color name="buttermilk">#FFECB3</color>
+    <color name="status_bar">@color/temptress</color>
+</resources>
