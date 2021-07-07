@@ -5,8 +5,9 @@ import com.roxana.recipeapp.domain.RecipeRepository
 import com.roxana.recipeapp.domain.base.BaseSuspendableUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class AddRecipeUseCase(
+class AddRecipeUseCase @Inject constructor(
     private val recipeRepository: RecipeRepository
 ) : BaseSuspendableUseCase<Recipe, Unit>() {
 

@@ -17,6 +17,7 @@ buildscript {
     }
     dependencies {
         classpath libs.buildTools
+        classpath libs.plugin.hilt
         classpath libs.plugin.kotlin
         classpath libs.plugin.ktlint
         classpath libs.plugin.sqlDelight
