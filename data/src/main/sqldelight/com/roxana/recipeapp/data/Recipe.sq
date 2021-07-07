@@ -1,0 +1,15 @@
+CREATE TABLE recipe (
+  id INTEGER NOT NULL,
+  name TEXT NOT NULL
+);
+
+CREATE INDEX recipe_name ON recipe(name);
+
+selectAll:
+SELECT *
+FROM recipe
+ORDER BY name;
+
+insertOrReplace:
+INSERT OR REPLACE INTO recipe(id, name)
+VALUES (?, ?);

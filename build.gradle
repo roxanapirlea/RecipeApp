@@ -12,11 +12,14 @@ buildscript {
         mavenCentral()
         gradlePluginPortal()
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://www.jetbrains.com/intellij-repository/releases' }
+        maven { url "https://jetbrains.bintray.com/intellij-third-party-dependencies" }
     }
     dependencies {
         classpath libs.buildTools
         classpath libs.plugin.kotlin
         classpath libs.plugin.ktlint
+        classpath libs.plugin.sqlDelight
         classpath libs.plugin.versionCheck
 
         // NOTE: Do not place your application dependencies here; they belong
