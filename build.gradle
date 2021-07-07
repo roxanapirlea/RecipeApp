@@ -1,15 +1,27 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: "com.github.ben-manes.versions"
+apply plugin: "org.jlleitschuh.gradle.ktlint"
+
 buildscript {
     ext {
-        compose_version = '1.0.0-beta09'
+        projectMinSdk = 23
+        projectTargetSdk = 30
     }
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://www.jetbrains.com/intellij-repository/releases' }
+        maven { url "https://jetbrains.bintray.com/intellij-third-party-dependencies" }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.0-beta05"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
+        classpath libs.buildTools
+        classpath libs.plugin.hilt
+        classpath libs.plugin.kotlin
+        classpath libs.plugin.ktlint
+        classpath libs.plugin.sqlDelight
+        classpath libs.plugin.versionCheck
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
