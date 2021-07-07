@@ -13,6 +13,8 @@ kotlin = "1.5.20"
 kotlinCoroutines = "1.5.0"
 material = "1.4.0"
 mockk = "1.12.0"
+pluginKtlint = "10.1.0"
+pluginVersions = "0.39.0"
 
 [libraries]
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
@@ -43,3 +45,5 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "pluginKtlint" }
+plugin-versionCheck = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "pluginVersions" }
