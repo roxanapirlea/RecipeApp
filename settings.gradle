@@ -8,3 +8,5 @@ dependencyResolutionManagement {
 rootProject.name = "RecipeApp"
 include ':app'
 include ':domain'
+
+enableFeaturePreview("VERSION_CATALOGS")
