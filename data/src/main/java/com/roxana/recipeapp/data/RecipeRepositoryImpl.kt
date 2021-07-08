@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.data.di
+package com.roxana.recipeapp.data
 
 import com.roxana.recipeapp.domain.Recipe
 import com.roxana.recipeapp.domain.RecipeRepository

@@ -1,0 +1,17 @@
+CREATE TABLE Ingredient(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE
+);
+
+insert:
+INSERT OR IGNORE INTO Ingredient(name)
+VALUES (?);
+
+getById:
+SELECT *
+FROM Ingredient
+WHERE id = :id;
+
+getAll:
+SELECT *
+FROM Ingredient;

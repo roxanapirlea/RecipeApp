@@ -1,0 +1,17 @@
+CREATE TABLE CustomCategory(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE
+);
+
+insert:
+INSERT OR IGNORE INTO CustomCategory(name)
+VALUES (?);
+
+getById:
+SELECT *
+FROM CustomCategory
+WHERE id = :id;
+
+getAll:
+SELECT *
+FROM CustomCategory;
