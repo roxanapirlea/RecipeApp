@@ -2,7 +2,6 @@ package com.roxana.recipeapp.data.di
 
 import android.content.Context
 import com.roxana.recipeapp.data.Database
-import com.roxana.recipeapp.data.RecipeQueries
 import com.roxana.recipeapp.data.RecipeRepositoryImpl
 import com.roxana.recipeapp.domain.RecipeRepository
 import com.squareup.sqldelight.android.AndroidSqliteDriver
@@ -20,14 +19,46 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideRecipeQueries(@ApplicationContext context: Context): RecipeQueries {
+    fun provideDatabase(@ApplicationContext context: Context): Database {
         val driver = AndroidSqliteDriver(
             schema = Database.Schema,
             context = context,
             name = "recipes.db"
         )
-        return Database(driver).recipeQueries
+        return Database(driver)
     }
+
+    @Singleton
+    @Provides
+    fun provideCategoryQueries(database: Database) = database.categoryQueries
+
+    @Singleton
+    @Provides
+    fun provideCategoryForRecipeQueries(database: Database) = database.categoryForRecipeQueries
+
+    @Singleton
+    @Provides
+    fun provideCommentQueries(database: Database) = database.commentQueries
+
+    @Singleton
+    @Provides
+    fun provideIngredientQueries(database: Database) = database.ingredientQueries
+
+    @Singleton
+    @Provides
+    fun provideIngredientForRecipeQueries(database: Database) = database.ingredientForRecipeQueries
+
+    @Singleton
+    @Provides
+    fun provideInstructionQueries(database: Database) = database.instructionQueries
+
+    @Singleton
+    @Provides
+    fun provideQuantityTypeQueries(database: Database) = database.quantityTypeQueries
+
+    @Singleton
+    @Provides
+    fun provideRecipeQueries(database: Database) = database.recipeQueries
 }
 
 @Module

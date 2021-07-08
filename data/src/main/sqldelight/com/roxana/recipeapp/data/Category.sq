@@ -1,0 +1,17 @@
+CREATE TABLE Category(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE
+);
+
+insert:
+INSERT OR IGNORE INTO Category(name)
+VALUES (?);
+
+getById:
+SELECT *
+FROM Category
+WHERE id = :id;
+
+getAll:
+SELECT *
+FROM Category;

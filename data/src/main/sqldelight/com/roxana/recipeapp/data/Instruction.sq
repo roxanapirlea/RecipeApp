@@ -1,0 +1,32 @@
+CREATE TABLE Instruction(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  details TEXT NOT NULL,
+  ordinal INTEGER AS Short,
+  recipe_id INTEGER NOT NULL,
+  FOREIGN KEY (recipe_id) REFERENCES Recipe(id)
+);
+
+CREATE INDEX instruction_recipe ON Instruction(recipe_id);
+
+insert:
+INSERT INTO Instruction(details, ordinal, recipe_id)
+VALUES (?, ?, ?);
+
+update:
+UPDATE Instruction
+SET details = :details,
+    ordinal = :ordinal
+WHERE id = :id;
+
+delete:
+DELETE FROM Instruction
+WHERE id = :id;
+
+getByRecipeId:
+SELECT *
+FROM Instruction
+WHERE recipe_id = :id;
+
+getAll:
+SELECT *
+FROM Instruction;

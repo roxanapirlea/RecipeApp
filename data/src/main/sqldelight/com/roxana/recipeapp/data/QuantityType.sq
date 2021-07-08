@@ -1,0 +1,17 @@
+CREATE TABLE QuantityType(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE
+);
+
+insert:
+INSERT OR IGNORE INTO QuantityType(name)
+VALUES (?);
+
+getById:
+SELECT *
+FROM QuantityType
+WHERE id = :id;
+
+getAll:
+SELECT *
+FROM QuantityType;

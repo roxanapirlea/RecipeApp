@@ -1,0 +1,35 @@
+CREATE TABLE CategoryForRecipe(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  category_id INTEGER,
+  recipe_id INTEGER NOT NULL,
+  FOREIGN KEY (category_id) REFERENCES Category(id),
+  FOREIGN KEY (recipe_id) REFERENCES Recipe(id)
+);
+
+CREATE INDEX category_recipe_id ON CategoryForRecipe(recipe_id);
+CREATE INDEX category_type_id ON CategoryForRecipe(category_id);
+
+insert:
+INSERT INTO CategoryForRecipe(name, category_id, recipe_id)
+VALUES (?, ?, ?);
+
+update:
+UPDATE CategoryForRecipe
+SET name = :name,
+    category_id = :category_id
+WHERE id = :id;
+
+delete:
+DELETE FROM CategoryForRecipe
+WHERE id = :id;
+
+getCategoryByRecipeId:
+SELECT CategoryForRecipe.id, CategoryForRecipe.name, Category.name AS 'category_custom_name'
+FROM CategoryForRecipe
+LEFT JOIN Category ON CategoryForRecipe.category_id = Category.id
+WHERE recipe_id = :id;
+
+getAll:
+SELECT *
+FROM CategoryForRecipe;

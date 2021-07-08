@@ -1,15 +1,34 @@
-CREATE TABLE recipe (
-  id INTEGER NOT NULL,
-  name TEXT NOT NULL
+CREATE TABLE Recipe(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  photo_path TEXT,
+  time_total INTEGER,
+  time_preparation INTEGER,
+  time_cooking INTEGER,
+  time_waiting INTEGER,
+  temperature INTEGER
 );
 
-CREATE INDEX recipe_name ON recipe(name);
-
-selectAll:
+getAll:
 SELECT *
-FROM recipe
+FROM Recipe
 ORDER BY name;
 
-insertOrReplace:
-INSERT OR REPLACE INTO recipe(id, name)
-VALUES (?, ?);
+insert:
+INSERT INTO Recipe(name, photo_path, time_total, time_cooking, time_preparation, time_waiting, temperature)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+update:
+UPDATE Recipe
+SET name = :name,
+    photo_path = :photo_path,
+    time_total = :time_total,
+    time_cooking = :time_cooking,
+    time_preparation = :time_preparation,
+    time_waiting = :time_waiting,
+    temperature = :temperature
+WHERE id = :id;
+
+delete:
+DELETE FROM Recipe
+WHERE id = :id;
