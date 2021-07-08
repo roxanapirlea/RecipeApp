@@ -3,6 +3,7 @@ package com.roxana.recipeapp.data.di
 import android.content.Context
 import com.roxana.recipeapp.data.Database
 import com.roxana.recipeapp.data.RecipeQueries
+import com.roxana.recipeapp.data.RecipeRepositoryImpl
 import com.roxana.recipeapp.domain.RecipeRepository
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.Binds
