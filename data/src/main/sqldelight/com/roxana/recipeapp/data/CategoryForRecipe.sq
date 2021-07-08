@@ -1,9 +1,11 @@
+import com.roxana.recipeapp.data.CategoryType;
+
 CREATE TABLE CategoryForRecipe(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT,
+  name TEXT AS CategoryType,
   category_id INTEGER,
   recipe_id INTEGER NOT NULL,
-  FOREIGN KEY (category_id) REFERENCES Category(id),
+  FOREIGN KEY (category_id) REFERENCES CustomCategory(id),
   FOREIGN KEY (recipe_id) REFERENCES Recipe(id)
 );
 
@@ -25,9 +27,9 @@ DELETE FROM CategoryForRecipe
 WHERE id = :id;
 
 getCategoryByRecipeId:
-SELECT CategoryForRecipe.id, CategoryForRecipe.name, Category.name AS 'category_custom_name'
+SELECT CategoryForRecipe.id, CategoryForRecipe.name, CustomCategory.name AS 'category_custom_name'
 FROM CategoryForRecipe
-LEFT JOIN Category ON CategoryForRecipe.category_id = Category.id
+LEFT JOIN CustomCategory ON CategoryForRecipe.category_id = CustomCategory.id
 WHERE recipe_id = :id;
 
 getAll:

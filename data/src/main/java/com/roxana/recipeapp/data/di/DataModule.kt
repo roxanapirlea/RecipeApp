@@ -1,9 +1,12 @@
 package com.roxana.recipeapp.data.di
 
 import android.content.Context
+import com.roxana.recipeapp.data.CategoryForRecipe
 import com.roxana.recipeapp.data.Database
+import com.roxana.recipeapp.data.IngredientForRecipe
 import com.roxana.recipeapp.data.RecipeRepositoryImpl
 import com.roxana.recipeapp.domain.RecipeRepository
+import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.Binds
 import dagger.Module
@@ -25,12 +28,18 @@ class DataModule {
             context = context,
             name = "recipes.db"
         )
-        return Database(driver)
+        return Database(
+            driver,
+            CategoryForRecipeAdapter = CategoryForRecipe.Adapter(nameAdapter = EnumColumnAdapter()),
+            IngredientForRecipeAdapter = IngredientForRecipe.Adapter(
+                quantity_nameAdapter = EnumColumnAdapter()
+            )
+        )
     }
 
     @Singleton
     @Provides
-    fun provideCategoryQueries(database: Database) = database.categoryQueries
+    fun provideCategoryQueries(database: Database) = database.customCategoryQueries
 
     @Singleton
     @Provides
@@ -54,7 +63,7 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideQuantityTypeQueries(database: Database) = database.quantityTypeQueries
+    fun provideQuantityTypeQueries(database: Database) = database.customQuantityTypeQueries
 
     @Singleton
     @Provides

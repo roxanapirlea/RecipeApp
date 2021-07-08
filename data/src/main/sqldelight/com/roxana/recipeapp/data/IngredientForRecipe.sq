@@ -1,11 +1,13 @@
+import com.roxana.recipeapp.data.QuantityType;
+
 CREATE TABLE IngredientForRecipe(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   quantity REAL,
-  quantity_name TEXT,
+  quantity_name TEXT AS QuantityType,
   quantity_type_id INTEGER,
   ingredient_id INTEGER NOT NULL,
   recipe_id INTEGER NOT NULL,
-  FOREIGN KEY (quantity_type_id) REFERENCES QuantityType(id),
+  FOREIGN KEY (quantity_type_id) REFERENCES CustomQuantityType(id),
   FOREIGN KEY (ingredient_id) REFERENCES Ingredient(id),
   FOREIGN KEY (recipe_id) REFERENCES Recipe(id)
 );
@@ -32,11 +34,11 @@ WHERE id = :id;
 
 getIngredientByRecipeId:
 SELECT IngredientForRecipe.id, IngredientForRecipe.quantity, IngredientForRecipe.quantity_name,
-    QuantityType.name AS 'custom_quantity_name',
+    CustomQuantityType.name AS 'custom_quantity_name',
     Ingredient.name AS 'ingredient_name'
 FROM IngredientForRecipe
 INNER JOIN Ingredient ON IngredientForRecipe.ingredient_id = Ingredient.id
-LEFT JOIN QuantityType ON IngredientForRecipe.quantity_type_id = QuantityType.id
+LEFT JOIN CustomQuantityType ON IngredientForRecipe.quantity_type_id = CustomQuantityType.id
 WHERE recipe_id = :id;
 
 getAll:
