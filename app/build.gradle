@@ -61,10 +61,13 @@ dependencies {
     implementation libs.androidx.compose.material
     implementation libs.androidx.compose.tooling
 
+    implementation libs.androidx.navCompose
+
     implementation libs.androidx.lifecycle
     implementation libs.androidx.activityCompose
 
     implementation libs.hilt.android
+    implementation libs.hilt.navCompose
     kapt libs.hilt.compiler
 
     testImplementation libs.junit
