@@ -28,6 +28,7 @@ class AddRecipeUseCaseTest {
         val recipe = Recipe(
             "fake",
             null,
+            1,
             emptyList(),
             emptyList(),
             emptyList(),
@@ -54,6 +55,7 @@ class AddRecipeUseCaseTest {
         val recipe = Recipe(
             "fake",
             null,
+            1,
             emptyList(),
             emptyList(),
             emptyList(),

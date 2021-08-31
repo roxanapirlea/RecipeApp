@@ -2,11 +2,12 @@ CREATE TABLE Recipe(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   photo_path TEXT,
-  time_total INTEGER,
-  time_preparation INTEGER,
-  time_cooking INTEGER,
-  time_waiting INTEGER,
-  temperature INTEGER
+  portions INTEGER AS Short,
+  time_total INTEGER AS Short,
+  time_preparation INTEGER AS Short,
+  time_cooking INTEGER AS Short,
+  time_waiting INTEGER AS Short,
+  temperature INTEGER AS Short
 );
 
 getAll:
@@ -15,13 +16,14 @@ FROM Recipe
 ORDER BY name;
 
 insert:
-INSERT INTO Recipe(name, photo_path, time_total, time_cooking, time_preparation, time_waiting, temperature)
-VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT INTO Recipe(name, photo_path, portions, time_total, time_cooking, time_preparation, time_waiting, temperature)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 
 update:
 UPDATE Recipe
 SET name = :name,
     photo_path = :photo_path,
+    portions = :portions,
     time_total = :time_total,
     time_cooking = :time_cooking,
     time_preparation = :time_preparation,

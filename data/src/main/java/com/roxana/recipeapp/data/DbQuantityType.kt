@@ -1,6 +1,6 @@
 package com.roxana.recipeapp.data
 
-enum class QuantityType {
+enum class DbQuantityType {
     POUND,
     OUNCE,
     GRAM,

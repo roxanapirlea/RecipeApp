@@ -28,13 +28,14 @@ class RecipeTest {
     @Test
     fun returnInsertedOrderedItems_when_insertAndSelect() {
         // Given
-        val recipeC = Recipe(2, "Crepe", null, null, null, null, null, null)
-        val recipeD = Recipe(1, "Donut", null, null, null, null, null, null)
+        val recipeC = Recipe(2, "Crepe", null, null, null, null, null, null, null)
+        val recipeD = Recipe(1, "Donut", null, null, null, null, null, null, null)
 
         // When
         queries.insert(
             recipeD.name,
             recipeD.photo_path,
+            recipeD.portions,
             recipeD.time_total,
             recipeD.time_preparation,
             recipeD.time_cooking,
@@ -44,6 +45,7 @@ class RecipeTest {
         queries.insert(
             recipeC.name,
             recipeC.photo_path,
+            recipeC.portions,
             recipeC.time_total,
             recipeC.time_preparation,
             recipeC.time_cooking,
@@ -60,11 +62,12 @@ class RecipeTest {
     @Test
     fun returnUpdatedItem_when_Update() {
         // Given
-        val recipe = Recipe(1, "Crepe", null, null, null, null, null, null)
-        val recipeUpdated = Recipe(1, "Donut", "path", 1, 2, 3, 4, 5)
+        val recipe = Recipe(1, "Crepe", null, null, null, null, null, null, null)
+        val recipeUpdated = Recipe(1, "Donut", "path", 1, 2, 3, 4, 5, 6)
         queries.insert(
             recipe.name,
             recipe.photo_path,
+            recipe.portions,
             recipe.time_total,
             recipe.time_preparation,
             recipe.time_cooking,
@@ -76,6 +79,7 @@ class RecipeTest {
         queries.update(
             recipeUpdated.name,
             recipeUpdated.photo_path,
+            recipeUpdated.portions,
             recipeUpdated.time_total,
             recipeUpdated.time_cooking,
             recipeUpdated.time_preparation,
@@ -93,7 +97,7 @@ class RecipeTest {
     @Test
     fun deleteItem_when_delete() {
         // Given
-        queries.insert("Donut", "path", 1, 2, 3, 4, 5)
+        queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6)
         val initialRecipe =
             queries.getAll().executeAsList().first { it.name == "Donut" }
 
