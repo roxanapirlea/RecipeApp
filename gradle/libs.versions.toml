@@ -33,6 +33,7 @@ androidx-compose-test = { module = "androidx.compose.ui:ui-test-junit4", version
 androidx-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycleVm = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
 
 androidx-navCompose = { module = "androidx.navigation:navigation-compose", version = "navCompose" }
 
