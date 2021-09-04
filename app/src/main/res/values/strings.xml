@@ -1,5 +1,34 @@
 <resources>
     <string name="app_name">Recipe App</string>
+    <string name="all_category_breakfast">Breakfast</string>
+    <string name="all_category_lunch">Lunch</string>
+    <string name="all_category_dinner">Dinner</string>
+    <string name="all_category_snack">Snack</string>
+    <string name="all_category_main">Main</string>
+    <string name="all_category_side">Side</string>
+    <string name="all_category_dessert">Dessert</string>
+    <string name="all_category_drink">Drink</string>
+    <string name="all_quantity_pound">lb</string>
+    <string name="all_quantity_ounce">oz</string>
+    <string name="all_quantity_g">g</string>
+    <string name="all_quantity_kg">kg</string>
+    <string name="all_quantity_teaspoon">tsp</string>
+    <string name="all_quantity_tablespoon">tbsp</string>
+    <string name="all_quantity_fl_ounce">fl oz</string>
+    <string name="all_quantity_gill">gill</string>
+    <string name="all_quantity_cup">cup</string>
+    <string name="all_quantity_pint">pt</string>
+    <string name="all_quantity_quart">qt</string>
+    <string name="all_quantity_gallon">gal</string>
+    <string name="all_quantity_liter">l</string>
+    <string name="all_quantity_deciliter">dl</string>
+    <string name="all_quantity_centiliter">cl</string>
+    <string name="all_edit">Edit</string>
+    <string name="all_add_comment">Add comment</string>
+    <string name="all_delete">Delete</string>
+    <string name="all_done">Done</string>
+    <string name="all_change">Change</string>
+    <string name="all_add_new">Add new</string>
     <string name="home_title">@string/app_name</string>
     <string name="add_title">Add recipe</string>
 </resources>
