@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.add.ui.AddRecipeTextField
+import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.CategoryChip
@@ -34,7 +35,8 @@ fun AddRecipeScreen(
     addRecipeViewModel: AddRecipeViewModel,
     onBack: () -> Unit = {}
 ) {
-    val state by addRecipeViewModel.state.collectAsState()
+    val state by rememberFlowWithLifecycle(addRecipeViewModel.state)
+        .collectAsState(AddRecipeViewState())
     AddRecipeView(state) {
         when (it) {
             Back -> onBack()
