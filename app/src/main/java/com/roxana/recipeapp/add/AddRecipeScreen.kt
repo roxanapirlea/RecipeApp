@@ -11,11 +11,15 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -29,6 +33,9 @@ import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.CategoryChip
 import com.roxana.recipeapp.ui.DividerAlpha40
 import com.roxana.recipeapp.ui.theme.RecipeTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 
 @Composable
 fun AddRecipeScreen(
@@ -37,7 +44,8 @@ fun AddRecipeScreen(
 ) {
     val state by rememberFlowWithLifecycle(addRecipeViewModel.state)
         .collectAsState(AddRecipeViewState())
-    AddRecipeView(state) {
+
+    AddRecipeView(state, addRecipeViewModel.eventsFlow) {
         when (it) {
             Back -> onBack()
             is TitleChanged -> addRecipeViewModel.onTitleChanged(it.name)
@@ -49,9 +57,26 @@ fun AddRecipeScreen(
 @Composable
 fun AddRecipeView(
     state: AddRecipeViewState,
+    eventsFlow: Flow<AddRecipeEvent> = flow { },
     onAction: (AddRecipeViewAction) -> Unit = {}
 ) {
+    val scaffoldState = rememberScaffoldState()
+    val localContext = LocalContext.current.applicationContext
+
+    LaunchedEffect(eventsFlow) {
+        eventsFlow.collect {
+            when (it) {
+                ShowCategoryError ->
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = localContext.getString(R.string.add_recipe_category_error),
+                        duration = SnackbarDuration.Short
+                    )
+            }
+        }
+    }
+
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             AppBar(
                 title = stringResource(id = R.string.add_title),
