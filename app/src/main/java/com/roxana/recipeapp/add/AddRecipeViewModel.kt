@@ -46,4 +46,19 @@ class AddRecipeViewModel @Inject constructor(
         }
         _state.value = state.value.copy(categories = categories)
     }
+
+    fun onPortionsChanged(portions: String) {
+        _state.value = state.value.copy(
+            portions = PortionsState(
+                portions.toShortOrNull(),
+                portions,
+                portions.isShort()
+            )
+        )
+    }
+
+    private fun String.isShort(): Boolean {
+        if (isEmpty()) return true
+        toShortOrNull()?.let { return true } ?: return false
+    }
 }

@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
@@ -50,6 +51,7 @@ fun AddRecipeScreen(
             Back -> onBack()
             is TitleChanged -> addRecipeViewModel.onTitleChanged(it.name)
             is CategoryClicked -> addRecipeViewModel.onCategoryClicked(it.type)
+            is PortionsChanged -> addRecipeViewModel.onPortionsChanged(it.portions)
         }
     }
 }
@@ -125,6 +127,18 @@ fun AddRecipeView(
 
             if (state.categories.isNotEmpty())
                 item { DividerAlpha40(modifier = Modifier.padding(top = 8.dp)) }
+
+            item {
+                AddRecipeTextField(
+                    value = state.portions.text,
+                    onValueChange = { onAction(PortionsChanged(it)) },
+                    placeholder = stringResource(id = R.string.add_recipe_portions_hint),
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next,
+                    modifier = Modifier.padding(padding)
+                )
+            }
+            item { DividerAlpha40() }
         }
     }
 }
