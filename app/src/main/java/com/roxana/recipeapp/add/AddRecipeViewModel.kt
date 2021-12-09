@@ -23,7 +23,8 @@ class AddRecipeViewModel @Inject constructor(
     private val _state = MutableStateFlow(
         AddRecipeViewState(
             ingredients = listOf(IngredientState(isEditing = true)),
-            instructions = listOf(EditableState(isEditing = true))
+            instructions = listOf(EditableState(isEditing = true)),
+            comments = listOf(EditableState(isEditing = true))
         )
     )
     val state: StateFlow<AddRecipeViewState> = _state.asStateFlow()
@@ -161,6 +162,40 @@ class AddRecipeViewModel @Inject constructor(
                 if (index == id) instruction.copy(name = name) else instruction
             }
         _state.value = state.value.copy(instructions = instructions)
+    }
+
+    fun onAddComment() {
+        val comments = state.value.comments
+            .filterNot { it.isEditing && it.name.isEmpty() }
+            .map { it.copy(isEditing = false) }
+        _state.value = state.value.copy(
+            comments = comments + EditableState(isEditing = true)
+        )
+    }
+
+    fun onDeleteComment(id: Int) {
+        val comments = state.value.comments.filterIndexed { index, _ -> index != id }
+        _state.value = state.value.copy(comments = comments)
+    }
+
+    fun onCommentClicked(id: Int) {
+        val comments = state.value.comments
+            .mapIndexedNotNull { index, comment ->
+                when {
+                    index == id -> comment.copy(isEditing = true)
+                    comment.name.isEmpty() && comment.isEditing -> null
+                    else -> comment.copy(isEditing = false)
+                }
+            }
+        _state.value = state.value.copy(comments = comments)
+    }
+
+    fun onCommentChanged(id: Int, name: String) {
+        val comments = state.value.comments
+            .mapIndexed { index, comment ->
+                if (index == id) comment.copy(name = name) else comment
+            }
+        _state.value = state.value.copy(comments = comments)
     }
 
     private fun String.isShort(): Boolean {

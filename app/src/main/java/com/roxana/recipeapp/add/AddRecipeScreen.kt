@@ -71,6 +71,10 @@ fun AddRecipeScreen(
             is InstructionClicked -> addRecipeViewModel.onInstructionClicked(it.id)
             is DeleteInstructionClicked -> addRecipeViewModel.onDeleteInstruction(it.id)
             is InstructionChanged -> addRecipeViewModel.onInstructionChanged(it.id, it.name)
+            AddCommentClicked -> addRecipeViewModel.onAddComment()
+            is CommentClicked -> addRecipeViewModel.onCommentClicked(it.id)
+            is DeleteCommentClicked -> addRecipeViewModel.onDeleteComment(it.id)
+            is CommentChanged -> addRecipeViewModel.onCommentChanged(it.id, it.name)
         }
     }
 }
@@ -223,6 +227,37 @@ fun AddRecipeView(
             item {
                 AddButton(
                     onClick = { onAction(AddInstructionClicked) },
+                    modifier = Modifier.padding(padding)
+                )
+            }
+            item { DividerAlpha40(modifier = Modifier.padding(top = 8.dp)) }
+
+            item {
+                RecipePartLabel(
+                    text = stringResource(id = R.string.add_recipe_comments),
+                    image = R.drawable.ic_comment,
+                    modifier = Modifier.padding(padding)
+                )
+            }
+            itemsIndexed(state.comments) { index, comment ->
+                Column(Modifier.padding(padding)) {
+                    DividerAlpha16()
+                    IndexedView(
+                        editableState = comment,
+                        index = index + 1,
+                        placeholder = stringResource(R.string.add_recipe_comment_hint),
+                        onNameChange = { onAction(CommentChanged(index, it)) },
+                        onDelete = { onAction(DeleteCommentClicked(index)) },
+                        onSelect = { onAction(CommentClicked(index)) }
+                    )
+                }
+            }
+            if (state.comments.isNotEmpty())
+                item { DividerAlpha16(modifier = Modifier.padding(padding)) }
+
+            item {
+                AddButton(
+                    onClick = { onAction(AddCommentClicked) },
                     modifier = Modifier.padding(padding)
                 )
             }
