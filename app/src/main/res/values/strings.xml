@@ -29,6 +29,25 @@
     <string name="all_done">Done</string>
     <string name="all_change">Change</string>
     <string name="all_add_new">Add new</string>
+    <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="home_title">@string/app_name</string>
     <string name="add_title">Add recipe</string>
+    <string name="add_recipe_title_hint">Title</string>
+    <string name="add_recipe_ingredients">Ingredients</string>
+    <string name="add_recipe_category_error">Could not retrieve categories</string>
+    <string name="add_recipe_quantity_error">Could not retrieve quantities</string>
+    <string name="add_recipe_portions_hint">Portions</string>
+    <string name="add_recipe_ingredient_hint">Name</string>
+    <string name="add_recipe_quantity_hint">Quantity</string>
+    <string name="add_recipe_quantity_type_hint">Quantity\ntype</string>
+    <string name="add_recipe_instructions">Instructions</string>
+    <string name="add_recipe_instruction_hint">Instruction</string>
+    <string name="add_recipe_comments">Comments</string>
+    <string name="add_recipe_comment_hint">Comment</string>
+    <string name="add_recipe_time_cooking_hint">Cooking time (min)</string>
+    <string name="add_recipe_time_preparation_hint">Preparation time (min)</string>
+    <string name="add_recipe_time_waiting_hint">Waiting time (min)</string>
+    <string name="add_recipe_time_total_hint">Total time (min)</string>
+    <string name="add_recipe_compute_total">Compute from\nother values</string>
+    <string name="add_recipe_temperature_hint">Temperature</string>
 </resources>
