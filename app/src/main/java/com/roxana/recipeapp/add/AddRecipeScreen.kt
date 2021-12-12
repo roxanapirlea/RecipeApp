@@ -34,6 +34,7 @@ import com.roxana.recipeapp.add.ui.AddRecipeTextField
 import com.roxana.recipeapp.add.ui.AddRecipeTime
 import com.roxana.recipeapp.add.ui.IndexedView
 import com.roxana.recipeapp.add.ui.IngredientView
+import com.roxana.recipeapp.add.ui.TemperatureTextField
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.AppBar
@@ -81,6 +82,7 @@ fun AddRecipeScreen(
             is TimeTotalChanged -> addRecipeViewModel.onTimeTotalChanged(it.time)
             is TimeWaitingChanged -> addRecipeViewModel.onTimeWaitingChanged(it.time)
             ComputeTotal -> addRecipeViewModel.computeTotal()
+            is TemperatureChanged -> addRecipeViewModel.onTemperatureChanged(it.temperature)
         }
     }
 }
@@ -249,6 +251,15 @@ fun AddRecipeView(
                     onTimeWaitingSet = { onAction(TimeWaitingChanged(it)) },
                     onTimeTotalSet = { onAction(TimeTotalChanged(it)) },
                     onComputeTotal = { onAction(ComputeTotal) },
+                    modifier = Modifier.padding(padding)
+                )
+            }
+            item { DividerAlpha40() }
+
+            item {
+                TemperatureTextField(
+                    value = state.temperature.text,
+                    onValueChange = { onAction(TemperatureChanged(it)) },
                     modifier = Modifier.padding(padding)
                 )
             }

@@ -246,6 +246,16 @@ class AddRecipeViewModel @Inject constructor(
         _state.value = state.value.copy(time = timeState.copy(total = total.toShort()))
     }
 
+    fun onTemperatureChanged(temperature: String) {
+        _state.value = state.value.copy(
+            temperature = TemperatureState(
+                text = temperature,
+                value = temperature.toShortOrNull(),
+                isValid = temperature.isShort()
+            )
+        )
+    }
+
     private fun String.isShort(): Boolean {
         if (isEmpty()) return true
         toShortOrNull()?.let { return true } ?: return false

@@ -11,7 +11,8 @@ data class AddRecipeViewState(
     val ingredients: List<IngredientState> = emptyList(),
     val instructions: List<EditableState> = emptyList(),
     val comments: List<EditableState> = emptyList(),
-    val time: TimeState = TimeState()
+    val time: TimeState = TimeState(),
+    val temperature: TemperatureState = TemperatureState()
 ) {
     val isValid = title.isValid &&
         portions.isValid &&
@@ -19,7 +20,8 @@ data class AddRecipeViewState(
         time.isCookingValid &&
         time.isPreparationValid &&
         time.isWaitingValid &&
-        time.isTotalValid
+        time.isTotalValid &&
+        temperature.isValid
 }
 
 data class Title(val name: String = "", val isValid: Boolean = false)
@@ -61,4 +63,10 @@ data class TimeState(
     val total: Short? = null,
     val totalText: String = "",
     val isTotalValid: Boolean = true,
+)
+
+data class TemperatureState(
+    val value: Short? = null,
+    val text: String = "",
+    val isValid: Boolean = true
 )
