@@ -22,8 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
@@ -98,6 +101,15 @@ fun AddRecipeView(
 ) {
     val scaffoldState = rememberScaffoldState()
     val localContext = LocalContext.current.applicationContext
+    val portionsFocusRequester = remember { FocusRequester() }
+    val ingredientNameFocusRequester = remember { FocusRequester() }
+    val ingredientQuantityFocusRequester = remember { FocusRequester() }
+    val timeCookingFocusRequester = remember { FocusRequester() }
+    val timePreparationFocusRequester = remember { FocusRequester() }
+    val timeWaitingFocusRequester = remember { FocusRequester() }
+    val timeTotalFocusRequester = remember { FocusRequester() }
+    val temperatureFocusRequester = remember { FocusRequester() }
+    val commentFocusRequester = remember { FocusRequester() }
 
     LaunchedEffect(eventsFlow) {
         eventsFlow.collect {
@@ -129,6 +141,7 @@ fun AddRecipeView(
             start = innerPadding.calculateStartPadding(LocalLayoutDirection.current) + 16.dp,
             end = innerPadding.calculateEndPadding(LocalLayoutDirection.current) + 16.dp
         )
+
         LazyColumn(
             contentPadding = PaddingValues(
                 top = innerPadding.calculateTopPadding() + 8.dp,
@@ -143,7 +156,10 @@ fun AddRecipeView(
                     placeholder = stringResource(id = R.string.add_recipe_title_hint),
                     textStyle = MaterialTheme.typography.h5,
                     imeAction = ImeAction.Next,
-                    modifier = Modifier.padding(padding).fillMaxWidth()
+                    onImeAction = { portionsFocusRequester.requestFocus() },
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxWidth()
                 )
             }
             item { DividerAlpha40() }
@@ -174,7 +190,11 @@ fun AddRecipeView(
                     placeholder = stringResource(id = R.string.add_recipe_portions_hint),
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Next,
-                    modifier = Modifier.padding(padding).fillMaxWidth()
+                    onImeAction = { ingredientNameFocusRequester.requestFocus() },
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxWidth()
+                        .focusRequester(portionsFocusRequester)
                 )
             }
             item { DividerAlpha40() }
@@ -196,7 +216,9 @@ fun AddRecipeView(
                         onQuantityChange = { onAction(IngredientQuantityChanged(index, it)) },
                         onTypeChange = { onAction(IngredientQuantityTypeChanged(index, it)) },
                         onDelete = { onAction(DeleteIngredientClicked(index)) },
-                        onSelect = { onAction(IngredientClicked(index)) }
+                        onSelect = { onAction(IngredientClicked(index)) },
+                        nameFocusRequester = ingredientNameFocusRequester,
+                        quantityFocusRequester = ingredientQuantityFocusRequester
                     )
                 }
             }
@@ -228,7 +250,9 @@ fun AddRecipeView(
                         placeholder = stringResource(R.string.add_recipe_instruction_hint),
                         onNameChange = { onAction(InstructionChanged(index, it)) },
                         onDelete = { onAction(DeleteInstructionClicked(index)) },
-                        onSelect = { onAction(InstructionClicked(index)) }
+                        onSelect = { onAction(InstructionClicked(index)) },
+                        imeAction = ImeAction.Next,
+                        onImeAction = { onAction(AddInstructionClicked) }
                     )
                 }
             }
@@ -251,6 +275,12 @@ fun AddRecipeView(
                     onTimeWaitingSet = { onAction(TimeWaitingChanged(it)) },
                     onTimeTotalSet = { onAction(TimeTotalChanged(it)) },
                     onComputeTotal = { onAction(ComputeTotal) },
+                    totalImeAction = ImeAction.Next,
+                    onTotalTimeImeAction = { temperatureFocusRequester.requestFocus() },
+                    cookingFocusRequester = timeCookingFocusRequester,
+                    preparationFocusRequester = timePreparationFocusRequester,
+                    waitingFocusRequester = timeWaitingFocusRequester,
+                    totalFocusRequester = timeTotalFocusRequester,
                     modifier = Modifier.padding(padding)
                 )
             }
@@ -266,7 +296,12 @@ fun AddRecipeView(
                     },
                     keyboardType = KeyboardType.Number,
                     textStyle = MaterialTheme.typography.body1,
-                    modifier = Modifier.padding(padding).defaultMinSize(0.dp, 0.dp)
+                    imeAction = ImeAction.Next,
+                    onImeAction = { commentFocusRequester.requestFocus() },
+                    modifier = Modifier
+                        .padding(padding)
+                        .defaultMinSize(0.dp, 0.dp)
+                        .focusRequester(temperatureFocusRequester)
                 )
             }
             item { DividerAlpha40() }
@@ -287,7 +322,10 @@ fun AddRecipeView(
                         placeholder = stringResource(R.string.add_recipe_comment_hint),
                         onNameChange = { onAction(CommentChanged(index, it)) },
                         onDelete = { onAction(DeleteCommentClicked(index)) },
-                        onSelect = { onAction(CommentClicked(index)) }
+                        onSelect = { onAction(CommentClicked(index)) },
+                        imeAction = ImeAction.Next,
+                        onImeAction = { onAction(AddCommentClicked) },
+                        focusRequester = commentFocusRequester
                     )
                 }
             }

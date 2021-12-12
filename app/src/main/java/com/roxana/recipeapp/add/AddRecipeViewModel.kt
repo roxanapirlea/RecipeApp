@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.add
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.CategoryType
@@ -121,11 +122,24 @@ class AddRecipeViewModel @Inject constructor(
     }
 
     fun onIngredientQuantityTypeChanged(id: Int, quantityType: QuantityType?) {
+        val shouldAddNewIngredient = with(state.value.ingredients[id]) {
+            name.text.isNotEmpty() && quantity.text.isNotEmpty() && isValid
+        } && state.value.ingredients.size - 1 == id
         val ingredients = state.value.ingredients
             .mapIndexed { index, ingredient ->
-                if (index == id) ingredient.copy(quantityType = quantityType) else ingredient
+                if (index == id) {
+                    ingredient.copy(
+                        quantityType = quantityType,
+                        isEditing = !shouldAddNewIngredient
+                    )
+                } else ingredient
             }
-        _state.value = state.value.copy(ingredients = ingredients)
+        _state.value = if (shouldAddNewIngredient)
+            state.value.copy(
+                ingredients = ingredients + IngredientState(isEditing = true)
+            )
+        else
+            state.value.copy(ingredients = ingredients)
     }
 
     fun onAddInstruction() {

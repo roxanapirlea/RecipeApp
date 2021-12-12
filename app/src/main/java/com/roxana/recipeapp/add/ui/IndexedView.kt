@@ -12,8 +12,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
@@ -28,7 +30,10 @@ fun IndexedView(
     onNameChange: (String) -> Unit,
     onDelete: () -> Unit,
     onSelect: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    imeAction: ImeAction = ImeAction.Default,
+    onImeAction: () -> Unit = {},
+    focusRequester: FocusRequester = FocusRequester()
 ) {
     if (editableState.isEditing) {
         DeletableTextField(
@@ -37,6 +42,9 @@ fun IndexedView(
             placeholder = placeholder,
             leading = { Text(text = "$index") },
             onDelete = { onDelete() },
+            focusRequester = focusRequester,
+            imeAction = imeAction,
+            onImeAction = onImeAction,
             modifier = modifier
         )
     } else {

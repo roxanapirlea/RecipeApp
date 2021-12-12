@@ -16,7 +16,7 @@ data class AddRecipeViewState(
 ) {
     val isValid = title.isValid &&
         portions.isValid &&
-        ingredients.all { it.name.isValid && it.quantity.isValid } &&
+        ingredients.all { it.isValid } &&
         time.cooking.isValid &&
         time.preparation.isValid &&
         time.waiting.isValid &&
@@ -33,6 +33,7 @@ data class IngredientState(
     val isEditing: Boolean = false
 ) {
     val isEmpty = name.text.isBlank() && quantity.text.isBlank()
+    val isValid = name.isValid && quantity.isValid
 }
 
 data class EditingState(

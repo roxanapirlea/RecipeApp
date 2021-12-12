@@ -33,7 +33,7 @@ fun AddRecipeTextField(
     textStyle: TextStyle = MaterialTheme.typography.body1,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Default,
-    keyboardActions: KeyboardActions = KeyboardActions()
+    onImeAction: () -> Unit = {}
 ) {
     val isError = !state.isValid
     TextField(
@@ -51,7 +51,7 @@ fun AddRecipeTextField(
             capitalization = KeyboardCapitalization.Sentences,
             imeAction = imeAction
         ),
-        keyboardActions = keyboardActions,
+        keyboardActions = KeyboardActions { onImeAction() },
         textStyle = textStyle,
         singleLine = true,
         colors = unlinedTextFiledColors(),

@@ -25,8 +25,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,7 +47,9 @@ fun IngredientTextField(
     onQuantityChange: (String) -> Unit,
     onTypeChange: (QuantityType) -> Unit,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    nameFocusRequester: FocusRequester = FocusRequester(),
+    quantityFocusRequester: FocusRequester = FocusRequester()
 ) {
 
     var isExpanded by remember { mutableStateOf(false) }
@@ -59,7 +64,11 @@ fun IngredientTextField(
                 onValueChange = { onIngredientChange(it) },
                 placeholder = stringResource(R.string.add_recipe_ingredient_hint),
                 textStyle = MaterialTheme.typography.body1,
-                modifier = Modifier.defaultMinSize(0.dp, 0.dp)
+                imeAction = ImeAction.Next,
+                onImeAction = { quantityFocusRequester.requestFocus() },
+                modifier = Modifier
+                    .defaultMinSize(0.dp, 0.dp)
+                    .focusRequester(nameFocusRequester)
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
                 AddRecipeTextField(
@@ -68,10 +77,16 @@ fun IngredientTextField(
                     placeholder = stringResource(R.string.add_recipe_quantity_hint),
                     keyboardType = KeyboardType.Number,
                     textStyle = MaterialTheme.typography.body1,
+                    imeAction = ImeAction.Next,
+                    onImeAction = {
+                        quantityFocusRequester.freeFocus()
+                        isExpanded = true
+                    },
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .defaultMinSize(0.dp, 0.dp)
                         .weight(3f)
+                        .focusRequester(quantityFocusRequester)
                 )
                 QuantityTypeMenu(
                     selectedQuantityType = ingredient.quantityType,
