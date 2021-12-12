@@ -13,10 +13,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -89,6 +92,7 @@ fun AddRecipeScreen(
             is TimeWaitingChanged -> addRecipeViewModel.onTimeWaitingChanged(it.time)
             ComputeTotal -> addRecipeViewModel.computeTotal()
             is TemperatureChanged -> addRecipeViewModel.onTemperatureChanged(it.temperature)
+            Validate -> addRecipeViewModel.onValidate()
         }
     }
 }
@@ -124,6 +128,17 @@ fun AddRecipeView(
                         message = localContext.getString(R.string.add_recipe_quantity_error),
                         duration = SnackbarDuration.Short
                     )
+                SaveRecipeError -> scaffoldState.snackbarHostState.showSnackbar(
+                    message = localContext.getString(R.string.add_recipe_save_error),
+                    duration = SnackbarDuration.Short
+                )
+                SaveRecipeSuccess -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = localContext.getString(R.string.add_recipe_save_success),
+                        duration = SnackbarDuration.Short
+                    )
+                    onAction(Back)
+                }
             }
         }
     }
@@ -135,6 +150,15 @@ fun AddRecipeView(
                 title = stringResource(id = R.string.add_title),
                 icon = R.drawable.ic_arrow_back
             ) { onAction(Back) }
+        },
+        floatingActionButton = {
+            if (state.isValid)
+                FloatingActionButton(onClick = { onAction(Validate) }) {
+                    Icon(
+                        imageVector = Icons.Rounded.Check,
+                        contentDescription = stringResource(R.string.add_recipe_done_description)
+                    )
+                }
         }
     ) { innerPadding ->
         val padding = PaddingValues(

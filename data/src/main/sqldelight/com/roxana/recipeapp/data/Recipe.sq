@@ -10,6 +10,11 @@ CREATE TABLE Recipe(
   temperature INTEGER AS Short
 );
 
+getByName:
+SELECT *
+FROM Recipe
+WHERE name = :name;
+
 getAll:
 SELECT *
 FROM Recipe

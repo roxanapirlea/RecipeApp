@@ -1,10 +1,10 @@
 package com.roxana.recipeapp.add
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.CategoryType
 import com.roxana.recipeapp.domain.QuantityType
+import com.roxana.recipeapp.domain.addrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableQuantityTypesUseCase
 import com.roxana.recipeapp.misc.toNotNull
@@ -20,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddRecipeViewModel @Inject constructor(
     private val getCategoriesUseCase: GetAvailableCategoriesUseCase,
-    private val getQuantityTypesUseCase: GetAvailableQuantityTypesUseCase
+    private val getQuantityTypesUseCase: GetAvailableQuantityTypesUseCase,
+    private val addRecipeUseCase: AddRecipeUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(
         AddRecipeViewState(
@@ -264,5 +265,14 @@ class AddRecipeViewModel @Inject constructor(
                 value = temperature.toShortOrNull()
             )
         )
+    }
+
+    fun onValidate() {
+        viewModelScope.launch {
+            addRecipeUseCase.invoke(state.value.toRecipe()).fold(
+                { eventChannel.send(SaveRecipeSuccess) },
+                { eventChannel.send(SaveRecipeError) }
+            )
+        }
     }
 }
