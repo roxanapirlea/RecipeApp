@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarDuration
@@ -23,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,10 +35,9 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.add.ui.AddButton
 import com.roxana.recipeapp.add.ui.AddRecipeTextField
-import com.roxana.recipeapp.add.ui.AddRecipeTime
 import com.roxana.recipeapp.add.ui.IndexedView
 import com.roxana.recipeapp.add.ui.IngredientView
-import com.roxana.recipeapp.add.ui.TemperatureTextField
+import com.roxana.recipeapp.add.ui.TimeTextField
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.AppBar
@@ -135,12 +138,12 @@ fun AddRecipeView(
         ) {
             item {
                 AddRecipeTextField(
-                    value = state.title.name,
+                    state = state.title,
                     onValueChange = { onAction(TitleChanged(it)) },
                     placeholder = stringResource(id = R.string.add_recipe_title_hint),
                     textStyle = MaterialTheme.typography.h5,
                     imeAction = ImeAction.Next,
-                    modifier = Modifier.padding(padding)
+                    modifier = Modifier.padding(padding).fillMaxWidth()
                 )
             }
             item { DividerAlpha40() }
@@ -166,12 +169,12 @@ fun AddRecipeView(
 
             item {
                 AddRecipeTextField(
-                    value = state.portions.text,
+                    state = state.portions,
                     onValueChange = { onAction(PortionsChanged(it)) },
                     placeholder = stringResource(id = R.string.add_recipe_portions_hint),
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Next,
-                    modifier = Modifier.padding(padding)
+                    modifier = Modifier.padding(padding).fillMaxWidth()
                 )
             }
             item { DividerAlpha40() }
@@ -241,11 +244,8 @@ fun AddRecipeView(
             item { DividerAlpha40(modifier = Modifier.padding(top = 8.dp)) }
 
             item {
-                AddRecipeTime(
-                    timeCooking = state.time.cookingText,
-                    timePreparation = state.time.preparationText,
-                    timeWaiting = state.time.waitingText,
-                    timeTotal = state.time.totalText,
+                TimeTextField(
+                    time = state.time,
                     onTimeCookingSet = { onAction(TimeCookingChanged(it)) },
                     onTimePreparationSet = { onAction(TimePreparationChanged(it)) },
                     onTimeWaitingSet = { onAction(TimeWaitingChanged(it)) },
@@ -257,10 +257,16 @@ fun AddRecipeView(
             item { DividerAlpha40() }
 
             item {
-                TemperatureTextField(
-                    value = state.temperature.text,
+                AddRecipeTextField(
+                    state = state.temperature,
                     onValueChange = { onAction(TemperatureChanged(it)) },
-                    modifier = Modifier.padding(padding)
+                    placeholder = stringResource(R.string.add_recipe_temperature_hint),
+                    leading = {
+                        Icon(painterResource(R.drawable.ic_temperature), null)
+                    },
+                    keyboardType = KeyboardType.Number,
+                    textStyle = MaterialTheme.typography.body1,
+                    modifier = Modifier.padding(padding).defaultMinSize(0.dp, 0.dp)
                 )
             }
             item { DividerAlpha40() }

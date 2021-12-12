@@ -1,9 +1,6 @@
 package com.roxana.recipeapp.add.ui
 
 import android.content.res.Configuration
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
@@ -19,29 +16,36 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.roxana.recipeapp.R
+import com.roxana.recipeapp.add.EmptyFieldState
+import com.roxana.recipeapp.add.TextFieldState
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.ui.unlinedTextFiledColors
 
 @Composable
 fun AddRecipeTextField(
-    value: String,
+    state: TextFieldState,
     onValueChange: (String) -> Unit,
-    placeholder: String,
     modifier: Modifier = Modifier,
-    @DrawableRes iconRes: Int? = null,
+    placeholder: String? = null,
+    label: String? = null,
+    leading: @Composable (() -> Unit)? = null,
     textStyle: TextStyle = MaterialTheme.typography.body1,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Default,
     keyboardActions: KeyboardActions = KeyboardActions()
 ) {
+    val isError = !state.isValid
     TextField(
-        value = value,
+        value = state.text,
         onValueChange = { onValueChange(it) },
-        placeholder = { Text(text = placeholder, style = textStyle) },
-        leadingIcon = iconRes?.let {
-            { Icon(painter = painterResource(id = iconRes), contentDescription = null) }
-        },
+        isError = isError,
+        placeholder = placeholder?.let { { Text(text = placeholder, style = textStyle) } },
+        label = label?.let { { Text(text = label) } },
+        leadingIcon = leading,
+        trailingIcon = if (isError) {
+            { Icon(painterResource(R.drawable.ic_error), null) }
+        } else null,
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
             capitalization = KeyboardCapitalization.Sentences,
@@ -52,7 +56,7 @@ fun AddRecipeTextField(
         singleLine = true,
         colors = unlinedTextFiledColors(),
         shape = RectangleShape,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
     )
 }
 
@@ -62,21 +66,13 @@ fun AddRecipeTextField(
     group = "Light"
 )
 @Composable
-fun AddRecipeTextFieldEmptyPreviewLight() {
+fun AddRecipeTextFieldPreviewLight() {
     RecipeTheme {
-        AddRecipeTextField(value = "", onValueChange = {}, placeholder = "Placeholder")
-    }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    group = "Light"
-)
-@Composable
-fun AddRecipeTextFieldFilledPreviewLight() {
-    RecipeTheme {
-        AddRecipeTextField(value = "Crepe", onValueChange = {}, placeholder = "Placeholder")
+        AddRecipeTextField(
+            state = EmptyFieldState(),
+            onValueChange = {},
+            placeholder = "Placeholder"
+        )
     }
 }
 
@@ -86,20 +82,12 @@ fun AddRecipeTextFieldFilledPreviewLight() {
     group = "Dark"
 )
 @Composable
-fun AddRecipeTextFieldEmptyPreviewDark() {
+fun AddRecipeTextFieldPreviewDark() {
     RecipeTheme {
-        AddRecipeTextField(value = "", onValueChange = {}, placeholder = "Placeholder")
-    }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    group = "Dark"
-)
-@Composable
-fun AddRecipeTextFieldFilledPreviewDark() {
-    RecipeTheme {
-        AddRecipeTextField(value = "Crepe", onValueChange = {}, placeholder = "Placeholder")
+        AddRecipeTextField(
+            state = EmptyFieldState(),
+            onValueChange = {},
+            placeholder = "Placeholder"
+        )
     }
 }

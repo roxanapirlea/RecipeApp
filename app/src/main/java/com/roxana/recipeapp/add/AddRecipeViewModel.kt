@@ -6,6 +6,7 @@ import com.roxana.recipeapp.domain.CategoryType
 import com.roxana.recipeapp.domain.QuantityType
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableQuantityTypesUseCase
+import com.roxana.recipeapp.misc.toNotNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +24,8 @@ class AddRecipeViewModel @Inject constructor(
     private val _state = MutableStateFlow(
         AddRecipeViewState(
             ingredients = listOf(IngredientState(isEditing = true)),
-            instructions = listOf(EditableState(isEditing = true)),
-            comments = listOf(EditableState(isEditing = true))
+            instructions = listOf(EditingState(isEditing = true)),
+            comments = listOf(EditingState(isEditing = true))
         )
     )
     val state: StateFlow<AddRecipeViewState> = _state.asStateFlow()
@@ -44,7 +45,7 @@ class AddRecipeViewModel @Inject constructor(
                     eventChannel.send(ShowQuantityError)
                     emptyList()
                 }
-            val categories = availableCategories.map { Category(it, false) }
+            val categories = availableCategories.map { CategoryState(it, false) }
             _state.emit(
                 state.value.copy(
                     categories = categories,
@@ -55,7 +56,7 @@ class AddRecipeViewModel @Inject constructor(
     }
 
     fun onTitleChanged(name: String) {
-        _state.value = state.value.copy(title = Title(name, name.isNotEmpty()))
+        _state.value = state.value.copy(title = NonEmptyFieldState(name))
     }
 
     fun onCategoryClicked(type: CategoryType) {
@@ -68,10 +69,9 @@ class AddRecipeViewModel @Inject constructor(
 
     fun onPortionsChanged(portions: String) {
         _state.value = state.value.copy(
-            portions = PortionsState(
-                portions.toShortOrNull(),
-                portions,
-                portions.isShort()
+            portions = ShortFieldState(
+                text = portions,
+                value = portions.toShortOrNull()
             )
         )
     }
@@ -105,7 +105,7 @@ class AddRecipeViewModel @Inject constructor(
     fun onIngredientNameChanged(id: Int, name: String) {
         val ingredients = state.value.ingredients
             .mapIndexed { index, ingredient ->
-                if (index == id) ingredient.copy(name = name) else ingredient
+                if (index == id) ingredient.copy(name = EmptyFieldState(name)) else ingredient
             }
         _state.value = state.value.copy(ingredients = ingredients)
     }
@@ -114,9 +114,7 @@ class AddRecipeViewModel @Inject constructor(
         val ingredients = state.value.ingredients
             .mapIndexed { index, ingredient ->
                 if (index == id) ingredient.copy(
-                    quantityText = quantity,
-                    quantityValue = quantity.toDoubleOrNull(),
-                    isQuantityValid = quantity.isDouble()
+                    quantity = DoubleFieldState(quantity, quantity.toDoubleOrNull())
                 ) else ingredient
             }
         _state.value = state.value.copy(ingredients = ingredients)
@@ -132,10 +130,10 @@ class AddRecipeViewModel @Inject constructor(
 
     fun onAddInstruction() {
         val instructions = state.value.instructions
-            .filterNot { it.isEditing && it.name.isEmpty() }
+            .filterNot { it.isEditing && it.fieldState.text.isEmpty() }
             .map { it.copy(isEditing = false) }
         _state.value = state.value.copy(
-            instructions = instructions + EditableState(isEditing = true)
+            instructions = instructions + EditingState(isEditing = true)
         )
     }
 
@@ -149,7 +147,7 @@ class AddRecipeViewModel @Inject constructor(
             .mapIndexedNotNull { index, instruction ->
                 when {
                     index == id -> instruction.copy(isEditing = true)
-                    instruction.name.isEmpty() && instruction.isEditing -> null
+                    instruction.fieldState.text.isEmpty() && instruction.isEditing -> null
                     else -> instruction.copy(isEditing = false)
                 }
             }
@@ -159,17 +157,20 @@ class AddRecipeViewModel @Inject constructor(
     fun onInstructionChanged(id: Int, name: String) {
         val instructions = state.value.instructions
             .mapIndexed { index, instruction ->
-                if (index == id) instruction.copy(name = name) else instruction
+                if (index == id)
+                    instruction.copy(fieldState = EmptyFieldState(name))
+                else
+                    instruction
             }
         _state.value = state.value.copy(instructions = instructions)
     }
 
     fun onAddComment() {
         val comments = state.value.comments
-            .filterNot { it.isEditing && it.name.isEmpty() }
+            .filterNot { it.isEditing && it.fieldState.text.isEmpty() }
             .map { it.copy(isEditing = false) }
         _state.value = state.value.copy(
-            comments = comments + EditableState(isEditing = true)
+            comments = comments + EditingState(isEditing = true)
         )
     }
 
@@ -183,7 +184,7 @@ class AddRecipeViewModel @Inject constructor(
             .mapIndexedNotNull { index, comment ->
                 when {
                     index == id -> comment.copy(isEditing = true)
-                    comment.name.isEmpty() && comment.isEditing -> null
+                    comment.fieldState.text.isEmpty() && comment.isEditing -> null
                     else -> comment.copy(isEditing = false)
                 }
             }
@@ -193,7 +194,7 @@ class AddRecipeViewModel @Inject constructor(
     fun onCommentChanged(id: Int, name: String) {
         val comments = state.value.comments
             .mapIndexed { index, comment ->
-                if (index == id) comment.copy(name = name) else comment
+                if (index == id) comment.copy(fieldState = EmptyFieldState(name)) else comment
             }
         _state.value = state.value.copy(comments = comments)
     }
@@ -201,9 +202,7 @@ class AddRecipeViewModel @Inject constructor(
     fun onTimeCookingChanged(time: String) {
         _state.value = state.value.copy(
             time = state.value.time.copy(
-                cookingText = time,
-                cooking = time.toShortOrNull(),
-                isCookingValid = time.isShort()
+                cooking = ShortFieldState(time, time.toShortOrNull())
             )
         )
     }
@@ -211,9 +210,7 @@ class AddRecipeViewModel @Inject constructor(
     fun onTimePreparationChanged(time: String) {
         _state.value = state.value.copy(
             time = state.value.time.copy(
-                preparationText = time,
-                preparation = time.toShortOrNull(),
-                isPreparationValid = time.isShort()
+                preparation = ShortFieldState(time, time.toShortOrNull())
             )
         )
     }
@@ -221,9 +218,7 @@ class AddRecipeViewModel @Inject constructor(
     fun onTimeWaitingChanged(time: String) {
         _state.value = state.value.copy(
             time = state.value.time.copy(
-                waitingText = time,
-                waiting = time.toShortOrNull(),
-                isWaitingValid = time.isShort()
+                waiting = ShortFieldState(time, time.toShortOrNull())
             )
         )
     }
@@ -231,40 +226,29 @@ class AddRecipeViewModel @Inject constructor(
     fun onTimeTotalChanged(time: String) {
         _state.value = state.value.copy(
             time = state.value.time.copy(
-                totalText = time,
-                total = time.toShortOrNull(),
-                isTotalValid = time.isShort()
+                total = ShortFieldState(time, time.toShortOrNull())
             )
         )
     }
 
     fun computeTotal() {
         val timeState = state.value.time
-        val total = timeState.cooking.toNotNull(0) +
-            timeState.preparation.toNotNull(0) +
-            timeState.waiting.toNotNull(0)
-        _state.value = state.value.copy(time = timeState.copy(total = total.toShort()))
-    }
-
-    fun onTemperatureChanged(temperature: String) {
+        val total = timeState.cooking.value.toNotNull(0) +
+            timeState.preparation.value.toNotNull(0) +
+            timeState.waiting.value.toNotNull(0)
         _state.value = state.value.copy(
-            temperature = TemperatureState(
-                text = temperature,
-                value = temperature.toShortOrNull(),
-                isValid = temperature.isShort()
+            time = timeState.copy(
+                total = ShortFieldState(total.toString(), total.toShort())
             )
         )
     }
 
-    private fun String.isShort(): Boolean {
-        if (isEmpty()) return true
-        toShortOrNull()?.let { return true } ?: return false
+    fun onTemperatureChanged(temperature: String) {
+        _state.value = state.value.copy(
+            temperature = ShortFieldState(
+                text = temperature,
+                value = temperature.toShortOrNull()
+            )
+        )
     }
-
-    private fun String.isDouble(): Boolean {
-        if (isEmpty()) return true
-        toDoubleOrNull()?.let { return true } ?: return false
-    }
-
-    private fun Short?.toNotNull(default: Short): Short = this ?: default
 }

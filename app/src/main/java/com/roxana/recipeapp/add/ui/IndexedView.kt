@@ -17,12 +17,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.add.EditableState
+import com.roxana.recipeapp.add.EditingState
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
 fun IndexedView(
-    editableState: EditableState,
+    editableState: EditingState,
     index: Int,
     placeholder: String,
     onNameChange: (String) -> Unit,
@@ -31,8 +31,8 @@ fun IndexedView(
     modifier: Modifier = Modifier
 ) {
     if (editableState.isEditing) {
-        ClearableTextField(
-            value = editableState.name ?: "",
+        DeletableTextField(
+            state = editableState.fieldState,
             onValueChange = { onNameChange(it) },
             placeholder = placeholder,
             leading = { Text(text = "$index") },
@@ -41,7 +41,7 @@ fun IndexedView(
         )
     } else {
         IndexedText(
-            text = editableState.name ?: "",
+            text = editableState.fieldState.text,
             index = index,
             modifier = modifier.clickable { onSelect() }
         )

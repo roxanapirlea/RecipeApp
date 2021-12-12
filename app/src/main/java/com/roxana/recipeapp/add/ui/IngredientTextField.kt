@@ -7,16 +7,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -38,7 +35,6 @@ import com.roxana.recipeapp.add.IngredientState
 import com.roxana.recipeapp.domain.QuantityType
 import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.theme.RecipeTheme
-import com.roxana.recipeapp.ui.unlinedTextFiledColors
 
 @Composable
 fun IngredientTextField(
@@ -58,36 +54,20 @@ fun IngredientTextField(
         modifier = modifier.fillMaxWidth()
     ) {
         Column(Modifier.weight(3f)) {
-            TextField(
-                value = ingredient.name ?: "",
+            AddRecipeTextField(
+                state = ingredient.name,
                 onValueChange = { onIngredientChange(it) },
-                placeholder = {
-                    Text(
-                        text = stringResource(R.string.add_recipe_ingredient_hint),
-                        style = MaterialTheme.typography.body1
-                    )
-                },
-                colors = unlinedTextFiledColors(),
+                placeholder = stringResource(R.string.add_recipe_ingredient_hint),
                 textStyle = MaterialTheme.typography.body1,
-                singleLine = true,
                 modifier = Modifier.defaultMinSize(0.dp, 0.dp)
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
-                TextField(
-                    value = ingredient.quantityText ?: "",
+                AddRecipeTextField(
+                    state = ingredient.quantity,
                     onValueChange = { onQuantityChange(it) },
-                    placeholder = {
-                        Text(
-                            text = stringResource(R.string.add_recipe_quantity_hint),
-                            style = MaterialTheme.typography.body1
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    colors = unlinedTextFiledColors(),
+                    placeholder = stringResource(R.string.add_recipe_quantity_hint),
+                    keyboardType = KeyboardType.Number,
                     textStyle = MaterialTheme.typography.body1,
-                    singleLine = true,
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .defaultMinSize(0.dp, 0.dp)
@@ -164,26 +144,7 @@ fun QuantityTypeMenu(
     group = "Light"
 )
 @Composable
-fun IngredientTextFieldEmptyPreviewLight() {
-    RecipeTheme {
-        IngredientTextField(
-            ingredient = IngredientState(),
-            quantityTypes = listOf(),
-            onIngredientChange = {},
-            onQuantityChange = {},
-            onTypeChange = {},
-            onDelete = {}
-        )
-    }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    group = "Light"
-)
-@Composable
-fun IngredientTextFieldFilledPreviewLight() {
+fun IngredientTextFieldPreviewLight() {
     RecipeTheme {
         IngredientTextField(
             ingredient = IngredientState(),
@@ -202,26 +163,7 @@ fun IngredientTextFieldFilledPreviewLight() {
     group = "Dark"
 )
 @Composable
-fun IngredientTextFieldEmptyPreviewDark() {
-    RecipeTheme {
-        IngredientTextField(
-            ingredient = IngredientState(),
-            quantityTypes = listOf(),
-            onIngredientChange = {},
-            onQuantityChange = {},
-            onTypeChange = {},
-            onDelete = {}
-        )
-    }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    group = "Dark"
-)
-@Composable
-fun IngredientTextFieldFilledPreviewDark() {
+fun IngredientTextFieldPreviewDark() {
     RecipeTheme {
         IngredientTextField(
             ingredient = IngredientState(),

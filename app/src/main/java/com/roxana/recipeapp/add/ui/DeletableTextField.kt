@@ -7,30 +7,26 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.add.EmptyFieldState
+import com.roxana.recipeapp.add.TextFieldState
 import com.roxana.recipeapp.ui.theme.RecipeTheme
-import com.roxana.recipeapp.ui.unlinedTextFiledColors
 
 @Composable
-fun ClearableTextField(
-    value: String,
+fun DeletableTextField(
+    state: TextFieldState,
     onValueChange: (String) -> Unit,
     placeholder: String,
     modifier: Modifier = Modifier,
@@ -45,21 +41,15 @@ fun ClearableTextField(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth()
     ) {
-        TextField(
-            value = value,
+        AddRecipeTextField(
+            state = state,
             onValueChange = { onValueChange(it) },
-            placeholder = { Text(text = placeholder, style = textStyle) },
-            leadingIcon = leading,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType,
-                capitalization = KeyboardCapitalization.Sentences,
-                imeAction = imeAction
-            ),
+            placeholder = placeholder,
+            leading = leading,
+            keyboardType = keyboardType,
+            imeAction = imeAction,
             keyboardActions = keyboardActions,
-            singleLine = true,
             textStyle = textStyle,
-            colors = unlinedTextFiledColors(),
-            shape = RectangleShape,
             modifier = modifier
                 .defaultMinSize(0.dp, 0.dp)
                 .weight(3f)
@@ -84,19 +74,11 @@ fun ClearableTextField(
 @Composable
 fun ClearableTextFieldEmptyPreviewLight() {
     RecipeTheme {
-        ClearableTextField(value = "", onValueChange = {}, placeholder = "Placeholder")
-    }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    group = "Light"
-)
-@Composable
-fun ClearableTextFieldFilledPreviewLight() {
-    RecipeTheme {
-        ClearableTextField(value = "Crepe", onValueChange = {}, placeholder = "Placeholder")
+        DeletableTextField(
+            state = EmptyFieldState(),
+            onValueChange = {},
+            placeholder = "Placeholder"
+        )
     }
 }
 
@@ -108,18 +90,10 @@ fun ClearableTextFieldFilledPreviewLight() {
 @Composable
 fun ClearableTextFieldEmptyPreviewDark() {
     RecipeTheme {
-        ClearableTextField(value = "", onValueChange = {}, placeholder = "Placeholder")
-    }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    group = "Dark"
-)
-@Composable
-fun ClearableTextFieldFilledPreviewDark() {
-    RecipeTheme {
-        ClearableTextField(value = "Crepe", onValueChange = {}, placeholder = "Placeholder")
+        DeletableTextField(
+            state = EmptyFieldState(),
+            onValueChange = {},
+            placeholder = "Placeholder"
+        )
     }
 }

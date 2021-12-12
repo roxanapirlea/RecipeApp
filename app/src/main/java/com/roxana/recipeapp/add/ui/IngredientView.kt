@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.add.IngredientState
 import com.roxana.recipeapp.domain.QuantityType
+import com.roxana.recipeapp.misc.toFormattedString
 import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
@@ -60,13 +61,17 @@ fun IngredientText(
             .fillMaxWidth()
             .defaultMinSize(48.dp, 48.dp)
     ) {
-        val name = ingredient.name
-        val quantity = ingredient.quantityText
+        val quantity = ingredient.quantity.value?.toFormattedString() ?: ""
         val quantityType = ingredient.quantityType?.let {
             stringResource(it.toStringRes())
         } ?: ""
         val formattedIngredient =
-            stringResource(R.string.all_ingredient_placeholders, quantity, quantityType, name)
+            stringResource(
+                R.string.all_ingredient_placeholders,
+                quantity,
+                quantityType,
+                ingredient.name.text
+            )
         Text(
             text = formattedIngredient,
             style = MaterialTheme.typography.body1,
@@ -95,7 +100,7 @@ fun IngredientText(
 fun IngredientTextPreviewLight() {
     RecipeTheme {
         IngredientText(
-            ingredient = IngredientState("Flour", 200.0, "200", null)
+            ingredient = IngredientState()
         )
     }
 }
@@ -109,7 +114,7 @@ fun IngredientTextPreviewLight() {
 fun IngredientTextPreviewDark() {
     RecipeTheme {
         IngredientText(
-            ingredient = IngredientState("Flour", 200.0, "200", null)
+            ingredient = IngredientState()
         )
     }
 }
