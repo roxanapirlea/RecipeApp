@@ -198,6 +198,54 @@ class AddRecipeViewModel @Inject constructor(
         _state.value = state.value.copy(comments = comments)
     }
 
+    fun onTimeCookingChanged(time: String) {
+        _state.value = state.value.copy(
+            time = state.value.time.copy(
+                cookingText = time,
+                cooking = time.toShortOrNull(),
+                isCookingValid = time.isShort()
+            )
+        )
+    }
+
+    fun onTimePreparationChanged(time: String) {
+        _state.value = state.value.copy(
+            time = state.value.time.copy(
+                preparationText = time,
+                preparation = time.toShortOrNull(),
+                isPreparationValid = time.isShort()
+            )
+        )
+    }
+
+    fun onTimeWaitingChanged(time: String) {
+        _state.value = state.value.copy(
+            time = state.value.time.copy(
+                waitingText = time,
+                waiting = time.toShortOrNull(),
+                isWaitingValid = time.isShort()
+            )
+        )
+    }
+
+    fun onTimeTotalChanged(time: String) {
+        _state.value = state.value.copy(
+            time = state.value.time.copy(
+                totalText = time,
+                total = time.toShortOrNull(),
+                isTotalValid = time.isShort()
+            )
+        )
+    }
+
+    fun computeTotal() {
+        val timeState = state.value.time
+        val total = timeState.cooking.toNotNull(0) +
+            timeState.preparation.toNotNull(0) +
+            timeState.waiting.toNotNull(0)
+        _state.value = state.value.copy(time = timeState.copy(total = total.toShort()))
+    }
+
     private fun String.isShort(): Boolean {
         if (isEmpty()) return true
         toShortOrNull()?.let { return true } ?: return false
@@ -207,4 +255,6 @@ class AddRecipeViewModel @Inject constructor(
         if (isEmpty()) return true
         toDoubleOrNull()?.let { return true } ?: return false
     }
+
+    private fun Short?.toNotNull(default: Short): Short = this ?: default
 }

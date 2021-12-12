@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.add.ui.AddButton
 import com.roxana.recipeapp.add.ui.AddRecipeTextField
+import com.roxana.recipeapp.add.ui.AddRecipeTime
 import com.roxana.recipeapp.add.ui.IndexedView
 import com.roxana.recipeapp.add.ui.IngredientView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
@@ -75,6 +76,11 @@ fun AddRecipeScreen(
             is CommentClicked -> addRecipeViewModel.onCommentClicked(it.id)
             is DeleteCommentClicked -> addRecipeViewModel.onDeleteComment(it.id)
             is CommentChanged -> addRecipeViewModel.onCommentChanged(it.id, it.name)
+            is TimeCookingChanged -> addRecipeViewModel.onTimeCookingChanged(it.time)
+            is TimePreparationChanged -> addRecipeViewModel.onTimePreparationChanged(it.time)
+            is TimeTotalChanged -> addRecipeViewModel.onTimeTotalChanged(it.time)
+            is TimeWaitingChanged -> addRecipeViewModel.onTimeWaitingChanged(it.time)
+            ComputeTotal -> addRecipeViewModel.computeTotal()
         }
     }
 }
@@ -233,6 +239,22 @@ fun AddRecipeView(
             item { DividerAlpha40(modifier = Modifier.padding(top = 8.dp)) }
 
             item {
+                AddRecipeTime(
+                    timeCooking = state.time.cookingText,
+                    timePreparation = state.time.preparationText,
+                    timeWaiting = state.time.waitingText,
+                    timeTotal = state.time.totalText,
+                    onTimeCookingSet = { onAction(TimeCookingChanged(it)) },
+                    onTimePreparationSet = { onAction(TimePreparationChanged(it)) },
+                    onTimeWaitingSet = { onAction(TimeWaitingChanged(it)) },
+                    onTimeTotalSet = { onAction(TimeTotalChanged(it)) },
+                    onComputeTotal = { onAction(ComputeTotal) },
+                    modifier = Modifier.padding(padding)
+                )
+            }
+            item { DividerAlpha40() }
+
+            item {
                 RecipePartLabel(
                     text = stringResource(id = R.string.add_recipe_comments),
                     image = R.drawable.ic_comment,
@@ -261,7 +283,6 @@ fun AddRecipeView(
                     modifier = Modifier.padding(padding)
                 )
             }
-            item { DividerAlpha40(modifier = Modifier.padding(top = 8.dp)) }
         }
     }
 }

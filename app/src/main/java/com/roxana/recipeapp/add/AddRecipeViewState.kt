@@ -10,10 +10,16 @@ data class AddRecipeViewState(
     val portions: PortionsState = PortionsState(),
     val ingredients: List<IngredientState> = emptyList(),
     val instructions: List<EditableState> = emptyList(),
-    val comments: List<EditableState> = emptyList()
+    val comments: List<EditableState> = emptyList(),
+    val time: TimeState = TimeState()
 ) {
-    val isValid =
-        title.isValid && portions.isValid && ingredients.all(IngredientState::isQuantityValid)
+    val isValid = title.isValid &&
+        portions.isValid &&
+        ingredients.all(IngredientState::isQuantityValid) &&
+        time.isCookingValid &&
+        time.isPreparationValid &&
+        time.isWaitingValid &&
+        time.isTotalValid
 }
 
 data class Title(val name: String = "", val isValid: Boolean = false)
@@ -38,6 +44,21 @@ data class IngredientState(
 }
 
 data class EditableState(
-    val name: String= "",
+    val name: String = "",
     val isEditing: Boolean = false
+)
+
+data class TimeState(
+    val cooking: Short? = null,
+    val cookingText: String = "",
+    val isCookingValid: Boolean = true,
+    val preparation: Short? = null,
+    val preparationText: String = "",
+    val isPreparationValid: Boolean = true,
+    val waiting: Short? = null,
+    val waitingText: String = "",
+    val isWaitingValid: Boolean = true,
+    val total: Short? = null,
+    val totalText: String = "",
+    val isTotalValid: Boolean = true,
 )
