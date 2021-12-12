@@ -16,4 +16,8 @@ class AddRecipeViewModel @Inject constructor() : ViewModel() {
 
     private val eventChannel = Channel<AddRecipeEvent>(Channel.BUFFERED)
     val eventsFlow = eventChannel.receiveAsFlow()
+
+    fun onTitleChanged(name: String) {
+        _state.value = state.value.copy(title = Title(name, name.isNotEmpty()))
+    }
 }
