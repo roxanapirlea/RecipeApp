@@ -22,7 +22,8 @@ class AddRecipeViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = MutableStateFlow(
         AddRecipeViewState(
-            ingredients = listOf(IngredientState(isEditing = true))
+            ingredients = listOf(IngredientState(isEditing = true)),
+            instructions = listOf(EditableState(isEditing = true))
         )
     )
     val state: StateFlow<AddRecipeViewState> = _state.asStateFlow()
@@ -126,6 +127,40 @@ class AddRecipeViewModel @Inject constructor(
                 if (index == id) ingredient.copy(quantityType = quantityType) else ingredient
             }
         _state.value = state.value.copy(ingredients = ingredients)
+    }
+
+    fun onAddInstruction() {
+        val instructions = state.value.instructions
+            .filterNot { it.isEditing && it.name.isEmpty() }
+            .map { it.copy(isEditing = false) }
+        _state.value = state.value.copy(
+            instructions = instructions + EditableState(isEditing = true)
+        )
+    }
+
+    fun onDeleteInstruction(id: Int) {
+        val instructions = state.value.instructions.filterIndexed { index, _ -> index != id }
+        _state.value = state.value.copy(instructions = instructions)
+    }
+
+    fun onInstructionClicked(id: Int) {
+        val instructions = state.value.instructions
+            .mapIndexedNotNull { index, instruction ->
+                when {
+                    index == id -> instruction.copy(isEditing = true)
+                    instruction.name.isEmpty() && instruction.isEditing -> null
+                    else -> instruction.copy(isEditing = false)
+                }
+            }
+        _state.value = state.value.copy(instructions = instructions)
+    }
+
+    fun onInstructionChanged(id: Int, name: String) {
+        val instructions = state.value.instructions
+            .mapIndexed { index, instruction ->
+                if (index == id) instruction.copy(name = name) else instruction
+            }
+        _state.value = state.value.copy(instructions = instructions)
     }
 
     private fun String.isShort(): Boolean {

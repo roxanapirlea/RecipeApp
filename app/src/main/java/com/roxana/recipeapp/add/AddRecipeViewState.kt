@@ -8,7 +8,8 @@ data class AddRecipeViewState(
     val categories: List<Category> = emptyList(),
     val quantities: List<QuantityType> = emptyList(),
     val portions: PortionsState = PortionsState(),
-    val ingredients: List<IngredientState> = emptyList()
+    val ingredients: List<IngredientState> = emptyList(),
+    val instructions: List<EditableState> = emptyList()
 ) {
     val isValid =
         title.isValid && portions.isValid && ingredients.all(IngredientState::isQuantityValid)
@@ -34,3 +35,8 @@ data class IngredientState(
 ) {
     val isEmpty = name.isBlank() && quantityText.isBlank()
 }
+
+data class EditableState(
+    val name: String= "",
+    val isEditing: Boolean = false
+)

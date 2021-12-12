@@ -16,3 +16,7 @@ data class IngredientQuantityTypeChanged(val id: Int, val quantityType: Quantity
     AddRecipeViewAction()
 data class DeleteIngredientClicked(val id: Int) : AddRecipeViewAction()
 data class IngredientClicked(val id: Int) : AddRecipeViewAction()
+object AddInstructionClicked : AddRecipeViewAction()
+data class InstructionChanged(val id: Int, val name: String) : AddRecipeViewAction()
+data class DeleteInstructionClicked(val id: Int) : AddRecipeViewAction()
+data class InstructionClicked(val id: Int) : AddRecipeViewAction()

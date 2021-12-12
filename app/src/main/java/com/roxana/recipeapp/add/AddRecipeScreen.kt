@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.add.ui.AddButton
 import com.roxana.recipeapp.add.ui.AddRecipeTextField
+import com.roxana.recipeapp.add.ui.IndexedView
 import com.roxana.recipeapp.add.ui.IngredientView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.misc.toStringRes
@@ -66,6 +67,10 @@ fun AddRecipeScreen(
                 addRecipeViewModel.onIngredientQuantityChanged(it.id, it.quantity)
             is IngredientQuantityTypeChanged ->
                 addRecipeViewModel.onIngredientQuantityTypeChanged(it.id, it.quantityType)
+            AddInstructionClicked -> addRecipeViewModel.onAddInstruction()
+            is InstructionClicked -> addRecipeViewModel.onInstructionClicked(it.id)
+            is DeleteInstructionClicked -> addRecipeViewModel.onDeleteInstruction(it.id)
+            is InstructionChanged -> addRecipeViewModel.onInstructionChanged(it.id, it.name)
         }
     }
 }
@@ -191,6 +196,37 @@ fun AddRecipeView(
                 )
             }
             item { DividerAlpha40(modifier = Modifier.padding(top = 16.dp)) }
+
+            item {
+                RecipePartLabel(
+                    text = stringResource(id = R.string.add_recipe_instructions),
+                    image = R.drawable.ic_instructions,
+                    modifier = Modifier.padding(padding)
+                )
+            }
+            itemsIndexed(state.instructions) { index, instruction ->
+                Column(Modifier.padding(padding)) {
+                    DividerAlpha16()
+                    IndexedView(
+                        editableState = instruction,
+                        index = index + 1,
+                        placeholder = stringResource(R.string.add_recipe_instruction_hint),
+                        onNameChange = { onAction(InstructionChanged(index, it)) },
+                        onDelete = { onAction(DeleteInstructionClicked(index)) },
+                        onSelect = { onAction(InstructionClicked(index)) }
+                    )
+                }
+            }
+            if (state.instructions.isNotEmpty())
+                item { DividerAlpha16(modifier = Modifier.padding(padding)) }
+
+            item {
+                AddButton(
+                    onClick = { onAction(AddInstructionClicked) },
+                    modifier = Modifier.padding(padding)
+                )
+            }
+            item { DividerAlpha40(modifier = Modifier.padding(top = 8.dp)) }
         }
     }
 }
