@@ -1,6 +1,7 @@
 package com.roxana.recipeapp.add
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarDuration
@@ -27,12 +29,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.add.ui.AddButton
 import com.roxana.recipeapp.add.ui.AddRecipeTextField
+import com.roxana.recipeapp.add.ui.IngredientView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.CategoryChip
+import com.roxana.recipeapp.ui.DividerAlpha16
 import com.roxana.recipeapp.ui.DividerAlpha40
+import com.roxana.recipeapp.ui.RecipePartLabel
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -52,6 +58,14 @@ fun AddRecipeScreen(
             is TitleChanged -> addRecipeViewModel.onTitleChanged(it.name)
             is CategoryClicked -> addRecipeViewModel.onCategoryClicked(it.type)
             is PortionsChanged -> addRecipeViewModel.onPortionsChanged(it.portions)
+            AddIngredientClicked -> addRecipeViewModel.onAddIngredient()
+            is IngredientClicked -> addRecipeViewModel.onIngredientClicked(it.id)
+            is DeleteIngredientClicked -> addRecipeViewModel.onDeleteIngredient(it.id)
+            is IngredientNameChanged -> addRecipeViewModel.onIngredientNameChanged(it.id, it.name)
+            is IngredientQuantityChanged ->
+                addRecipeViewModel.onIngredientQuantityChanged(it.id, it.quantity)
+            is IngredientQuantityTypeChanged ->
+                addRecipeViewModel.onIngredientQuantityTypeChanged(it.id, it.quantityType)
         }
     }
 }
@@ -71,6 +85,11 @@ fun AddRecipeView(
                 ShowCategoryError ->
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = localContext.getString(R.string.add_recipe_category_error),
+                        duration = SnackbarDuration.Short
+                    )
+                ShowQuantityError ->
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = localContext.getString(R.string.add_recipe_quantity_error),
                         duration = SnackbarDuration.Short
                     )
             }
@@ -139,6 +158,39 @@ fun AddRecipeView(
                 )
             }
             item { DividerAlpha40() }
+
+            item {
+                RecipePartLabel(
+                    text = stringResource(id = R.string.add_recipe_ingredients),
+                    image = R.drawable.ic_ingredients,
+                    modifier = Modifier.padding(padding)
+                )
+            }
+            itemsIndexed(state.ingredients) { index, ingredient ->
+                Column(Modifier.padding(padding)) {
+                    DividerAlpha16()
+                    IngredientView(
+                        ingredient = ingredient,
+                        quantityTypes = state.quantities,
+                        onIngredientChange = { onAction(IngredientNameChanged(index, it)) },
+                        onQuantityChange = { onAction(IngredientQuantityChanged(index, it)) },
+                        onTypeChange = { onAction(IngredientQuantityTypeChanged(index, it)) },
+                        onDelete = { onAction(DeleteIngredientClicked(index)) },
+                        onSelect = { onAction(IngredientClicked(index)) }
+                    )
+                }
+            }
+
+            if (state.ingredients.isNotEmpty())
+                item { DividerAlpha16(modifier = Modifier.padding(padding)) }
+
+            item {
+                AddButton(
+                    onClick = { onAction(AddIngredientClicked) },
+                    modifier = Modifier.padding(padding)
+                )
+            }
+            item { DividerAlpha40(modifier = Modifier.padding(top = 16.dp)) }
         }
     }
 }
