@@ -26,10 +26,10 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 @Composable
 fun IngredientView(
     ingredient: IngredientState,
-    quantityTypes: List<QuantityType>,
+    quantityTypes: List<QuantityType?>,
     onIngredientChange: (String) -> Unit,
     onQuantityChange: (String) -> Unit,
-    onTypeChange: (QuantityType) -> Unit,
+    onTypeChange: (QuantityType?) -> Unit,
     onDelete: () -> Unit,
     onSelect: () -> Unit,
     modifier: Modifier = Modifier,

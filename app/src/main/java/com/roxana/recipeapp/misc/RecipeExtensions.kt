@@ -19,7 +19,7 @@ fun CategoryType.toStringRes(): Int =
     }
 
 @StringRes
-fun QuantityType.toStringRes(): Int =
+fun QuantityType?.toStringRes(): Int =
     when (this) {
         QuantityType.POUND -> R.string.all_quantity_pound
         QuantityType.OUNCE -> R.string.all_quantity_ounce
@@ -36,4 +36,5 @@ fun QuantityType.toStringRes(): Int =
         QuantityType.LITER -> R.string.all_quantity_liter
         QuantityType.DECILITER -> R.string.all_quantity_deciliter
         QuantityType.CENTILITER -> R.string.all_quantity_centiliter
+        null -> R.string.all_quantity_select
     }

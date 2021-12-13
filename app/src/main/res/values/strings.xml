@@ -8,6 +8,7 @@
     <string name="all_category_side">Side</string>
     <string name="all_category_dessert">Dessert</string>
     <string name="all_category_drink">Drink</string>
+    <string name="all_quantity_select">Select…</string>
     <string name="all_quantity_pound">lb</string>
     <string name="all_quantity_ounce">oz</string>
     <string name="all_quantity_g">g</string>

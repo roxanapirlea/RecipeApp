@@ -6,7 +6,7 @@ import com.roxana.recipeapp.domain.QuantityType
 data class AddRecipeViewState(
     val title: NonEmptyFieldState = NonEmptyFieldState(),
     val categories: List<CategoryState> = emptyList(),
-    val quantities: List<QuantityType> = emptyList(),
+    val quantities: List<QuantityType?> = emptyList(),
     val portions: ShortFieldState = ShortFieldState(),
     val ingredients: List<IngredientState> = emptyList(),
     val instructions: List<EditingState> = emptyList(),

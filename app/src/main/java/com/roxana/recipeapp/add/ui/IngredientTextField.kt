@@ -42,10 +42,10 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 @Composable
 fun IngredientTextField(
     ingredient: IngredientState,
-    quantityTypes: List<QuantityType>,
+    quantityTypes: List<QuantityType?>,
     onIngredientChange: (String) -> Unit,
     onQuantityChange: (String) -> Unit,
-    onTypeChange: (QuantityType) -> Unit,
+    onTypeChange: (QuantityType?) -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
     nameFocusRequester: FocusRequester = FocusRequester(),
@@ -112,8 +112,8 @@ fun IngredientTextField(
 @Composable
 fun QuantityTypeMenu(
     selectedQuantityType: QuantityType?,
-    quantityTypes: List<QuantityType>,
-    onTypeChanged: (QuantityType) -> Unit,
+    quantityTypes: List<QuantityType?>,
+    onTypeChanged: (QuantityType?) -> Unit,
     isExpanded: Boolean,
     onIsExpandedChanged: (Boolean) -> Unit
 ) {

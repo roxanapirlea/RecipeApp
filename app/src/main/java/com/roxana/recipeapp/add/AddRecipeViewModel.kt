@@ -51,7 +51,7 @@ class AddRecipeViewModel @Inject constructor(
             _state.emit(
                 state.value.copy(
                     categories = categories,
-                    quantities = quantities
+                    quantities = listOf(null) + quantities
                 )
             )
         }
