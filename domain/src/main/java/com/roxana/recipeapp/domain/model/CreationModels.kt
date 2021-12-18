@@ -21,7 +21,6 @@ data class CreationInstruction(
 )
 
 data class CreationIngredient(
-    val id: Int?,
     val name: String,
     val quantity: Double?,
     val quantityType: QuantityType?

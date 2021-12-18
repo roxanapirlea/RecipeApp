@@ -19,7 +19,7 @@ fun AddRecipeViewState.toRecipe(): CreationRecipe {
             },
         ingredients = ingredients
             .filter { !it.isEmpty }
-            .mapIndexed { index, ingredient -> ingredient.toDomainModel(index) },
+            .map { ingredient -> ingredient.toDomainModel() },
         timeTotal = time.total.value,
         timePreparation = time.preparation.value,
         timeCooking = time.cooking.value,
@@ -32,12 +32,7 @@ fun AddRecipeViewState.toRecipe(): CreationRecipe {
 }
 
 @VisibleForTesting
-fun IngredientState.toDomainModel(index: Int): CreationIngredient {
+fun IngredientState.toDomainModel(): CreationIngredient {
     val type = if (quantity.value == null) null else quantityType
-    return CreationIngredient(
-        index,
-        name.text,
-        quantity.value,
-        type
-    )
+    return CreationIngredient(name.text, quantity.value, type)
 }

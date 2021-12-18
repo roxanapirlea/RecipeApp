@@ -33,7 +33,6 @@ class StateToRecipeMapperTest {
     @Test
     fun return_ingredientWithType_when_ingredientStateToDomainModel_given_nonNullQuantity() {
         // Given
-        val index = 1
         val name = "fake ingredient"
         val quantity = "2.0"
         val quantityValue = 2.0
@@ -45,16 +44,15 @@ class StateToRecipeMapperTest {
         )
 
         // When
-        val ingredient = ingredientState.toDomainModel(1)
+        val ingredient = ingredientState.toDomainModel()
 
         // Then
-        ingredient shouldBe CreationIngredient(index, name, quantityValue, quantityType)
+        ingredient shouldBe CreationIngredient(name, quantityValue, quantityType)
     }
 
     @Test
     fun return_ingredientWithNoType_when_ingredientStateToDomainModel_given_nullQuantity() {
         // Given
-        val index = 1
         val name = "fake ingredient"
         val quantity = ""
         val quantityValue = null
@@ -66,10 +64,10 @@ class StateToRecipeMapperTest {
         )
 
         // When
-        val ingredient = ingredientState.toDomainModel(1)
+        val ingredient = ingredientState.toDomainModel()
 
         // Then
-        ingredient shouldBe CreationIngredient(index, name, quantityValue, null)
+        ingredient shouldBe CreationIngredient(name, quantityValue, null)
     }
 
     @Test
@@ -165,8 +163,8 @@ class StateToRecipeMapperTest {
         // Then
         recipe.ingredients shouldHaveSize 2
         recipe.ingredients.shouldContainAll(
-            CreationIngredient(0, "Eggs", 1.0, null),
-            CreationIngredient(1, "Flour", 3.0, QuantityType.TABLESPOON)
+            CreationIngredient("Eggs", 1.0, null),
+            CreationIngredient("Flour", 3.0, QuantityType.TABLESPOON)
         )
     }
 
