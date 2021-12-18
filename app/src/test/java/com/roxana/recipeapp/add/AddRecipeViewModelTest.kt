@@ -1,10 +1,10 @@
 package com.roxana.recipeapp.add
 
-import com.roxana.recipeapp.domain.CategoryType
-import com.roxana.recipeapp.domain.QuantityType
 import com.roxana.recipeapp.domain.addrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableQuantityTypesUseCase
+import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.helpers.MainCoroutineRule
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue

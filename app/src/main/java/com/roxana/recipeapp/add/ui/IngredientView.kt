@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.add.IngredientState
-import com.roxana.recipeapp.domain.QuantityType
+import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.misc.toFormattedString
 import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.theme.RecipeTheme

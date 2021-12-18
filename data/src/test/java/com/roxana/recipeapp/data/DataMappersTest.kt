@@ -1,7 +1,7 @@
 package com.roxana.recipeapp.data
 
-import com.roxana.recipeapp.domain.CategoryType
-import com.roxana.recipeapp.domain.QuantityType
+import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.QuantityType
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 

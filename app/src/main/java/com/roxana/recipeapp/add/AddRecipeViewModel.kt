@@ -3,11 +3,11 @@ package com.roxana.recipeapp.add
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.domain.CategoryType
-import com.roxana.recipeapp.domain.QuantityType
 import com.roxana.recipeapp.domain.addrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableQuantityTypesUseCase
+import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.misc.toNotNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

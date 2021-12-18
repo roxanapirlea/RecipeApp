@@ -1,7 +1,7 @@
 package com.roxana.recipeapp.add
 
-import com.roxana.recipeapp.domain.CategoryType
-import com.roxana.recipeapp.domain.QuantityType
+import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.QuantityType
 
 sealed class AddRecipeViewAction
 

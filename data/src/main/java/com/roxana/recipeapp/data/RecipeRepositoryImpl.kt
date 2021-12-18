@@ -1,7 +1,7 @@
 package com.roxana.recipeapp.data
 
-import com.roxana.recipeapp.domain.Recipe
 import com.roxana.recipeapp.domain.RecipeRepository
+import com.roxana.recipeapp.domain.model.CreationRecipe
 import javax.inject.Inject
 
 class RecipeRepositoryImpl @Inject constructor(
@@ -12,7 +12,7 @@ class RecipeRepositoryImpl @Inject constructor(
     private val instructionQueries: InstructionQueries,
     private val commentQueries: CommentQueries
 ) : RecipeRepository {
-    override suspend fun addRecipe(recipe: Recipe) {
+    override suspend fun addRecipe(recipe: CreationRecipe) {
         with(recipe) {
             recipeQueries.insert(
                 name,

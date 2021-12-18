@@ -1,20 +1,22 @@
 package com.roxana.recipeapp.add
 
 import androidx.annotation.VisibleForTesting
-import com.roxana.recipeapp.domain.Comment
-import com.roxana.recipeapp.domain.Ingredient
-import com.roxana.recipeapp.domain.Instruction
-import com.roxana.recipeapp.domain.Recipe
+import com.roxana.recipeapp.domain.model.CreationComment
+import com.roxana.recipeapp.domain.model.CreationIngredient
+import com.roxana.recipeapp.domain.model.CreationInstruction
+import com.roxana.recipeapp.domain.model.CreationRecipe
 
-fun AddRecipeViewState.toRecipe(): Recipe {
-    return Recipe(
+fun AddRecipeViewState.toRecipe(): CreationRecipe {
+    return CreationRecipe(
         name = title.text,
         photoPath = null,
         categories = categories.filter { it.isSelected }.map { it.type },
         portions = portions.value,
         instructions = instructions
             .filter { it.fieldState.text.isNotEmpty() }
-            .mapIndexed { index, instr -> Instruction(instr.fieldState.text, index.toShort()) },
+            .mapIndexed { index, instr ->
+                CreationInstruction(instr.fieldState.text, index.toShort())
+            },
         ingredients = ingredients
             .filter { !it.isEmpty }
             .mapIndexed { index, ingredient -> ingredient.toDomainModel(index) },
@@ -25,14 +27,14 @@ fun AddRecipeViewState.toRecipe(): Recipe {
         temperature = temperature.value,
         comments = comments
             .filter { it.fieldState.text.isNotEmpty() }
-            .mapIndexed { index, comm -> Comment(comm.fieldState.text, index.toShort()) }
+            .mapIndexed { index, comm -> CreationComment(comm.fieldState.text, index.toShort()) }
     )
 }
 
 @VisibleForTesting
-fun IngredientState.toDomainModel(index: Int): Ingredient {
+fun IngredientState.toDomainModel(index: Int): CreationIngredient {
     val type = if (quantity.value == null) null else quantityType
-    return Ingredient(
+    return CreationIngredient(
         index,
         name.text,
         quantity.value,

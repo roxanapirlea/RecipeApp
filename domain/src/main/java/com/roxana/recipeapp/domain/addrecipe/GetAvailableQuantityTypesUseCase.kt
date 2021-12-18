@@ -1,7 +1,7 @@
 package com.roxana.recipeapp.domain.addrecipe
 
-import com.roxana.recipeapp.domain.QuantityType
 import com.roxana.recipeapp.domain.base.BaseSuspendableUseCase
+import com.roxana.recipeapp.domain.model.QuantityType
 import javax.inject.Inject
 
 class GetAvailableQuantityTypesUseCase @Inject constructor() : BaseSuspendableUseCase<

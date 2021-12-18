@@ -1,10 +1,10 @@
 package com.roxana.recipeapp.add
 
-import com.roxana.recipeapp.domain.CategoryType
-import com.roxana.recipeapp.domain.Comment
-import com.roxana.recipeapp.domain.Ingredient
-import com.roxana.recipeapp.domain.Instruction
-import com.roxana.recipeapp.domain.QuantityType
+import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.CreationComment
+import com.roxana.recipeapp.domain.model.CreationIngredient
+import com.roxana.recipeapp.domain.model.CreationInstruction
+import com.roxana.recipeapp.domain.model.QuantityType
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.collections.shouldNotContainAnyOf
@@ -48,7 +48,7 @@ class StateToRecipeMapperTest {
         val ingredient = ingredientState.toDomainModel(1)
 
         // Then
-        ingredient shouldBe Ingredient(index, name, quantityValue, quantityType)
+        ingredient shouldBe CreationIngredient(index, name, quantityValue, quantityType)
     }
 
     @Test
@@ -69,7 +69,7 @@ class StateToRecipeMapperTest {
         val ingredient = ingredientState.toDomainModel(1)
 
         // Then
-        ingredient shouldBe Ingredient(index, name, quantityValue, null)
+        ingredient shouldBe CreationIngredient(index, name, quantityValue, null)
     }
 
     @Test
@@ -139,8 +139,8 @@ class StateToRecipeMapperTest {
         // Then
         recipe.instructions shouldHaveSize 2
         recipe.instructions.shouldContainAll(
-            Instruction(ordinal = 0, name = "Mix everything"),
-            Instruction(ordinal = 1, name = "Cook in a pan")
+            CreationInstruction(ordinal = 0, name = "Mix everything"),
+            CreationInstruction(ordinal = 1, name = "Cook in a pan")
         )
     }
 
@@ -151,7 +151,11 @@ class StateToRecipeMapperTest {
             ingredients = listOf(
                 IngredientState(EmptyFieldState("Eggs"), DoubleFieldState("1.0", 1.0), null),
                 IngredientState(EmptyFieldState(""), DoubleFieldState(""), null),
-                IngredientState(EmptyFieldState("Flour"), DoubleFieldState("3.0", 3.0), QuantityType.TABLESPOON)
+                IngredientState(
+                    EmptyFieldState("Flour"),
+                    DoubleFieldState("3.0", 3.0),
+                    QuantityType.TABLESPOON
+                )
             )
         )
 
@@ -161,8 +165,8 @@ class StateToRecipeMapperTest {
         // Then
         recipe.ingredients shouldHaveSize 2
         recipe.ingredients.shouldContainAll(
-            Ingredient(0, "Eggs", 1.0, null),
-            Ingredient(1, "Flour", 3.0, QuantityType.TABLESPOON)
+            CreationIngredient(0, "Eggs", 1.0, null),
+            CreationIngredient(1, "Flour", 3.0, QuantityType.TABLESPOON)
         )
     }
 
@@ -183,8 +187,8 @@ class StateToRecipeMapperTest {
         // Then
         recipe.comments shouldHaveSize 2
         recipe.comments.shouldContainAll(
-            Comment(ordinal = 0, detail = "Put oil in the pan"),
-            Comment(ordinal = 1, detail = "Excellent with chocolate")
+            CreationComment(ordinal = 0, detail = "Put oil in the pan"),
+            CreationComment(ordinal = 1, detail = "Excellent with chocolate")
         )
     }
 }
