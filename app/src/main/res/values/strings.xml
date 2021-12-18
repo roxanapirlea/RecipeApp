@@ -32,6 +32,9 @@
     <string name="all_add_new">Add new</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="home_title">@string/app_name</string>
+    <string name="home_empty_description_save">Save your favourite recipes</string>
+    <string name="home_empty_description_instructions">Follow the instructions step by step</string>
+    <string name="home_empty_description_quantities">Adapt quantities to your needs</string>
     <string name="add_title">Add recipe</string>
     <string name="add_recipe_title_hint">Title</string>
     <string name="add_recipe_ingredients">Ingredients</string>
