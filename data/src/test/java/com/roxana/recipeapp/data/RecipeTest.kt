@@ -2,6 +2,7 @@ package com.roxana.recipeapp.data
 
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.equality.shouldBeEqualToIgnoringFields
 import org.junit.Before
@@ -10,10 +11,13 @@ import org.junit.Test
 class RecipeTest {
 
     private lateinit var queries: RecipeQueries
+    private lateinit var categoryQueries: CategoryForRecipeQueries
 
     @Before
     fun setUp() {
-        queries = createInMemoryDb().recipeQueries
+        val db = createInMemoryDb()
+        queries = db.recipeQueries
+        categoryQueries = db.categoryForRecipeQueries
     }
 
     @Test
@@ -107,5 +111,20 @@ class RecipeTest {
 
         // Then
         output.shouldBeEmpty()
+    }
+
+    @Test
+    fun getRecipeWithCategories_when_getRecipesSummary() {
+        // Given
+        queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6)
+        categoryQueries.insert(DbCategoryType.BREAKFAST, null, 1)
+        categoryQueries.insert(DbCategoryType.DESSERT, null, 1)
+        categoryQueries.insert(null, null, 1)
+
+        // When
+        val output = queries.getRecipesSummary().executeAsList()
+
+        // Then
+        output.shouldHaveSize(2)
     }
 }

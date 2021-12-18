@@ -32,3 +32,14 @@ fun QuantityType?.toDataModel(): DbQuantityType? = when (this) {
     QuantityType.CENTILITER -> DbQuantityType.CENTILITER
     null -> null
 }
+
+fun DbCategoryType.toDomainModel(): CategoryType = when (this) {
+    DbCategoryType.BREAKFAST -> CategoryType.BREAKFAST
+    DbCategoryType.LUNCH -> CategoryType.LUNCH
+    DbCategoryType.DINNER -> CategoryType.DINNER
+    DbCategoryType.SNACK -> CategoryType.SNACK
+    DbCategoryType.MAIN -> CategoryType.MAIN
+    DbCategoryType.SIDE -> CategoryType.SIDE
+    DbCategoryType.DESSERT -> CategoryType.DESSERT
+    DbCategoryType.DRINK -> CategoryType.DRINK
+}

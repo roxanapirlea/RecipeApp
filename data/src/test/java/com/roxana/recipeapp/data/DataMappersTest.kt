@@ -293,4 +293,100 @@ class DataMappersTest {
         // Then
         dataModel shouldBe null
     }
+
+    @Test
+    fun return_breakfast_when_categoryToDomainModel_given_breakfastDataModel() {
+        // Given
+        val model = DbCategoryType.BREAKFAST
+
+        // When
+        val dataModel = model.toDomainModel()
+
+        // Then
+        dataModel shouldBe CategoryType.BREAKFAST
+    }
+
+    @Test
+    fun return_lunch_when_categoryToDomainModel_given_lunchDataModel() {
+        // Given
+        val model = DbCategoryType.LUNCH
+
+        // When
+        val dataModel = model.toDomainModel()
+
+        // Then
+        dataModel shouldBe CategoryType.LUNCH
+    }
+
+    @Test
+    fun return_dinner_when_categoryToDomainModel_given_dinnerDataModel() {
+        // Given
+        val model = DbCategoryType.DINNER
+
+        // When
+        val dataModel = model.toDomainModel()
+
+        // Then
+        dataModel shouldBe CategoryType.DINNER
+    }
+
+    @Test
+    fun return_snack_when_categoryToDomainModel_given_snackDataModel() {
+        // Given
+        val model = DbCategoryType.SNACK
+
+        // When
+        val dataModel = model.toDomainModel()
+
+        // Then
+        dataModel shouldBe CategoryType.SNACK
+    }
+
+    @Test
+    fun return_main_when_categoryToDomainModel_given_mainDataModel() {
+        // Given
+        val model = DbCategoryType.MAIN
+
+        // When
+        val dataModel = model.toDomainModel()
+
+        // Then
+        dataModel shouldBe CategoryType.MAIN
+    }
+
+    @Test
+    fun return_side_when_categoryToDomainModel_given_sideDataModel() {
+        // Given
+        val model = DbCategoryType.SIDE
+
+        // When
+        val dataModel = model.toDomainModel()
+
+        // Then
+        dataModel shouldBe CategoryType.SIDE
+    }
+
+    @Test
+    fun return_dessert_when_categoryToDomainModel_given_dessertDataModel() {
+        // Given
+        val model = DbCategoryType.DESSERT
+
+        // When
+        val dataModel = model.toDomainModel()
+
+        // Then
+        dataModel shouldBe CategoryType.DESSERT
+    }
+
+    @Test
+    fun return_drink_when_categoryToDomainModel_given_drinkDataModel() {
+        // Given
+        val model = DbCategoryType.DRINK
+
+        // When
+        val dataModel = model.toDomainModel()
+
+        // Then
+        dataModel shouldBe CategoryType.DRINK
+    }
 }

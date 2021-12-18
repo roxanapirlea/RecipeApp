@@ -2,6 +2,11 @@ package com.roxana.recipeapp.data
 
 import com.roxana.recipeapp.domain.RecipeRepository
 import com.roxana.recipeapp.domain.model.CreationRecipe
+import com.roxana.recipeapp.domain.model.RecipeSummary
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToList
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RecipeRepositoryImpl @Inject constructor(
@@ -50,5 +55,19 @@ class RecipeRepositoryImpl @Inject constructor(
                 commentQueries.insert(it.detail, it.ordinal, insertedRecipe.id)
             }
         }
+    }
+
+    override fun getRecipesSummary(): Flow<List<RecipeSummary>> {
+        return recipeQueries.getRecipesSummary()
+            .asFlow()
+            .mapToList()
+            .map { dbSummaries ->
+                dbSummaries
+                    .groupBy { it.id to it.name }
+                    .map { (pairIdName, summary) ->
+                        val categories = summary.map { it.category.toDomainModel() }
+                        RecipeSummary(pairIdName.first.toInt(), pairIdName.second, categories)
+                    }
+            }
     }
 }
