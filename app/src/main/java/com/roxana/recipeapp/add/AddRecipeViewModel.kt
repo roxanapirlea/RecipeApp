@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.add
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.CategoryType
@@ -23,7 +24,8 @@ class AddRecipeViewModel @Inject constructor(
     private val getQuantityTypesUseCase: GetAvailableQuantityTypesUseCase,
     private val addRecipeUseCase: AddRecipeUseCase
 ) : ViewModel() {
-    private val _state = MutableStateFlow(
+    @VisibleForTesting
+    val _state = MutableStateFlow(
         AddRecipeViewState(
             ingredients = listOf(IngredientState(isEditing = true)),
             instructions = listOf(EditingState(isEditing = true)),

@@ -71,6 +71,9 @@ dependencies {
     kapt libs.hilt.compiler
 
     testImplementation libs.junit
+    testImplementation libs.kotest.assertions
+    testImplementation libs.mockk
+    testImplementation libs.kotlin.coroutines.test
     androidTestImplementation libs.androidx.test.junit
     androidTestImplementation libs.androidx.test.espresso
     androidTestImplementation libs.androidx.compose.test
