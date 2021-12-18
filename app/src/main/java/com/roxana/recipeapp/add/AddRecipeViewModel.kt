@@ -39,12 +39,12 @@ class AddRecipeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val availableCategories = getCategoriesUseCase.invoke(null)
+            val availableCategories = getCategoriesUseCase(null)
                 .getOrElse {
                     eventChannel.send(ShowCategoryError)
                     emptyList()
                 }
-            val quantities = getQuantityTypesUseCase.invoke(null)
+            val quantities = getQuantityTypesUseCase(null)
                 .getOrElse {
                     eventChannel.send(ShowQuantityError)
                     emptyList()
@@ -271,7 +271,7 @@ class AddRecipeViewModel @Inject constructor(
 
     fun onValidate() {
         viewModelScope.launch {
-            addRecipeUseCase.invoke(state.value.toRecipe()).fold(
+            addRecipeUseCase(state.value.toRecipe()).fold(
                 { eventChannel.send(SaveRecipeSuccess) },
                 { eventChannel.send(SaveRecipeError) }
             )
