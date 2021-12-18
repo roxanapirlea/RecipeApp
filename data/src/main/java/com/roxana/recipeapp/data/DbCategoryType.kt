@@ -1,6 +1,6 @@
 package com.roxana.recipeapp.data
 
-enum class CategoryType {
+enum class DbCategoryType {
     BREAKFAST,
     LUNCH,
     DINNER,

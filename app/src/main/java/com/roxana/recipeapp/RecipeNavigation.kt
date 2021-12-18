@@ -1,10 +1,12 @@
 package com.roxana.recipeapp
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.roxana.recipeapp.add.AddRecipeScreen
+import com.roxana.recipeapp.add.AddRecipeViewModel
 import com.roxana.recipeapp.home.HomeScreen
 
 @Composable
@@ -17,7 +19,9 @@ fun RecipeNavigation() {
             )
         }
         composable(route = Screen.AddRecipe.route) {
+            val addRecipeViewModel = hiltViewModel<AddRecipeViewModel>()
             AddRecipeScreen(
+                addRecipeViewModel = addRecipeViewModel,
                 onBack = { navController.navigateUp() }
             )
         }

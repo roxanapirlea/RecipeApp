@@ -1,9 +1,9 @@
-import com.roxana.recipeapp.data.QuantityType;
+import com.roxana.recipeapp.data.DbQuantityType;
 
 CREATE TABLE IngredientForRecipe(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   quantity REAL,
-  quantity_name TEXT AS QuantityType,
+  quantity_name TEXT AS DbQuantityType,
   quantity_type_id INTEGER,
   ingredient_id INTEGER NOT NULL,
   recipe_id INTEGER NOT NULL,

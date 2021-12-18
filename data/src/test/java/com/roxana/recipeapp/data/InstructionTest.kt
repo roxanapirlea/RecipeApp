@@ -11,8 +11,8 @@ class InstructionTest {
     private lateinit var queries: InstructionQueries
     private lateinit var db: Database
 
-    private val recipe = Recipe(1, "Crepe", null, null, null, null, null, null)
-    private val recipe2 = Recipe(2, "Donut", null, null, null, null, null, null)
+    private val recipe = Recipe(1, "Crepe", null, null, null, null, null, null, null)
+    private val recipe2 = Recipe(2, "Donut", null, null, null, null, null, null, null)
 
     @Before
     fun setUp() {
@@ -22,6 +22,7 @@ class InstructionTest {
         db.recipeQueries.insert(
             recipe.name,
             recipe.photo_path,
+            recipe.portions,
             recipe.time_total,
             recipe.time_preparation,
             recipe.time_cooking,
@@ -31,6 +32,7 @@ class InstructionTest {
         db.recipeQueries.insert(
             recipe2.name,
             recipe2.photo_path,
+            recipe2.portions,
             recipe2.time_total,
             recipe2.time_preparation,
             recipe2.time_cooking,

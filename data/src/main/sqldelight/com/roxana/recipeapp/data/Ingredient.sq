@@ -12,6 +12,11 @@ SELECT *
 FROM Ingredient
 WHERE id = :id;
 
+getByName:
+SELECT *
+FROM Ingredient
+WHERE name = :name;
+
 getAll:
 SELECT *
 FROM Ingredient;

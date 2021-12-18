@@ -10,8 +10,8 @@ class IngredientForRecipeTest {
     private lateinit var queries: IngredientForRecipeQueries
     private lateinit var db: Database
 
-    private val recipe = Recipe(1, "Crepe", null, null, null, null, null, null)
-    private val recipe2 = Recipe(2, "Donut", null, null, null, null, null, null)
+    private val recipe = Recipe(1, "Crepe", null, null, null, null, null, null, null)
+    private val recipe2 = Recipe(2, "Donut", null, null, null, null, null, null, null)
     private lateinit var ingredient1: Ingredient
     private lateinit var ingredient2: Ingredient
     private lateinit var quantity1: CustomQuantityType
@@ -25,6 +25,7 @@ class IngredientForRecipeTest {
         db.recipeQueries.insert(
             recipe.name,
             recipe.photo_path,
+            recipe.portions,
             recipe.time_total,
             recipe.time_preparation,
             recipe.time_cooking,
@@ -34,6 +35,7 @@ class IngredientForRecipeTest {
         db.recipeQueries.insert(
             recipe2.name,
             recipe2.photo_path,
+            recipe.portions,
             recipe2.time_total,
             recipe2.time_preparation,
             recipe2.time_cooking,
@@ -69,7 +71,7 @@ class IngredientForRecipeTest {
         val ingrNoQuantity = IngredientForRecipe(1, null, null, null, ingredient1.id, recipe.id)
         val ingrNoQuantityType = IngredientForRecipe(1, 1.0, null, null, ingredient1.id, recipe.id)
         val ingrStandardQuantityType =
-            IngredientForRecipe(1, 1.0, QuantityType.CUP, null, ingredient1.id, recipe.id)
+            IngredientForRecipe(1, 1.0, DbQuantityType.CUP, null, ingredient1.id, recipe.id)
         val ingrCustomQuantityType =
             IngredientForRecipe(1, 1.0, null, quantity1.id, ingredient1.id, recipe.id)
 
@@ -115,9 +117,9 @@ class IngredientForRecipeTest {
     @Test
     fun returnUpdatedItem_when_Update() {
         // Given
-        queries.insert(1.0, QuantityType.CUP, null, ingredient1.id, recipe.id)
+        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipe.id)
         val initialIngredient =
-            queries.getAll().executeAsList().first { it.quantity_name == QuantityType.CUP }
+            queries.getAll().executeAsList().first { it.quantity_name == DbQuantityType.CUP }
 
         // When
         queries.update(2.0, null, quantity1.id, ingredient2.id, initialIngredient.id)
@@ -139,9 +141,9 @@ class IngredientForRecipeTest {
     @Test
     fun deleteItem_when_delete() {
         // Given
-        queries.insert(1.0, QuantityType.CUP, null, ingredient1.id, recipe.id)
+        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipe.id)
         val initialIngredient =
-            queries.getAll().executeAsList().first { it.quantity_name == QuantityType.CUP }
+            queries.getAll().executeAsList().first { it.quantity_name == DbQuantityType.CUP }
 
         // When
         queries.delete(initialIngredient.id)
@@ -154,9 +156,9 @@ class IngredientForRecipeTest {
     @Test
     fun getItems_when_getByRecipeId() {
         // Given
-        queries.insert(1.0, QuantityType.CUP, null, ingredient1.id, recipe.id)
+        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipe.id)
         queries.insert(1.0, null, quantity1.id, ingredient1.id, recipe.id)
-        queries.insert(1.0, QuantityType.CUP, null, ingredient1.id, recipe2.id)
+        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipe2.id)
 
         // When
         val output = queries.getIngredientByRecipeId(recipe.id).executeAsList()

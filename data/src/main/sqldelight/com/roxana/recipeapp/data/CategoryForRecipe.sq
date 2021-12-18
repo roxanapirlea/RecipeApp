@@ -1,8 +1,8 @@
-import com.roxana.recipeapp.data.CategoryType;
+import com.roxana.recipeapp.data.DbCategoryType;
 
 CREATE TABLE CategoryForRecipe(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT AS CategoryType,
+  name TEXT AS DbCategoryType,
   category_id INTEGER,
   recipe_id INTEGER NOT NULL,
   FOREIGN KEY (category_id) REFERENCES CustomCategory(id),

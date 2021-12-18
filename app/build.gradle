@@ -64,12 +64,16 @@ dependencies {
 
     implementation libs.androidx.lifecycle
     implementation libs.androidx.activityCompose
+    implementation libs.androidx.lifecycleVm
 
     implementation libs.hilt.android
     implementation libs.hilt.navCompose
     kapt libs.hilt.compiler
 
     testImplementation libs.junit
+    testImplementation libs.kotest.assertions
+    testImplementation libs.mockk
+    testImplementation libs.kotlin.coroutines.test
     androidTestImplementation libs.androidx.test.junit
     androidTestImplementation libs.androidx.test.espresso
     androidTestImplementation libs.androidx.compose.test
