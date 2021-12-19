@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.home.ui
+package com.roxana.recipeapp.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun LoadingView() {
+fun LoadingStateView() {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()

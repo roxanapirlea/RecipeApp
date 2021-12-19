@@ -17,9 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.home.ui.ContentView
 import com.roxana.recipeapp.home.ui.EmptyView
-import com.roxana.recipeapp.home.ui.LoadingView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.AppBar
+import com.roxana.recipeapp.ui.LoadingStateView
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -78,7 +78,7 @@ fun HomeView(
         }
     ) {
         when (state) {
-            HomeViewState.Loading -> LoadingView()
+            HomeViewState.Loading -> LoadingStateView()
             HomeViewState.Empty -> EmptyView()
             is HomeViewState.Content -> ContentView(state, onAction)
         }
