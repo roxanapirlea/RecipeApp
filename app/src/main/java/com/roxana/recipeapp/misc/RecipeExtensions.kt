@@ -2,8 +2,8 @@ package com.roxana.recipeapp.misc
 
 import androidx.annotation.StringRes
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.domain.CategoryType
-import com.roxana.recipeapp.domain.QuantityType
+import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.QuantityType
 
 @StringRes
 fun CategoryType.toStringRes(): Int =

@@ -1,7 +1,7 @@
 package com.roxana.recipeapp.domain.addrecipe
 
-import com.roxana.recipeapp.domain.Recipe
 import com.roxana.recipeapp.domain.RecipeRepository
+import com.roxana.recipeapp.domain.model.CreationRecipe
 import io.kotest.matchers.result.shouldBeFailureOfType
 import io.kotest.matchers.result.shouldBeSuccess
 import io.mockk.coEvery
@@ -25,7 +25,7 @@ class AddRecipeUseCaseTest {
     @Test
     fun returnSuccess_when_repositoryNoError() = runBlocking {
         // Given
-        val recipe = Recipe(
+        val recipe = CreationRecipe(
             "fake",
             null,
             1,
@@ -52,7 +52,7 @@ class AddRecipeUseCaseTest {
     @Test
     fun returnFailure_when_repositoryThrowsError() = runBlocking {
         // Given
-        val recipe = Recipe(
+        val recipe = CreationRecipe(
             "fake",
             null,
             1,

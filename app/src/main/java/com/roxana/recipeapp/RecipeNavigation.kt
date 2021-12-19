@@ -8,13 +8,16 @@ import androidx.navigation.compose.rememberNavController
 import com.roxana.recipeapp.add.AddRecipeScreen
 import com.roxana.recipeapp.add.AddRecipeViewModel
 import com.roxana.recipeapp.home.HomeScreen
+import com.roxana.recipeapp.home.HomeViewModel
 
 @Composable
 fun RecipeNavigation() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) {
+            val homeViewModel = hiltViewModel<HomeViewModel>()
             HomeScreen(
+                homeViewModel = homeViewModel,
                 onNavAddRecipe = { navController.navigate(Screen.AddRecipe.route) }
             )
         }

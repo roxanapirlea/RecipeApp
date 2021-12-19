@@ -1,11 +1,11 @@
 package com.roxana.recipeapp.data
 
-import com.roxana.recipeapp.domain.CategoryType
-import com.roxana.recipeapp.domain.Comment
-import com.roxana.recipeapp.domain.Ingredient
-import com.roxana.recipeapp.domain.Instruction
-import com.roxana.recipeapp.domain.QuantityType
-import com.roxana.recipeapp.domain.Recipe
+import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.CreationComment
+import com.roxana.recipeapp.domain.model.CreationIngredient
+import com.roxana.recipeapp.domain.model.CreationInstruction
+import com.roxana.recipeapp.domain.model.CreationRecipe
+import com.roxana.recipeapp.domain.model.QuantityType
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -57,7 +57,7 @@ internal class RecipeRepositoryTest {
         val timePreparation: Short = 5
         val timeWaiting: Short = 0
         val temperature = null
-        val recipe = recipeModel.copy(
+        val recipe = creationRecipeModel.copy(
             name = name,
             photoPath = photoPath,
             portions = portions,
@@ -94,10 +94,10 @@ internal class RecipeRepositoryTest {
     fun callIngredientQueriesInsert_when_addRecipe() = runBlocking {
         // Given
         val name = "Crepes"
-        val ingredient1 = Ingredient(0, "Eggs", 2.0, null)
+        val ingredient1 = CreationIngredient("Eggs", 2.0, null)
         val ingredient2 =
-            Ingredient(1, "Flour", 6.0, QuantityType.TABLESPOON)
-        val recipe = recipeModel.copy(
+            CreationIngredient("Flour", 6.0, QuantityType.TABLESPOON)
+        val recipe = creationRecipeModel.copy(
             name = name,
             ingredients = listOf(ingredient1, ingredient2)
         )
@@ -120,10 +120,10 @@ internal class RecipeRepositoryTest {
     @Test
     fun callIngredientForRecipeQueriesInsert_when_addRecipe() = runBlocking {
         // Given
-        val ingredient1 = Ingredient(0, "Eggs", 2.0, null)
+        val ingredient1 = CreationIngredient("Eggs", 2.0, null)
         val ingredient2 =
-            Ingredient(1, "Flour", 6.0, QuantityType.TABLESPOON)
-        val recipe = recipeModel.copy(ingredients = listOf(ingredient1, ingredient2))
+            CreationIngredient("Flour", 6.0, QuantityType.TABLESPOON)
+        val recipe = creationRecipeModel.copy(ingredients = listOf(ingredient1, ingredient2))
         val recipeId = 12L
         val dataRecipe = dataRecipeModel.copy(id = recipeId)
         every { recipeQueries.getByName(recipe.name).executeAsOne() } returns dataRecipe
@@ -167,7 +167,7 @@ internal class RecipeRepositoryTest {
         // Given
         val category1 = CategoryType.BREAKFAST
         val category2 = CategoryType.DESSERT
-        val recipe = recipeModel.copy(categories = listOf(category1, category2))
+        val recipe = creationRecipeModel.copy(categories = listOf(category1, category2))
         val recipeId = 12L
         val dataRecipe = dataRecipeModel.copy(id = recipeId)
         every { recipeQueries.getByName(any()).executeAsOne() } returns dataRecipe
@@ -192,9 +192,9 @@ internal class RecipeRepositoryTest {
     @Test
     fun callInstructionQueriesInsert_when_addRecipe() = runBlocking {
         // Given
-        val instruction1 = Instruction("Mix everything", 0)
-        val instruction2 = Instruction("Cook in a pan", 1)
-        val recipe = recipeModel.copy(instructions = listOf(instruction1, instruction2))
+        val instruction1 = CreationInstruction("Mix everything", 0)
+        val instruction2 = CreationInstruction("Cook in a pan", 1)
+        val recipe = creationRecipeModel.copy(instructions = listOf(instruction1, instruction2))
         val recipeId = 12L
         val dataRecipe = dataRecipeModel.copy(id = recipeId)
         every { recipeQueries.getByName(any()).executeAsOne() } returns dataRecipe
@@ -217,9 +217,9 @@ internal class RecipeRepositoryTest {
     @Test
     fun callCommentQueriesInsert_when_addRecipe() = runBlocking {
         // Given
-        val comment1 = Comment("Put oil in the pan", 0)
-        val comment2 = Comment("Excellent with chocolate", 1)
-        val recipe = recipeModel.copy(comments = listOf(comment1, comment2))
+        val comment1 = CreationComment("Put oil in the pan", 0)
+        val comment2 = CreationComment("Excellent with chocolate", 1)
+        val recipe = creationRecipeModel.copy(comments = listOf(comment1, comment2))
         val recipeId = 12L
         val dataRecipe = dataRecipeModel.copy(id = recipeId)
         every { recipeQueries.getByName(any()).executeAsOne() } returns dataRecipe
@@ -239,21 +239,21 @@ internal class RecipeRepositoryTest {
         }
     }
 
-    private val recipeModel = Recipe(
+    private val creationRecipeModel = CreationRecipe(
         name = "fake name",
         photoPath = null,
         portions = 1,
         categories = listOf(CategoryType.DINNER),
-        instructions = listOf(Instruction("fake instruction", 1)),
+        instructions = listOf(CreationInstruction("fake instruction", 1)),
         ingredients = listOf(
-            Ingredient(0, "fake ingredient", 2.0, QuantityType.POUND)
+            CreationIngredient("fake ingredient", 2.0, QuantityType.POUND)
         ),
         timeTotal = 8,
         timePreparation = 7,
         timeCooking = 3,
         timeWaiting = 2,
         temperature = 150,
-        comments = listOf(Comment("fake comment", 1)),
+        comments = listOf(CreationComment("fake comment", 1)),
     )
 
     private val dataRecipeModel = DataRecipe(

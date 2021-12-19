@@ -1,7 +1,7 @@
 package com.roxana.recipeapp.data
 
-import com.roxana.recipeapp.domain.CategoryType
-import com.roxana.recipeapp.domain.QuantityType
+import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.QuantityType
 
 fun CategoryType.toDataModel(): DbCategoryType = when (this) {
     CategoryType.BREAKFAST -> DbCategoryType.BREAKFAST
@@ -31,4 +31,15 @@ fun QuantityType?.toDataModel(): DbQuantityType? = when (this) {
     QuantityType.DECILITER -> DbQuantityType.DECILITER
     QuantityType.CENTILITER -> DbQuantityType.CENTILITER
     null -> null
+}
+
+fun DbCategoryType.toDomainModel(): CategoryType = when (this) {
+    DbCategoryType.BREAKFAST -> CategoryType.BREAKFAST
+    DbCategoryType.LUNCH -> CategoryType.LUNCH
+    DbCategoryType.DINNER -> CategoryType.DINNER
+    DbCategoryType.SNACK -> CategoryType.SNACK
+    DbCategoryType.MAIN -> CategoryType.MAIN
+    DbCategoryType.SIDE -> CategoryType.SIDE
+    DbCategoryType.DESSERT -> CategoryType.DESSERT
+    DbCategoryType.DRINK -> CategoryType.DRINK
 }
