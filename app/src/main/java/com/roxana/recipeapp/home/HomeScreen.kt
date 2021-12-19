@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.home.ui.ContentView
 import com.roxana.recipeapp.home.ui.EmptyView
+import com.roxana.recipeapp.home.ui.LoadingView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.theme.RecipeTheme
@@ -30,7 +31,7 @@ fun HomeScreen(
     onNavAddRecipe: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(homeViewModel.state)
-        .collectAsState(HomeViewState.Empty)
+        .collectAsState(HomeViewState.Loading)
 
     HomeView(state, homeViewModel.sideEffectFlow) { action ->
         when (action) {
@@ -77,6 +78,7 @@ fun HomeView(
         }
     ) {
         when (state) {
+            HomeViewState.Loading -> LoadingView()
             HomeViewState.Empty -> EmptyView()
             is HomeViewState.Content -> ContentView(state, onAction)
         }

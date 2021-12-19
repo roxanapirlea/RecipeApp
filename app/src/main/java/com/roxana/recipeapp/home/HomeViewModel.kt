@@ -19,7 +19,7 @@ class HomeViewModel @Inject constructor(
     private val getRecipesSummaryUseCase: GetRecipesSummaryUseCase
 ) : ViewModel() {
     @VisibleForTesting
-    val _state = MutableStateFlow<HomeViewState>(HomeViewState.Empty)
+    val _state = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
     val state: StateFlow<HomeViewState> = _state.asStateFlow()
 
     private val sideEffectChannel = Channel<HomeSideEffect>(Channel.BUFFERED)
