@@ -1,3 +1,5 @@
 package com.roxana.recipeapp.home
 
-object HomeSideEffect
+sealed class HomeSideEffect
+
+object ItemsFetchingError : HomeSideEffect()
