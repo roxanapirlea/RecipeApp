@@ -43,3 +43,22 @@ fun DbCategoryType.toDomainModel(): CategoryType = when (this) {
     DbCategoryType.DESSERT -> CategoryType.DESSERT
     DbCategoryType.DRINK -> CategoryType.DRINK
 }
+
+fun DbQuantityType?.toDomainModel(): QuantityType? = when (this) {
+    DbQuantityType.POUND -> QuantityType.POUND
+    DbQuantityType.OUNCE -> QuantityType.OUNCE
+    DbQuantityType.GRAM -> QuantityType.GRAM
+    DbQuantityType.KILOGRAM -> QuantityType.KILOGRAM
+    DbQuantityType.TEASPOON -> QuantityType.TEASPOON
+    DbQuantityType.TABLESPOON -> QuantityType.TABLESPOON
+    DbQuantityType.FLUID_OUNCE -> QuantityType.FLUID_OUNCE
+    DbQuantityType.GILL -> QuantityType.GILL
+    DbQuantityType.CUP -> QuantityType.CUP
+    DbQuantityType.PINT -> QuantityType.PINT
+    DbQuantityType.QUART -> QuantityType.QUART
+    DbQuantityType.GALLON -> QuantityType.GALLON
+    DbQuantityType.LITER -> QuantityType.LITER
+    DbQuantityType.DECILITER -> QuantityType.DECILITER
+    DbQuantityType.CENTILITER -> QuantityType.CENTILITER
+    null -> null
+}
