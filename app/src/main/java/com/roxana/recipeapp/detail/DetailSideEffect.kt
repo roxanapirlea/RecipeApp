@@ -1,3 +1,5 @@
 package com.roxana.recipeapp.detail
 
-object DetailSideEffect
+sealed class DetailSideEffect
+
+object FetchingError : DetailSideEffect()

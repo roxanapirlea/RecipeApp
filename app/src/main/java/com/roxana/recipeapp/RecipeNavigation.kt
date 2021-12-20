@@ -74,7 +74,7 @@ sealed class Screen(val rootRoute: String) {
     }
 
     object RecipeDetail : Screen("detail"), NavRoute, NavDestination<RecipeDetail.Arguments> {
-        private const val KEY_ID = "id"
+        const val KEY_ID = "id"
 
         override val route: String = "$rootRoute/{$KEY_ID}"
         override val arguments: List<NamedNavArgument> =
