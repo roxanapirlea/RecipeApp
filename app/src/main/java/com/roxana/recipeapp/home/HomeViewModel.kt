@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.home.GetRecipesSummaryUseCase
+import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,11 +36,11 @@ class HomeViewModel @Inject constructor(
                                 _state.value = HomeViewState.Empty
                             else {
                                 val recipes =
-                                    recipesSummary.map {
+                                    recipesSummary.map { summary ->
                                         RecipeState(
-                                            it.id,
-                                            it.name,
-                                            it.categories
+                                            summary.id,
+                                            summary.name,
+                                            summary.categories.map { it.toUiModel() }
                                         )
                                     }
                                 _state.value = HomeViewState.Content(recipes)

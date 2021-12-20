@@ -45,7 +45,6 @@ import com.roxana.recipeapp.add.ui.IndexedView
 import com.roxana.recipeapp.add.ui.IngredientView
 import com.roxana.recipeapp.add.ui.TimeTextField
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
-import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.CategoryChip
 import com.roxana.recipeapp.ui.DividerAlpha16
@@ -64,7 +63,7 @@ fun AddRecipeScreen(
     val state by rememberFlowWithLifecycle(addRecipeViewModel.state)
         .collectAsState(AddRecipeViewState())
 
-    AddRecipeView(state, addRecipeViewModel.eventsFlow) {
+    AddRecipeView(state, addRecipeViewModel.sideEffectFlow) {
         when (it) {
             Back -> onBack()
             is TitleChanged -> addRecipeViewModel.onTitleChanged(it.name)
@@ -100,7 +99,7 @@ fun AddRecipeScreen(
 @Composable
 fun AddRecipeView(
     state: AddRecipeViewState,
-    eventsFlow: Flow<AddRecipeEvent> = flow { },
+    sideEffectsFlow: Flow<AddRecipeSideEffect> = flow { },
     onAction: (AddRecipeViewAction) -> Unit = {}
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -115,8 +114,8 @@ fun AddRecipeView(
     val temperatureFocusRequester = remember { FocusRequester() }
     val commentFocusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(eventsFlow) {
-        eventsFlow.collect {
+    LaunchedEffect(sideEffectsFlow) {
+        sideEffectsFlow.collect {
             when (it) {
                 ShowCategoryError ->
                     scaffoldState.snackbarHostState.showSnackbar(
@@ -196,7 +195,7 @@ fun AddRecipeView(
                 ) {
                     items(state.categories) { category ->
                         CategoryChip(
-                            text = stringResource(category.type.toStringRes()),
+                            text = stringResource(category.type.text),
                             isActivated = category.isSelected,
                             onClick = { onAction(CategoryClicked(category.type)) }
                         )

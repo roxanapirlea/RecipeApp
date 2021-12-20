@@ -17,19 +17,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.add.DoubleFieldState
+import com.roxana.recipeapp.add.EmptyFieldState
 import com.roxana.recipeapp.add.IngredientState
-import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.misc.toFormattedString
-import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.theme.RecipeTheme
+import com.roxana.recipeapp.uimodel.UiQuantityType
 
 @Composable
 fun IngredientView(
     ingredient: IngredientState,
-    quantityTypes: List<QuantityType?>,
+    quantityTypes: List<UiQuantityType>,
     onIngredientChange: (String) -> Unit,
     onQuantityChange: (String) -> Unit,
-    onTypeChange: (QuantityType?) -> Unit,
+    onTypeChange: (UiQuantityType) -> Unit,
     onDelete: () -> Unit,
     onSelect: () -> Unit,
     modifier: Modifier = Modifier,
@@ -67,9 +68,10 @@ fun IngredientText(
             .defaultMinSize(48.dp, 48.dp)
     ) {
         val quantity = ingredient.quantity.value?.toFormattedString() ?: ""
-        val quantityType = ingredient.quantityType?.let {
-            stringResource(it.toStringRes())
-        } ?: ""
+        val quantityType =
+            if (ingredient.quantityType is UiQuantityType.None)
+                ""
+            else stringResource(ingredient.quantityType.text)
         val formattedIngredient =
             stringResource(
                 R.string.all_ingredient_placeholders,
@@ -105,7 +107,11 @@ fun IngredientText(
 fun IngredientTextPreviewLight() {
     RecipeTheme {
         IngredientText(
-            ingredient = IngredientState()
+            ingredient = IngredientState(
+                EmptyFieldState("Flour"),
+                DoubleFieldState("2.0", 2.0),
+                UiQuantityType.Cup
+            )
         )
     }
 }
@@ -119,7 +125,11 @@ fun IngredientTextPreviewLight() {
 fun IngredientTextPreviewDark() {
     RecipeTheme {
         IngredientText(
-            ingredient = IngredientState()
+            ingredient = IngredientState(
+                EmptyFieldState("Flour"),
+                DoubleFieldState("2.0", 2.0),
+                UiQuantityType.Cup
+            )
         )
     }
 }

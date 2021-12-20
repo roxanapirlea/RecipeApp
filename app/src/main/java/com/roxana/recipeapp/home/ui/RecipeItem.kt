@@ -26,12 +26,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.home.RecipeState
-import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.RoundedStartShape
 import com.roxana.recipeapp.ui.getIntermediateColors
 import com.roxana.recipeapp.ui.theme.RecipeTheme
+import com.roxana.recipeapp.uimodel.UiCategoryType
 
 private const val IMAGE_COLOR_COUNT = 5
 
@@ -83,7 +82,7 @@ fun RecipeItem(
                     ) {
                         items(recipeState.categories) {
                             Text(
-                                stringResource(it.toStringRes()),
+                                stringResource(it.text),
                                 style = MaterialTheme.typography.overline
                             )
                         }
@@ -106,9 +105,9 @@ fun RecipeSummaryPreviewLight() {
             recipeState = RecipeState(
                 1,
                 "Crepes",
-                listOf(CategoryType.BREAKFAST, CategoryType.DESSERT)
+                listOf(UiCategoryType.Breakfast, UiCategoryType.Dessert)
             ),
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp)
         )
     }
 }
@@ -125,9 +124,9 @@ fun RecipeSummaryPreviewDark() {
             recipeState = RecipeState(
                 1,
                 "Crepes",
-                listOf(CategoryType.BREAKFAST, CategoryType.DESSERT)
+                listOf(UiCategoryType.Breakfast, UiCategoryType.Dessert)
             ),
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp)
         )
     }
 }

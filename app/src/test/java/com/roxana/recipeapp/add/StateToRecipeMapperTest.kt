@@ -5,6 +5,8 @@ import com.roxana.recipeapp.domain.model.CreationComment
 import com.roxana.recipeapp.domain.model.CreationIngredient
 import com.roxana.recipeapp.domain.model.CreationInstruction
 import com.roxana.recipeapp.domain.model.QuantityType
+import com.roxana.recipeapp.uimodel.UiCategoryType
+import com.roxana.recipeapp.uimodel.UiQuantityType
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.collections.shouldNotContainAnyOf
@@ -36,7 +38,7 @@ class StateToRecipeMapperTest {
         val name = "fake ingredient"
         val quantity = "2.0"
         val quantityValue = 2.0
-        val quantityType = QuantityType.CUP
+        val quantityType = UiQuantityType.Cup
         val ingredientState = IngredientState(
             EmptyFieldState(name),
             DoubleFieldState(quantity, quantityValue),
@@ -47,7 +49,7 @@ class StateToRecipeMapperTest {
         val ingredient = ingredientState.toDomainModel()
 
         // Then
-        ingredient shouldBe CreationIngredient(name, quantityValue, quantityType)
+        ingredient shouldBe CreationIngredient(name, quantityValue, QuantityType.CUP)
     }
 
     @Test
@@ -56,7 +58,7 @@ class StateToRecipeMapperTest {
         val name = "fake ingredient"
         val quantity = ""
         val quantityValue = null
-        val quantityType = QuantityType.CUP
+        val quantityType = UiQuantityType.Cup
         val ingredientState = IngredientState(
             EmptyFieldState(name),
             DoubleFieldState(quantity, quantityValue),
@@ -104,10 +106,10 @@ class StateToRecipeMapperTest {
         // Given
         val recipeState = recipeStateModel.copy(
             categories = listOf(
-                CategoryState(CategoryType.BREAKFAST, true),
-                CategoryState(CategoryType.LUNCH, false),
-                CategoryState(CategoryType.DINNER, false),
-                CategoryState(CategoryType.DESSERT, true),
+                CategoryState(UiCategoryType.Breakfast, true),
+                CategoryState(UiCategoryType.Lunch, false),
+                CategoryState(UiCategoryType.Dinner, false),
+                CategoryState(UiCategoryType.Dessert, true),
             )
         )
 
@@ -147,12 +149,16 @@ class StateToRecipeMapperTest {
         // Given
         val recipeState = recipeStateModel.copy(
             ingredients = listOf(
-                IngredientState(EmptyFieldState("Eggs"), DoubleFieldState("1.0", 1.0), null),
-                IngredientState(EmptyFieldState(""), DoubleFieldState(""), null),
+                IngredientState(
+                    EmptyFieldState("Eggs"),
+                    DoubleFieldState("1.0", 1.0),
+                    UiQuantityType.None
+                ),
+                IngredientState(EmptyFieldState(""), DoubleFieldState(""), UiQuantityType.None),
                 IngredientState(
                     EmptyFieldState("Flour"),
                     DoubleFieldState("3.0", 3.0),
-                    QuantityType.TABLESPOON
+                    UiQuantityType.Tablespoon
                 )
             )
         )

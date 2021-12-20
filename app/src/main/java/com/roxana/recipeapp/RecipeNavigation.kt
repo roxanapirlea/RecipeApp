@@ -2,6 +2,7 @@ package com.roxana.recipeapp
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -18,7 +19,7 @@ fun RecipeNavigation() {
             val homeViewModel = hiltViewModel<HomeViewModel>()
             HomeScreen(
                 homeViewModel = homeViewModel,
-                onNavAddRecipe = { navController.navigate(Screen.AddRecipe.route) }
+                onNavAddRecipe = { navController.navigate(Screen.AddRecipe.destination(null)) }
             )
         }
         composable(route = Screen.AddRecipe.route) {
@@ -31,7 +32,25 @@ fun RecipeNavigation() {
     }
 }
 
-sealed class Screen(val route: String) {
-    object Home : Screen("home")
-    object AddRecipe : Screen("add")
+interface NavRoute {
+    val route: String
+    val arguments: List<NamedNavArgument>
+}
+
+interface NavDestination<T> {
+    fun destination(arguments: T): String
+}
+
+sealed class Screen(val rootRoute: String) {
+    object Home : Screen("home"), NavRoute, NavDestination<Any?> {
+        override val route: String = rootRoute
+        override val arguments: List<NamedNavArgument> = emptyList()
+        override fun destination(arguments: Any?): String = rootRoute
+    }
+
+    object AddRecipe : Screen("add"), NavRoute, NavDestination<Any?> {
+        override val route: String = rootRoute
+        override val arguments: List<NamedNavArgument> = emptyList()
+        override fun destination(arguments: Any?): String = rootRoute
+    }
 }

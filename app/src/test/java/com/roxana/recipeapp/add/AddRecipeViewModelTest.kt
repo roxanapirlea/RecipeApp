@@ -6,6 +6,8 @@ import com.roxana.recipeapp.domain.addrecipe.GetAvailableQuantityTypesUseCase
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.helpers.MainCoroutineRule
+import com.roxana.recipeapp.uimodel.UiCategoryType
+import com.roxana.recipeapp.uimodel.UiQuantityType
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldContain
@@ -90,19 +92,19 @@ internal class AddRecipeViewModelTest {
             viewModel.state.value.copy(
                 title = NonEmptyFieldState("fake title"),
                 categories = listOf(
-                    CategoryState(CategoryType.BREAKFAST, false),
-                    CategoryState(CategoryType.DESSERT, false)
+                    CategoryState(UiCategoryType.Breakfast, false),
+                    CategoryState(UiCategoryType.Dessert, false)
                 )
             )
-        val categoryType = CategoryType.BREAKFAST
+        val categoryType = UiCategoryType.Breakfast
 
         // When
         viewModel.onCategoryClicked(categoryType)
 
         // Then
         viewModel.state.value.categories.shouldContainAll(
-            CategoryState(CategoryType.BREAKFAST, true),
-            CategoryState(CategoryType.DESSERT, false)
+            CategoryState(UiCategoryType.Breakfast, true),
+            CategoryState(UiCategoryType.Dessert, false)
         )
     }
 
@@ -113,19 +115,19 @@ internal class AddRecipeViewModelTest {
             viewModel.state.value.copy(
                 title = NonEmptyFieldState("fake title"),
                 categories = listOf(
-                    CategoryState(CategoryType.BREAKFAST, true),
-                    CategoryState(CategoryType.DESSERT, false)
+                    CategoryState(UiCategoryType.Breakfast, true),
+                    CategoryState(UiCategoryType.Dessert, false)
                 )
             )
-        val categoryType = CategoryType.BREAKFAST
+        val categoryType = UiCategoryType.Breakfast
 
         // When
         viewModel.onCategoryClicked(categoryType)
 
         // Then
         viewModel.state.value.categories.shouldContainAll(
-            CategoryState(CategoryType.BREAKFAST, false),
-            CategoryState(CategoryType.DESSERT, false)
+            CategoryState(UiCategoryType.Breakfast, false),
+            CategoryState(UiCategoryType.Dessert, false)
         )
     }
 
@@ -379,7 +381,7 @@ internal class AddRecipeViewModelTest {
                     IngredientState(EmptyFieldState("ingr1"))
                 )
             )
-        val quantityType = QuantityType.CUP
+        val quantityType = UiQuantityType.Cup
 
         // When
         viewModel.onIngredientQuantityTypeChanged(0, quantityType)
@@ -407,7 +409,7 @@ internal class AddRecipeViewModelTest {
                     )
                 )
             )
-        val quantityType = QuantityType.CUP
+        val quantityType = UiQuantityType.Cup
 
         // When
         viewModel.onIngredientQuantityTypeChanged(1, quantityType)
