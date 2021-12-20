@@ -6,6 +6,8 @@ import com.roxana.recipeapp.domain.model.CreationIngredient
 import com.roxana.recipeapp.domain.model.CreationInstruction
 import com.roxana.recipeapp.domain.model.CreationRecipe
 import com.roxana.recipeapp.domain.model.QuantityType
+import com.roxana.recipeapp.domain.model.RecipeSummary
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -237,6 +239,26 @@ internal class RecipeRepositoryTest {
         verify {
             commentQueries.insert(comment2.detail, comment2.ordinal, recipeId)
         }
+    }
+
+    @Test
+    fun returnRecipeSummary_when_mapSummary() {
+        // Given
+        val dbSummaries = listOf(
+            GetRecipesSummary(1, "recipe 1", DbCategoryType.LUNCH),
+            GetRecipesSummary(1, "recipe 1", DbCategoryType.DINNER),
+            GetRecipesSummary(1, "recipe 1", null),
+            GetRecipesSummary(2, "recipe 2", null)
+        )
+
+        // When
+        val summaries = repository.mapSummary(dbSummaries)
+
+        // Then
+        summaries shouldBe listOf(
+            RecipeSummary(1, "recipe 1", listOf(CategoryType.LUNCH, CategoryType.DINNER)),
+            RecipeSummary(2, "recipe 2", listOf())
+        )
     }
 
     private val creationRecipeModel = CreationRecipe(
