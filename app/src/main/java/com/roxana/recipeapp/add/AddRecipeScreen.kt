@@ -45,7 +45,6 @@ import com.roxana.recipeapp.add.ui.IndexedView
 import com.roxana.recipeapp.add.ui.IngredientView
 import com.roxana.recipeapp.add.ui.TimeTextField
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
-import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.CategoryChip
 import com.roxana.recipeapp.ui.DividerAlpha16
@@ -196,7 +195,7 @@ fun AddRecipeView(
                 ) {
                     items(state.categories) { category ->
                         CategoryChip(
-                            text = stringResource(category.type.toStringRes()),
+                            text = stringResource(category.type.text),
                             isActivated = category.isSelected,
                             onClick = { onAction(CategoryClicked(category.type)) }
                         )

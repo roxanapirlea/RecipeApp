@@ -1,12 +1,12 @@
 package com.roxana.recipeapp.add
 
-import com.roxana.recipeapp.domain.model.CategoryType
-import com.roxana.recipeapp.domain.model.QuantityType
+import com.roxana.recipeapp.uimodel.UiCategoryType
+import com.roxana.recipeapp.uimodel.UiQuantityType
 
 data class AddRecipeViewState(
     val title: NonEmptyFieldState = NonEmptyFieldState(),
     val categories: List<CategoryState> = emptyList(),
-    val quantities: List<QuantityType?> = emptyList(),
+    val quantities: List<UiQuantityType> = emptyList(),
     val portions: ShortFieldState = ShortFieldState(),
     val ingredients: List<IngredientState> = emptyList(),
     val instructions: List<EditingState> = emptyList(),
@@ -24,12 +24,12 @@ data class AddRecipeViewState(
         temperature.isValid
 }
 
-data class CategoryState(val type: CategoryType, val isSelected: Boolean)
+data class CategoryState(val type: UiCategoryType, val isSelected: Boolean)
 
 data class IngredientState(
     val name: EmptyFieldState = EmptyFieldState(),
     val quantity: DoubleFieldState = DoubleFieldState(),
-    val quantityType: QuantityType? = null,
+    val quantityType: UiQuantityType = UiQuantityType.None,
     val isEditing: Boolean = false
 ) {
     val isEmpty = name.text.isBlank() && quantity.text.isBlank()

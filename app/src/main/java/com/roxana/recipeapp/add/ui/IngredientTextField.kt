@@ -34,18 +34,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.add.DoubleFieldState
+import com.roxana.recipeapp.add.EmptyFieldState
 import com.roxana.recipeapp.add.IngredientState
-import com.roxana.recipeapp.domain.model.QuantityType
-import com.roxana.recipeapp.misc.toStringRes
 import com.roxana.recipeapp.ui.theme.RecipeTheme
+import com.roxana.recipeapp.uimodel.UiQuantityType
 
 @Composable
 fun IngredientTextField(
     ingredient: IngredientState,
-    quantityTypes: List<QuantityType?>,
+    quantityTypes: List<UiQuantityType>,
     onIngredientChange: (String) -> Unit,
     onQuantityChange: (String) -> Unit,
-    onTypeChange: (QuantityType?) -> Unit,
+    onTypeChange: (UiQuantityType) -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
     nameFocusRequester: FocusRequester = FocusRequester(),
@@ -111,9 +112,9 @@ fun IngredientTextField(
 
 @Composable
 fun QuantityTypeMenu(
-    selectedQuantityType: QuantityType?,
-    quantityTypes: List<QuantityType?>,
-    onTypeChanged: (QuantityType?) -> Unit,
+    selectedQuantityType: UiQuantityType,
+    quantityTypes: List<UiQuantityType>,
+    onTypeChanged: (UiQuantityType) -> Unit,
     isExpanded: Boolean,
     onIsExpandedChanged: (Boolean) -> Unit
 ) {
@@ -123,8 +124,8 @@ fun QuantityTypeMenu(
                 .clickable { onIsExpandedChanged(!isExpanded) }
                 .defaultMinSize(48.dp, 48.dp)
         ) {
-            if (selectedQuantityType != null) {
-                Text(text = stringResource(selectedQuantityType.toStringRes()))
+            if (selectedQuantityType !is UiQuantityType.None) {
+                Text(text = stringResource(selectedQuantityType.text))
             } else {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(text = stringResource(R.string.add_recipe_quantity_type_hint))
@@ -146,7 +147,7 @@ fun QuantityTypeMenu(
                         onIsExpandedChanged(false)
                     }
                 ) {
-                    Text(stringResource(it.toStringRes()))
+                    Text(stringResource(it.text))
                 }
             }
         }
@@ -174,6 +175,29 @@ fun IngredientTextFieldPreviewLight() {
 
 @Preview(
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    group = "Light"
+)
+@Composable
+fun IngredientTextFieldFilledPreviewLight() {
+    RecipeTheme {
+        IngredientTextField(
+            ingredient = IngredientState(
+                EmptyFieldState("Flour"),
+                DoubleFieldState("2.0", 2.0),
+                UiQuantityType.Cup
+            ),
+            quantityTypes = listOf(),
+            onIngredientChange = {},
+            onQuantityChange = {},
+            onTypeChange = {},
+            onDelete = {}
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     group = "Dark"
 )
@@ -182,6 +206,29 @@ fun IngredientTextFieldPreviewDark() {
     RecipeTheme {
         IngredientTextField(
             ingredient = IngredientState(),
+            quantityTypes = listOf(),
+            onIngredientChange = {},
+            onQuantityChange = {},
+            onTypeChange = {},
+            onDelete = {}
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    group = "Dark"
+)
+@Composable
+fun IngredientTextFieldFilledPreviewDark() {
+    RecipeTheme {
+        IngredientTextField(
+            ingredient = IngredientState(
+                EmptyFieldState("Flour"),
+                DoubleFieldState("2.0", 2.0),
+                UiQuantityType.Cup
+            ),
             quantityTypes = listOf(),
             onIngredientChange = {},
             onQuantityChange = {},

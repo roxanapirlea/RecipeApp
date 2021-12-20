@@ -5,12 +5,14 @@ import com.roxana.recipeapp.domain.model.CreationComment
 import com.roxana.recipeapp.domain.model.CreationIngredient
 import com.roxana.recipeapp.domain.model.CreationInstruction
 import com.roxana.recipeapp.domain.model.CreationRecipe
+import com.roxana.recipeapp.uimodel.UiQuantityType
+import com.roxana.recipeapp.uimodel.toDomainModel
 
 fun AddRecipeViewState.toRecipe(): CreationRecipe {
     return CreationRecipe(
         name = title.text,
         photoPath = null,
-        categories = categories.filter { it.isSelected }.map { it.type },
+        categories = categories.filter { it.isSelected }.map { it.type.toDomainModel() },
         portions = portions.value,
         instructions = instructions
             .filter { it.fieldState.text.isNotEmpty() }
@@ -33,6 +35,6 @@ fun AddRecipeViewState.toRecipe(): CreationRecipe {
 
 @VisibleForTesting
 fun IngredientState.toDomainModel(): CreationIngredient {
-    val type = if (quantity.value == null) null else quantityType
-    return CreationIngredient(name.text, quantity.value, type)
+    val type = if (quantity.value == null) UiQuantityType.None else quantityType
+    return CreationIngredient(name.text, quantity.value, type.toDomainModel())
 }

@@ -6,9 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.addrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableQuantityTypesUseCase
-import com.roxana.recipeapp.domain.model.CategoryType
-import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.misc.toNotNull
+import com.roxana.recipeapp.uimodel.UiCategoryType
+import com.roxana.recipeapp.uimodel.UiQuantityType
+import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,11 +50,11 @@ class AddRecipeViewModel @Inject constructor(
                     eventChannel.send(ShowQuantityError)
                     emptyList()
                 }
-            val categories = availableCategories.map { CategoryState(it, false) }
+            val categories = availableCategories.map { CategoryState(it.toUiModel(), false) }
             _state.emit(
                 state.value.copy(
                     categories = categories,
-                    quantities = listOf(null) + quantities
+                    quantities = listOf(UiQuantityType.None) + quantities.map { it.toUiModel() }
                 )
             )
         }
@@ -63,7 +64,7 @@ class AddRecipeViewModel @Inject constructor(
         _state.value = state.value.copy(title = NonEmptyFieldState(name))
     }
 
-    fun onCategoryClicked(type: CategoryType) {
+    fun onCategoryClicked(type: UiCategoryType) {
         val categories = state.value.categories.map {
             if (it.type == type) it.copy(isSelected = !it.isSelected)
             else it
@@ -124,7 +125,7 @@ class AddRecipeViewModel @Inject constructor(
         _state.value = state.value.copy(ingredients = ingredients)
     }
 
-    fun onIngredientQuantityTypeChanged(id: Int, quantityType: QuantityType?) {
+    fun onIngredientQuantityTypeChanged(id: Int, quantityType: UiQuantityType) {
         val shouldAddNewIngredient = with(state.value.ingredients[id]) {
             name.text.isNotEmpty() && quantity.text.isNotEmpty() && isValid
         } && state.value.ingredients.size - 1 == id

@@ -4,6 +4,7 @@ import com.roxana.recipeapp.domain.home.GetRecipesSummaryUseCase
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.RecipeSummary
 import com.roxana.recipeapp.helpers.MainCoroutineRule
+import com.roxana.recipeapp.uimodel.UiCategoryType
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
@@ -60,8 +61,8 @@ class HomeViewModelTest {
         // Then
         viewModel.state.value shouldBe HomeViewState.Content(
             listOf(
-                RecipeState(0, "Crepes", listOf(CategoryType.BREAKFAST, CategoryType.DESSERT)),
-                RecipeState(1, "Omlette", listOf(CategoryType.BREAKFAST))
+                RecipeState(0, "Crepes", listOf(UiCategoryType.Breakfast, UiCategoryType.Dessert)),
+                RecipeState(1, "Omlette", listOf(UiCategoryType.Breakfast))
             )
         )
     }
