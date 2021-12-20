@@ -35,19 +35,19 @@ class AddRecipeViewModel @Inject constructor(
     )
     val state: StateFlow<AddRecipeViewState> = _state.asStateFlow()
 
-    private val eventChannel = Channel<AddRecipeEvent>(Channel.BUFFERED)
-    val eventsFlow = eventChannel.receiveAsFlow()
+    private val sideEffectChannel = Channel<AddRecipeSideEffect>(Channel.BUFFERED)
+    val sideEffectFlow = sideEffectChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch {
             val availableCategories = getCategoriesUseCase(null)
                 .getOrElse {
-                    eventChannel.send(ShowCategoryError)
+                    sideEffectChannel.send(ShowCategoryError)
                     emptyList()
                 }
             val quantities = getQuantityTypesUseCase(null)
                 .getOrElse {
-                    eventChannel.send(ShowQuantityError)
+                    sideEffectChannel.send(ShowQuantityError)
                     emptyList()
                 }
             val categories = availableCategories.map { CategoryState(it.toUiModel(), false) }
@@ -273,8 +273,8 @@ class AddRecipeViewModel @Inject constructor(
     fun onValidate() {
         viewModelScope.launch {
             addRecipeUseCase(state.value.toRecipe()).fold(
-                { eventChannel.send(SaveRecipeSuccess) },
-                { eventChannel.send(SaveRecipeError) }
+                { sideEffectChannel.send(SaveRecipeSuccess) },
+                { sideEffectChannel.send(SaveRecipeError) }
             )
         }
     }
