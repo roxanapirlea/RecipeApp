@@ -10,12 +10,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.detail.ui.ContentView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.LoadingStateView
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 
 @Composable
@@ -59,6 +59,7 @@ fun DetailView(
     ) {
         when (state) {
             DetailViewState.Loading -> LoadingStateView()
+            is DetailViewState.Content -> ContentView(state = state, onAction)
         }
     }
 }
