@@ -23,11 +23,11 @@ fun QuantityType?.toUiModel(): UiQuantityType = when (this) {
     QuantityType.TABLESPOON -> UiQuantityType.Tablespoon
     QuantityType.FLUID_OUNCE -> UiQuantityType.FluidOunce
     QuantityType.GILL -> UiQuantityType.Gill
-    QuantityType.CUP -> UiQuantityType.Gallon
+    QuantityType.CUP -> UiQuantityType.Cup
     QuantityType.PINT -> UiQuantityType.Pint
     QuantityType.QUART -> UiQuantityType.Quart
     QuantityType.GALLON -> UiQuantityType.Gallon
-    QuantityType.LITER -> UiQuantityType.Litter
+    QuantityType.LITER -> UiQuantityType.Liter
     QuantityType.DECILITER -> UiQuantityType.Deciliter
     QuantityType.CENTILITER -> UiQuantityType.Centiliter
     null -> UiQuantityType.None
@@ -57,7 +57,7 @@ fun UiQuantityType.toDomainModel(): QuantityType? = when (this) {
     UiQuantityType.Pint -> QuantityType.PINT
     UiQuantityType.Quart -> QuantityType.QUART
     UiQuantityType.Gallon -> QuantityType.GALLON
-    UiQuantityType.Litter -> QuantityType.LITER
+    UiQuantityType.Liter -> QuantityType.LITER
     UiQuantityType.Deciliter -> QuantityType.DECILITER
     UiQuantityType.Centiliter -> QuantityType.CENTILITER
     UiQuantityType.None -> null

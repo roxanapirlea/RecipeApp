@@ -27,7 +27,7 @@ sealed class UiQuantityType(@StringRes val text: Int) {
     object Pint : UiQuantityType(R.string.all_quantity_pint)
     object Quart : UiQuantityType(R.string.all_quantity_quart)
     object Gallon : UiQuantityType(R.string.all_quantity_gallon)
-    object Litter : UiQuantityType(R.string.all_quantity_liter)
+    object Liter : UiQuantityType(R.string.all_quantity_liter)
     object Deciliter : UiQuantityType(R.string.all_quantity_deciliter)
     object Centiliter : UiQuantityType(R.string.all_quantity_centiliter)
     object None : UiQuantityType(R.string.all_quantity_select)
