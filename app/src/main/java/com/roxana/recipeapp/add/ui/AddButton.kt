@@ -1,12 +1,8 @@
 package com.roxana.recipeapp.add.ui
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -16,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.ui.FlatSecondaryButton
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
@@ -23,15 +20,9 @@ fun AddButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    Button(
-        onClick = { onClick() },
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.secondary,
-            contentColor = MaterialTheme.colors.onSecondary
-        ),
+    FlatSecondaryButton(
+        onClick = onClick,
         modifier = modifier
-            .padding(vertical = 4.dp)
-            .defaultMinSize(48.dp, 48.dp),
     ) {
         Icon(
             Icons.Default.Add,

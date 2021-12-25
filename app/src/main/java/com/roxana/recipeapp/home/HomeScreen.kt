@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.flow
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
+    onNavDetail: (Int) -> Unit,
     onNavAddRecipe: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(homeViewModel.state)
@@ -36,9 +37,7 @@ fun HomeScreen(
     HomeView(state, homeViewModel.sideEffectFlow) { action ->
         when (action) {
             AddRecipe -> onNavAddRecipe()
-            is RecipeDetail -> {
-                // no-op
-            }
+            is RecipeDetail -> onNavDetail(action.id)
         }
     }
 }

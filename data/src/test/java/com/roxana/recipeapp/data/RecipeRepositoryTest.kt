@@ -1,10 +1,13 @@
 package com.roxana.recipeapp.data
 
 import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.Comment
 import com.roxana.recipeapp.domain.model.CreationComment
 import com.roxana.recipeapp.domain.model.CreationIngredient
 import com.roxana.recipeapp.domain.model.CreationInstruction
 import com.roxana.recipeapp.domain.model.CreationRecipe
+import com.roxana.recipeapp.domain.model.Ingredient
+import com.roxana.recipeapp.domain.model.Instruction
 import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.domain.model.RecipeSummary
 import io.kotest.matchers.shouldBe
@@ -17,7 +20,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import com.roxana.recipeapp.data.Comment as DataComment
 import com.roxana.recipeapp.data.Ingredient as DataIngredient
+import com.roxana.recipeapp.data.Instruction as DataInstruction
 import com.roxana.recipeapp.data.Recipe as DataRecipe
 
 internal class RecipeRepositoryTest {
@@ -259,6 +264,50 @@ internal class RecipeRepositoryTest {
             RecipeSummary(1, "recipe 1", listOf(CategoryType.LUNCH, CategoryType.DINNER)),
             RecipeSummary(2, "recipe 2", listOf())
         )
+    }
+
+    @Test
+    fun return_recipe_when_getRecipeById() = runBlocking {
+        // Given
+        val id = 0L
+
+        every { recipeQueries.getById(id).executeAsOne() } returns dataRecipeModel
+        every { categoryForRecipeQueries.getCategoryByRecipeId(id).executeAsList() } returns listOf(
+            GetCategoryByRecipeId(0, DbCategoryType.DINNER, null),
+            GetCategoryByRecipeId(1, null, "custom")
+        )
+        every {
+            ingredientForRecipeQueries.getIngredientByRecipeId(id).executeAsList()
+        } returns listOf(
+            GetIngredientByRecipeId(0, 2.0, DbQuantityType.TABLESPOON, null, "fake ingredient")
+        )
+        every { instructionQueries.getByRecipeId(id).executeAsList() } returns listOf(
+            DataInstruction(0, "fake instruction", 1, 0)
+        )
+        every { commentQueries.getByRecipeId(id).executeAsList() } returns listOf(
+            DataComment(0, "fake comment", 1, 0)
+        )
+        every { DbCategoryType.DINNER.toDomainModel() } returns CategoryType.DINNER
+        every { DbQuantityType.TABLESPOON.toDomainModel() } returns QuantityType.TABLESPOON
+
+        // When
+        val recipe = repository.getRecipeById(id.toInt())
+
+        // Then
+        recipe.id shouldBe dataRecipeModel.id
+        recipe.name shouldBe dataRecipeModel.name
+        recipe.portions shouldBe dataRecipeModel.portions
+        recipe.timeTotal shouldBe dataRecipeModel.time_total
+        recipe.timeCooking shouldBe dataRecipeModel.time_cooking
+        recipe.timeWaiting shouldBe dataRecipeModel.time_waiting
+        recipe.timePreparation shouldBe dataRecipeModel.time_preparation
+        recipe.temperature shouldBe dataRecipeModel.temperature
+        recipe.categories shouldBe listOf(CategoryType.DINNER)
+        recipe.ingredients shouldBe listOf(
+            Ingredient(0, "fake ingredient", 2.0, QuantityType.TABLESPOON)
+        )
+        recipe.instructions shouldBe listOf(Instruction(1, "fake instruction"))
+        recipe.comments shouldBe listOf(Comment(1, "fake comment"))
     }
 
     private val creationRecipeModel = CreationRecipe(

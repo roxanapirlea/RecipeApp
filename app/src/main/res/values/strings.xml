@@ -58,4 +58,21 @@
     <string name="add_recipe_done_description">Save recipe</string>
     <string name="add_recipe_save_error">Could not save recipe</string>
     <string name="add_recipe_save_success">Recipe saved successfully</string>
+    <plurals name="detail_portions">
+        <item quantity="one">(%d serving)</item>
+        <item quantity="other">(%d servings)</item>
+    </plurals>
+    <string name="detail_ingredients">Ingredients</string>
+    <string name="detail_ingredients_empty">No ingredients provided</string>
+    <string name="detail_instructions">Instructions</string>
+    <string name="detail_instructions_empty">No instructions provided</string>
+    <string name="detail_comments">Comments</string>
+    <string name="detail_cooking_time">Cooking time: %d min</string>
+    <string name="detail_preparation_time">Preparation time: %d min</string>
+    <string name="detail_waiting_time">Waiting time: %d min</string>
+    <string name="detail_total_time">Total time: %d min</string>
+    <string name="detail_temperature">Temperature: %d</string>
+    <string name="detail_edit_recipe">Edit recipe</string>
+    <string name="detail_start_cooking">Start cooking</string>
+    <string name="detail_recipe_fetch_error">There was a problem fetching your recipe</string>
 </resources>
