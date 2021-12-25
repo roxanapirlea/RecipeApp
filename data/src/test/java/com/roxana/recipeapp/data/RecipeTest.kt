@@ -125,6 +125,18 @@ class RecipeTest {
         val output = queries.getRecipesSummary().executeAsList()
 
         // Then
-        output.shouldHaveSize(2)
+        output.shouldHaveSize(3)
+    }
+
+    @Test
+    fun getRecipewhen_getRecipesSummary_given_noCategories() {
+        // Given
+        queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6)
+
+        // When
+        val output = queries.getRecipesSummary().executeAsList()
+
+        // Then
+        output.shouldHaveSize(1)
     }
 }

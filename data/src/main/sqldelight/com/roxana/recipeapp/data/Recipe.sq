@@ -23,8 +23,7 @@ ORDER BY name;
 getRecipesSummary:
 SELECT Recipe.id, Recipe.name, CategoryForRecipe.name AS category
 FROM Recipe
-LEFT JOIN CategoryForRecipe ON Recipe.id = CategoryForRecipe.recipe_id
-WHERE CategoryForRecipe.name IS NOT NULL;
+LEFT JOIN CategoryForRecipe ON Recipe.id = CategoryForRecipe.recipe_id;
 
 insert:
 INSERT INTO Recipe(name, photo_path, portions, time_total, time_cooking, time_preparation, time_waiting, temperature)

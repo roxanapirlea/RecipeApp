@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.data
 
+import androidx.annotation.VisibleForTesting
 import com.roxana.recipeapp.domain.RecipeRepository
 import com.roxana.recipeapp.domain.model.CreationRecipe
 import com.roxana.recipeapp.domain.model.RecipeSummary
@@ -61,13 +62,15 @@ class RecipeRepositoryImpl @Inject constructor(
         return recipeQueries.getRecipesSummary()
             .asFlow()
             .mapToList()
-            .map { dbSummaries ->
-                dbSummaries
-                    .groupBy { it.id to it.name }
-                    .map { (pairIdName, summary) ->
-                        val categories = summary.map { it.category.toDomainModel() }
-                        RecipeSummary(pairIdName.first.toInt(), pairIdName.second, categories)
-                    }
-            }
+            .map(::mapSummary)
     }
+
+    @VisibleForTesting
+    fun mapSummary(dbSummaries: List<GetRecipesSummary>): List<RecipeSummary> =
+        dbSummaries
+            .groupBy { it.id to it.name }
+            .map { (pairIdName, summary) ->
+                val categories = summary.mapNotNull { it.category?.toDomainModel() }
+                RecipeSummary(pairIdName.first.toInt(), pairIdName.second, categories)
+            }
 }
