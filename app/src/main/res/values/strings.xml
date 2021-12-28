@@ -31,6 +31,7 @@
     <string name="all_change">Change</string>
     <string name="all_add_new">Add new</string>
     <string name="all_reset">Reset</string>
+    <string name="all_save">Save</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="home_title">@string/app_name</string>
     <string name="home_empty_description_save">Save your favourite recipes</string>
@@ -87,4 +88,5 @@
     <string name="cooking_minus">-</string>
     <string name="cooking_modify_instructions">Modify quantities in instructions</string>
     <string name="cooking_fetch_error">There was a problem retrieving the recipe</string>
+    <string name="add_comment_placeholder">Add comment</string>
 </resources>

@@ -114,4 +114,10 @@ class RecipeRepositoryImpl @Inject constructor(
             temperature = recipe.temperature
         )
     }
+
+    override suspend fun addComment(recipeId: Int, comment: String) {
+        val comments = commentQueries.getByRecipeId(recipeId.toLong()).executeAsList()
+        val nextOrdinal = comments.maxOf { it.ordinal } + 1
+        commentQueries.insert(comment, nextOrdinal.toShort(), recipeId.toLong())
+    }
 }
