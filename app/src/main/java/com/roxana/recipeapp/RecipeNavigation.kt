@@ -10,6 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.roxana.recipeapp.add.AddRecipeScreen
 import com.roxana.recipeapp.add.AddRecipeViewModel
+import com.roxana.recipeapp.cooking.CookingScreen
+import com.roxana.recipeapp.cooking.CookingViewModel
 import com.roxana.recipeapp.detail.DetailScreen
 import com.roxana.recipeapp.detail.DetailViewModel
 import com.roxana.recipeapp.home.HomeScreen
@@ -41,10 +43,29 @@ fun RecipeNavigation() {
         composable(
             route = Screen.RecipeDetail.route,
             arguments = Screen.RecipeDetail.arguments
-        ) {
+        ) { backStackEntry ->
             val detailViewModel = hiltViewModel<DetailViewModel>()
             DetailScreen(
                 detailViewModel = detailViewModel,
+                onStartCooking = {
+                    navController.navigate(
+                        Screen.Cooking.destination(
+                            Screen.Cooking.Arguments(
+                                backStackEntry.arguments!!.getInt(Screen.RecipeDetail.KEY_ID)
+                            )
+                        )
+                    )
+                },
+                onBack = { navController.navigateUp() }
+            )
+        }
+        composable(
+            route = Screen.Cooking.route,
+            arguments = Screen.Cooking.arguments
+        ) {
+            val cookingViewModel = hiltViewModel<CookingViewModel>()
+            CookingScreen(
+                cookingViewModel = cookingViewModel,
                 onBack = { navController.navigateUp() }
             )
         }
@@ -74,6 +95,18 @@ sealed class Screen(val rootRoute: String) {
     }
 
     object RecipeDetail : Screen("detail"), NavRoute, NavDestination<RecipeDetail.Arguments> {
+        const val KEY_ID = "id"
+
+        override val route: String = "$rootRoute/{$KEY_ID}"
+        override val arguments: List<NamedNavArgument> =
+            listOf(navArgument(KEY_ID) { type = NavType.IntType })
+
+        override fun destination(arguments: Arguments): String = "$rootRoute/${arguments.id}"
+
+        data class Arguments(val id: Int)
+    }
+
+    object Cooking : Screen("cooking"), NavRoute, NavDestination<Cooking.Arguments> {
         const val KEY_ID = "id"
 
         override val route: String = "$rootRoute/{$KEY_ID}"
