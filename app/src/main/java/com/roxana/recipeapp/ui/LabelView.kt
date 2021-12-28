@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.detail.ui
+package com.roxana.recipeapp.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -31,7 +31,9 @@ import com.roxana.recipeapp.detail.IngredientState
 import com.roxana.recipeapp.detail.StartCooking
 import com.roxana.recipeapp.detail.TimeState
 import com.roxana.recipeapp.ui.CategoriesView
+import com.roxana.recipeapp.ui.CenteredTitle
 import com.roxana.recipeapp.ui.FlatSecondaryButton
+import com.roxana.recipeapp.ui.LabelView
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
@@ -58,14 +60,9 @@ fun ContentView(
                 )
             }
             item {
-                Text(
+                CenteredTitle(
                     text = state.title,
-                    style = MaterialTheme.typography.h3,
-                    color = MaterialTheme.colors.primary,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 4.dp)
+                    modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
             state.portions?.let { portions ->
