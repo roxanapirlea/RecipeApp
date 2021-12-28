@@ -22,7 +22,8 @@ import kotlinx.coroutines.flow.flow
 fun DetailScreen(
     detailViewModel: DetailViewModel,
     onStartCooking: () -> Unit,
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    onAddComment: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(detailViewModel.state)
         .collectAsState(DetailViewState.Loading)
@@ -31,6 +32,7 @@ fun DetailScreen(
         when (action) {
             StartCooking -> onStartCooking()
             Back -> onBack()
+            AddComment -> onAddComment()
         }
     }
 }
