@@ -30,6 +30,7 @@
     <string name="all_done">Done</string>
     <string name="all_change">Change</string>
     <string name="all_add_new">Add new</string>
+    <string name="all_reset">Reset</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="home_title">@string/app_name</string>
     <string name="home_empty_description_save">Save your favourite recipes</string>
@@ -75,4 +76,15 @@
     <string name="detail_edit_recipe">Edit recipe</string>
     <string name="detail_start_cooking">Start cooking</string>
     <string name="detail_recipe_fetch_error">There was a problem fetching your recipe</string>
+    <string name="cooking_portions">Servings</string>
+    <string name="cooking_time">Time</string>
+    <string name="cooking_time_cooking">Cooking: %d min</string>
+    <string name="cooking_time_waiting">Waiting: %d min</string>
+    <string name="cooking_time_preparation">Preparation: %d min</string>
+    <string name="cooking_time_total">Total: %d min</string>
+    <string name="cooking_edit_by_ingredient">Modify by an ingredient quantity</string>
+    <string name="cooking_plus">+</string>
+    <string name="cooking_minus">-</string>
+    <string name="cooking_modify_instructions">Modify quantities in instructions</string>
+    <string name="cooking_fetch_error">There was a problem retrieving the recipe</string>
 </resources>
