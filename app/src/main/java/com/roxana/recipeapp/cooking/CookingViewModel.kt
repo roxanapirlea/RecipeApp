@@ -33,18 +33,24 @@ class CookingViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val recipeId: Int = savedStateHandle.get(Screen.Cooking.KEY_ID)!!
+            val quantityMultiplier: Double = savedStateHandle.get<String>(
+                Screen.Cooking.KEY_PORTIONS_MULTIPLIER
+            )?.toDoubleOrNull() ?: 1.0
             getRecipeByIdUseCase(recipeId).fold(
                 { recipe ->
+                    val nonNullPortions = recipe.portions?.toDouble() ?: 1.0
                     val content = CookingViewState.Content(
                         title = recipe.name,
                         portions = recipe.portions,
-                        selectedPortions = recipe.portions?.toDouble() ?: 1.0,
+                        selectedPortions = nonNullPortions * quantityMultiplier,
                         ingredients = recipe.ingredients.map {
+                            val quantityForSelectedPortions =
+                                it.quantity?.let { quantity -> quantity * quantityMultiplier }
                             IngredientState(
                                 it.id,
                                 it.name,
                                 it.quantity,
-                                it.quantity,
+                                quantityForSelectedPortions,
                                 it.quantityType.toUiModel()
                             )
                         },

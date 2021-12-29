@@ -30,5 +30,5 @@ sealed class UiQuantityType(@StringRes val text: Int) {
     object Liter : UiQuantityType(R.string.all_quantity_liter)
     object Deciliter : UiQuantityType(R.string.all_quantity_deciliter)
     object Centiliter : UiQuantityType(R.string.all_quantity_centiliter)
-    object None : UiQuantityType(R.string.all_quantity_select)
+    object None : UiQuantityType(R.string.all_select)
 }

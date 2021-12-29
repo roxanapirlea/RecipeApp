@@ -18,6 +18,8 @@ import com.roxana.recipeapp.comment.AddCommentScreen
 import com.roxana.recipeapp.comment.AddCommentViewModel
 import com.roxana.recipeapp.cooking.CookingScreen
 import com.roxana.recipeapp.cooking.CookingViewModel
+import com.roxana.recipeapp.cooking.ingredients.VaryIngredientsScreen
+import com.roxana.recipeapp.cooking.ingredients.VaryIngredientsViewModel
 import com.roxana.recipeapp.detail.DetailScreen
 import com.roxana.recipeapp.detail.DetailViewModel
 import com.roxana.recipeapp.home.HomeScreen
@@ -93,6 +95,15 @@ fun RecipeNavigation() {
                                 )
                             )
                         )
+                    },
+                    onVaryIngredient = {
+                        navController.navigate(
+                            Screen.VaryIngredientQuantities.destination(
+                                Screen.VaryIngredientQuantities.Arguments(
+                                    backStackEntry.arguments!!.getInt(Screen.Cooking.KEY_ID)
+                                )
+                            )
+                        )
                     }
                 )
             }
@@ -105,6 +116,22 @@ fun RecipeNavigation() {
                     addCommentViewModel = addCommentViewModel,
                     onBack = { navController.navigateUp() }
                 )
+            }
+            bottomSheet(
+                route = Screen.VaryIngredientQuantities.route,
+                arguments = Screen.VaryIngredientQuantities.arguments
+            ) {
+                val varyIngredientsViewModel = hiltViewModel<VaryIngredientsViewModel>()
+                VaryIngredientsScreen(
+                    varyIngredientsViewModel = varyIngredientsViewModel
+                ) { quantityMultiplier, recipeId ->
+                    navController.popBackStack(Screen.Cooking.route, true)
+                    navController.navigate(
+                        Screen.Cooking.destination(
+                            Screen.Cooking.Arguments(recipeId, quantityMultiplier.toString())
+                        )
+                    )
+                }
             }
         }
     }
@@ -146,6 +173,27 @@ sealed class Screen(val rootRoute: String) {
 
     object Cooking : Screen("cooking"), NavRoute, NavDestination<Cooking.Arguments> {
         const val KEY_ID = "id"
+        const val KEY_PORTIONS_MULTIPLIER = "portions_multiplier"
+
+        override val route: String =
+            "$rootRoute/{$KEY_ID}?$KEY_PORTIONS_MULTIPLIER={$KEY_PORTIONS_MULTIPLIER}"
+        override val arguments: List<NamedNavArgument> =
+            listOf(
+                navArgument(KEY_ID) { type = NavType.IntType },
+                navArgument(KEY_PORTIONS_MULTIPLIER) { type = NavType.StringType }
+            )
+
+        override fun destination(arguments: Arguments): String =
+            "$rootRoute/${arguments.id}?$KEY_PORTIONS_MULTIPLIER=${arguments.portionsMultiplier}"
+
+        data class Arguments(val id: Int, val portionsMultiplier: String = "1")
+    }
+
+    object AddComment :
+        Screen("add_comment"),
+        NavRoute,
+        NavDestination<AddComment.Arguments> {
+        const val KEY_ID = "id"
 
         override val route: String = "$rootRoute/{$KEY_ID}"
         override val arguments: List<NamedNavArgument> =
@@ -156,15 +204,15 @@ sealed class Screen(val rootRoute: String) {
         data class Arguments(val id: Int)
     }
 
-    object AddComment :
-        Screen("add_comment"),
+    object VaryIngredientQuantities :
+        Screen("ingredient_quantities"),
         NavRoute,
-        NavDestination<AddComment.Arguments> {
-        const val KEY_ID = "id"
+        NavDestination<VaryIngredientQuantities.Arguments> {
+        const val KEY_RECIPE_ID = "recipe_id"
 
-        override val route: String = "$rootRoute/{${KEY_ID}}"
+        override val route: String = "$rootRoute/{$KEY_RECIPE_ID}"
         override val arguments: List<NamedNavArgument> =
-            listOf(navArgument(KEY_ID) { type = NavType.IntType })
+            listOf(navArgument(KEY_RECIPE_ID) { type = NavType.IntType })
 
         override fun destination(arguments: Arguments): String = "$rootRoute/${arguments.id}"
 

@@ -8,7 +8,8 @@
     <string name="all_category_side">Side</string>
     <string name="all_category_dessert">Dessert</string>
     <string name="all_category_drink">Drink</string>
-    <string name="all_quantity_select">Select…</string>
+    <string name="all_select">Select…</string>
+    <string name="all_validate">Validate</string>
     <string name="all_quantity_pound">lb</string>
     <string name="all_quantity_ounce">oz</string>
     <string name="all_quantity_g">g</string>
@@ -89,4 +90,6 @@
     <string name="cooking_modify_instructions">Modify quantities in instructions</string>
     <string name="cooking_fetch_error">There was a problem retrieving the recipe</string>
     <string name="add_comment_placeholder">Add comment</string>
+    <string name="vary_ingredients_type_hint">Ingredient</string>
+    <string name="vary_ingredients_label">%s(%s)</string>
 </resources>

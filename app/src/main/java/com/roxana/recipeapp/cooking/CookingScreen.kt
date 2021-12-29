@@ -23,7 +23,8 @@ import kotlinx.coroutines.flow.flow
 fun CookingScreen(
     cookingViewModel: CookingViewModel,
     onBack: () -> Unit = {},
-    onAddComment: () -> Unit = {}
+    onAddComment: () -> Unit = {},
+    onVaryIngredient: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(cookingViewModel.state)
         .collectAsState(CookingViewState.Loading)
@@ -38,7 +39,7 @@ fun CookingScreen(
                 cookingViewModel.toggleIngredientCheck(action.ingredientId, action.isChecked)
             is ToggleInstructionCheck ->
                 cookingViewModel.toggleInstructionCheck(action.instructionId, action.isChecked)
-            ModifyQuantitiesByIngredient -> { /*TODO*/ }
+            ModifyQuantitiesByIngredient -> onVaryIngredient()
             AddComment -> onAddComment()
         }
     }
