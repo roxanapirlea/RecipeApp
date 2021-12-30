@@ -21,14 +21,18 @@ import kotlinx.coroutines.flow.flow
 @Composable
 fun DetailScreen(
     detailViewModel: DetailViewModel,
-    onBack: () -> Unit = {}
+    onStartCooking: () -> Unit,
+    onBack: () -> Unit = {},
+    onAddComment: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(detailViewModel.state)
         .collectAsState(DetailViewState.Loading)
 
     DetailView(state, detailViewModel.sideEffectFlow) { action ->
         when (action) {
+            StartCooking -> onStartCooking()
             Back -> onBack()
+            AddComment -> onAddComment()
         }
     }
 }

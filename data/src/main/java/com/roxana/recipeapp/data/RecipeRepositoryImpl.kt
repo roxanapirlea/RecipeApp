@@ -10,7 +10,9 @@ import com.roxana.recipeapp.domain.model.Recipe
 import com.roxana.recipeapp.domain.model.RecipeSummary
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
+import com.squareup.sqldelight.runtime.coroutines.mapToOne
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -80,38 +82,62 @@ class RecipeRepositoryImpl @Inject constructor(
 
     override suspend fun getRecipeById(id: Int): Recipe {
         val recipe = recipeQueries.getById(id.toLong()).executeAsOne()
-        val categories = categoryForRecipeQueries.getCategoryByRecipeId(id.toLong())
-            .executeAsList()
-            .mapNotNull { it.name?.toDomainModel() }
+        val categories = categoryForRecipeQueries.getCategoryByRecipeId(id.toLong()).executeAsList()
         val ingredients = ingredientForRecipeQueries.getIngredientByRecipeId(id.toLong())
             .executeAsList()
-            .map {
-                Ingredient(
-                    it.id.toInt(),
-                    it.ingredient_name,
-                    it.quantity,
-                    it.quantity_name.toDomainModel()
-                )
-            }
-        val instructions = instructionQueries.getByRecipeId(id.toLong())
-            .executeAsList()
-            .map { Instruction(it.ordinal, it.details) }
-        val comments = commentQueries.getByRecipeId(id.toLong())
-            .executeAsList()
-            .map { Comment(it.ordinal, it.name) }
+        val instructions = instructionQueries.getByRecipeId(id.toLong()).executeAsList()
+        val comments = commentQueries.getByRecipeId(id.toLong()).executeAsList()
+        return mapRecipe(recipe, categories, ingredients, instructions, comments)
+    }
+
+    override fun getRecipeByIdAsFlow(id: Int): Flow<Recipe> {
+        return combine(
+            recipeQueries.getById(id.toLong()).asFlow().mapToOne(),
+            categoryForRecipeQueries.getCategoryByRecipeId(id.toLong()).asFlow().mapToList(),
+            ingredientForRecipeQueries.getIngredientByRecipeId(id.toLong()).asFlow().mapToList(),
+            instructionQueries.getByRecipeId(id.toLong()).asFlow().mapToList(),
+            commentQueries.getByRecipeId(id.toLong()).asFlow().mapToList(),
+            ::mapRecipe
+        )
+    }
+
+    private fun mapRecipe(
+        dataRecipe: com.roxana.recipeapp.data.Recipe,
+        dataCategories: List<GetCategoryByRecipeId>,
+        dataIngredients: List<GetIngredientByRecipeId>,
+        dataInstructions: List<com.roxana.recipeapp.data.Instruction>,
+        dataComments: List<com.roxana.recipeapp.data.Comment>
+    ): Recipe {
+        val categories = dataCategories.mapNotNull { it.name?.toDomainModel() }
+        val ingredients = dataIngredients.map {
+            Ingredient(
+                it.id.toInt(),
+                it.ingredient_name,
+                it.quantity,
+                it.quantity_name.toDomainModel()
+            )
+        }
+        val instructions = dataInstructions.map { Instruction(it.ordinal, it.details) }
+        val comments = dataComments.map { Comment(it.ordinal, it.name) }
         return Recipe(
-            id = recipe.id.toInt(),
-            name = recipe.name,
-            portions = recipe.portions,
+            id = dataRecipe.id.toInt(),
+            name = dataRecipe.name,
+            portions = dataRecipe.portions,
             categories = categories,
             ingredients = ingredients,
             instructions = instructions,
             comments = comments,
-            timeTotal = recipe.time_total,
-            timeCooking = recipe.time_cooking,
-            timeWaiting = recipe.time_waiting,
-            timePreparation = recipe.time_preparation,
-            temperature = recipe.temperature
+            timeTotal = dataRecipe.time_total,
+            timeCooking = dataRecipe.time_cooking,
+            timeWaiting = dataRecipe.time_waiting,
+            timePreparation = dataRecipe.time_preparation,
+            temperature = dataRecipe.temperature
         )
+    }
+
+    override suspend fun addComment(recipeId: Int, comment: String) {
+        val comments = commentQueries.getByRecipeId(recipeId.toLong()).executeAsList()
+        val nextOrdinal = comments.maxOf { it.ordinal } + 1
+        commentQueries.insert(comment, nextOrdinal.toShort(), recipeId.toLong())
     }
 }

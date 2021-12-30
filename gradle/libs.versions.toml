@@ -1,4 +1,5 @@
 [versions]
+accompanist = "0.22.0-rc"
 androidxActivity = "1.4.0"
 androidxAppCompat = "1.4.0"
 androidxCoreKtx = "1.7.0"
@@ -25,6 +26,8 @@ pluginVersions = "0.39.0"
 sqlDelight = "1.5.3"
 
 [libraries]
+accompanist-bottomSheet = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "accompanist" }
+
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 androidx-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppCompat" }
 androidx-coreKtx = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtx" }

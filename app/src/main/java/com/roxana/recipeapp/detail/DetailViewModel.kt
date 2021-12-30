@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.Screen
-import com.roxana.recipeapp.domain.detail.GetRecipeByIdUseCase
+import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val getRecipeByIdUseCase: GetRecipeByIdUseCase
+    private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase
 ) : ViewModel() {
     @VisibleForTesting
     val _state = MutableStateFlow<DetailViewState>(DetailViewState.Loading)
@@ -31,35 +31,38 @@ class DetailViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val recipeId: Int = savedStateHandle.get(Screen.RecipeDetail.KEY_ID)!!
-            getRecipeByIdUseCase(recipeId).fold(
-                { recipe ->
-                    val content = DetailViewState.Content(
-                        title = recipe.name,
-                        categories = recipe.categories.map { it.toUiModel() },
-                        portions = recipe.portions,
-                        ingredients = recipe.ingredients.map {
-                            IngredientState(
-                                it.name,
-                                it.quantity,
-                                it.quantityType.toUiModel()
-                            )
-                        },
-                        instructions = recipe.instructions.sortedBy { it.ordinal }.map { it.name },
-                        comments = recipe.comments.sortedBy { it.ordinal }.map { it.name },
-                        time = TimeState(
-                            total = recipe.timeTotal,
-                            cooking = recipe.timeCooking,
-                            waiting = recipe.timeWaiting,
-                            preparation = recipe.timePreparation
-                        ),
-                        temperature = recipe.temperature
-                    )
-                    _state.value = content
-                },
-                {
-                    sideEffectChannel.send(FetchingError)
-                }
-            )
+            getRecipeByIdUseCase(recipeId).collect { result ->
+                result.fold(
+                    { recipe ->
+                        val content = DetailViewState.Content(
+                            title = recipe.name,
+                            categories = recipe.categories.map { it.toUiModel() },
+                            portions = recipe.portions,
+                            ingredients = recipe.ingredients.map {
+                                IngredientState(
+                                    it.name,
+                                    it.quantity,
+                                    it.quantityType.toUiModel()
+                                )
+                            },
+                            instructions = recipe.instructions.sortedBy { it.ordinal }
+                                .map { it.name },
+                            comments = recipe.comments.sortedBy { it.ordinal }.map { it.name },
+                            time = TimeState(
+                                total = recipe.timeTotal,
+                                cooking = recipe.timeCooking,
+                                waiting = recipe.timeWaiting,
+                                preparation = recipe.timePreparation
+                            ),
+                            temperature = recipe.temperature
+                        )
+                        _state.value = content
+                    },
+                    {
+                        sideEffectChannel.send(FetchingError)
+                    }
+                )
+            }
         }
     }
 }

@@ -62,6 +62,8 @@ dependencies {
 
     implementation libs.androidx.navCompose
 
+    implementation libs.accompanist.bottomSheet
+
     implementation libs.androidx.lifecycle
     implementation libs.androidx.activityCompose
     implementation libs.androidx.lifecycleVm
