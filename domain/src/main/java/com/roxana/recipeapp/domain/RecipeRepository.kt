@@ -9,5 +9,6 @@ interface RecipeRepository {
     suspend fun addRecipe(recipe: CreationRecipe)
     fun getRecipesSummary(): Flow<List<RecipeSummary>>
     suspend fun getRecipeById(id: Int): Recipe
+    fun getRecipeByIdAsFlow(id: Int): Flow<Recipe>
     suspend fun addComment(recipeId: Int, comment: String)
 }

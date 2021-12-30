@@ -2,7 +2,7 @@ package com.roxana.recipeapp.detail
 
 import androidx.lifecycle.SavedStateHandle
 import com.roxana.recipeapp.Screen.RecipeDetail.KEY_ID
-import com.roxana.recipeapp.domain.detail.GetRecipeByIdUseCase
+import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.Comment
 import com.roxana.recipeapp.domain.model.Ingredient
@@ -16,10 +16,10 @@ import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainInOrder
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import org.junit.Rule
 import org.junit.Test
 
@@ -30,7 +30,7 @@ class DetailViewModelTest {
     var mainCoroutineRule = MainCoroutineRule()
 
     private val savedStateHandle: SavedStateHandle = mockk(relaxed = true)
-    private val getRecipeByIdUseCase: GetRecipeByIdUseCase = mockk(relaxed = true)
+    private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase = mockk(relaxed = true)
     private lateinit var viewModel: DetailViewModel
 
     @Test
@@ -52,7 +52,7 @@ class DetailViewModelTest {
             timePreparation = 1,
             temperature = 150
         )
-        coEvery { getRecipeByIdUseCase(recipeId) } returns Result.success(recipeModel)
+        every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
 
         // When
         viewModel = DetailViewModel(savedStateHandle, getRecipeByIdUseCase)
@@ -89,7 +89,7 @@ class DetailViewModelTest {
             timePreparation = 1,
             temperature = 150
         )
-        coEvery { getRecipeByIdUseCase(recipeId) } returns Result.success(recipeModel)
+        every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
 
         // When
         viewModel = DetailViewModel(savedStateHandle, getRecipeByIdUseCase)
@@ -119,7 +119,7 @@ class DetailViewModelTest {
             timePreparation = 1,
             temperature = 150
         )
-        coEvery { getRecipeByIdUseCase(recipeId) } returns Result.success(recipeModel)
+        every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
 
         // When
         viewModel = DetailViewModel(savedStateHandle, getRecipeByIdUseCase)
