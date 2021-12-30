@@ -224,7 +224,7 @@ fun AddRecipeView(
 
             item {
                 RecipePartLabel(
-                    text = stringResource(id = R.string.add_recipe_ingredients),
+                    text = stringResource(id = R.string.all_ingredients),
                     image = R.drawable.ic_ingredients,
                     modifier = Modifier.padding(padding)
                 )
@@ -259,7 +259,7 @@ fun AddRecipeView(
 
             item {
                 RecipePartLabel(
-                    text = stringResource(id = R.string.add_recipe_instructions),
+                    text = stringResource(id = R.string.all_instructions),
                     image = R.drawable.ic_instructions,
                     modifier = Modifier.padding(padding)
                 )
@@ -331,7 +331,7 @@ fun AddRecipeView(
 
             item {
                 RecipePartLabel(
-                    text = stringResource(id = R.string.add_recipe_comments),
+                    text = stringResource(id = R.string.all_comments),
                     image = R.drawable.ic_comment,
                     modifier = Modifier.padding(padding)
                 )
