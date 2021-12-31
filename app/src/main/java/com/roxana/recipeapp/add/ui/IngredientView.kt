@@ -68,10 +68,7 @@ fun IngredientText(
             .defaultMinSize(48.dp, 48.dp)
     ) {
         val quantity = ingredient.quantity.value?.toFormattedString() ?: ""
-        val quantityType =
-            if (ingredient.quantityType is UiQuantityType.None)
-                ""
-            else stringResource(ingredient.quantityType.text)
+        val quantityType = stringResource(ingredient.quantityType.textForSelected)
         val formattedIngredient =
             stringResource(
                 R.string.all_ingredient_placeholders,

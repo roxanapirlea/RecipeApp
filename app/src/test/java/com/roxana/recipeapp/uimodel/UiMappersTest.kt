@@ -382,6 +382,18 @@ class UiMappersTest {
     }
 
     @Test
+    fun setUiQuantityTypeMilliliter_when_QuantityTypeMilliliter() {
+        // Given
+        val quantityType = QuantityType.MILLILITER
+
+        // When
+        val uiQuantityType = quantityType.toUiModel()
+
+        // Then
+        uiQuantityType shouldBe UiQuantityType.Milliliter
+    }
+
+    @Test
     fun setUiQuantityTypeNone_when_QuantityTypeNull() {
         // Given
         val quantityType = null
@@ -571,6 +583,18 @@ class UiMappersTest {
 
         // Then
         quantityType shouldBe QuantityType.CENTILITER
+    }
+
+    @Test
+    fun setQuantityTypeMilliliter_when_UiQuantityTypeMilliliter() {
+        // Given
+        val uiQuantityType = UiQuantityType.Milliliter
+
+        // When
+        val quantityType = uiQuantityType.toDomainModel()
+
+        // Then
+        quantityType shouldBe QuantityType.MILLILITER
     }
 
     @Test

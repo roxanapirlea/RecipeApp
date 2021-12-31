@@ -15,5 +15,6 @@ enum class DbQuantityType {
     GALLON,
     LITER,
     DECILITER,
-    CENTILITER
+    CENTILITER,
+    MILLILITER
 }

@@ -30,6 +30,7 @@ fun QuantityType?.toDataModel(): DbQuantityType? = when (this) {
     QuantityType.LITER -> DbQuantityType.LITER
     QuantityType.DECILITER -> DbQuantityType.DECILITER
     QuantityType.CENTILITER -> DbQuantityType.CENTILITER
+    QuantityType.MILLILITER -> DbQuantityType.MILLILITER
     null -> null
 }
 
@@ -60,5 +61,6 @@ fun DbQuantityType?.toDomainModel(): QuantityType? = when (this) {
     DbQuantityType.LITER -> QuantityType.LITER
     DbQuantityType.DECILITER -> QuantityType.DECILITER
     DbQuantityType.CENTILITER -> QuantityType.CENTILITER
+    DbQuantityType.MILLILITER -> QuantityType.MILLILITER
     null -> null
 }

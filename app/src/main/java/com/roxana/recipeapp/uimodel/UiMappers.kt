@@ -31,6 +31,7 @@ fun QuantityType?.toUiModel(): UiQuantityType = when (this) {
     QuantityType.LITER -> UiQuantityType.Liter
     QuantityType.DECILITER -> UiQuantityType.Deciliter
     QuantityType.CENTILITER -> UiQuantityType.Centiliter
+    QuantityType.MILLILITER -> UiQuantityType.Milliliter
     null -> UiQuantityType.None
 }
 
@@ -66,6 +67,7 @@ fun UiQuantityType.toDomainModel(): QuantityType? = when (this) {
     UiQuantityType.Liter -> QuantityType.LITER
     UiQuantityType.Deciliter -> QuantityType.DECILITER
     UiQuantityType.Centiliter -> QuantityType.CENTILITER
+    UiQuantityType.Milliliter -> QuantityType.MILLILITER
     UiQuantityType.None -> null
 }
 

@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.FlatSecondaryButton
-import com.roxana.recipeapp.uimodel.UiQuantityType
 
 @Composable
 fun VaryIngredientsScreen(
@@ -68,10 +67,7 @@ fun VaryIngredientsScreen(
             onIngredientIdSelected = varyIngredientsViewModel::onIngredientSelected
         )
         state.updatedIngredient?.let { ingredient ->
-            val quantityTypeText =
-                if (ingredient.quantityType is UiQuantityType.None)
-                    ""
-                else stringResource(ingredient.quantityType.text)
+            val quantityTypeText = stringResource(ingredient.quantityType.textForSelected)
             OutlinedTextField(
                 value = ingredient.quantityText,
                 onValueChange = varyIngredientsViewModel::onIngredientQuantityChanged,

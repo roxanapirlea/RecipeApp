@@ -26,7 +26,8 @@ enum class QuantityType {
     GALLON,
     LITER,
     DECILITER,
-    CENTILITER
+    CENTILITER,
+    MILLILITER
 }
 
 enum class Temperature { CELSIUS, FAHRENHEIT }

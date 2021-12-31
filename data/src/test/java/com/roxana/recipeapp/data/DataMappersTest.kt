@@ -283,6 +283,18 @@ class DataMappersTest {
     }
 
     @Test
+    fun return_milliliter_when_quantityToDataModel_given_milliliterDomainModel() {
+        // Given
+        val model = QuantityType.MILLILITER
+
+        // When
+        val dataModel = model.toDataModel()
+
+        // Then
+        dataModel shouldBe DbQuantityType.MILLILITER
+    }
+
+    @Test
     fun return_null_when_quantityToDataModel_given_nullDomainModel() {
         // Given
         val model: QuantityType? = null
@@ -388,5 +400,209 @@ class DataMappersTest {
 
         // Then
         dataModel shouldBe CategoryType.DRINK
+    }
+
+    @Test
+    fun return_pound_when_quantityToDomainModel_given_poundDataModel() {
+        // Given
+        val dataModel = DbQuantityType.POUND
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.POUND
+    }
+
+    @Test
+    fun return_ounce_when_quantityToDomainModel_given_ounceDataModel() {
+        // Given
+        val dataModel = DbQuantityType.OUNCE
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.OUNCE
+    }
+
+    @Test
+    fun return_gram_when_quantityToDomainModel_given_gramDataModel() {
+        // Given
+        val dataModel = DbQuantityType.GRAM
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.GRAM
+    }
+
+    @Test
+    fun return_kilogram_when_quantityToDomainModel_given_kilogramDataModel() {
+        // Given
+        val dataModel = DbQuantityType.KILOGRAM
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.KILOGRAM
+    }
+
+    @Test
+    fun return_teaspoon_when_quantityToDomainModel_given_teaspoonDataModel() {
+        // Given
+        val dataModel = DbQuantityType.TEASPOON
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.TEASPOON
+    }
+
+    @Test
+    fun return_tablespoon_when_quantityToDomainModel_given_tablespoonDataModel() {
+        // Given
+        val dataModel = DbQuantityType.TABLESPOON
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.TABLESPOON
+    }
+
+    @Test
+    fun return_FluidOunce_when_quantityToDomainModel_given_FluidOunceDataModel() {
+        // Given
+        val dataModel = DbQuantityType.FLUID_OUNCE
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.FLUID_OUNCE
+    }
+
+    @Test
+    fun return_gill_when_quantityToDomainModel_given_gillDataModel() {
+        // Given
+        val dataModel = DbQuantityType.GILL
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.GILL
+    }
+
+    @Test
+    fun return_cup_when_quantityToDomainModel_given_cupDataModel() {
+        // Given
+        val dataModel = DbQuantityType.CUP
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.CUP
+    }
+
+    @Test
+    fun return_pint_when_quantityToDomainModel_given_pintDataModel() {
+        // Given
+        val dataModel = DbQuantityType.PINT
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.PINT
+    }
+
+    @Test
+    fun return_quart_when_quantityToDomainModel_given_quartDataModel() {
+        // Given
+        val dataModel = DbQuantityType.QUART
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.QUART
+    }
+
+    @Test
+    fun return_gallon_when_quantityToDomainModel_given_gallonDataModel() {
+        // Given
+        val dataModel = DbQuantityType.GALLON
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.GALLON
+    }
+
+    @Test
+    fun return_liter_when_quantityToDomainModel_given_literDataModel() {
+        // Given
+        val dataModel = DbQuantityType.LITER
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.LITER
+    }
+
+    @Test
+    fun return_deciliter_when_quantityToDomainModel_given_deciliterDataModel() {
+        // Given
+        val dataModel = DbQuantityType.DECILITER
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.DECILITER
+    }
+
+    @Test
+    fun return_centiliter_when_quantityToDomainModel_given_centiliterDataModel() {
+        // Given
+        val dataModel = DbQuantityType.CENTILITER
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.CENTILITER
+    }
+
+    @Test
+    fun return_milliliter_when_quantityToDomainModel_given_milliliterDataModel() {
+        // Given
+        val dataModel = DbQuantityType.MILLILITER
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe QuantityType.MILLILITER
+    }
+
+    @Test
+    fun return_null_when_quantityToDomainModel_given_nullDataModel() {
+        // Given
+        val model: QuantityType? = null
+
+        // When
+        val dataModel = model.toDataModel()
+
+        // Then
+        dataModel shouldBe null
     }
 }

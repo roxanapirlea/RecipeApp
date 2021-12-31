@@ -8,7 +8,6 @@ import com.roxana.recipeapp.R
 import com.roxana.recipeapp.cooking.IngredientState
 import com.roxana.recipeapp.misc.toFormattedString
 import com.roxana.recipeapp.ui.CheckableItem
-import com.roxana.recipeapp.uimodel.UiQuantityType
 
 @Composable
 fun IngredientView(
@@ -17,10 +16,7 @@ fun IngredientView(
     onCheckChanged: (Boolean) -> Unit = {}
 ) {
     val quantity = ingredient.quantityForSelectedPortion?.toFormattedString() ?: ""
-    val quantityType =
-        if (ingredient.quantityType is UiQuantityType.None)
-            ""
-        else stringResource(ingredient.quantityType.text)
+    val quantityType = stringResource(ingredient.quantityType.textForSelected)
     val formattedIngredient =
         if (ingredient.quantityForSelectedPortion == null)
             ingredient.name

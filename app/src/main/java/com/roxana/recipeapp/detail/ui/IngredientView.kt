@@ -20,10 +20,7 @@ fun IngredientView(
     modifier: Modifier = Modifier
 ) {
     val quantity = ingredient.quantity?.toFormattedString() ?: ""
-    val quantityType =
-        if (ingredient.quantityType is UiQuantityType.None)
-            ""
-        else stringResource(ingredient.quantityType.text)
+    val quantityType = stringResource(ingredient.quantityType.textForSelected)
     val formattedIngredient =
         if (ingredient.quantity == null)
             ingredient.name
