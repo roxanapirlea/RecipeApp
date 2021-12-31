@@ -110,4 +110,7 @@
     <string name="add_comment_placeholder">Adaugă un comentariu</string>
     <string name="vary_ingredients_type_hint">Ingredient</string>
     <string name="vary_ingredients_label">%1$s(%2$s)</string>
+    <string name="settings_temperature_unit">Temperatura</string>
+    <string name="settings_measuring_units">Unități de măsură</string>
+    <string name="settings_measuring_units_detail">Alege unitățile care vor fi disponibile când modifici sau adaugi o nouă rețetă</string>
 </resources>

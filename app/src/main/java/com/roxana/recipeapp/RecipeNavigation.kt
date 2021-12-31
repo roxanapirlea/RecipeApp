@@ -44,6 +44,13 @@ fun RecipeNavigation() {
                     onNavAddRecipe = { navController.navigate(Screen.AddRecipe.destination(null)) }
                 )
             }
+            composable(route = Screen.Settings.route) {
+                val settingsViewModel = hiltViewModel<SettingsViewModel>()
+                SettingsScreen(
+                    settingsViewModel = settingsViewModel,
+                    onBack = { navController.navigateUp() }
+                )
+            }
             composable(route = Screen.AddRecipe.route) {
                 val addRecipeViewModel = hiltViewModel<AddRecipeViewModel>()
                 AddRecipeScreen(
@@ -148,6 +155,12 @@ interface NavDestination<T> {
 
 sealed class Screen(val rootRoute: String) {
     object Home : Screen("home"), NavRoute, NavDestination<Any?> {
+        override val route: String = rootRoute
+        override val arguments: List<NamedNavArgument> = emptyList()
+        override fun destination(arguments: Any?): String = rootRoute
+    }
+
+    object Settings : Screen("settings"), NavRoute, NavDestination<Any?> {
         override val route: String = rootRoute
         override val arguments: List<NamedNavArgument> = emptyList()
         override fun destination(arguments: Any?): String = rootRoute

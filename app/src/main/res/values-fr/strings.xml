@@ -110,4 +110,7 @@
     <string name="add_comment_placeholder">Ajouter un commentaire</string>
     <string name="vary_ingredients_type_hint">Ingrédient</string>
     <string name="vary_ingredients_label">%1$s(%2$s)</string>
+    <string name="settings_temperature_unit">Température</string>
+    <string name="settings_measuring_units">Unités de mesure</string>
+    <string name="settings_measuring_units_detail">Choisis les unités qui seront disponibles lors de l\'ajout d\'une nouvelle recette ou de la modification d\'une recette existante</string>
 </resources>

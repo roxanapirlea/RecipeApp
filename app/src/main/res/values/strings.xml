@@ -109,4 +109,7 @@
     <string name="add_comment_placeholder">Add comment</string>
     <string name="vary_ingredients_type_hint">Ingredient</string>
     <string name="vary_ingredients_label">%1$s(%2$s)</string>
+    <string name="settings_temperature_unit">Temperature</string>
+    <string name="settings_measuring_units">Measuring units</string>
+    <string name="settings_measuring_units_detail">Choose the units that will be available when adding a new recipe or editing an existing one</string>
 </resources>
