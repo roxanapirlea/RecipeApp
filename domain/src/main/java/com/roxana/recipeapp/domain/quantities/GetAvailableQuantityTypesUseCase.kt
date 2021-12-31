@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.domain.addrecipe
+package com.roxana.recipeapp.domain.quantities
 
 import com.roxana.recipeapp.domain.base.BaseSuspendableUseCase
 import com.roxana.recipeapp.domain.model.QuantityType

@@ -2,9 +2,9 @@ package com.roxana.recipeapp.add
 
 import com.roxana.recipeapp.domain.addrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
-import com.roxana.recipeapp.domain.addrecipe.GetAvailableQuantityTypesUseCase
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.QuantityType
+import com.roxana.recipeapp.domain.quantities.GetAvailableQuantityTypesUseCase
 import com.roxana.recipeapp.helpers.MainCoroutineRule
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType

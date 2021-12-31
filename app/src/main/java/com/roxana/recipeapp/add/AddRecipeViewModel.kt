@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.addrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
-import com.roxana.recipeapp.domain.addrecipe.GetAvailableQuantityTypesUseCase
+import com.roxana.recipeapp.domain.quantities.GetAvailableQuantityTypesUseCase
 import com.roxana.recipeapp.misc.toNotNull
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
