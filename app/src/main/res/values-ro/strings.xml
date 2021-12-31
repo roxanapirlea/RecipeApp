@@ -37,6 +37,8 @@
     <string name="all_quantity_quart">qt</string>
     <string name="all_quantity_tablespoon">lingură</string>
     <string name="all_quantity_teaspoon">linguriță</string>
+    <string name="all_temperature_celsius">ºC</string>
+    <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
     <string name="home_empty_description_save">Salvează-ți rețetele favorite</string>
     <string name="home_empty_description_instructions">Urmează instrucțiunile pas cu pas</string>

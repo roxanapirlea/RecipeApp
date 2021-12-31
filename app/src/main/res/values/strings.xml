@@ -37,6 +37,8 @@
     <string name="all_quantity_quart">qt</string>
     <string name="all_quantity_tablespoon">tbsp</string>
     <string name="all_quantity_teaspoon">tsp</string>
+    <string name="all_temperature_celsius">ºC</string>
+    <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
     <string name="home_empty_description_save">Save your favourite recipes</string>
     <string name="home_empty_description_instructions">Follow the instructions step by step</string>

@@ -28,3 +28,5 @@ enum class QuantityType {
     DECILITER,
     CENTILITER
 }
+
+enum class Temperature { CELSIUS, FAHRENHEIT }

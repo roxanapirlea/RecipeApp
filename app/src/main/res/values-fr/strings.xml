@@ -37,6 +37,8 @@
     <string name="all_quantity_quart">qt</string>
     <string name="all_quantity_tablespoon">cuillère à soupe</string>
     <string name="all_quantity_teaspoon">cuillère à café</string>
+    <string name="all_temperature_celsius">ºC</string>
+    <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
     <string name="home_empty_description_save">Enregistre tes recettes préférées</string>
     <string name="home_empty_description_instructions">Suis les instructions étape par étape</string>

@@ -32,3 +32,8 @@ sealed class UiQuantityType(@StringRes val text: Int) {
     object Centiliter : UiQuantityType(R.string.all_quantity_centiliter)
     object None : UiQuantityType(R.string.all_select)
 }
+
+sealed class UiTemperature(@StringRes val text: Int) {
+    object Celsius : UiTemperature(R.string.all_temperature_celsius)
+    object Fahrenheit : UiTemperature(R.string.all_temperature_fahrenheit)
+}
