@@ -5,7 +5,9 @@ import com.roxana.recipeapp.data.CategoryForRecipe
 import com.roxana.recipeapp.data.Database
 import com.roxana.recipeapp.data.IngredientForRecipe
 import com.roxana.recipeapp.data.RecipeRepositoryImpl
+import com.roxana.recipeapp.data.SettingsRepositoryImpl
 import com.roxana.recipeapp.domain.RecipeRepository
+import com.roxana.recipeapp.domain.SettingsRepository
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.Binds
@@ -75,4 +77,8 @@ class DataModule {
 abstract class DataModuleBinds {
     @Binds
     abstract fun bindRecipeRepository(impl: RecipeRepositoryImpl): RecipeRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindSettingsRepository(impl: SettingsRepositoryImpl): SettingsRepository
 }

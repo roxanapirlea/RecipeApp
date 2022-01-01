@@ -1,0 +1,35 @@
+
+
+syntax = "proto3";
+
+option java_package = "com.roxana.recipeapp.data";
+option java_multiple_files = true;
+
+message Settings {
+  Temperature temperature = 1;
+  repeated MeasureUnit units = 2;
+
+  enum Temperature {
+    CELSIUS = 0;
+    FAHRENHEIT = 1;
+  }
+
+  enum MeasureUnit {
+      POUND = 0;
+      OUNCE = 1;
+      GRAM = 2;
+      KILOGRAM = 3;
+      TEASPOON = 4;
+      TABLESPOON = 5;
+      FLUID_OUNCE = 6;
+      GILL = 7;
+      CUP = 8;
+      PINT = 9;
+      QUART = 10;
+      GALLON = 11;
+      LITER = 12;
+      DECILITER = 13;
+      CENTILITER = 14;
+      MILLILITER = 15;
+  }
+}
