@@ -54,7 +54,8 @@ class DetailViewModel @Inject constructor(
                                 waiting = recipe.timeWaiting,
                                 preparation = recipe.timePreparation
                             ),
-                            temperature = recipe.temperature
+                            temperature = recipe.temperature,
+                            temperatureUnit = recipe.temperatureUnit?.toUiModel()
                         )
                         _state.value = content
                     },

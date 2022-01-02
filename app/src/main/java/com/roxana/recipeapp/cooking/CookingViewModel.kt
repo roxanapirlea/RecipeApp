@@ -66,6 +66,7 @@ class CookingViewModel @Inject constructor(
                                 preparation = recipe.timePreparation
                             ),
                             temperature = recipe.temperature,
+                            temperatureUnit = recipe.temperatureUnit?.toUiModel()
                         )
                         _state.value = content
                     },

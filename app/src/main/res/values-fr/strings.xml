@@ -94,7 +94,7 @@
     <string name="detail_preparation_time">Temps de préparation : %d min</string>
     <string name="detail_waiting_time">Temps d\'attente : %d min</string>
     <string name="detail_total_time">Temps total : %d min</string>
-    <string name="detail_temperature">Température : %d</string>
+    <string name="detail_temperature">Température : %d %s</string>
     <string name="detail_edit_recipe">Modifier la recette</string>
     <string name="detail_start_cooking">Commencer à cuisiner</string>
     <string name="detail_recipe_fetch_error">Un problème est survenu lors de la récupération de ta recette</string>

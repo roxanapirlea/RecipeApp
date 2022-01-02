@@ -93,7 +93,7 @@
     <string name="detail_preparation_time">Preparation time: %d min</string>
     <string name="detail_waiting_time">Waiting time: %d min</string>
     <string name="detail_total_time">Total time: %d min</string>
-    <string name="detail_temperature">Temperature: %d</string>
+    <string name="detail_temperature">Temperature: %d %s</string>
     <string name="detail_edit_recipe">Edit recipe</string>
     <string name="detail_start_cooking">Start cooking</string>
     <string name="detail_recipe_fetch_error">There was a problem fetching your recipe</string>

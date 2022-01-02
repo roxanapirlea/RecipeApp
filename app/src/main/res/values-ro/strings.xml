@@ -94,7 +94,7 @@
     <string name="detail_preparation_time">Timpul de pregătire: %d min</string>
     <string name="detail_waiting_time">Timpul de așteptare: %d min</string>
     <string name="detail_total_time">Timpul total: %d min</string>
-    <string name="detail_temperature">Temperatură: %d</string>
+    <string name="detail_temperature">Temperatură: %d %s</string>
     <string name="detail_edit_recipe">Editează rețeta</string>
     <string name="detail_start_cooking">Începe gătitul</string>
     <string name="detail_recipe_fetch_error">A apărut o problemă la recuperarea rețetei</string>

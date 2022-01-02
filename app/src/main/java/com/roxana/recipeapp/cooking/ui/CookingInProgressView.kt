@@ -71,8 +71,9 @@ fun CookingInProgressView(
         }
         state.temperature?.let {
             item {
+                val unit = state.temperatureUnit?.let { stringResource(it.text) } ?: ""
                 Text(
-                    text = stringResource(R.string.detail_temperature, it),
+                    text = stringResource(R.string.detail_temperature, it, unit),
                     modifier = Modifier.padding(top = 16.dp)
                 )
             }

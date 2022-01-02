@@ -27,6 +27,7 @@ fun AddRecipeViewState.toRecipe(): CreationRecipe {
         timeCooking = time.cooking.value,
         timeWaiting = time.waiting.value,
         temperature = temperature.value,
+        temperatureUnit = temperature.value?.let { temperatureUnit.toDomainModel() },
         comments = comments
             .filter { it.fieldState.text.isNotEmpty() }
             .mapIndexed { index, comm -> CreationComment(comm.fieldState.text, index.toShort()) }

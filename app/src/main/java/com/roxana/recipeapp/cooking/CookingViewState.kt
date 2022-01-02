@@ -1,6 +1,7 @@
 package com.roxana.recipeapp.cooking
 
 import com.roxana.recipeapp.uimodel.UiQuantityType
+import com.roxana.recipeapp.uimodel.UiTemperature
 
 sealed class CookingViewState {
     object Loading : CookingViewState()
@@ -13,7 +14,8 @@ sealed class CookingViewState {
         val instructions: List<InstructionState> = emptyList(),
         val comments: List<String> = emptyList(),
         val time: TimeState = TimeState(),
-        val temperature: Short? = null
+        val temperature: Short? = null,
+        val temperatureUnit: UiTemperature? = null
     ) : CookingViewState()
 }
 

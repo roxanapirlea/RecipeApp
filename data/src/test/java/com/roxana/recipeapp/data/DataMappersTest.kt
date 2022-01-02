@@ -2,6 +2,7 @@ package com.roxana.recipeapp.data
 
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.QuantityType
+import com.roxana.recipeapp.domain.model.Temperature
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 
@@ -298,6 +299,42 @@ class DataMappersTest {
     fun return_null_when_quantityToDataModel_given_nullDomainModel() {
         // Given
         val model: QuantityType? = null
+
+        // When
+        val dataModel = model.toDataModel()
+
+        // Then
+        dataModel shouldBe null
+    }
+
+    @Test
+    fun return_celsius_when_temperatureToDataModel_given_celsiusDomainModel() {
+        // Given
+        val model = Temperature.CELSIUS
+
+        // When
+        val dataModel = model.toDataModel()
+
+        // Then
+        dataModel shouldBe DbTemperatureType.CELSIUS
+    }
+
+    @Test
+    fun return_fahrenheit_when_temperatureToDataModel_given_fahrenheitDomainModel() {
+        // Given
+        val model = Temperature.FAHRENHEIT
+
+        // When
+        val dataModel = model.toDataModel()
+
+        // Then
+        dataModel shouldBe DbTemperatureType.FAHRENHEIT
+    }
+
+    @Test
+    fun return_null_when_temperatureToDataModel_given_nullDomainModel() {
+        // Given
+        val model: Temperature? = null
 
         // When
         val dataModel = model.toDataModel()
@@ -604,5 +641,41 @@ class DataMappersTest {
 
         // Then
         dataModel shouldBe null
+    }
+
+    @Test
+    fun return_celsius_when_temperatureToDomainModel_given_celsiusDataModel() {
+        // Given
+        val dataModel = DbTemperatureType.CELSIUS
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe Temperature.CELSIUS
+    }
+
+    @Test
+    fun return_fahrenheit_when_temperatureToDomainModel_given_fahrenheitDataModel() {
+        // Given
+        val dataModel = DbTemperatureType.FAHRENHEIT
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe Temperature.FAHRENHEIT
+    }
+
+    @Test
+    fun return_null_when_temperatureToDomainModel_given_nullDataModel() {
+        // Given
+        val dataModel: DbTemperatureType? = null
+
+        // When
+        val model = dataModel.toDomainModel()
+
+        // Then
+        model shouldBe null
     }
 }

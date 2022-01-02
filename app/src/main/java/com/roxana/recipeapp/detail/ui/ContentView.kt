@@ -88,8 +88,9 @@ fun ContentView(
             }
             state.temperature?.let {
                 item {
+                    val unit = state.temperatureUnit?.let { stringResource(it.text) } ?: ""
                     ItemDetailsView(
-                        text = stringResource(R.string.detail_temperature, it),
+                        text = stringResource(R.string.detail_temperature, it, unit),
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
                 }

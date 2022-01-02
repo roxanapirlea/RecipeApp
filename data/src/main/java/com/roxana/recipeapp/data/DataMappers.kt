@@ -2,6 +2,7 @@ package com.roxana.recipeapp.data
 
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.QuantityType
+import com.roxana.recipeapp.domain.model.Temperature
 
 fun CategoryType.toDataModel(): DbCategoryType = when (this) {
     CategoryType.BREAKFAST -> DbCategoryType.BREAKFAST
@@ -34,6 +35,12 @@ fun QuantityType?.toDataModel(): DbQuantityType? = when (this) {
     null -> null
 }
 
+fun Temperature?.toDataModel(): DbTemperatureType? = when (this) {
+    Temperature.CELSIUS -> DbTemperatureType.CELSIUS
+    Temperature.FAHRENHEIT -> DbTemperatureType.FAHRENHEIT
+    null -> null
+}
+
 fun DbCategoryType.toDomainModel(): CategoryType = when (this) {
     DbCategoryType.BREAKFAST -> CategoryType.BREAKFAST
     DbCategoryType.LUNCH -> CategoryType.LUNCH
@@ -62,5 +69,11 @@ fun DbQuantityType?.toDomainModel(): QuantityType? = when (this) {
     DbQuantityType.DECILITER -> QuantityType.DECILITER
     DbQuantityType.CENTILITER -> QuantityType.CENTILITER
     DbQuantityType.MILLILITER -> QuantityType.MILLILITER
+    null -> null
+}
+
+fun DbTemperatureType?.toDomainModel(): Temperature? = when (this) {
+    DbTemperatureType.CELSIUS -> Temperature.CELSIUS
+    DbTemperatureType.FAHRENHEIT -> Temperature.FAHRENHEIT
     null -> null
 }

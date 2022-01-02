@@ -4,6 +4,7 @@ import android.content.Context
 import com.roxana.recipeapp.data.CategoryForRecipe
 import com.roxana.recipeapp.data.Database
 import com.roxana.recipeapp.data.IngredientForRecipe
+import com.roxana.recipeapp.data.Recipe
 import com.roxana.recipeapp.data.RecipeRepositoryImpl
 import com.roxana.recipeapp.data.SettingsRepositoryImpl
 import com.roxana.recipeapp.domain.RecipeRepository
@@ -35,7 +36,8 @@ class DataModule {
             CategoryForRecipeAdapter = CategoryForRecipe.Adapter(nameAdapter = EnumColumnAdapter()),
             IngredientForRecipeAdapter = IngredientForRecipe.Adapter(
                 quantity_nameAdapter = EnumColumnAdapter()
-            )
+            ),
+            RecipeAdapter = Recipe.Adapter(temperature_typeAdapter = EnumColumnAdapter())
         )
     }
 

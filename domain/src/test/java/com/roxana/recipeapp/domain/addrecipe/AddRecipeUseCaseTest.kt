@@ -37,6 +37,7 @@ class AddRecipeUseCaseTest {
             null,
             null,
             null,
+            null,
             emptyList()
         )
         coEvery { recipeRepository.addRecipe(recipe) } just runs
@@ -59,6 +60,7 @@ class AddRecipeUseCaseTest {
             emptyList(),
             emptyList(),
             emptyList(),
+            null,
             null,
             null,
             null,
