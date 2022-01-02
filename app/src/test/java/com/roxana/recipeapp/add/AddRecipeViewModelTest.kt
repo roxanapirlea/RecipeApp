@@ -5,6 +5,7 @@ import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.domain.model.Temperature
+import com.roxana.recipeapp.domain.quantities.GetAllQuantityTypesUseCase
 import com.roxana.recipeapp.domain.quantities.GetPreferredQuantitiesUseCase
 import com.roxana.recipeapp.domain.temperature.GetPreferredTemperatureUseCase
 import com.roxana.recipeapp.helpers.MainCoroutineRule
@@ -38,6 +39,7 @@ internal class AddRecipeViewModelTest {
 
     private val getCategoriesUseCase: GetAvailableCategoriesUseCase = mockk(relaxed = true)
     private val getQuantityTypesUseCase: GetPreferredQuantitiesUseCase = mockk(relaxed = true)
+    private val getAllQuantityTypesUseCase: GetAllQuantityTypesUseCase = mockk(relaxed = true)
     private val addRecipeUseCase: AddRecipeUseCase = mockk(relaxed = true)
     private val getTemperatureUseCase: GetPreferredTemperatureUseCase = mockk(relaxed = true)
 
@@ -52,6 +54,9 @@ internal class AddRecipeViewModelTest {
         every {
             getQuantityTypesUseCase.invoke(null)
         } returns flow { emit(Result.success(listOf(QuantityType.TABLESPOON, QuantityType.CUP))) }
+        coEvery {
+            getAllQuantityTypesUseCase.invoke(null)
+        } returns Result.success(listOf(QuantityType.TABLESPOON, QuantityType.CUP))
         every {
             getTemperatureUseCase(null)
         } returns flow { emit(Result.success(Temperature.CELSIUS)) }
@@ -60,6 +65,7 @@ internal class AddRecipeViewModelTest {
             AddRecipeViewModel(
                 getCategoriesUseCase,
                 getQuantityTypesUseCase,
+                getAllQuantityTypesUseCase,
                 addRecipeUseCase,
                 getTemperatureUseCase
             )

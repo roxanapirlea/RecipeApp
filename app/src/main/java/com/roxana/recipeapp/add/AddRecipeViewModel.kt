@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.addrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
 import com.roxana.recipeapp.domain.model.Temperature
+import com.roxana.recipeapp.domain.quantities.GetAllQuantityTypesUseCase
 import com.roxana.recipeapp.domain.quantities.GetPreferredQuantitiesUseCase
 import com.roxana.recipeapp.domain.temperature.GetPreferredTemperatureUseCase
 import com.roxana.recipeapp.misc.toNotNull
@@ -25,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddRecipeViewModel @Inject constructor(
     private val getCategoriesUseCase: GetAvailableCategoriesUseCase,
-    private val getQuantityTypesUseCase: GetPreferredQuantitiesUseCase,
+    private val getPreferredQuantityTypesUseCase: GetPreferredQuantitiesUseCase,
+    private val getAllQuantityTypesUseCase: GetAllQuantityTypesUseCase,
     private val addRecipeUseCase: AddRecipeUseCase,
     private val getTemperatureUnitUseCase: GetPreferredTemperatureUseCase
 ) : ViewModel() {
@@ -39,12 +41,14 @@ class AddRecipeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             combine(
-                getQuantityTypesUseCase(null),
+                getPreferredQuantityTypesUseCase(null),
                 getTemperatureUnitUseCase(null)
             ) { quantitiesResult, temperatureResult ->
                 val quantities = quantitiesResult.getOrElse {
                     sideEffectChannel.send(ShowQuantityError)
                     emptyList()
+                }.ifEmpty {
+                    getAllQuantityTypesUseCase(null).getOrNull() ?: emptyList()
                 }
                 val availableCategories = getCategoriesUseCase(null).getOrElse {
                     sideEffectChannel.send(ShowCategoryError)
