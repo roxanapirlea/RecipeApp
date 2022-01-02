@@ -12,6 +12,7 @@ fun createInMemoryDb(): Database {
         CategoryForRecipeAdapter = CategoryForRecipe.Adapter(nameAdapter = EnumColumnAdapter()),
         IngredientForRecipeAdapter = IngredientForRecipe.Adapter(
             quantity_nameAdapter = EnumColumnAdapter()
-        )
+        ),
+        RecipeAdapter = Recipe.Adapter(temperature_typeAdapter = EnumColumnAdapter())
     )
 }

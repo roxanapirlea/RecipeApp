@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.ui
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -18,6 +19,7 @@ import com.roxana.recipeapp.R
 fun AppBar(
     title: String = stringResource(R.string.app_name),
     icon: Int? = null,
+    actions: @Composable RowScope.() -> Unit = {},
     onIconClick: () -> Unit = {}
 ) {
     TopAppBar(
@@ -33,6 +35,7 @@ fun AppBar(
             }
         },
         title = { Text(text = title) },
-        backgroundColor = MaterialTheme.colors.primarySurface
+        backgroundColor = MaterialTheme.colors.primarySurface,
+        actions = actions
     )
 }

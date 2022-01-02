@@ -2,6 +2,7 @@ package com.roxana.recipeapp.uimodel
 
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.QuantityType
+import com.roxana.recipeapp.domain.model.Temperature
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.Test
@@ -381,6 +382,18 @@ class UiMappersTest {
     }
 
     @Test
+    fun setUiQuantityTypeMilliliter_when_QuantityTypeMilliliter() {
+        // Given
+        val quantityType = QuantityType.MILLILITER
+
+        // When
+        val uiQuantityType = quantityType.toUiModel()
+
+        // Then
+        uiQuantityType shouldBe UiQuantityType.Milliliter
+    }
+
+    @Test
     fun setUiQuantityTypeNone_when_QuantityTypeNull() {
         // Given
         val quantityType = null
@@ -573,6 +586,18 @@ class UiMappersTest {
     }
 
     @Test
+    fun setQuantityTypeMilliliter_when_UiQuantityTypeMilliliter() {
+        // Given
+        val uiQuantityType = UiQuantityType.Milliliter
+
+        // When
+        val quantityType = uiQuantityType.toDomainModel()
+
+        // Then
+        quantityType shouldBe QuantityType.MILLILITER
+    }
+
+    @Test
     fun setQuantityTypeNull_when_UiQuantityTypeNone() {
         // Given
         val uiQuantityType = UiQuantityType.None
@@ -582,5 +607,53 @@ class UiMappersTest {
 
         // Then
         quantityType.shouldBeNull()
+    }
+
+    @Test
+    fun setUiTemperatureCelsius_when_TemperatureCelsius() {
+        // Given
+        val temperature = Temperature.CELSIUS
+
+        // When
+        val uiTemperature = temperature.toUiModel()
+
+        // Then
+        uiTemperature shouldBe UiTemperature.Celsius
+    }
+
+    @Test
+    fun setUiTemperatureFahrenheit_when_TemperatureFahrenheit() {
+        // Given
+        val temperature = Temperature.FAHRENHEIT
+
+        // When
+        val uiTemperature = temperature.toUiModel()
+
+        // Then
+        uiTemperature shouldBe UiTemperature.Fahrenheit
+    }
+
+    @Test
+    fun setTemperatureCelsius_when_UiTemperatureCelsius() {
+        // Given
+        val uiTemperature = UiTemperature.Celsius
+
+        // When
+        val temperature = uiTemperature.toDomainModel()
+
+        // Then
+        temperature shouldBe Temperature.CELSIUS
+    }
+
+    @Test
+    fun setTemperatureFahrenheit_when_UiTemperatureFahrenheit() {
+        // Given
+        val uiTemperature = UiTemperature.Fahrenheit
+
+        // When
+        val temperature = uiTemperature.toDomainModel()
+
+        // Then
+        temperature shouldBe Temperature.FAHRENHEIT
     }
 }

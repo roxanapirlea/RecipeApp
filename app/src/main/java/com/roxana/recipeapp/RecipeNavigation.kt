@@ -24,6 +24,8 @@ import com.roxana.recipeapp.detail.DetailScreen
 import com.roxana.recipeapp.detail.DetailViewModel
 import com.roxana.recipeapp.home.HomeScreen
 import com.roxana.recipeapp.home.HomeViewModel
+import com.roxana.recipeapp.settings.SettingsScreen
+import com.roxana.recipeapp.settings.SettingsViewModel
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
@@ -41,7 +43,19 @@ fun RecipeNavigation() {
                             Screen.RecipeDetail.destination(Screen.RecipeDetail.Arguments(it))
                         )
                     },
-                    onNavAddRecipe = { navController.navigate(Screen.AddRecipe.destination(null)) }
+                    onNavAddRecipe = {
+                        navController.navigate(Screen.AddRecipe.destination(null))
+                    },
+                    onNavSettings = {
+                        navController.navigate(Screen.Settings.destination(null))
+                    }
+                )
+            }
+            composable(route = Screen.Settings.route) {
+                val settingsViewModel = hiltViewModel<SettingsViewModel>()
+                SettingsScreen(
+                    settingsViewModel = settingsViewModel,
+                    onBack = { navController.navigateUp() }
                 )
             }
             composable(route = Screen.AddRecipe.route) {
@@ -148,6 +162,12 @@ interface NavDestination<T> {
 
 sealed class Screen(val rootRoute: String) {
     object Home : Screen("home"), NavRoute, NavDestination<Any?> {
+        override val route: String = rootRoute
+        override val arguments: List<NamedNavArgument> = emptyList()
+        override fun destination(arguments: Any?): String = rootRoute
+    }
+
+    object Settings : Screen("settings"), NavRoute, NavDestination<Any?> {
         override val route: String = rootRoute
         override val arguments: List<NamedNavArgument> = emptyList()
         override fun destination(arguments: Any?): String = rootRoute

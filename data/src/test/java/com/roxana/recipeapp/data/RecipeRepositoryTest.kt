@@ -10,6 +10,7 @@ import com.roxana.recipeapp.domain.model.Ingredient
 import com.roxana.recipeapp.domain.model.Instruction
 import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.domain.model.RecipeSummary
+import com.roxana.recipeapp.domain.model.Temperature
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
@@ -64,6 +65,7 @@ internal class RecipeRepositoryTest {
         val timePreparation: Short = 5
         val timeWaiting: Short = 0
         val temperature = null
+        val temperatureType = null
         val recipe = creationRecipeModel.copy(
             name = name,
             photoPath = photoPath,
@@ -72,7 +74,8 @@ internal class RecipeRepositoryTest {
             timeCooking = timeCooking,
             timePreparation = timePreparation,
             timeWaiting = timeWaiting,
-            temperature = temperature
+            temperature = temperature,
+            temperatureUnit = temperatureType
         )
         every { recipeQueries.getByName(name).executeAsOne() } returns dataRecipeModel
         every {
@@ -92,7 +95,8 @@ internal class RecipeRepositoryTest {
                 timeCooking,
                 timePreparation,
                 timeWaiting,
-                temperature
+                temperature,
+                temperatureType
             )
         }
     }
@@ -324,7 +328,8 @@ internal class RecipeRepositoryTest {
         timeCooking = 3,
         timeWaiting = 2,
         temperature = 150,
-        comments = listOf(CreationComment("fake comment", 1)),
+        temperatureUnit = Temperature.CELSIUS,
+        comments = listOf(CreationComment("fake comment", 1))
     )
 
     private val dataRecipeModel = DataRecipe(
@@ -337,5 +342,6 @@ internal class RecipeRepositoryTest {
         time_cooking = 4,
         time_waiting = 5,
         temperature = 6,
+        temperature_type = DbTemperatureType.CELSIUS
     )
 }

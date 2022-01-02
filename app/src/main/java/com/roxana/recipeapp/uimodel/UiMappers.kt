@@ -2,6 +2,7 @@ package com.roxana.recipeapp.uimodel
 
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.QuantityType
+import com.roxana.recipeapp.domain.model.Temperature
 
 fun CategoryType.toUiModel(): UiCategoryType = when (this) {
     CategoryType.BREAKFAST -> UiCategoryType.Breakfast
@@ -30,7 +31,13 @@ fun QuantityType?.toUiModel(): UiQuantityType = when (this) {
     QuantityType.LITER -> UiQuantityType.Liter
     QuantityType.DECILITER -> UiQuantityType.Deciliter
     QuantityType.CENTILITER -> UiQuantityType.Centiliter
+    QuantityType.MILLILITER -> UiQuantityType.Milliliter
     null -> UiQuantityType.None
+}
+
+fun Temperature.toUiModel(): UiTemperature = when (this) {
+    Temperature.CELSIUS -> UiTemperature.Celsius
+    Temperature.FAHRENHEIT -> UiTemperature.Fahrenheit
 }
 
 fun UiCategoryType.toDomainModel(): CategoryType = when (this) {
@@ -60,5 +67,11 @@ fun UiQuantityType.toDomainModel(): QuantityType? = when (this) {
     UiQuantityType.Liter -> QuantityType.LITER
     UiQuantityType.Deciliter -> QuantityType.DECILITER
     UiQuantityType.Centiliter -> QuantityType.CENTILITER
+    UiQuantityType.Milliliter -> QuantityType.MILLILITER
     UiQuantityType.None -> null
+}
+
+fun UiTemperature.toDomainModel(): Temperature = when (this) {
+    UiTemperature.Celsius -> Temperature.CELSIUS
+    UiTemperature.Fahrenheit -> Temperature.FAHRENHEIT
 }

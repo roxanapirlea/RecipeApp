@@ -11,6 +11,7 @@ buildTools = "7.0.2"
 compose = "1.1.0-rc01"
 composeCompiler = "1.1.0-rc02"
 navCompose = "2.4.0-rc01"
+datastore = "1.0.0"
 desugaring = "1.1.5"
 hilt = "2.40.5"
 hiltNavCompose = "1.0.0-rc01"
@@ -22,7 +23,9 @@ kotlinCoroutines = "1.6.0"
 material = "1.4.0"
 mockk = "1.12.1"
 pluginKtlint = "10.2.0"
+pluginProtobuf = "0.8.18"
 pluginVersions = "0.39.0"
+protobuf = "3.19.1"
 sqlDelight = "1.5.3"
 
 [libraries]
@@ -31,12 +34,14 @@ accompanist-bottomSheet = { module = "com.google.accompanist:accompanist-navigat
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 androidx-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppCompat" }
 androidx-coreKtx = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtx" }
-androidx-coreTesting = { module = "androidx.arch.core:core-testing", version.ref = "androidxCoreTesting"}
+androidx-coreTesting = { module = "androidx.arch.core:core-testing", version.ref = "androidxCoreTesting" }
 
 androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 androidx-compose-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 androidx-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+
+androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycleVm = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
@@ -71,8 +76,12 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "pluginKtlint" }
+plugin-protobuf = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "pluginProtobuf" }
 plugin-sqlDelight = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqlDelight" }
 plugin-versionCheck = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "pluginVersions" }
+
+protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
+protobuf-protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
 
 sqldelight-androidDriver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
 sqldelight-coroutines = { module = "com.squareup.sqldelight:coroutines-extensions-jvm", version.ref = "sqlDelight" }

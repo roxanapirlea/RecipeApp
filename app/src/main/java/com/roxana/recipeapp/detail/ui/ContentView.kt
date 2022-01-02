@@ -88,15 +88,16 @@ fun ContentView(
             }
             state.temperature?.let {
                 item {
+                    val unit = state.temperatureUnit?.let { stringResource(it.text) } ?: ""
                     ItemDetailsView(
-                        text = stringResource(R.string.detail_temperature, it),
+                        text = stringResource(R.string.detail_temperature, it, unit),
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
                 }
             }
             item {
                 LabelView(
-                    text = stringResource(R.string.detail_ingredients),
+                    text = stringResource(R.string.all_ingredients),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp),
@@ -108,7 +109,7 @@ fun ContentView(
                 items(state.ingredients) { ingredient -> IngredientView(ingredient) }
             item {
                 LabelView(
-                    text = stringResource(R.string.detail_instructions),
+                    text = stringResource(R.string.all_instructions),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp, top = 20.dp),
@@ -123,7 +124,7 @@ fun ContentView(
             if (state.comments.isNotEmpty()) {
                 item {
                     LabelView(
-                        text = stringResource(R.string.detail_comments),
+                        text = stringResource(R.string.all_comments),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp, top = 20.dp),

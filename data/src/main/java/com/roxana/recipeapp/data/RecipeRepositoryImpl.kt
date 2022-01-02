@@ -34,7 +34,8 @@ class RecipeRepositoryImpl @Inject constructor(
                 timeCooking,
                 timePreparation,
                 timeWaiting,
-                temperature
+                temperature,
+                temperatureUnit.toDataModel()
             )
             val insertedRecipe = recipeQueries.getByName(name).executeAsOne()
             ingredients.forEach {
@@ -131,7 +132,8 @@ class RecipeRepositoryImpl @Inject constructor(
             timeCooking = dataRecipe.time_cooking,
             timeWaiting = dataRecipe.time_waiting,
             timePreparation = dataRecipe.time_preparation,
-            temperature = dataRecipe.temperature
+            temperature = dataRecipe.temperature,
+            temperatureUnit = dataRecipe.temperature_type.toDomainModel()
         )
     }
 

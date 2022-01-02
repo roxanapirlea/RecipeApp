@@ -2,9 +2,11 @@ package com.roxana.recipeapp.home
 
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -22,14 +24,14 @@ import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.LoadingStateView
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
     onNavDetail: (Int) -> Unit,
-    onNavAddRecipe: () -> Unit = {}
+    onNavAddRecipe: () -> Unit = {},
+    onNavSettings: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(homeViewModel.state)
         .collectAsState(HomeViewState.Loading)
@@ -38,6 +40,7 @@ fun HomeScreen(
         when (action) {
             AddRecipe -> onNavAddRecipe()
             is RecipeDetail -> onNavDetail(action.id)
+            Settings -> onNavSettings()
         }
     }
 }
@@ -65,7 +68,17 @@ fun HomeView(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            AppBar(title = stringResource(R.string.home_title))
+            AppBar(
+                title = stringResource(R.string.home_title),
+                actions = {
+                    IconButton(onClick = { onAction(Settings) }) {
+                        Icon(
+                            Icons.Default.Settings,
+                            contentDescription = stringResource(R.string.all_settings)
+                        )
+                    }
+                }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { onAction(AddRecipe) }) {

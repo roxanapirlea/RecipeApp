@@ -1,3 +1,5 @@
+import com.roxana.recipeapp.data.DbTemperatureType;
+
 CREATE TABLE Recipe(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
@@ -7,7 +9,8 @@ CREATE TABLE Recipe(
   time_preparation INTEGER AS Short,
   time_cooking INTEGER AS Short,
   time_waiting INTEGER AS Short,
-  temperature INTEGER AS Short
+  temperature INTEGER AS Short,
+  temperature_type TEXT AS DbTemperatureType
 );
 
 getById:
@@ -31,8 +34,8 @@ FROM Recipe
 LEFT JOIN CategoryForRecipe ON Recipe.id = CategoryForRecipe.recipe_id;
 
 insert:
-INSERT INTO Recipe(name, photo_path, portions, time_total, time_cooking, time_preparation, time_waiting, temperature)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO Recipe(name, photo_path, portions, time_total, time_cooking, time_preparation, time_waiting, temperature, temperature_type)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 update:
 UPDATE Recipe
@@ -43,7 +46,8 @@ SET name = :name,
     time_cooking = :time_cooking,
     time_preparation = :time_preparation,
     time_waiting = :time_waiting,
-    temperature = :temperature
+    temperature = :temperature,
+    temperature_type = :temperature_type
 WHERE id = :id;
 
 delete:

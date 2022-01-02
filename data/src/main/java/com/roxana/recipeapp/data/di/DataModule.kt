@@ -4,8 +4,11 @@ import android.content.Context
 import com.roxana.recipeapp.data.CategoryForRecipe
 import com.roxana.recipeapp.data.Database
 import com.roxana.recipeapp.data.IngredientForRecipe
+import com.roxana.recipeapp.data.Recipe
 import com.roxana.recipeapp.data.RecipeRepositoryImpl
+import com.roxana.recipeapp.data.SettingsRepositoryImpl
 import com.roxana.recipeapp.domain.RecipeRepository
+import com.roxana.recipeapp.domain.SettingsRepository
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.Binds
@@ -33,7 +36,8 @@ class DataModule {
             CategoryForRecipeAdapter = CategoryForRecipe.Adapter(nameAdapter = EnumColumnAdapter()),
             IngredientForRecipeAdapter = IngredientForRecipe.Adapter(
                 quantity_nameAdapter = EnumColumnAdapter()
-            )
+            ),
+            RecipeAdapter = Recipe.Adapter(temperature_typeAdapter = EnumColumnAdapter())
         )
     }
 
@@ -75,4 +79,8 @@ class DataModule {
 abstract class DataModuleBinds {
     @Binds
     abstract fun bindRecipeRepository(impl: RecipeRepositoryImpl): RecipeRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindSettingsRepository(impl: SettingsRepositoryImpl): SettingsRepository
 }

@@ -2,6 +2,7 @@ package com.roxana.recipeapp.detail
 
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
+import com.roxana.recipeapp.uimodel.UiTemperature
 
 sealed class DetailViewState {
     object Loading : DetailViewState()
@@ -13,7 +14,8 @@ sealed class DetailViewState {
         val instructions: List<String> = emptyList(),
         val comments: List<String> = emptyList(),
         val time: TimeState = TimeState(),
-        val temperature: Short? = null
+        val temperature: Short? = null,
+        val temperatureUnit: UiTemperature? = null
     ) : DetailViewState()
 }
 

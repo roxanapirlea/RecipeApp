@@ -2,9 +2,12 @@ package com.roxana.recipeapp.add
 
 import com.roxana.recipeapp.domain.addrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
-import com.roxana.recipeapp.domain.addrecipe.GetAvailableQuantityTypesUseCase
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.QuantityType
+import com.roxana.recipeapp.domain.model.Temperature
+import com.roxana.recipeapp.domain.quantities.GetAllQuantityTypesUseCase
+import com.roxana.recipeapp.domain.quantities.GetPreferredQuantitiesUseCase
+import com.roxana.recipeapp.domain.temperature.GetPreferredTemperatureUseCase
 import com.roxana.recipeapp.helpers.MainCoroutineRule
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
@@ -17,10 +20,12 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -33,8 +38,10 @@ internal class AddRecipeViewModelTest {
     var mainCoroutineRule = MainCoroutineRule()
 
     private val getCategoriesUseCase: GetAvailableCategoriesUseCase = mockk(relaxed = true)
-    private val getQuantityTypesUseCase: GetAvailableQuantityTypesUseCase = mockk(relaxed = true)
+    private val getQuantityTypesUseCase: GetPreferredQuantitiesUseCase = mockk(relaxed = true)
+    private val getAllQuantityTypesUseCase: GetAllQuantityTypesUseCase = mockk(relaxed = true)
     private val addRecipeUseCase: AddRecipeUseCase = mockk(relaxed = true)
+    private val getTemperatureUseCase: GetPreferredTemperatureUseCase = mockk(relaxed = true)
 
     private lateinit var viewModel: AddRecipeViewModel
 
@@ -44,12 +51,24 @@ internal class AddRecipeViewModelTest {
         coEvery {
             getCategoriesUseCase.invoke(null)
         } returns Result.success(listOf(CategoryType.BREAKFAST, CategoryType.DESSERT))
-        coEvery {
+        every {
             getQuantityTypesUseCase.invoke(null)
+        } returns flow { emit(Result.success(listOf(QuantityType.TABLESPOON, QuantityType.CUP))) }
+        coEvery {
+            getAllQuantityTypesUseCase.invoke(null)
         } returns Result.success(listOf(QuantityType.TABLESPOON, QuantityType.CUP))
+        every {
+            getTemperatureUseCase(null)
+        } returns flow { emit(Result.success(Temperature.CELSIUS)) }
 
         viewModel =
-            AddRecipeViewModel(getCategoriesUseCase, getQuantityTypesUseCase, addRecipeUseCase)
+            AddRecipeViewModel(
+                getCategoriesUseCase,
+                getQuantityTypesUseCase,
+                getAllQuantityTypesUseCase,
+                addRecipeUseCase,
+                getTemperatureUseCase
+            )
     }
 
     @After

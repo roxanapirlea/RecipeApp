@@ -12,7 +12,8 @@ data class Recipe(
     val timeCooking: Short?,
     val timeWaiting: Short?,
     val timePreparation: Short?,
-    val temperature: Short?
+    val temperature: Short?,
+    val temperatureUnit: Temperature?
 )
 
 data class Ingredient(

@@ -10,8 +10,8 @@ class IngredientForRecipeTest {
     private lateinit var queries: IngredientForRecipeQueries
     private lateinit var db: Database
 
-    private val recipe = Recipe(1, "Crepe", null, null, null, null, null, null, null)
-    private val recipe2 = Recipe(2, "Donut", null, null, null, null, null, null, null)
+    private val recipe = Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
+    private val recipe2 = Recipe(2, "Donut", null, null, null, null, null, null, null, null)
     private lateinit var ingredient1: Ingredient
     private lateinit var ingredient2: Ingredient
     private lateinit var quantity1: CustomQuantityType
@@ -30,7 +30,8 @@ class IngredientForRecipeTest {
             recipe.time_preparation,
             recipe.time_cooking,
             recipe.time_waiting,
-            recipe.temperature
+            recipe.temperature,
+            recipe.temperature_type
         )
         db.recipeQueries.insert(
             recipe2.name,
@@ -40,7 +41,8 @@ class IngredientForRecipeTest {
             recipe2.time_preparation,
             recipe2.time_cooking,
             recipe2.time_waiting,
-            recipe2.temperature
+            recipe2.temperature,
+            recipe2.temperature_type
         )
         db.ingredientQueries.insert("ingredient1")
         db.ingredientQueries.insert("ingredient2")

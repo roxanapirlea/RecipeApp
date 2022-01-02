@@ -125,7 +125,7 @@ fun QuantityTypeMenu(
                 .defaultMinSize(48.dp, 48.dp)
         ) {
             if (selectedQuantityType !is UiQuantityType.None) {
-                Text(text = stringResource(selectedQuantityType.text))
+                Text(text = stringResource(selectedQuantityType.textForSelect))
             } else {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(text = stringResource(R.string.add_recipe_quantity_type_hint))
@@ -147,7 +147,7 @@ fun QuantityTypeMenu(
                         onIsExpandedChanged(false)
                     }
                 ) {
-                    Text(stringResource(it.text))
+                    Text(stringResource(it.textForSelect))
                 }
             }
         }

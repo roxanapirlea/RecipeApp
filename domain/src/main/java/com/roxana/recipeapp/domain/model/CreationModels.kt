@@ -12,6 +12,7 @@ data class CreationRecipe(
     val timeCooking: Short?,
     val timeWaiting: Short?,
     val temperature: Short?,
+    val temperatureUnit: Temperature?,
     val comments: List<CreationComment>
 )
 
