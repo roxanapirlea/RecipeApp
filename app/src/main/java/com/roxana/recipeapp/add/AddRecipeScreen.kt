@@ -310,10 +310,11 @@ fun AddRecipeView(
             item { DividerAlpha40() }
 
             item {
+                val temperature = stringResource(state.temperatureUnit.text)
                 AddRecipeTextField(
                     state = state.temperature,
                     onValueChange = { onAction(TemperatureChanged(it)) },
-                    placeholder = stringResource(R.string.add_recipe_temperature_hint),
+                    placeholder = stringResource(R.string.add_recipe_temperature_hint, temperature),
                     leading = {
                         Icon(painterResource(R.drawable.ic_temperature), null)
                     },

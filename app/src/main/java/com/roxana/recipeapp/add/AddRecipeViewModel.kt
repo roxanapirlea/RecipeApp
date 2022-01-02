@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.addrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetAvailableCategoriesUseCase
-import com.roxana.recipeapp.domain.quantities.GetAvailableQuantityTypesUseCase
+import com.roxana.recipeapp.domain.model.Temperature
+import com.roxana.recipeapp.domain.quantities.GetPreferredQuantitiesUseCase
+import com.roxana.recipeapp.domain.temperature.GetPreferredTemperatureUseCase
 import com.roxana.recipeapp.misc.toNotNull
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
@@ -15,6 +17,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,17 +25,12 @@ import javax.inject.Inject
 @HiltViewModel
 class AddRecipeViewModel @Inject constructor(
     private val getCategoriesUseCase: GetAvailableCategoriesUseCase,
-    private val getQuantityTypesUseCase: GetAvailableQuantityTypesUseCase,
-    private val addRecipeUseCase: AddRecipeUseCase
+    private val getQuantityTypesUseCase: GetPreferredQuantitiesUseCase,
+    private val addRecipeUseCase: AddRecipeUseCase,
+    private val getTemperatureUnitUseCase: GetPreferredTemperatureUseCase
 ) : ViewModel() {
     @VisibleForTesting
-    val _state = MutableStateFlow(
-        AddRecipeViewState(
-            ingredients = listOf(IngredientState(isEditing = true)),
-            instructions = listOf(EditingState(isEditing = true)),
-            comments = listOf(EditingState(isEditing = true))
-        )
-    )
+    val _state = MutableStateFlow(AddRecipeViewState())
     val state: StateFlow<AddRecipeViewState> = _state.asStateFlow()
 
     private val sideEffectChannel = Channel<AddRecipeSideEffect>(Channel.BUFFERED)
@@ -40,23 +38,32 @@ class AddRecipeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val availableCategories = getCategoriesUseCase(null)
-                .getOrElse {
-                    sideEffectChannel.send(ShowCategoryError)
-                    emptyList()
-                }
-            val quantities = getQuantityTypesUseCase(null)
-                .getOrElse {
+            combine(
+                getQuantityTypesUseCase(null),
+                getTemperatureUnitUseCase(null)
+            ) { quantitiesResult, temperatureResult ->
+                val quantities = quantitiesResult.getOrElse {
                     sideEffectChannel.send(ShowQuantityError)
                     emptyList()
                 }
-            val categories = availableCategories.map { CategoryState(it.toUiModel(), false) }
-            _state.emit(
-                state.value.copy(
+                val availableCategories = getCategoriesUseCase(null).getOrElse {
+                    sideEffectChannel.send(ShowCategoryError)
+                    emptyList()
+                }
+                val categories =
+                    availableCategories.map { CategoryState(it.toUiModel(), false) }
+                val temperatureUnit = temperatureResult.getOrElse { Temperature.CELSIUS }
+                AddRecipeViewState(
+                    ingredients = listOf(IngredientState(isEditing = true)),
+                    instructions = listOf(EditingState(isEditing = true)),
+                    comments = listOf(EditingState(isEditing = true)),
                     categories = categories,
-                    quantities = listOf(UiQuantityType.None) + quantities.map { it.toUiModel() }
+                    quantities = listOf(UiQuantityType.None) + quantities.map { it.toUiModel() },
+                    temperatureUnit = temperatureUnit.toUiModel()
                 )
-            )
+            }.collect {
+                _state.value = it
+            }
         }
     }
 

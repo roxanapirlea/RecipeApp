@@ -2,6 +2,7 @@ package com.roxana.recipeapp.add
 
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
+import com.roxana.recipeapp.uimodel.UiTemperature
 
 data class AddRecipeViewState(
     val title: NonEmptyFieldState = NonEmptyFieldState(),
@@ -12,7 +13,8 @@ data class AddRecipeViewState(
     val instructions: List<EditingState> = emptyList(),
     val comments: List<EditingState> = emptyList(),
     val time: TimeState = TimeState(),
-    val temperature: ShortFieldState = ShortFieldState()
+    val temperature: ShortFieldState = ShortFieldState(),
+    val temperatureUnit: UiTemperature = UiTemperature.Celsius
 ) {
     val isValid = title.isValid &&
         portions.isValid &&

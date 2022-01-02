@@ -79,7 +79,7 @@
     <string name="add_recipe_time_waiting_hint">Temps d\'attente (min)</string>
     <string name="add_recipe_time_total_hint">Temps total (min)</string>
     <string name="add_recipe_compute_total">Calculer à partir\nd\'autres temps</string>
-    <string name="add_recipe_temperature_hint">Température</string>
+    <string name="add_recipe_temperature_hint">Température(%s)</string>
     <string name="add_recipe_done_description">Enregistrer la recette</string>
     <string name="add_recipe_save_error">Impossible d\'enregistrer la recette</string>
     <string name="add_recipe_save_success">Recette enregistrée avec succès</string>
