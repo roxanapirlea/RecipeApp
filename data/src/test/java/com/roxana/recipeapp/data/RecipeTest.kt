@@ -32,8 +32,8 @@ class RecipeTest {
     @Test
     fun returnInsertedOrderedItems_when_insertAndSelect() {
         // Given
-        val recipeC = Recipe(2, "Crepe", null, null, null, null, null, null, null)
-        val recipeD = Recipe(1, "Donut", null, null, null, null, null, null, null)
+        val recipeC = Recipe(2, "Crepe", null, null, null, null, null, null, null, null)
+        val recipeD = Recipe(1, "Donut", null, null, null, null, null, null, null, null)
 
         // When
         queries.insert(
@@ -44,7 +44,8 @@ class RecipeTest {
             recipeD.time_preparation,
             recipeD.time_cooking,
             recipeD.time_waiting,
-            recipeD.temperature
+            recipeD.temperature,
+            recipeD.temperature_type
         )
         queries.insert(
             recipeC.name,
@@ -54,7 +55,8 @@ class RecipeTest {
             recipeC.time_preparation,
             recipeC.time_cooking,
             recipeC.time_waiting,
-            recipeC.temperature
+            recipeC.temperature,
+            recipeC.temperature_type
         )
         val output = queries.getAll().executeAsList()
 
@@ -66,8 +68,8 @@ class RecipeTest {
     @Test
     fun returnUpdatedItem_when_Update() {
         // Given
-        val recipe = Recipe(1, "Crepe", null, null, null, null, null, null, null)
-        val recipeUpdated = Recipe(1, "Donut", "path", 1, 2, 3, 4, 5, 6)
+        val recipe = Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
+        val recipeUpdated = Recipe(1, "Donut", "path", 1, 2, 3, 4, 5, 6, DbTemperatureType.CELSIUS)
         queries.insert(
             recipe.name,
             recipe.photo_path,
@@ -76,7 +78,8 @@ class RecipeTest {
             recipe.time_preparation,
             recipe.time_cooking,
             recipe.time_waiting,
-            recipe.temperature
+            recipe.temperature,
+            recipe.temperature_type
         )
 
         // When
@@ -89,6 +92,7 @@ class RecipeTest {
             recipeUpdated.time_preparation,
             recipeUpdated.time_waiting,
             recipeUpdated.temperature,
+            recipeUpdated.temperature_type,
             recipeUpdated.id
         )
         val output = queries.getAll().executeAsList()
@@ -101,7 +105,7 @@ class RecipeTest {
     @Test
     fun deleteItem_when_delete() {
         // Given
-        queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6)
+        queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6, null)
         val initialRecipe =
             queries.getAll().executeAsList().first { it.name == "Donut" }
 
@@ -116,7 +120,7 @@ class RecipeTest {
     @Test
     fun getRecipeWithCategories_when_getRecipesSummary() {
         // Given
-        queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6)
+        queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6, null)
         categoryQueries.insert(DbCategoryType.BREAKFAST, null, 1)
         categoryQueries.insert(DbCategoryType.DESSERT, null, 1)
         categoryQueries.insert(null, null, 1)
@@ -129,9 +133,9 @@ class RecipeTest {
     }
 
     @Test
-    fun getRecipewhen_getRecipesSummary_given_noCategories() {
+    fun getRecipe_when_getRecipesSummary_given_noCategories() {
         // Given
-        queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6)
+        queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6, null)
 
         // When
         val output = queries.getRecipesSummary().executeAsList()

@@ -12,8 +12,8 @@ class CategoryForRecipeTest {
     private lateinit var db: Database
 
     private lateinit var customCategory: CustomCategory
-    private val recipe = Recipe(1, "Crepe", null, null, null, null, null, null, null)
-    private val recipe2 = Recipe(2, "Donut", null, null, null, null, null, null, null)
+    private val recipe = Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
+    private val recipe2 = Recipe(2, "Donut", null, null, null, null, null, null, null, null)
 
     @Before
     fun setUp() {
@@ -27,7 +27,8 @@ class CategoryForRecipeTest {
             recipe.time_preparation,
             recipe.time_cooking,
             recipe.time_waiting,
-            recipe.temperature
+            recipe.temperature,
+            recipe.temperature_type
         )
         db.recipeQueries.insert(
             recipe2.name,
@@ -37,7 +38,8 @@ class CategoryForRecipeTest {
             recipe2.time_preparation,
             recipe2.time_cooking,
             recipe2.time_waiting,
-            recipe2.temperature
+            recipe2.temperature,
+            recipe2.temperature_type
         )
         db.customCategoryQueries.insert("custom")
         customCategory =

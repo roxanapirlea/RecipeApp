@@ -9,9 +9,11 @@ import com.roxana.recipeapp.domain.model.Ingredient
 import com.roxana.recipeapp.domain.model.Instruction
 import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.domain.model.Recipe
+import com.roxana.recipeapp.domain.model.Temperature
 import com.roxana.recipeapp.helpers.MainCoroutineRule
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
+import com.roxana.recipeapp.uimodel.UiTemperature
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainInOrder
 import io.kotest.matchers.shouldBe
@@ -50,7 +52,8 @@ class DetailViewModelTest {
             timeCooking = 4,
             timeWaiting = 2,
             timePreparation = 1,
-            temperature = 150
+            temperature = 150,
+            temperatureUnit = Temperature.CELSIUS
         )
         every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
 
@@ -68,6 +71,7 @@ class DetailViewModelTest {
         )
         content.time shouldBe TimeState(7, 4, 2, 1)
         content.temperature shouldBe 150
+        content.temperatureUnit shouldBe UiTemperature.Celsius
     }
 
     @Test
@@ -87,7 +91,8 @@ class DetailViewModelTest {
             timeCooking = 4,
             timeWaiting = 2,
             timePreparation = 1,
-            temperature = 150
+            temperature = 150,
+            temperatureUnit = Temperature.CELSIUS
         )
         every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
 
@@ -117,7 +122,8 @@ class DetailViewModelTest {
             timeCooking = 4,
             timeWaiting = 2,
             timePreparation = 1,
-            temperature = 150
+            temperature = 150,
+            temperatureUnit = Temperature.CELSIUS
         )
         every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
 
