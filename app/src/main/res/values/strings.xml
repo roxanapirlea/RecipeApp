@@ -8,6 +8,7 @@
     <string name="all_reset">Reset</string>
     <string name="all_save">Save</string>
     <string name="all_select">Select…</string>
+    <string name="all_settings">Settings</string>
     <string name="all_validate">Validate</string>
     <string name="all_ingredients">Ingredients</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>

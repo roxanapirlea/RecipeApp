@@ -8,6 +8,7 @@
     <string name="all_reset">Resetează</string>
     <string name="all_save">Salvează</string>
     <string name="all_select">Selectează…</string>
+    <string name="all_settings">Setări</string>
     <string name="all_validate">Validează</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="all_ingredients">Ingrediente</string>

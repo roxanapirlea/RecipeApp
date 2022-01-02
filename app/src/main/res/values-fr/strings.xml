@@ -8,6 +8,7 @@
     <string name="all_reset">Réinitialiser</string>
     <string name="all_save">Enregistrer</string>
     <string name="all_select">Selectionner…</string>
+    <string name="all_settings">Paramètres</string>
     <string name="all_validate">Valider</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="all_ingredients">Ingrédients</string>

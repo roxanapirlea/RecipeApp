@@ -24,6 +24,8 @@ import com.roxana.recipeapp.detail.DetailScreen
 import com.roxana.recipeapp.detail.DetailViewModel
 import com.roxana.recipeapp.home.HomeScreen
 import com.roxana.recipeapp.home.HomeViewModel
+import com.roxana.recipeapp.settings.SettingsScreen
+import com.roxana.recipeapp.settings.SettingsViewModel
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
@@ -41,7 +43,12 @@ fun RecipeNavigation() {
                             Screen.RecipeDetail.destination(Screen.RecipeDetail.Arguments(it))
                         )
                     },
-                    onNavAddRecipe = { navController.navigate(Screen.AddRecipe.destination(null)) }
+                    onNavAddRecipe = {
+                        navController.navigate(Screen.AddRecipe.destination(null))
+                    },
+                    onNavSettings = {
+                        navController.navigate(Screen.Settings.destination(null))
+                    }
                 )
             }
             composable(route = Screen.Settings.route) {
