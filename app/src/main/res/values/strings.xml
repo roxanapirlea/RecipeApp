@@ -64,6 +64,14 @@
     <string name="home_empty_description_instructions">Follow the instructions step by step</string>
     <string name="home_empty_description_quantities">Adapt quantities to your needs</string>
     <string name="home_recipe_fetch_error">There was a problem fetching your recipes</string>
+    <string name="add_recipe_title_page">Title</string>
+    <string name="add_recipe_categories_page">Categories</string>
+    <string name="add_recipe_portions_page">Servings</string>
+    <string name="add_recipe_ingredients_page">Ingredients</string>
+    <string name="add_recipe_instructions_page">Instructions</string>
+    <string name="add_recipe_temperature_page">Temperature</string>
+    <string name="add_recipe_time_page">Time</string>
+    <string name="add_recipe_current_page">Currently editing</string>
     <string name="add_title">Add recipe</string>
     <string name="add_recipe_title_hint">Title</string>
     <string name="add_recipe_category_error">Could not retrieve categories</string>
