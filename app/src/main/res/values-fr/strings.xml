@@ -10,6 +10,9 @@
     <string name="all_select">Selectionner…</string>
     <string name="all_settings">Paramètres</string>
     <string name="all_validate">Valider</string>
+    <string name="all_cross">Fermer</string>
+    <string name="all_back">Retour</string>
+    <string name="all_go_to_next_screen">Vas au prochain écran</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="all_ingredients">Ingrédients</string>
     <string name="all_instructions">Instructions</string>
@@ -73,7 +76,12 @@
     <string name="add_recipe_time_page">Temps</string>
     <string name="add_recipe_current_page">En cours d\'édition</string>
     <string name="add_title">Ajouter une recette</string>
+    <string name="add_recipe_dialog_title">Conserver les informations remplies ?</string>
+    <string name="add_recipe_dialog_message">Souhaites conserver les informations que tu as renseignées ? Tu pourras revenir, terminer la modification et enregistrer la recette.</string>
+    <string name="add_recipe_dialog_reset_info">Non, supprimez-les</string>
+    <string name="add_recipe_dialog_keep_recipe">Oui, gardez-les</string>
     <string name="add_recipe_title_hint">Titre</string>
+    <string name="add_recipe_title_label">Entres le titre de la recette</string>
     <string name="add_recipe_category_error">Impossible de récupérer les catégories</string>
     <string name="add_recipe_quantity_error">Impossible de récupérer les quantités</string>
     <string name="add_recipe_portions_hint">Portions</string>

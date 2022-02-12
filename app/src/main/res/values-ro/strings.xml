@@ -10,6 +10,9 @@
     <string name="all_select">Selectează…</string>
     <string name="all_settings">Setări</string>
     <string name="all_validate">Validează</string>
+    <string name="all_cross">Închide</string>
+    <string name="all_back">Înapoi</string>
+    <string name="all_go_to_next_screen">Mergi la pasul următor</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="all_ingredients">Ingrediente</string>
     <string name="all_instructions">Instrucțiuni</string>
@@ -73,6 +76,11 @@
     <string name="add_recipe_time_page">Timp</string>
     <string name="add_recipe_current_page">În curs de editare</string>
     <string name="add_title">Adaugă o rețetă</string>
+    <string name="add_recipe_dialog_title">Păstezi informațiile completate?</string>
+    <string name="add_recipe_dialog_message">Dorești să păstrezi informațiile pe care le-ai completat? Vei putea să revii, să finalizezi editarea și să salvezi rețeta.</string>
+    <string name="add_recipe_dialog_reset_info">Nu, șterge-le</string>
+    <string name="add_recipe_dialog_keep_recipe">Da, păstrează-le</string>
+    <string name="add_recipe_title_label">Introdu titlul rețetei</string>
     <string name="add_recipe_title_hint">Titlu</string>
     <string name="add_recipe_category_error">Nu s-au putut recupera categoriile</string>
     <string name="add_recipe_quantity_error">Nu s-au putut recupera cantitățile</string>

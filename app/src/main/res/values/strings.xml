@@ -10,6 +10,9 @@
     <string name="all_select">Select…</string>
     <string name="all_settings">Settings</string>
     <string name="all_validate">Validate</string>
+    <string name="all_cross">Close</string>
+    <string name="all_back">Back</string>
+    <string name="all_go_to_next_screen">Go to next screen</string>
     <string name="all_ingredients">Ingredients</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="all_instructions">Instructions</string>
@@ -73,6 +76,11 @@
     <string name="add_recipe_time_page">Time</string>
     <string name="add_recipe_current_page">Currently editing</string>
     <string name="add_title">Add recipe</string>
+    <string name="add_recipe_dialog_title">Keep filled information?</string>
+    <string name="add_recipe_dialog_message">Would you like to keep the information you filled? You will be able to come back, finish editing and save the recipe.</string>
+    <string name="add_recipe_dialog_reset_info">No, discard it</string>
+    <string name="add_recipe_dialog_keep_recipe">Yes, keep it</string>
+    <string name="add_recipe_title_label">Enter the recipe title</string>
     <string name="add_recipe_title_hint">Title</string>
     <string name="add_recipe_category_error">Could not retrieve categories</string>
     <string name="add_recipe_quantity_error">Could not retrieve quantities</string>
