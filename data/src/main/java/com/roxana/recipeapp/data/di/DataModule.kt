@@ -1,12 +1,19 @@
 package com.roxana.recipeapp.data.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.dataStoreFile
 import com.roxana.recipeapp.data.CategoryForRecipe
 import com.roxana.recipeapp.data.Database
 import com.roxana.recipeapp.data.IngredientForRecipe
 import com.roxana.recipeapp.data.Recipe
+import com.roxana.recipeapp.data.RecipeCreation
+import com.roxana.recipeapp.data.RecipeCreationRepositoryImpl
+import com.roxana.recipeapp.data.RecipeCreationSerializer
 import com.roxana.recipeapp.data.RecipeRepositoryImpl
 import com.roxana.recipeapp.data.SettingsRepositoryImpl
+import com.roxana.recipeapp.domain.RecipeCreationRepository
 import com.roxana.recipeapp.domain.RecipeRepository
 import com.roxana.recipeapp.domain.SettingsRepository
 import com.squareup.sqldelight.EnumColumnAdapter
@@ -18,6 +25,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+
+private const val DATA_STORE_RECIPE_CREATION_FILE_NAME = "recipe_creation.pb"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -72,6 +81,18 @@ class DataModule {
     @Singleton
     @Provides
     fun provideRecipeQueries(database: Database) = database.recipeQueries
+
+    @Singleton
+    @Provides
+    fun provideRecipeCreationDataStore(
+        @ApplicationContext appContext: Context
+    ): DataStore<RecipeCreation> {
+        return DataStoreFactory.create(
+            serializer = RecipeCreationSerializer,
+            produceFile = { appContext.dataStoreFile(DATA_STORE_RECIPE_CREATION_FILE_NAME) },
+            corruptionHandler = null
+        )
+    }
 }
 
 @Module
@@ -83,4 +104,10 @@ abstract class DataModuleBinds {
     @Singleton
     @Binds
     abstract fun bindSettingsRepository(impl: SettingsRepositoryImpl): SettingsRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindRecipeCreationRepository(
+        impl: RecipeCreationRepositoryImpl
+    ): RecipeCreationRepository
 }
