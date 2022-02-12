@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.Screen
+import com.roxana.recipeapp.VaryIngredientQuantities
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +31,7 @@ class VaryIngredientsViewModel @Inject constructor(
     val sideEffectFlow = sideEffectChannel.receiveAsFlow()
 
     init {
-        val recipeId = savedStateHandle.get<Int>(Screen.VaryIngredientQuantities.KEY_RECIPE_ID)!!
+        val recipeId = savedStateHandle.get<Int>(VaryIngredientQuantities.KEY_RECIPE_ID)!!
         viewModelScope.launch {
             getRecipeByIdUseCase(recipeId).getOrNull()?.let { recipe ->
                 val ingredients = recipe.ingredients
@@ -66,7 +67,7 @@ class VaryIngredientsViewModel @Inject constructor(
     fun onValidate() {
         val ingredient = state.value.updatedIngredient ?: return
         if (ingredient.isQuantityInError) return
-        val recipeId = savedStateHandle.get<Int>(Screen.VaryIngredientQuantities.KEY_RECIPE_ID)!!
+        val recipeId = savedStateHandle.get<Int>(VaryIngredientQuantities.KEY_RECIPE_ID)!!
 
         viewModelScope.launch {
             sideEffectChannel.send(

@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.roxana.recipeapp.Cooking
 import com.roxana.recipeapp.Screen
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
@@ -32,9 +33,9 @@ class CookingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val recipeId: Int = savedStateHandle.get(Screen.Cooking.KEY_ID)!!
+            val recipeId: Int = savedStateHandle.get(Cooking.KEY_ID)!!
             val quantityMultiplier: Double = savedStateHandle.get<String>(
-                Screen.Cooking.KEY_PORTIONS_MULTIPLIER
+                Cooking.KEY_PORTIONS_MULTIPLIER
             )?.toDoubleOrNull() ?: 1.0
             getRecipeByIdUseCase(recipeId).collect {
                 it.fold(
