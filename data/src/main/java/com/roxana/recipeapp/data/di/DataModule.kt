@@ -12,7 +12,9 @@ import com.roxana.recipeapp.data.RecipeCreation
 import com.roxana.recipeapp.data.RecipeCreationRepositoryImpl
 import com.roxana.recipeapp.data.RecipeCreationSerializer
 import com.roxana.recipeapp.data.RecipeRepositoryImpl
+import com.roxana.recipeapp.data.Settings
 import com.roxana.recipeapp.data.SettingsRepositoryImpl
+import com.roxana.recipeapp.data.SettingsSerializer
 import com.roxana.recipeapp.domain.RecipeCreationRepository
 import com.roxana.recipeapp.domain.RecipeRepository
 import com.roxana.recipeapp.domain.SettingsRepository
@@ -27,6 +29,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 private const val DATA_STORE_RECIPE_CREATION_FILE_NAME = "recipe_creation.pb"
+private const val DATA_STORE_SETTINGS_FILE_NAME = "app_settings.pb"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -90,6 +93,18 @@ class DataModule {
         return DataStoreFactory.create(
             serializer = RecipeCreationSerializer,
             produceFile = { appContext.dataStoreFile(DATA_STORE_RECIPE_CREATION_FILE_NAME) },
+            corruptionHandler = null
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideSettingsDataStore(
+        @ApplicationContext appContext: Context
+    ): DataStore<Settings> {
+        return DataStoreFactory.create(
+            serializer = SettingsSerializer,
+            produceFile = { appContext.dataStoreFile(DATA_STORE_SETTINGS_FILE_NAME) },
             corruptionHandler = null
         )
     }
