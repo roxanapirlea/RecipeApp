@@ -83,10 +83,12 @@
     <string name="add_recipe_title_label">Enter the recipe title</string>
     <string name="add_recipe_categories_label">Select categories for the recipe</string>
     <string name="add_recipe_portions_label">Number of servings</string>
+    <string name="add_recipe_temperature_label">Temperature (%s)</string>
+    <string name="add_recipe_time_label">Time (in minutes)</string>
     <string name="add_recipe_title_hint">Title</string>
     <string name="add_recipe_category_error">Could not retrieve categories</string>
     <string name="add_recipe_quantity_error">Could not retrieve quantities</string>
-    <string name="add_recipe_portions_hint">Portions</string>
+    <string name="add_recipe_portions_hint">Servings</string>
     <string name="add_recipe_ingredient_hint">Name</string>
     <string name="add_recipe_quantity_hint">Quantity</string>
     <string name="add_recipe_quantity_type_hint">Quantity\ntype</string>
@@ -97,7 +99,7 @@
     <string name="add_recipe_time_waiting_hint">Waiting time (min)</string>
     <string name="add_recipe_time_total_hint">Total time (min)</string>
     <string name="add_recipe_compute_total">Compute from\nother values</string>
-    <string name="add_recipe_temperature_hint">Temperature(%s)</string>
+    <string name="add_recipe_temperature_hint">Temperature</string>
     <string name="add_recipe_done_description">Save recipe</string>
     <string name="add_recipe_save_error">Could not save recipe</string>
     <string name="add_recipe_save_success">Recipe saved successfully</string>
