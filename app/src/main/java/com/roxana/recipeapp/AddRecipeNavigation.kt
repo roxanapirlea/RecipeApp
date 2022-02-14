@@ -9,6 +9,8 @@ import androidx.navigation.compose.navigation
 import com.roxana.recipeapp.add.PageType
 import com.roxana.recipeapp.add.categories.AddRecipeCategoriesScreen
 import com.roxana.recipeapp.add.categories.AddRecipeCategoriesViewModel
+import com.roxana.recipeapp.add.portions.AddRecipePortionsScreen
+import com.roxana.recipeapp.add.portions.AddRecipePortionsViewModel
 import com.roxana.recipeapp.add.title.AddRecipeTitleScreen
 import com.roxana.recipeapp.add.title.AddRecipeTitleViewModel
 
@@ -32,8 +34,17 @@ fun NavGraphBuilder.addRecipeGraph(navController: NavController) {
             AddRecipeCategoriesScreen(
                 addRecipeCategoriesViewModel = addRecipeCategoriesViewModel,
                 onBack = { navController.navigateUp() },
-                onForward = { TODO() },
+                onForward = { navController.navigate(AddRecipePortions.route) },
                 onNavigate = { navController.popOrNavigate(AddRecipeCategories, it.toScreen()) },
+            )
+        }
+        composable(route = AddRecipePortions.route) {
+            val addRecipePortionsViewModel = hiltViewModel<AddRecipePortionsViewModel>()
+            AddRecipePortionsScreen(
+                addRecipePortionsViewModel = addRecipePortionsViewModel,
+                onBack = { navController.navigateUp() },
+                onForward = { TODO() },
+                onNavigate = { navController.popOrNavigate(AddRecipePortions, it.toScreen()) },
             )
         }
     }
@@ -55,7 +66,7 @@ private fun PageType.toScreen() =
     when (this) {
         PageType.Title -> AddRecipeTitle
         PageType.Categories -> AddRecipeCategories
-        PageType.Portions -> TODO()
+        PageType.Portions -> AddRecipePortions
         PageType.Ingredients -> TODO()
         PageType.Instructions -> TODO()
         PageType.Temperature -> TODO()
@@ -86,6 +97,14 @@ object AddRecipeCategories : AddRecipeScreen {
     private const val rootRoute = "addCategories"
 
     override val position: Short = 2
+    override val route: String = rootRoute
+    override val arguments: List<NamedNavArgument> = emptyList()
+}
+
+object AddRecipePortions : AddRecipeScreen {
+    private const val rootRoute = "addPortions"
+
+    override val position: Short = 3
     override val route: String = rootRoute
     override val arguments: List<NamedNavArgument> = emptyList()
 }

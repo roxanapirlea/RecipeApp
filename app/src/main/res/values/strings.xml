@@ -82,6 +82,7 @@
     <string name="add_recipe_dialog_keep_recipe">Yes, keep it</string>
     <string name="add_recipe_title_label">Enter the recipe title</string>
     <string name="add_recipe_categories_label">Select categories for the recipe</string>
+    <string name="add_recipe_portions_label">Number of servings</string>
     <string name="add_recipe_title_hint">Title</string>
     <string name="add_recipe_category_error">Could not retrieve categories</string>
     <string name="add_recipe_quantity_error">Could not retrieve quantities</string>
