@@ -81,6 +81,7 @@
     <string name="add_recipe_dialog_reset_info">Nu, șterge-le</string>
     <string name="add_recipe_dialog_keep_recipe">Da, păstrează-le</string>
     <string name="add_recipe_title_label">Introdu titlul rețetei</string>
+    <string name="add_recipe_categories_label">Selectați categoriile rețetei</string>
     <string name="add_recipe_title_hint">Titlu</string>
     <string name="add_recipe_category_error">Nu s-au putut recupera categoriile</string>
     <string name="add_recipe_quantity_error">Nu s-au putut recupera cantitățile</string>

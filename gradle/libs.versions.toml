@@ -30,6 +30,7 @@ sqlDelight = "1.5.3"
 
 [libraries]
 accompanist-bottomSheet = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "accompanist" }
+accompanist-flow = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 androidx-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppCompat" }

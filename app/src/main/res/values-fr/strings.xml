@@ -82,6 +82,7 @@
     <string name="add_recipe_dialog_keep_recipe">Oui, gardez-les</string>
     <string name="add_recipe_title_hint">Titre</string>
     <string name="add_recipe_title_label">Entres le titre de la recette</string>
+    <string name="add_recipe_categories_label">Sélectionnez les catégories pour la recette</string>
     <string name="add_recipe_category_error">Impossible de récupérer les catégories</string>
     <string name="add_recipe_quantity_error">Impossible de récupérer les quantités</string>
     <string name="add_recipe_portions_hint">Portions</string>
