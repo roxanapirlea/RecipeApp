@@ -103,6 +103,8 @@
     <string name="add_recipe_done_description">Salvează rețeta</string>
     <string name="add_recipe_save_error">Nu s-a putut salva rețeta</string>
     <string name="add_recipe_save_success">Rețetă salvată cu succes</string>
+    <string name="add_recipe_recap">Rezumat</string>
+    <string name="add_recipe_recap_continue_editing">Continuați editarea</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d porție)</item>
         <item quantity="few">(%d porții)</item>

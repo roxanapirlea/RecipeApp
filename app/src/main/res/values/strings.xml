@@ -103,6 +103,8 @@
     <string name="add_recipe_done_description">Save recipe</string>
     <string name="add_recipe_save_error">Could not save recipe</string>
     <string name="add_recipe_save_success">Recipe saved successfully</string>
+    <string name="add_recipe_recap">Summary</string>
+    <string name="add_recipe_recap_continue_editing">Continue editing</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d serving)</item>
         <item quantity="other">(%d servings)</item>

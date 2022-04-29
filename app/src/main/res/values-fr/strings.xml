@@ -103,6 +103,8 @@
     <string name="add_recipe_done_description">Enregistrer la recette</string>
     <string name="add_recipe_save_error">Impossible d\'enregistrer la recette</string>
     <string name="add_recipe_save_success">Recette enregistrée avec succès</string>
+    <string name="add_recipe_recap">Recapitulatif</string>
+    <string name="add_recipe_recap_continue_editing">Continuee d\'editer</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d portion)</item>
         <item quantity="many">(%d portions)</item>

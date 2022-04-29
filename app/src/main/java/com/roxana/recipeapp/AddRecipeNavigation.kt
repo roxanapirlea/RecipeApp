@@ -15,6 +15,8 @@ import com.roxana.recipeapp.add.instructions.AddRecipeInstructionsScreen
 import com.roxana.recipeapp.add.instructions.AddRecipeInstructionsViewModel
 import com.roxana.recipeapp.add.portions.AddRecipePortionsScreen
 import com.roxana.recipeapp.add.portions.AddRecipePortionsViewModel
+import com.roxana.recipeapp.add.recap.RecapScreen
+import com.roxana.recipeapp.add.recap.RecapViewModel
 import com.roxana.recipeapp.add.temperature.AddRecipeTemperatureScreen
 import com.roxana.recipeapp.add.temperature.AddRecipeTemperatureViewModel
 import com.roxana.recipeapp.add.time.AddRecipeTimeScreen
@@ -87,8 +89,16 @@ fun NavGraphBuilder.addRecipeGraph(navController: NavController) {
             AddRecipeTimeScreen(
                 addRecipeTimeViewModel = addRecipeTimeViewModel,
                 onBack = { navController.navigateUp() },
-                onForward = { TODO() },
+                onForward = { navController.navigate(AddRecipeRecap.route) },
                 onNavigate = { navController.popOrNavigate(AddRecipeTime, it.toScreen()) },
+            )
+        }
+        composable(route = AddRecipeRecap.route) {
+            val recapViewModel = hiltViewModel<RecapViewModel>()
+            RecapScreen(
+                recapViewModel = recapViewModel,
+                onBack = { navController.navigateUp() },
+                onFinish = { navController.popBackStack(Home.route,false) }
             )
         }
     }
@@ -181,6 +191,13 @@ object AddRecipeTime : AddRecipeScreen {
     private const val rootRoute = "addTime"
 
     override val position: Short = 7
+    override val route: String = rootRoute
+    override val arguments: List<NamedNavArgument> = emptyList()
+}
+
+object AddRecipeRecap : CommonScreen {
+    private const val rootRoute = "addRecipeRecap"
+
     override val route: String = rootRoute
     override val arguments: List<NamedNavArgument> = emptyList()
 }
