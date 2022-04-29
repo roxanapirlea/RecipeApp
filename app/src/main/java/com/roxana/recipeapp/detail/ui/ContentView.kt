@@ -83,7 +83,13 @@ fun ContentView(
             }
             if (!state.time.isEmpty) {
                 item {
-                    TimeView(time = state.time, modifier = Modifier.padding(bottom = 16.dp))
+                    TimeView(
+                        timeTotal = state.time.total,
+                        timeCooking = state.time.cooking,
+                        timePreparation = state.time.preparation,
+                        timeWaiting = state.time.waiting,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
                 }
             }
             state.temperature?.let {
@@ -106,7 +112,13 @@ fun ContentView(
             if (state.ingredients.isEmpty())
                 item { EmptyItem(stringResource(R.string.detail_ingredients_empty)) }
             else
-                items(state.ingredients) { ingredient -> IngredientView(ingredient) }
+                items(state.ingredients) { ingredient ->
+                    IngredientView(
+                        name = ingredient.name,
+                        quantity = ingredient.quantity,
+                        quantityType = ingredient.quantityType
+                    )
+                }
             item {
                 LabelView(
                     text = stringResource(R.string.all_instructions),
