@@ -133,4 +133,7 @@
     <string name="settings_temperature_unit">Temperature</string>
     <string name="settings_measuring_units">Measuring units</string>
     <string name="settings_measuring_units_detail">Choose the units that will be available when adding a new recipe or editing an existing one</string>
+    <string name="debug_settings">Debug settings</string>
+    <string name="debug_settings_onboarding" translatable="false">Onboarding</string>
+    <string name="debug_settings_onboarding_add_recipe" translatable="false">Add recipe onboarding done</string>
 </resources>

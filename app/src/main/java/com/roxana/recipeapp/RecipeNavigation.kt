@@ -24,6 +24,8 @@ import com.roxana.recipeapp.home.HomeScreen
 import com.roxana.recipeapp.home.HomeViewModel
 import com.roxana.recipeapp.settings.SettingsScreen
 import com.roxana.recipeapp.settings.SettingsViewModel
+import com.roxana.recipeapp.settings.debug.DebugSettingsScreen
+import com.roxana.recipeapp.settings.debug.DebugSettingsViewModel
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
@@ -51,6 +53,14 @@ fun RecipeNavigation() {
                 val settingsViewModel = hiltViewModel<SettingsViewModel>()
                 SettingsScreen(
                     settingsViewModel = settingsViewModel,
+                    onBack = { navController.navigateUp() },
+                    onDebugSettings = { navController.navigate(DebugSettings.route) }
+                )
+            }
+            composable(route = DebugSettings.route) {
+                val debugSettingsViewModel = hiltViewModel<DebugSettingsViewModel>()
+                DebugSettingsScreen(
+                    debugSettingsViewModel = debugSettingsViewModel,
                     onBack = { navController.navigateUp() }
                 )
             }
@@ -141,6 +151,13 @@ object Home : CommonScreen {
 
 object Settings : CommonScreen {
     private const val rootRoute = "settings"
+
+    override val route: String = rootRoute
+    override val arguments: List<NamedNavArgument> = emptyList()
+}
+
+object DebugSettings : CommonScreen {
+    private const val rootRoute = "debug_settings"
 
     override val route: String = rootRoute
     override val arguments: List<NamedNavArgument> = emptyList()

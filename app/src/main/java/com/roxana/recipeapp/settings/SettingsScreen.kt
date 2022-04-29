@@ -10,6 +10,7 @@ import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.roxana.recipeapp.BuildConfig
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.settings.ui.ToggleTemperatures
@@ -30,7 +32,8 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 @Composable
 fun SettingsScreen(
     settingsViewModel: SettingsViewModel,
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    onDebugSettings: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(settingsViewModel.state)
         .collectAsState(SettingsViewState())
@@ -38,6 +41,7 @@ fun SettingsScreen(
     SettingsView(state) { action ->
         when (action) {
             Back -> onBack()
+            DebugSettingsSelected -> onDebugSettings()
             is TemperatureSelected -> settingsViewModel.onTemperatureSelected(action.temperature)
             is MeasuringUnitChanged ->
                 settingsViewModel.onMeasuringUnitChanged(action.unit, action.isChecked)
@@ -62,6 +66,16 @@ fun SettingsView(
         }
     ) {
         LazyColumn(contentPadding = PaddingValues(16.dp), modifier = Modifier.fillMaxWidth()) {
+            if (BuildConfig.DEBUG) {
+                item {
+                    TextButton(
+                        modifier = Modifier.padding(vertical = 16.dp),
+                        onClick = { onAction(DebugSettingsSelected) }
+                    ) {
+                        Text(stringResource(R.string.debug_settings))
+                    }
+                }
+            }
             item {
                 LabelView(
                     stringResource(R.string.settings_temperature_unit),

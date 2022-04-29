@@ -134,4 +134,5 @@
     <string name="settings_temperature_unit">Temperatura</string>
     <string name="settings_measuring_units">Unități de măsură</string>
     <string name="settings_measuring_units_detail">Alege unitățile care vor fi disponibile când modifici sau adaugi o nouă rețetă</string>
+    <string name="debug_settings">Setări de debug</string>
 </resources>
