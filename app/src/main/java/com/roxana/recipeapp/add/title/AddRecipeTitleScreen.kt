@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.BackdropValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,6 +34,7 @@ import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.LabelView
 import com.roxana.recipeapp.ui.RecipeTextField
 import com.roxana.recipeapp.ui.theme.RecipeTheme
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -78,6 +81,7 @@ fun AddRecipeTitleView(
     onValidate: () -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
+    val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Concealed)
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -89,6 +93,12 @@ fun AddRecipeTitleView(
                 Forward -> onForwardNavigation()
                 Back -> onBackNavigation()
                 is NavigateToPage -> onNavigateToPage(it.page)
+                RevealBackdrop -> {
+                    delay(500)
+                    scaffoldState.reveal()
+                    delay(500)
+                    scaffoldState.conceal()
+                }
             }
         }
     }
@@ -99,6 +109,7 @@ fun AddRecipeTitleView(
         backContentDescription = stringResource(R.string.all_cross),
         onSelectPage = onSelectPage,
         onBack = onCheckBack,
+        scaffoldState = scaffoldState
     ) {
         Box(Modifier.fillMaxSize()) {
 
@@ -135,7 +146,9 @@ fun AddRecipeTitleView(
             }
             if (state.isValid())
                 FloatingActionButton(
-                    modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(16.dp),
                     onClick = onValidate
                 )  { ForwardIcon() }
         }

@@ -7,6 +7,8 @@ import com.roxana.recipeapp.add.PageType
 import com.roxana.recipeapp.domain.addrecipe.GetTitleUseCase
 import com.roxana.recipeapp.domain.addrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.SetTitleUseCase
+import com.roxana.recipeapp.domain.onboarding.GetAddOnboardingUseCase
+import com.roxana.recipeapp.domain.onboarding.SetAddOnboardingDoneUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +24,9 @@ import javax.inject.Inject
 class AddRecipeTitleViewModel @Inject constructor(
     private val getTitleUseCase: GetTitleUseCase,
     private val setTitleUseCase: SetTitleUseCase,
-    private val resetRecipeUseCase: ResetRecipeUseCase
+    private val resetRecipeUseCase: ResetRecipeUseCase,
+    private val onboardingUseCase: GetAddOnboardingUseCase,
+    private val setOnboardingDoneUseCase: SetAddOnboardingDoneUseCase
 ) : ViewModel() {
     @VisibleForTesting
     val _state = MutableStateFlow(AddRecipeTitleViewState())
@@ -34,6 +38,12 @@ class AddRecipeTitleViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val title = getTitleUseCase(null).first().getOrNull() ?: ""
+            val isOnboardingDone = onboardingUseCase(null).first()
+                .getOrElse { GetAddOnboardingUseCase.Output(false) }.isDone
+            if (!isOnboardingDone) {
+                sideEffectChannel.send(RevealBackdrop)
+                setOnboardingDoneUseCase.execute(null)
+            }
             _state.value = AddRecipeTitleViewState(title)
         }
     }

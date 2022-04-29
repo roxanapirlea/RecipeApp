@@ -7,3 +7,4 @@ sealed class AddRecipeTitleSideEffect
 object Forward : AddRecipeTitleSideEffect()
 object Back : AddRecipeTitleSideEffect()
 data class NavigateToPage(val page: PageType) : AddRecipeTitleSideEffect()
+object RevealBackdrop : AddRecipeTitleSideEffect()
