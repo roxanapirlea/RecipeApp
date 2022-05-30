@@ -14,6 +14,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,8 +35,8 @@ class RecapViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getRecipeUseCase(null).collect { result ->
-                result.fold(
+            getRecipeUseCase(null).first()
+                .fold(
                     { recipe ->
                         val content = RecapViewState(
                             title = recipe.name,
@@ -66,7 +67,6 @@ class RecapViewModel @Inject constructor(
                         sideEffectChannel.send(FetchingError)
                     }
                 )
-            }
         }
     }
 
