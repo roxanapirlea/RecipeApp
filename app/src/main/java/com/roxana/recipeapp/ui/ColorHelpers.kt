@@ -1,6 +1,10 @@
 package com.roxana.recipeapp.ui
 
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+
+const val IMAGE_COLOR_COUNT = 10
 
 fun getIntermediateColors(colorStart: Color, colorEnd: Color, colorCount: Int = 10): List<Color> {
     val alphaStart = colorStart.alpha
@@ -19,3 +23,17 @@ fun getIntermediateColors(colorStart: Color, colorEnd: Color, colorCount: Int = 
         Color(red, green, blue, alpha)
     }
 }
+
+@Composable
+fun getPrimarySecondaryColors() = getIntermediateColors(
+    MaterialTheme.colors.primary,
+    MaterialTheme.colors.secondary,
+    IMAGE_COLOR_COUNT / 2
+) + getIntermediateColors(
+    MaterialTheme.colors.primary,
+    MaterialTheme.colors.secondary,
+    IMAGE_COLOR_COUNT / 2
+).reversed()
+
+@Composable
+fun getPrimarySecondaryColor(index: Int) = getPrimarySecondaryColors()[index % IMAGE_COLOR_COUNT]

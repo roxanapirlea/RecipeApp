@@ -10,6 +10,9 @@
     <string name="all_select">Selectează…</string>
     <string name="all_settings">Setări</string>
     <string name="all_validate">Validează</string>
+    <string name="all_cross">Închide</string>
+    <string name="all_back">Înapoi</string>
+    <string name="all_go_to_next_screen">Mergi la pasul următor</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="all_ingredients">Ingrediente</string>
     <string name="all_instructions">Instrucțiuni</string>
@@ -64,7 +67,24 @@
     <string name="home_empty_description_instructions">Urmează instrucțiunile pas cu pas</string>
     <string name="home_empty_description_quantities">Adaptează cantitățile la nevoile tale</string>
     <string name="home_recipe_fetch_error">A apărut o problemă la recuperarea rețetelor tale</string>
+    <string name="add_recipe_title_page">Titlu</string>
+    <string name="add_recipe_categories_page">Categorii</string>
+    <string name="add_recipe_portions_page">Porții</string>
+    <string name="add_recipe_ingredients_page">Ingrediente</string>
+    <string name="add_recipe_instructions_page">Instrucțiuni</string>
+    <string name="add_recipe_temperature_page">Temperatură</string>
+    <string name="add_recipe_time_page">Timp</string>
+    <string name="add_recipe_current_page">În curs de editare</string>
     <string name="add_title">Adaugă o rețetă</string>
+    <string name="add_recipe_dialog_title">Păstezi informațiile completate?</string>
+    <string name="add_recipe_dialog_message">Dorești să păstrezi informațiile pe care le-ai completat? Vei putea să revii, să finalizezi editarea și să salvezi rețeta.</string>
+    <string name="add_recipe_dialog_reset_info">Nu, șterge-le</string>
+    <string name="add_recipe_dialog_keep_recipe">Da, păstrează-le</string>
+    <string name="add_recipe_title_label">Introdu titlul rețetei</string>
+    <string name="add_recipe_categories_label">Selectați categoriile rețetei</string>
+    <string name="add_recipe_portions_label">Numărul de porții</string>
+    <string name="add_recipe_temperature_label">Temperatura (%s)</string>
+    <string name="add_recipe_time_label">Timp (în minute)</string>
     <string name="add_recipe_title_hint">Titlu</string>
     <string name="add_recipe_category_error">Nu s-au putut recupera categoriile</string>
     <string name="add_recipe_quantity_error">Nu s-au putut recupera cantitățile</string>
@@ -79,10 +99,12 @@
     <string name="add_recipe_time_waiting_hint">Timpul de așteptare (min)</string>
     <string name="add_recipe_time_total_hint">Timpul total (min)</string>
     <string name="add_recipe_compute_total">Calculează din\nceilalți timpi</string>
-    <string name="add_recipe_temperature_hint">Temperatura(%s)</string>
+    <string name="add_recipe_temperature_hint">Temperatura</string>
     <string name="add_recipe_done_description">Salvează rețeta</string>
     <string name="add_recipe_save_error">Nu s-a putut salva rețeta</string>
     <string name="add_recipe_save_success">Rețetă salvată cu succes</string>
+    <string name="add_recipe_recap">Rezumat</string>
+    <string name="add_recipe_recap_continue_editing">Continuați editarea</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d porție)</item>
         <item quantity="few">(%d porții)</item>
@@ -114,4 +136,5 @@
     <string name="settings_temperature_unit">Temperatura</string>
     <string name="settings_measuring_units">Unități de măsură</string>
     <string name="settings_measuring_units_detail">Alege unitățile care vor fi disponibile când modifici sau adaugi o nouă rețetă</string>
+    <string name="debug_settings">Setări de debug</string>
 </resources>

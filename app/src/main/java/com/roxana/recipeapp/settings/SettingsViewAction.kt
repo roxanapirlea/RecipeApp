@@ -11,3 +11,4 @@ data class MeasuringUnitChanged(
     val unit: UiQuantityType,
     val isChecked: Boolean
 ) : SettingsViewAction()
+object DebugSettingsSelected : SettingsViewAction()

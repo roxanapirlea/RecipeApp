@@ -12,8 +12,6 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
-import com.roxana.recipeapp.add.AddRecipeScreen
-import com.roxana.recipeapp.add.AddRecipeViewModel
 import com.roxana.recipeapp.comment.AddCommentScreen
 import com.roxana.recipeapp.comment.AddCommentViewModel
 import com.roxana.recipeapp.cooking.CookingScreen
@@ -26,6 +24,8 @@ import com.roxana.recipeapp.home.HomeScreen
 import com.roxana.recipeapp.home.HomeViewModel
 import com.roxana.recipeapp.settings.SettingsScreen
 import com.roxana.recipeapp.settings.SettingsViewModel
+import com.roxana.recipeapp.settings.debug.DebugSettingsScreen
+import com.roxana.recipeapp.settings.debug.DebugSettingsViewModel
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
@@ -33,97 +33,80 @@ fun RecipeNavigation() {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     val navController = rememberNavController(bottomSheetNavigator)
     ModalBottomSheetLayout(bottomSheetNavigator) {
-        NavHost(navController, startDestination = Screen.Home.route) {
-            composable(route = Screen.Home.route) {
+        NavHost(navController, startDestination = Home.route) {
+            addRecipeGraph(navController)
+
+            composable(route = Home.route) {
                 val homeViewModel = hiltViewModel<HomeViewModel>()
                 HomeScreen(
                     homeViewModel = homeViewModel,
                     onNavDetail = {
                         navController.navigate(
-                            Screen.RecipeDetail.destination(Screen.RecipeDetail.Arguments(it))
+                            RecipeDetail.destination(RecipeDetail.Arguments(it))
                         )
                     },
-                    onNavAddRecipe = {
-                        navController.navigate(Screen.AddRecipe.destination(null))
-                    },
-                    onNavSettings = {
-                        navController.navigate(Screen.Settings.destination(null))
-                    }
+                    onNavAddRecipe = { navController.navigate(AddRecipeGraphRootScreen.route) },
+                    onNavSettings = { navController.navigate(Settings.route) }
                 )
             }
-            composable(route = Screen.Settings.route) {
+            composable(route = Settings.route) {
                 val settingsViewModel = hiltViewModel<SettingsViewModel>()
                 SettingsScreen(
                     settingsViewModel = settingsViewModel,
-                    onBack = { navController.navigateUp() }
+                    onBack = { navController.navigateUp() },
+                    onDebugSettings = { navController.navigate(DebugSettings.route) }
                 )
             }
-            composable(route = Screen.AddRecipe.route) {
-                val addRecipeViewModel = hiltViewModel<AddRecipeViewModel>()
-                AddRecipeScreen(
-                    addRecipeViewModel = addRecipeViewModel,
+            composable(route = DebugSettings.route) {
+                val debugSettingsViewModel = hiltViewModel<DebugSettingsViewModel>()
+                DebugSettingsScreen(
+                    debugSettingsViewModel = debugSettingsViewModel,
                     onBack = { navController.navigateUp() }
                 )
             }
             composable(
-                route = Screen.RecipeDetail.route,
-                arguments = Screen.RecipeDetail.arguments
+                route = RecipeDetail.route,
+                arguments = RecipeDetail.arguments
             ) { backStackEntry ->
                 val detailViewModel = hiltViewModel<DetailViewModel>()
                 DetailScreen(
                     detailViewModel = detailViewModel,
                     onStartCooking = {
-                        navController.navigate(
-                            Screen.Cooking.destination(
-                                Screen.Cooking.Arguments(
-                                    backStackEntry.arguments!!.getInt(Screen.RecipeDetail.KEY_ID)
-                                )
-                            )
-                        )
+                        val recipeId = backStackEntry.arguments!!.getInt(RecipeDetail.KEY_ID)
+                        navController.navigate(Cooking.destination(Cooking.Arguments(recipeId)))
                     },
                     onBack = { navController.navigateUp() },
                     onAddComment = {
-                        navController.navigate(
-                            Screen.AddComment.destination(
-                                Screen.AddComment.Arguments(
-                                    backStackEntry.arguments!!.getInt(Screen.RecipeDetail.KEY_ID)
-                                )
-                            )
-                        )
+                        val recipeId = backStackEntry.arguments!!.getInt(RecipeDetail.KEY_ID)
+                        navController.navigate(AddComment.destination(AddComment.Arguments(recipeId)))
                     }
                 )
             }
             composable(
-                route = Screen.Cooking.route,
-                arguments = Screen.Cooking.arguments
+                route = Cooking.route,
+                arguments = Cooking.arguments
             ) { backStackEntry ->
                 val cookingViewModel = hiltViewModel<CookingViewModel>()
                 CookingScreen(
                     cookingViewModel = cookingViewModel,
                     onBack = { navController.navigateUp() },
                     onAddComment = {
-                        navController.navigate(
-                            Screen.AddComment.destination(
-                                Screen.AddComment.Arguments(
-                                    backStackEntry.arguments!!.getInt(Screen.Cooking.KEY_ID)
-                                )
-                            )
-                        )
+                        val recipeId = backStackEntry.arguments!!.getInt(Cooking.KEY_ID)
+                        navController.navigate(AddComment.destination(AddComment.Arguments(recipeId)))
                     },
                     onVaryIngredient = {
+                        val recipeId = backStackEntry.arguments!!.getInt(Cooking.KEY_ID)
                         navController.navigate(
-                            Screen.VaryIngredientQuantities.destination(
-                                Screen.VaryIngredientQuantities.Arguments(
-                                    backStackEntry.arguments!!.getInt(Screen.Cooking.KEY_ID)
-                                )
+                            VaryIngredientQuantities.destination(
+                                VaryIngredientQuantities.Arguments(recipeId)
                             )
                         )
                     }
                 )
             }
             bottomSheet(
-                route = Screen.AddComment.route,
-                arguments = Screen.AddComment.arguments
+                route = AddComment.route,
+                arguments = AddComment.arguments
             ) {
                 val addCommentViewModel = hiltViewModel<AddCommentViewModel>()
                 AddCommentScreen(
@@ -132,17 +115,17 @@ fun RecipeNavigation() {
                 )
             }
             bottomSheet(
-                route = Screen.VaryIngredientQuantities.route,
-                arguments = Screen.VaryIngredientQuantities.arguments
+                route = VaryIngredientQuantities.route,
+                arguments = VaryIngredientQuantities.arguments
             ) {
                 val varyIngredientsViewModel = hiltViewModel<VaryIngredientsViewModel>()
                 VaryIngredientsScreen(
                     varyIngredientsViewModel = varyIngredientsViewModel
                 ) { quantityMultiplier, recipeId ->
-                    navController.popBackStack(Screen.Cooking.route, true)
+                    navController.popBackStack(Cooking.route, true)
                     navController.navigate(
-                        Screen.Cooking.destination(
-                            Screen.Cooking.Arguments(recipeId, quantityMultiplier.toString())
+                        Cooking.destination(
+                            Cooking.Arguments(recipeId, quantityMultiplier.toString())
                         )
                     )
                 }
@@ -151,91 +134,90 @@ fun RecipeNavigation() {
     }
 }
 
-interface NavRoute {
+interface Screen {
     val route: String
     val arguments: List<NamedNavArgument>
 }
 
-interface NavDestination<T> {
-    fun destination(arguments: T): String
+interface CommonScreen : Screen
+
+object Home : CommonScreen {
+    private const val rootRoute = "home"
+
+    override val route: String = rootRoute
+    override val arguments: List<NamedNavArgument> = emptyList()
 }
 
-sealed class Screen(val rootRoute: String) {
-    object Home : Screen("home"), NavRoute, NavDestination<Any?> {
-        override val route: String = rootRoute
-        override val arguments: List<NamedNavArgument> = emptyList()
-        override fun destination(arguments: Any?): String = rootRoute
-    }
+object Settings : CommonScreen {
+    private const val rootRoute = "settings"
 
-    object Settings : Screen("settings"), NavRoute, NavDestination<Any?> {
-        override val route: String = rootRoute
-        override val arguments: List<NamedNavArgument> = emptyList()
-        override fun destination(arguments: Any?): String = rootRoute
-    }
+    override val route: String = rootRoute
+    override val arguments: List<NamedNavArgument> = emptyList()
+}
 
-    object AddRecipe : Screen("add"), NavRoute, NavDestination<Any?> {
-        override val route: String = rootRoute
-        override val arguments: List<NamedNavArgument> = emptyList()
-        override fun destination(arguments: Any?): String = rootRoute
-    }
+object DebugSettings : CommonScreen {
+    private const val rootRoute = "debug_settings"
 
-    object RecipeDetail : Screen("detail"), NavRoute, NavDestination<RecipeDetail.Arguments> {
-        const val KEY_ID = "id"
+    override val route: String = rootRoute
+    override val arguments: List<NamedNavArgument> = emptyList()
+}
 
-        override val route: String = "$rootRoute/{$KEY_ID}"
-        override val arguments: List<NamedNavArgument> =
-            listOf(navArgument(KEY_ID) { type = NavType.IntType })
+interface DetailScreen : Screen
 
-        override fun destination(arguments: Arguments): String = "$rootRoute/${arguments.id}"
+object RecipeDetail : DetailScreen {
+    private const val ROOT_ROUTE = "detail"
+    const val KEY_ID = "id"
 
-        data class Arguments(val id: Int)
-    }
+    override val route: String = "$ROOT_ROUTE/{$KEY_ID}"
+    override val arguments: List<NamedNavArgument> =
+        listOf(navArgument(KEY_ID) { type = NavType.IntType })
 
-    object Cooking : Screen("cooking"), NavRoute, NavDestination<Cooking.Arguments> {
-        const val KEY_ID = "id"
-        const val KEY_PORTIONS_MULTIPLIER = "portions_multiplier"
+    fun destination(args: Arguments) = "$ROOT_ROUTE/${args.id}"
 
-        override val route: String =
-            "$rootRoute/{$KEY_ID}?$KEY_PORTIONS_MULTIPLIER={$KEY_PORTIONS_MULTIPLIER}"
-        override val arguments: List<NamedNavArgument> =
-            listOf(
-                navArgument(KEY_ID) { type = NavType.IntType },
-                navArgument(KEY_PORTIONS_MULTIPLIER) { type = NavType.StringType }
-            )
+    data class Arguments(val id: Int)
+}
 
-        override fun destination(arguments: Arguments): String =
-            "$rootRoute/${arguments.id}?$KEY_PORTIONS_MULTIPLIER=${arguments.portionsMultiplier}"
+object Cooking : DetailScreen {
+    private const val ROOT_ROUTE = "cooking"
+    const val KEY_ID = "id"
+    const val KEY_PORTIONS_MULTIPLIER = "portions_multiplier"
 
-        data class Arguments(val id: Int, val portionsMultiplier: String = "1")
-    }
+    override val route: String =
+        "$ROOT_ROUTE/{$KEY_ID}?$KEY_PORTIONS_MULTIPLIER={$KEY_PORTIONS_MULTIPLIER}"
+    override val arguments: List<NamedNavArgument> =
+        listOf(
+            navArgument(KEY_ID) { type = NavType.IntType },
+            navArgument(KEY_PORTIONS_MULTIPLIER) { type = NavType.StringType }
+        )
 
-    object AddComment :
-        Screen("add_comment"),
-        NavRoute,
-        NavDestination<AddComment.Arguments> {
-        const val KEY_ID = "id"
+    fun destination(arguments: Arguments): String =
+        "$ROOT_ROUTE/${arguments.id}?$KEY_PORTIONS_MULTIPLIER=${arguments.portionsMultiplier}"
 
-        override val route: String = "$rootRoute/{$KEY_ID}"
-        override val arguments: List<NamedNavArgument> =
-            listOf(navArgument(KEY_ID) { type = NavType.IntType })
+    data class Arguments(val id: Int, val portionsMultiplier: String = "1")
+}
 
-        override fun destination(arguments: Arguments): String = "$rootRoute/${arguments.id}"
+object AddComment : DetailScreen {
+    private const val ROOT_ROUTE = "add_comment"
+    const val KEY_ID = "id"
 
-        data class Arguments(val id: Int)
-    }
+    override val route: String = "$ROOT_ROUTE/{$KEY_ID}"
+    override val arguments: List<NamedNavArgument> =
+        listOf(navArgument(KEY_ID) { type = NavType.IntType })
 
-    object VaryIngredientQuantities :
-        Screen("ingredient_quantities"),
-        NavRoute,
-        NavDestination<VaryIngredientQuantities.Arguments> {
-        const val KEY_RECIPE_ID = "recipe_id"
+    fun destination(arguments: Arguments): String = "$ROOT_ROUTE/${arguments.id}"
 
-        override val route: String = "$rootRoute/{$KEY_RECIPE_ID}"
-        override val arguments: List<NamedNavArgument> =
-            listOf(navArgument(KEY_RECIPE_ID) { type = NavType.IntType })
+    data class Arguments(val id: Int)
+}
 
-        override fun destination(arguments: Arguments): String = "$rootRoute/${arguments.id}"
+object VaryIngredientQuantities : DetailScreen {
+    private const val ROOT_ROUTE = "ingredient_quantities"
+    const val KEY_RECIPE_ID = "recipe_id"
 
-        data class Arguments(val id: Int)
-    }
+    override val route: String = "$ROOT_ROUTE/{$KEY_RECIPE_ID}"
+    override val arguments: List<NamedNavArgument> =
+        listOf(navArgument(KEY_RECIPE_ID) { type = NavType.IntType })
+
+    fun destination(arguments: Arguments): String = "$ROOT_ROUTE/${arguments.id}"
+
+    data class Arguments(val id: Int)
 }

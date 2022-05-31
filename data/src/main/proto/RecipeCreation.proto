@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+option java_package = "com.roxana.recipeapp.data";
+option java_multiple_files = true;
+
+message RecipeCreation {
+  optional string title = 1;
+  repeated Category categories = 2;
+  optional int32 portions = 3;
+  repeated Ingredient ingredients = 4;
+  repeated Indexed instructions = 5;
+  optional Temperature temperatureUnit = 6;
+  optional int32 temperature = 7;
+  optional int32 cookingTime = 8;
+  optional int32 preparationTime = 9;
+  optional int32 waitingTime = 10;
+  optional int32 totalTime = 11;
+
+  message Ingredient {
+    optional string name = 1;
+    optional double quantity = 2;
+    optional MeasuringUnit quantityType = 3;
+  }
+
+  message Indexed {
+    optional string name = 1;
+    int32 ordinal = 2;
+  }
+
+  enum Category {
+    UNKNOWN_CATEGORY = 0;
+    BREAKFAST = 1;
+    LUNCH = 2;
+    DINNER = 3;
+    SNACK = 4;
+    MAIN = 5;
+    SIDE = 6;
+    DESSERT = 7;
+    DRINK = 8;
+  }
+
+  enum MeasuringUnit {
+    UNKNOWN_MEASURE = 0;
+    POUND = 1;
+    OUNCE = 2;
+    GRAM = 3;
+    KILOGRAM = 4;
+    TEASPOON = 5;
+    TABLESPOON = 6;
+    FLUID_OUNCE = 7;
+    GILL = 8;
+    CUP = 9;
+    PINT = 10;
+    QUART = 11;
+    GALLON = 12;
+    LITER = 13;
+    DECILITER = 14;
+    CENTILITER = 15;
+    MILLILITER = 16;
+  }
+
+  enum Temperature {
+    CELSIUS = 0;
+    FAHRENHEIT = 1;
+  }
+}

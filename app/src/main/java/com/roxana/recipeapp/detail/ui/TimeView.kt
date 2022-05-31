@@ -8,25 +8,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.detail.TimeState
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
 fun TimeView(
-    time: TimeState,
+    timeTotal: Short?,
+    timeCooking: Short?,
+    timePreparation: Short?,
+    timeWaiting: Short?,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        time.total?.let {
+        timeTotal?.let {
             ItemDetailsView(text = stringResource(R.string.detail_total_time, it))
         }
-        time.cooking?.let {
+        timeCooking?.let {
             ItemDetailsView(text = stringResource(R.string.detail_cooking_time, it))
         }
-        time.preparation?.let {
+        timePreparation?.let {
             ItemDetailsView(text = stringResource(R.string.detail_preparation_time, it))
         }
-        time.waiting?.let {
+        timeWaiting?.let {
             ItemDetailsView(text = stringResource(R.string.detail_waiting_time, it))
         }
     }
@@ -40,7 +42,7 @@ fun TimeView(
 @Composable
 fun TimeViewPreviewLight() {
     RecipeTheme {
-        TimeView(TimeState(6, 3, 2, 1), Modifier.fillMaxWidth())
+        TimeView(6, 3, 2, 1, Modifier.fillMaxWidth())
     }
 }
 
@@ -52,6 +54,6 @@ fun TimeViewPreviewLight() {
 @Composable
 fun TimeViewPreviewDark() {
     RecipeTheme {
-        TimeView(TimeState(6, 3, 2, 1), Modifier.fillMaxWidth())
+        TimeView(6, 3, 2, 1, Modifier.fillMaxWidth())
     }
 }

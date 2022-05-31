@@ -1,7 +1,7 @@
 package com.roxana.recipeapp.detail
 
 import androidx.lifecycle.SavedStateHandle
-import com.roxana.recipeapp.Screen.RecipeDetail.KEY_ID
+import com.roxana.recipeapp.RecipeDetail.KEY_ID
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.Comment

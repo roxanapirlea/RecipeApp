@@ -10,6 +10,9 @@
     <string name="all_select">Selectionner…</string>
     <string name="all_settings">Paramètres</string>
     <string name="all_validate">Valider</string>
+    <string name="all_cross">Fermer</string>
+    <string name="all_back">Retour</string>
+    <string name="all_go_to_next_screen">Vas au prochain écran</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="all_ingredients">Ingrédients</string>
     <string name="all_instructions">Instructions</string>
@@ -64,8 +67,25 @@
     <string name="home_empty_description_instructions">Suis les instructions étape par étape</string>
     <string name="home_empty_description_quantities">Adapte les quantités à tes besoins</string>
     <string name="home_recipe_fetch_error">Un problème est survenu lors de la récupération de tes recettes</string>
+    <string name="add_recipe_title_page">Titre</string>
+    <string name="add_recipe_categories_page">Catégories</string>
+    <string name="add_recipe_portions_page">Portions</string>
+    <string name="add_recipe_ingredients_page">Ingrédients</string>
+    <string name="add_recipe_instructions_page">Instructions</string>
+    <string name="add_recipe_temperature_page">Température</string>
+    <string name="add_recipe_time_page">Temps</string>
+    <string name="add_recipe_current_page">En cours d\'édition</string>
     <string name="add_title">Ajouter une recette</string>
+    <string name="add_recipe_dialog_title">Conserver les informations remplies ?</string>
+    <string name="add_recipe_dialog_message">Souhaites conserver les informations que tu as renseignées ? Tu pourras revenir, terminer la modification et enregistrer la recette.</string>
+    <string name="add_recipe_dialog_reset_info">Non, supprimez-les</string>
+    <string name="add_recipe_dialog_keep_recipe">Oui, gardez-les</string>
     <string name="add_recipe_title_hint">Titre</string>
+    <string name="add_recipe_title_label">Entres le titre de la recette</string>
+    <string name="add_recipe_categories_label">Sélectionnez les catégories pour la recette</string>
+    <string name="add_recipe_portions_label">Nombre de portions</string>
+    <string name="add_recipe_temperature_label">Température (%s)</string>
+    <string name="add_recipe_time_label">Temps (en minutes)</string>
     <string name="add_recipe_category_error">Impossible de récupérer les catégories</string>
     <string name="add_recipe_quantity_error">Impossible de récupérer les quantités</string>
     <string name="add_recipe_portions_hint">Portions</string>
@@ -79,10 +99,12 @@
     <string name="add_recipe_time_waiting_hint">Temps d\'attente (min)</string>
     <string name="add_recipe_time_total_hint">Temps total (min)</string>
     <string name="add_recipe_compute_total">Calculer à partir\nd\'autres temps</string>
-    <string name="add_recipe_temperature_hint">Température(%s)</string>
+    <string name="add_recipe_temperature_hint">Température</string>
     <string name="add_recipe_done_description">Enregistrer la recette</string>
     <string name="add_recipe_save_error">Impossible d\'enregistrer la recette</string>
     <string name="add_recipe_save_success">Recette enregistrée avec succès</string>
+    <string name="add_recipe_recap">Recapitulatif</string>
+    <string name="add_recipe_recap_continue_editing">Continuee d\'editer</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d portion)</item>
         <item quantity="many">(%d portions)</item>
@@ -114,4 +136,5 @@
     <string name="settings_temperature_unit">Température</string>
     <string name="settings_measuring_units">Unités de mesure</string>
     <string name="settings_measuring_units_detail">Choisis les unités qui seront disponibles lors de l\'ajout d\'une nouvelle recette ou de la modification d\'une recette existante</string>
+    <string name="debug_settings">Paramètres de debuggage</string>
 </resources>

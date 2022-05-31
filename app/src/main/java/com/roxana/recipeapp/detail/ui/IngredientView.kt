@@ -9,27 +9,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.detail.IngredientState
 import com.roxana.recipeapp.misc.toFormattedString
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiQuantityType
 
 @Composable
 fun IngredientView(
-    ingredient: IngredientState,
+    name: String,
+    quantity: Double?,
+    quantityType: UiQuantityType,
     modifier: Modifier = Modifier
 ) {
-    val quantity = ingredient.quantity?.toFormattedString() ?: ""
-    val quantityType = stringResource(ingredient.quantityType.textForSelected)
+    val formattedQuantity = quantity?.toFormattedString() ?: ""
+    val formattedQuantityType = stringResource(quantityType.textForSelected)
     val formattedIngredient =
-        if (ingredient.quantity == null)
-            ingredient.name
+        if (quantity == null)
+            name
         else
             stringResource(
                 R.string.all_ingredient_placeholders,
-                quantity,
-                quantityType,
-                ingredient.name
+                formattedQuantity,
+                formattedQuantityType,
+                name
             )
     Text(formattedIngredient, color = MaterialTheme.colors.onBackground, modifier = modifier)
 }
@@ -42,7 +43,7 @@ fun IngredientView(
 @Composable
 fun IngredientViewQuantityAndTypePreviewLight() {
     RecipeTheme {
-        IngredientView(IngredientState("Water", 2.0, UiQuantityType.Cup), Modifier.fillMaxWidth())
+        IngredientView("Water", 2.0, UiQuantityType.Cup, Modifier.fillMaxWidth())
     }
 }
 
@@ -54,10 +55,7 @@ fun IngredientViewQuantityAndTypePreviewLight() {
 @Composable
 fun IngredientViewQuantityAndTypePreviewDark() {
     RecipeTheme {
-        IngredientView(
-            IngredientState("Water", 2.0, UiQuantityType.Cup),
-            Modifier.fillMaxWidth()
-        )
+        IngredientView("Water", 2.0, UiQuantityType.Cup, Modifier.fillMaxWidth())
     }
 }
 
@@ -69,10 +67,7 @@ fun IngredientViewQuantityAndTypePreviewDark() {
 @Composable
 fun IngredientViewQuantityPreviewLight() {
     RecipeTheme {
-        IngredientView(
-            IngredientState("Oranges", 2.0, UiQuantityType.None),
-            Modifier.fillMaxWidth()
-        )
+        IngredientView("Oranges", 2.0, UiQuantityType.None, Modifier.fillMaxWidth())
     }
 }
 
@@ -84,10 +79,7 @@ fun IngredientViewQuantityPreviewLight() {
 @Composable
 fun IngredientViewQuantityPreviewDark() {
     RecipeTheme {
-        IngredientView(
-            IngredientState("Oranges", 2.0, UiQuantityType.None),
-            Modifier.fillMaxWidth()
-        )
+        IngredientView("Oranges", 2.0, UiQuantityType.None, Modifier.fillMaxWidth())
     }
 }
 
@@ -99,10 +91,7 @@ fun IngredientViewQuantityPreviewDark() {
 @Composable
 fun IngredientViewPreviewLight() {
     RecipeTheme {
-        IngredientView(
-            IngredientState("Salt", null, UiQuantityType.None),
-            Modifier.fillMaxWidth()
-        )
+        IngredientView("Salt", null, UiQuantityType.None, Modifier.fillMaxWidth())
     }
 }
 
@@ -114,9 +103,6 @@ fun IngredientViewPreviewLight() {
 @Composable
 fun IngredientViewPreviewDark() {
     RecipeTheme {
-        IngredientView(
-            IngredientState("Salt", null, UiQuantityType.None),
-            Modifier.fillMaxWidth()
-        )
+        IngredientView("Salt", null, UiQuantityType.None, Modifier.fillMaxWidth())
     }
 }

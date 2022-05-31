@@ -14,3 +14,9 @@ fun unlinedTextFiledColors() = TextFieldDefaults.textFieldColors(
     unfocusedIndicatorColor = Color.Transparent,
     errorIndicatorColor = Color.Transparent
 )
+
+@Composable
+fun secondaryOutlineTextFiledColors() = TextFieldDefaults.outlinedTextFieldColors(
+    focusedBorderColor = MaterialTheme.colors.secondary,
+    cursorColor = MaterialTheme.colors.secondary,
+)

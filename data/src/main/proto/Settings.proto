@@ -8,6 +8,7 @@ option java_multiple_files = true;
 message Settings {
   Temperature temperature = 1;
   repeated MeasureUnit units = 2;
+  bool addOnboardingDone = 3;
 
   enum Temperature {
     CELSIUS = 0;
