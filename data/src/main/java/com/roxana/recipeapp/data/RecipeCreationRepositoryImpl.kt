@@ -222,6 +222,44 @@ class RecipeCreationRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setRecipe(recipe: CreationRecipe) {
+        recipeDataStore.updateData {
+            val builder = RecipeCreation.newBuilder()
+
+            val instructions = recipe.instructions.map {
+                RecipeCreation.Indexed.newBuilder()
+                    .setName(it.name)
+                    .setOrdinal(it.ordinal.toInt())
+                    .build()
+            }
+
+            val ingredients = recipe.ingredients.map { ingredient ->
+                RecipeCreation.Ingredient.newBuilder()
+                    .setName(ingredient.name)
+                    .apply { ingredient.quantity?.let { quantity = it } }
+                    .apply {
+                        ingredient.quantityType?.let { quantityType = it.toCreationProto() }
+                    }
+                    .apply { ingredient.id?.let { id = it } }
+                    .build()
+            }
+
+            recipe.id?.let { builder.id = it }
+            builder.title = recipe.name
+            builder.addAllCategories(recipe.categories.map { it.toProto() })
+            recipe.portions?.let { builder.portions = it.toInt() }
+            builder.addAllInstructions(instructions)
+            builder.addAllIngredients(ingredients)
+            recipe.timeTotal?.let { builder.totalTime = it.toInt() }
+            recipe.timePreparation?.let { builder.preparationTime = it.toInt() }
+            recipe.timeCooking?.let { builder.cookingTime = it.toInt() }
+            recipe.timeWaiting?.let { builder.waitingTime = it.toInt() }
+            recipe.temperatureUnit?.let { builder.temperatureUnit = it.toCreationProto() }
+            recipe.temperature?.let { builder.temperature = it.toInt() }
+            builder.build()
+        }
+    }
+
     override suspend fun reset() {
         recipeDataStore.updateData {
             RecipeCreation.newBuilder().build()

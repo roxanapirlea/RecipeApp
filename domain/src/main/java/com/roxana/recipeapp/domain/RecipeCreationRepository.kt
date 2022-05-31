@@ -27,5 +27,6 @@ interface RecipeCreationRepository {
     fun getTemperatureUnit(): Flow<Temperature?>
     suspend fun setTemperature(temperature: Short?, temperatureUnit: Temperature)
     fun getRecipe(): Flow<CreationRecipe>
+    suspend fun setRecipe(recipe: CreationRecipe)
     suspend fun reset()
 }
