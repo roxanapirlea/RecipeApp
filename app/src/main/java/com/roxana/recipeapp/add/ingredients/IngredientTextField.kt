@@ -197,7 +197,7 @@ fun IngredientTextFieldPreviewLight() {
 fun IngredientTextFieldFilledPreviewLight() {
     RecipeTheme {
         IngredientTextField(
-            ingredient = IngredientState("Flour", "2.0", UiQuantityType.Cup),
+            ingredient = IngredientState(null, "Flour", "2.0", UiQuantityType.Cup),
             quantityTypes = listOf(),
             onIngredientChange = {},
             onQuantityChange = {},
@@ -235,7 +235,7 @@ fun IngredientTextFieldPreviewDark() {
 fun IngredientTextFieldFilledPreviewDark() {
     RecipeTheme {
         IngredientTextField(
-            ingredient = IngredientState("Flour", "2.0", UiQuantityType.Cup),
+            ingredient = IngredientState(null, "Flour", "2.0", UiQuantityType.Cup),
             quantityTypes = listOf(),
             onIngredientChange = {},
             onQuantityChange = {},

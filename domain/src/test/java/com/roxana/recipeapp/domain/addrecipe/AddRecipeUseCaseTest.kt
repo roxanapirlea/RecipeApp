@@ -29,6 +29,7 @@ class AddRecipeUseCaseTest {
     fun returnSuccess_when_noError() = runBlocking {
         // Given
         val recipe = CreationRecipe(
+            null,
             "fake",
             null,
             1,
@@ -77,6 +78,7 @@ class AddRecipeUseCaseTest {
     fun returnFailure_when_addRecipeThrowsError() = runBlocking {
         // Given
         val recipe = CreationRecipe(
+            null,
             "fake",
             null,
             1,
@@ -108,6 +110,7 @@ class AddRecipeUseCaseTest {
     fun returnSuccess_when_resetThrowsError() = runBlocking {
         // Given
         val recipe = CreationRecipe(
+            null,
             "fake",
             null,
             1,

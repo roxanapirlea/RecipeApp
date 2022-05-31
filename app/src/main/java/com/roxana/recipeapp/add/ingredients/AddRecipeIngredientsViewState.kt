@@ -9,6 +9,7 @@ data class AddRecipeIngredientsViewState(
 )
 
 data class IngredientState(
+    val id: Int? = null,
     val name: String = "",
     val quantity: String = "",
     val quantityType: UiQuantityType = UiQuantityType.None

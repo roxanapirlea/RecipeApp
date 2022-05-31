@@ -47,6 +47,7 @@ class AddRecipeIngredientsViewModel @Inject constructor(
             val ingredients = getIngredientsUseCase(null).first().getOrElse { emptyList() }
                 .map {
                     IngredientState(
+                        it.id,
                         it.name,
                         it.quantity?.toFormattedString() ?: "",
                         it.quantityType.toUiModel()
@@ -132,6 +133,7 @@ class AddRecipeIngredientsViewModel @Inject constructor(
         }
         .map {
             CreationIngredient(
+                it.id,
                 it.name,
                 it.quantity.toDoubleOrNull(),
                 it.quantityType.toDomainModel()

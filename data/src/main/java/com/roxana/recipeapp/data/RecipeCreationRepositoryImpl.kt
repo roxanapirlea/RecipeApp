@@ -42,11 +42,12 @@ class RecipeCreationRepositoryImpl @Inject constructor(
         recipeDataStore.data.map { recipe ->
             recipe.ingredientsList
                 .map {
+                    val id = if (it.hasId()) it.id else null
                     val quantity =
                         if (it.hasQuantity()) it.quantity else null
                     val quantityType =
                         if (it.hasQuantityType()) it.quantityType.toDomainModel() else null
-                    CreationIngredient(it.name, quantity, quantityType)
+                    CreationIngredient(id, it.name, quantity, quantityType)
                 }
         }
 
@@ -82,17 +83,19 @@ class RecipeCreationRepositoryImpl @Inject constructor(
 
     override fun getRecipe(): Flow<CreationRecipe> =
         recipeDataStore.data.map { recipe ->
+            val id = if (recipe.hasId()) recipe.id else null
             val title = recipe.title
             val portions = if (recipe.hasPortions()) recipe.portions.toShort() else null
             val categories = recipe.categoriesList
                 .mapNotNull { it.toDomainModel() }
             val ingredients = recipe.ingredientsList
                 .map {
+                    val ingredientId = if (it.hasId()) it.id else null
                     val quantity =
                         if (it.hasQuantity()) it.quantity else null
                     val quantityType =
                         if (it.hasQuantityType()) it.quantityType.toDomainModel() else null
-                    CreationIngredient(it.name, quantity, quantityType)
+                    CreationIngredient(ingredientId, it.name, quantity, quantityType)
                 }
             val instructions = recipe.instructionsList
                 .map { CreationInstruction(it.name, it.ordinal.toShort()) }
@@ -105,6 +108,7 @@ class RecipeCreationRepositoryImpl @Inject constructor(
             val temperatureUnit =
                 if (recipe.hasTemperatureUnit()) recipe.temperatureUnit.toDomainModel() else null
             CreationRecipe(
+                id,
                 title,
                 null,
                 portions,
@@ -176,6 +180,7 @@ class RecipeCreationRepositoryImpl @Inject constructor(
                                     quantityType = it.toCreationProto()
                                 }
                             }
+                            .apply { ingredient.id?.let { id = it } }
                             .build()
                     }
                 )

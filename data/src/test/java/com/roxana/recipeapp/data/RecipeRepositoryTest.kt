@@ -105,9 +105,9 @@ internal class RecipeRepositoryTest {
     fun callIngredientQueriesInsert_when_addRecipe() = runBlocking {
         // Given
         val name = "Crepes"
-        val ingredient1 = CreationIngredient("Eggs", 2.0, null)
+        val ingredient1 = CreationIngredient(null, "Eggs", 2.0, null)
         val ingredient2 =
-            CreationIngredient("Flour", 6.0, QuantityType.TABLESPOON)
+            CreationIngredient(null, "Flour", 6.0, QuantityType.TABLESPOON)
         val recipe = creationRecipeModel.copy(
             name = name,
             ingredients = listOf(ingredient1, ingredient2)
@@ -131,9 +131,9 @@ internal class RecipeRepositoryTest {
     @Test
     fun callIngredientForRecipeQueriesInsert_when_addRecipe() = runBlocking {
         // Given
-        val ingredient1 = CreationIngredient("Eggs", 2.0, null)
+        val ingredient1 = CreationIngredient(null, "Eggs", 2.0, null)
         val ingredient2 =
-            CreationIngredient("Flour", 6.0, QuantityType.TABLESPOON)
+            CreationIngredient(null, "Flour", 6.0, QuantityType.TABLESPOON)
         val recipe = creationRecipeModel.copy(ingredients = listOf(ingredient1, ingredient2))
         val recipeId = 12L
         val dataRecipe = dataRecipeModel.copy(id = recipeId)
@@ -315,13 +315,14 @@ internal class RecipeRepositoryTest {
     }
 
     private val creationRecipeModel = CreationRecipe(
+        id = null,
         name = "fake name",
         photoPath = null,
         portions = 1,
         categories = listOf(CategoryType.DINNER),
         instructions = listOf(CreationInstruction("fake instruction", 1)),
         ingredients = listOf(
-            CreationIngredient("fake ingredient", 2.0, QuantityType.POUND)
+            CreationIngredient(null, "fake ingredient", 2.0, QuantityType.POUND)
         ),
         timeTotal = 8,
         timePreparation = 7,
