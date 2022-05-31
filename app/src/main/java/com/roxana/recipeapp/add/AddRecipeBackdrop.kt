@@ -123,7 +123,8 @@ fun BackdropPage(
     Row(
         Modifier
             .fillMaxWidth()
-            .clickable { onSelect() }) {
+            .clickable { onSelect() }
+    ) {
         Text(
             stringResource(page.name),
             Modifier

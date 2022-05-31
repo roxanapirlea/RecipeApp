@@ -98,7 +98,7 @@ fun NavGraphBuilder.addRecipeGraph(navController: NavController) {
             RecapScreen(
                 recapViewModel = recapViewModel,
                 onBack = { navController.navigateUp() },
-                onFinish = { navController.popBackStack(Home.route,false) }
+                onFinish = { navController.popBackStack(Home.route, false) }
             )
         }
     }

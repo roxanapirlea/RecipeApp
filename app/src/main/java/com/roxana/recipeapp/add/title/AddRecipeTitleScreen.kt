@@ -76,7 +76,7 @@ fun AddRecipeTitleView(
     onDiscardDialog: () -> Unit = {},
     onBackNavigation: () -> Unit = {},
     onForwardNavigation: () -> Unit = {},
-    onSelectPage: (PageType)  -> Unit = {},
+    onSelectPage: (PageType) -> Unit = {},
     onNavigateToPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
@@ -150,7 +150,7 @@ fun AddRecipeTitleView(
                         .align(Alignment.BottomEnd)
                         .padding(16.dp),
                     onClick = onValidate
-                )  { ForwardIcon() }
+                ) { ForwardIcon() }
         }
     }
 }
