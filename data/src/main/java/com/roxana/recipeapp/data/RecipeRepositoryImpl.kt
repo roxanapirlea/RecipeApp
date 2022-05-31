@@ -139,7 +139,7 @@ class RecipeRepositoryImpl @Inject constructor(
 
     override suspend fun addComment(recipeId: Int, comment: String) {
         val comments = commentQueries.getByRecipeId(recipeId.toLong()).executeAsList()
-        val nextOrdinal = comments.maxOf { it.ordinal } + 1
+        val nextOrdinal = (comments.maxOfOrNull { it.ordinal } ?: 0) + 1
         commentQueries.insert(comment, nextOrdinal.toShort(), recipeId.toLong())
     }
 }
