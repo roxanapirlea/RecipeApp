@@ -3,11 +3,9 @@ package com.roxana.recipeapp.add.recap
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.add.toRecipe
 import com.roxana.recipeapp.domain.addrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.GetRecipeUseCase
 import com.roxana.recipeapp.domain.addrecipe.ResetRecipeUseCase
-import com.roxana.recipeapp.domain.model.CreationRecipe
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -22,8 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecapViewModel @Inject constructor(
     private val getRecipeUseCase: GetRecipeUseCase,
-    private val addRecipeUseCase: AddRecipeUseCase,
-    private val resetRecipeUseCase: ResetRecipeUseCase
+    private val addRecipeUseCase: AddRecipeUseCase
 ) : ViewModel() {
 
     @VisibleForTesting
@@ -72,11 +69,7 @@ class RecapViewModel @Inject constructor(
 
     fun saveRecipe() {
         viewModelScope.launch {
-            addRecipeUseCase(state.value.toRecipe()).onFailure {
-                sideEffectChannel.send(SaveRecipeError)
-                return@launch
-            }
-            resetRecipeUseCase(null).fold(
+            addRecipeUseCase(null).fold(
                 { sideEffectChannel.send(SaveRecipeSuccess) },
                 { sideEffectChannel.send(SaveRecipeError) }
             )
