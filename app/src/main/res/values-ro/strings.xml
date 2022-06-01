@@ -9,6 +9,7 @@
     <string name="all_save">Salvează</string>
     <string name="all_select">Selectează…</string>
     <string name="all_settings">Setări</string>
+    <string name="all_filters">Filtre</string>
     <string name="all_validate">Validează</string>
     <string name="all_cross">Închide</string>
     <string name="all_back">Înapoi</string>
@@ -139,4 +140,8 @@
     <string name="settings_measuring_units">Unități de măsură</string>
     <string name="settings_measuring_units_detail">Alege unitățile care vor fi disponibile când modifici sau adaugi o nouă rețetă</string>
     <string name="debug_settings">Setări de debug</string>
+    <string name="filters_max_time">Timp maxim: %d min</string>
+    <string name="filters_max_time_cooking">Timp maxim de gătit: %d min</string>
+    <string name="filters_max_time_preparation">Timp maxim de pregatire: %d min</string>
+    <string name="filters_apply">Aplicați</string>
 </resources>

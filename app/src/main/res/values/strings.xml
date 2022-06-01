@@ -9,6 +9,7 @@
     <string name="all_save">Save</string>
     <string name="all_select">Select…</string>
     <string name="all_settings">Settings</string>
+    <string name="all_filters">Filters</string>
     <string name="all_validate">Validate</string>
     <string name="all_cross">Close</string>
     <string name="all_back">Back</string>
@@ -138,6 +139,10 @@
     <string name="settings_measuring_units">Measuring units</string>
     <string name="settings_measuring_units_detail">Choose the units that will be available when adding a new recipe or editing an existing one</string>
     <string name="debug_settings">Debug settings</string>
+    <string name="filters_max_time">Maximum time: %d min</string>
+    <string name="filters_max_time_cooking">Maximum cooking time cooking: %d min</string>
+    <string name="filters_max_time_preparation">Maximum preparation time: %d min</string>
+    <string name="filters_apply">Apply</string>
     <string name="debug_settings_onboarding" translatable="false">Onboarding</string>
     <string name="debug_settings_onboarding_add_recipe" translatable="false">Add recipe onboarding done</string>
 </resources>

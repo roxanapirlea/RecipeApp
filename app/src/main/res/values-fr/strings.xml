@@ -9,6 +9,7 @@
     <string name="all_save">Enregistrer</string>
     <string name="all_select">Selectionner…</string>
     <string name="all_settings">Paramètres</string>
+    <string name="all_filters">Filtres</string>
     <string name="all_validate">Valider</string>
     <string name="all_cross">Fermer</string>
     <string name="all_back">Retour</string>
@@ -139,4 +140,8 @@
     <string name="settings_measuring_units">Unités de mesure</string>
     <string name="settings_measuring_units_detail">Choisis les unités qui seront disponibles lors de l\'ajout d\'une nouvelle recette ou de la modification d\'une recette existante</string>
     <string name="debug_settings">Paramètres de debuggage</string>
+    <string name="filters_max_time">Temps max : %d min</string>
+    <string name="filters_max_time_cooking">Temps de cuisson max : %d min</string>
+    <string name="filters_max_time_preparation">Temps de préparation max : %d min</string>
+    <string name="filters_apply">Appliquer</string>
 </resources>
