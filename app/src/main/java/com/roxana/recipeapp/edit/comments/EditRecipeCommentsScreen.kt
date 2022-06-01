@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.edit.instructions
+package com.roxana.recipeapp.edit.comments
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,41 +46,41 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 @Composable
-fun EditRecipeInstructionsScreen(
-    instructionsViewModel: EditRecipeInstructionsViewModel,
+fun EditRecipeCommentsScreen(
+    commentsViewModel: EditRecipeCommentsViewModel,
     onBack: () -> Unit = {},
     onForwardCreationMode: () -> Unit = {},
     onForwardEditingMode: () -> Unit = {},
     onNavigate: (PageType) -> Unit = {},
 ) {
-    val state by rememberFlowWithLifecycle(instructionsViewModel.state)
-        .collectAsState(EditRecipeInstructionsViewState())
+    val state by rememberFlowWithLifecycle(commentsViewModel.state)
+        .collectAsState(EditRecipeCommentsViewState())
 
-    AddRecipeInstructionsView(
+    AddRecipeCommentsView(
         state,
-        instructionsViewModel.sideEffectFlow,
-        onInstructionChanged = instructionsViewModel::onInstructionChanged,
-        onSaveInstruction = instructionsViewModel::onSaveInstruction,
-        onInstructionDone = instructionsViewModel::onInstructionDone,
-        onDelete = instructionsViewModel::onDeleteInstruction,
-        onValidate = instructionsViewModel::onValidate,
-        onSaveAndGoBack = instructionsViewModel::onSaveAndBack,
+        commentsViewModel.sideEffectFlow,
+        onCommentChanged = commentsViewModel::onCommentChanged,
+        onSaveComment = commentsViewModel::onSaveComment,
+        onCommentDone = commentsViewModel::onCommentDone,
+        onDelete = commentsViewModel::onDeleteComment,
+        onValidate = commentsViewModel::onValidate,
+        onSaveAndGoBack = commentsViewModel::onSaveAndBack,
         onBackNavigation = onBack,
         onForwardNavigationForCreation = onForwardCreationMode,
         onForwardNavigationForEditing = onForwardEditingMode,
-        onSelectPage = instructionsViewModel::onSelectPage,
+        onSelectPage = commentsViewModel::onSelectPage,
         onNavigateToPage = onNavigate
     )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AddRecipeInstructionsView(
-    state: EditRecipeInstructionsViewState,
-    sideEffectsFlow: Flow<EditRecipeInstructionsSideEffect> = flow { },
-    onInstructionChanged: (String) -> Unit = {},
-    onInstructionDone: () -> Unit = {},
-    onSaveInstruction: () -> Unit = {},
+fun AddRecipeCommentsView(
+    state: EditRecipeCommentsViewState,
+    sideEffectsFlow: Flow<EditRecipeCommentsSideEffect> = flow { },
+    onCommentChanged: (String) -> Unit = {},
+    onCommentDone: () -> Unit = {},
+    onSaveComment: () -> Unit = {},
     onDelete: (Int) -> Unit = {},
     onSaveAndGoBack: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
@@ -109,7 +109,7 @@ fun AddRecipeInstructionsView(
 
     EditRecipeBackdrop(
         recipeAlreadyExists = state.isExistingRecipe,
-        selectedPage = PageType.Instructions,
+        selectedPage = PageType.Comments,
         backIcon = Icons.Default.ArrowBack,
         backContentDescription = stringResource(R.string.all_back),
         onSelectPage = onSelectPage,
@@ -139,25 +139,25 @@ fun AddRecipeInstructionsView(
                         tint = MaterialTheme.colors.secondary,
                         modifier = Modifier.size(40.dp)
                     )
-                    LabelView(text = stringResource(R.string.all_instructions))
+                    LabelView(text = stringResource(R.string.all_comments))
                 }
                 Spacer(modifier = Modifier.weight(0.5f))
                 TrailingIconTextField(
-                    value = state.editingInstruction,
-                    onValueChange = onInstructionChanged,
-                    label = stringResource(R.string.edit_recipe_instruction_hint),
+                    value = state.editingComment,
+                    onValueChange = onCommentChanged,
+                    label = stringResource(R.string.edit_recipe_comment_hint),
                     trailingIcon = R.drawable.ic_check_outline,
-                    onTrailingIconClicked = onSaveInstruction,
+                    onTrailingIconClicked = onSaveComment,
                     focusRequester = focusRequester,
                     imeAction = ImeAction.Done,
-                    onImeAction = onInstructionDone,
+                    onImeAction = onCommentDone,
                     modifier = Modifier
                 )
-                if (state.instructions.isNotEmpty())
+                if (state.comments.isNotEmpty())
                     DividerAlpha16(Modifier.padding(bottom = 4.dp, top = 16.dp))
                 LazyColumn {
-                    itemsIndexed(state.instructions) { index, instruction ->
-                        InstructionText(instruction, index + 1, Modifier.fillMaxWidth()) {
+                    itemsIndexed(state.comments) { index, instruction ->
+                        CommentText(instruction, index + 1, Modifier.fillMaxWidth()) {
                             onDelete(index)
                         }
                     }
@@ -169,8 +169,8 @@ fun AddRecipeInstructionsView(
 }
 
 @Composable
-fun InstructionText(
-    instruction: String,
+fun CommentText(
+    comment: String,
     index: Int,
     modifier: Modifier = Modifier,
     onDelete: () -> Unit = {}
@@ -182,7 +182,7 @@ fun InstructionText(
             modifier = Modifier.padding(horizontal = 20.dp)
         )
         Text(
-            text = instruction,
+            text = comment,
             style = MaterialTheme.typography.subtitle1,
             color = MaterialTheme.colors.onBackground,
             modifier = modifier
@@ -206,6 +206,6 @@ fun InstructionText(
 @Composable
 fun AddRecipeInstructionsViewPreview() {
     RecipeTheme {
-        AddRecipeInstructionsView(EditRecipeInstructionsViewState())
+        AddRecipeCommentsView(EditRecipeCommentsViewState())
     }
 }

@@ -46,7 +46,8 @@ import kotlinx.coroutines.flow.flow
 fun EditRecipeIngredientsScreen(
     ingredientsViewModel: EditRecipeIngredientsViewModel,
     onBack: () -> Unit = {},
-    onForward: () -> Unit = {},
+    onForwardCreationMode: () -> Unit = {},
+    onForwardEditingMode: () -> Unit = {},
     onNavigate: (PageType) -> Unit = {},
 ) {
     val state by rememberFlowWithLifecycle(ingredientsViewModel.state)
@@ -63,7 +64,8 @@ fun EditRecipeIngredientsScreen(
         onValidate = ingredientsViewModel::onValidate,
         onSaveAndGoBack = ingredientsViewModel::onSaveAndBack,
         onBackNavigation = onBack,
-        onForwardNavigation = onForward,
+        onForwardNavigationForCreation = onForwardCreationMode,
+        onForwardNavigationForEditing = onForwardEditingMode,
         onSelectPage = ingredientsViewModel::onSelectPage,
         onNavigateToPage = onNavigate
     )
@@ -83,13 +85,15 @@ fun AddRecipeIngredientsView(
     onSelectPage: (PageType) -> Unit = {},
     onNavigateToPage: (PageType) -> Unit = {},
     onBackNavigation: () -> Unit = {},
-    onForwardNavigation: () -> Unit = {},
+    onForwardNavigationForCreation: () -> Unit = {},
+    onForwardNavigationForEditing: () -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
     LaunchedEffect(sideEffectsFlow) {
         sideEffectsFlow.collect {
             when (it) {
-                Forward -> onForwardNavigation()
+                ForwardForCreation -> onForwardNavigationForCreation()
+                ForwardForEditing -> onForwardNavigationForEditing()
                 Back -> onBackNavigation()
                 is NavigateToPage -> onNavigateToPage(it.page)
             }
@@ -97,6 +101,7 @@ fun AddRecipeIngredientsView(
     }
 
     EditRecipeBackdrop(
+        recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Ingredients,
         backIcon = Icons.Default.ArrowBack,
         backContentDescription = stringResource(R.string.all_back),

@@ -3,12 +3,13 @@ package com.roxana.recipeapp.edit.ingredients
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.domain.editrecipe.GetIngredientsUseCase
+import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetIngredientsUseCase
 import com.roxana.recipeapp.domain.model.CreationIngredient
 import com.roxana.recipeapp.domain.quantities.GetAllQuantityTypesUseCase
 import com.roxana.recipeapp.domain.quantities.GetPreferredQuantitiesUseCase
+import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.misc.toFormattedString
 import com.roxana.recipeapp.uimodel.UiQuantityType
 import com.roxana.recipeapp.uimodel.toDomainModel
@@ -26,6 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditRecipeIngredientsViewModel @Inject constructor(
+    private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getPreferredQuantityTypesUseCase: GetPreferredQuantitiesUseCase,
     private val getAllQuantityTypesUseCase: GetAllQuantityTypesUseCase,
     private val getIngredientsUseCase: GetIngredientsUseCase,
@@ -40,6 +42,7 @@ class EditRecipeIngredientsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val isExistingRecipe = isRecipeExistingUseCase(null).getOrDefault(false)
             val quantities = getPreferredQuantityTypesUseCase(null).first()
                 .getOrElse { emptyList() }
                 .ifEmpty { getAllQuantityTypesUseCase(null).getOrNull() ?: emptyList() }
@@ -53,7 +56,13 @@ class EditRecipeIngredientsViewModel @Inject constructor(
                         it.quantityType.toUiModel()
                     )
                 }
-            _state.update { it.copy(ingredients = ingredients, quantityTypes = quantities) }
+            _state.update {
+                it.copy(
+                    isExistingRecipe = isExistingRecipe,
+                    ingredients = ingredients,
+                    quantityTypes = quantities
+                )
+            }
         }
     }
 
@@ -102,10 +111,18 @@ class EditRecipeIngredientsViewModel @Inject constructor(
     fun onValidate() {
         viewModelScope.launch {
             setIngredientsUseCase(getAllIngredients()).fold(
-                { sideEffectChannel.send(Forward) },
-                { sideEffectChannel.send(Forward) }
+                { sendForwardEvent() },
+                { sendForwardEvent() }
             )
         }
+    }
+
+    private suspend fun sendForwardEvent() {
+        val isExistingRecipe = state.value.isExistingRecipe
+        if (isExistingRecipe)
+            sideEffectChannel.send(ForwardForEditing)
+        else
+            sideEffectChannel.send(ForwardForCreation)
     }
 
     fun onSaveAndBack() {

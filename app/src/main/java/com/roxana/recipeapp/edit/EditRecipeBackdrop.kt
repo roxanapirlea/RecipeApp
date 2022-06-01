@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EditRecipeBackdrop(
+    recipeAlreadyExists: Boolean,
     selectedPage: PageType,
     modifier: Modifier = Modifier,
     scaffoldState: BackdropScaffoldState = rememberBackdropScaffoldState(BackdropValue.Concealed),
@@ -61,7 +62,7 @@ fun EditRecipeBackdrop(
                         modifier = Modifier.padding(horizontal = 12.dp)
                     )
                 }
-                BackdropAppBar {
+                BackdropAppBar(recipeAlreadyExists) {
                     scope.launch {
                         if (scaffoldState.isRevealed)
                             scaffoldState.conceal()
@@ -73,6 +74,7 @@ fun EditRecipeBackdrop(
         },
         backLayerContent = {
             BackdropBackLayer(
+                recipeAlreadyExists,
                 selectedPage,
                 onSelectPage = {
                     onSelectPage(it)
@@ -87,7 +89,7 @@ fun EditRecipeBackdrop(
 }
 
 @Composable
-fun BackdropAppBar(onClick: () -> Unit) {
+fun BackdropAppBar(recipeAlreadyExists: Boolean, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -97,7 +99,10 @@ fun BackdropAppBar(onClick: () -> Unit) {
             .padding(horizontal = 16.dp)
     ) {
         Text(
-            stringResource(R.string.edit_title),
+            text = if (recipeAlreadyExists)
+                stringResource(R.string.edit_title_existing_recipe)
+            else
+                stringResource(R.string.edit_title_new_recipe),
             style = MaterialTheme.typography.h5
         )
     }
@@ -105,13 +110,19 @@ fun BackdropAppBar(onClick: () -> Unit) {
 
 @Composable
 fun BackdropBackLayer(
+    recipeAlreadyExists: Boolean,
     selected: PageType,
     onSelectPage: (PageType) -> Unit = {}
 ) {
     Column(Modifier.padding(16.dp)) {
-        pagesForAddRecipe(selected).forEach { page ->
-            BackdropPage(page) { onSelectPage(page.type) }
-        }
+        if (recipeAlreadyExists)
+            pagesForEditRecipe(selected).forEach { page ->
+                BackdropPage(page) { onSelectPage(page.type) }
+            }
+        else
+            pagesForAddRecipe(selected).forEach { page ->
+                BackdropPage(page) { onSelectPage(page.type) }
+            }
     }
 }
 

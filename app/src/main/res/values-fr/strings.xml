@@ -74,8 +74,10 @@
     <string name="edit_recipe_instructions_page">Instructions</string>
     <string name="edit_recipe_temperature_page">Température</string>
     <string name="edit_recipe_time_page">Temps</string>
+    <string name="edit_recipe_comments_page">Commentaires</string>
     <string name="edit_recipe_current_page">En cours d\'édition</string>
-    <string name="edit_title">Ajouter une recette</string>
+    <string name="edit_title_new_recipe">Ajouter une recette</string>
+    <string name="edit_title_existing_recipe">Editer une recette</string>
     <string name="edit_recipe_dialog_title">Conserver les informations remplies ?</string>
     <string name="edit_recipe_dialog_message">Souhaites conserver les informations que tu as renseignées ? Tu pourras revenir, terminer la modification et enregistrer la recette.</string>
     <string name="edit_recipe_dialog_reset_info">Non, supprimez-les</string>

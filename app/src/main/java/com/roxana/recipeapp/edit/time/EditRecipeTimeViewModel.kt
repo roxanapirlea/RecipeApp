@@ -3,12 +3,13 @@ package com.roxana.recipeapp.edit.time
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.domain.editrecipe.GetCookingTimeUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetPreparationTimeUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetTotalTimeUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetWaitingTimeUseCase
+import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetTimeUseCase
+import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditRecipeTimeViewModel @Inject constructor(
+    private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getCookingTimeUseCase: GetCookingTimeUseCase,
     private val getPreparationTimeUseCase: GetPreparationTimeUseCase,
     private val getWaitingTimeUseCase: GetWaitingTimeUseCase,
@@ -37,12 +39,14 @@ class EditRecipeTimeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val isExistingRecipe = isRecipeExistingUseCase(null).getOrDefault(false)
             val cooking = getCookingTimeUseCase(null).first().getOrNull()?.toString() ?: ""
             val preparation =
                 getPreparationTimeUseCase(null).first().getOrNull()?.toString() ?: ""
             val waiting = getWaitingTimeUseCase(null).first().getOrNull()?.toString() ?: ""
             val total = getTotalTimeUseCase(null).first().getOrNull()?.toString() ?: ""
             _state.value = EditRecipeTimeViewState(
+                isExistingRecipe = isExistingRecipe,
                 cooking = cooking,
                 preparation = preparation,
                 waiting = waiting,
@@ -80,10 +84,18 @@ class EditRecipeTimeViewModel @Inject constructor(
     fun onValidate() {
         viewModelScope.launch {
             setTimeUseCase(getInput()).fold(
-                { sideEffectChannel.send(Forward) },
-                { sideEffectChannel.send(Forward) }
+                { sendForwardEvent() },
+                { sendForwardEvent() }
             )
         }
+    }
+
+    private suspend fun sendForwardEvent() {
+        val isExistingRecipe = state.value.isExistingRecipe
+        if (isExistingRecipe)
+            sideEffectChannel.send(ForwardForEditing)
+        else
+            sideEffectChannel.send(ForwardForCreation)
     }
 
     fun onSaveAndBack() {

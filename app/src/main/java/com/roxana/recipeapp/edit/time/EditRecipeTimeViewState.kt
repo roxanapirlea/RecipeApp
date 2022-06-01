@@ -4,7 +4,8 @@ data class EditRecipeTimeViewState(
     val cooking: String = "",
     val preparation: String = "",
     val waiting: String = "",
-    val total: String = ""
+    val total: String = "",
+    val isExistingRecipe: Boolean = false,
 )
 
 fun EditRecipeTimeViewState.isCookingValid() = cooking.isEmpty() || cooking.toShortOrNull() != null

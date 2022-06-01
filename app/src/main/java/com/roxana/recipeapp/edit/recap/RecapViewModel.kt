@@ -3,8 +3,8 @@ package com.roxana.recipeapp.edit.recap
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.domain.editrecipe.AddRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetRecipeUseCase
+import com.roxana.recipeapp.domain.editrecipe.SaveRecipeUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecapViewModel @Inject constructor(
     private val getRecipeUseCase: GetRecipeUseCase,
-    private val addRecipeUseCase: AddRecipeUseCase
+    private val saveRecipeUseCase: SaveRecipeUseCase
 ) : ViewModel() {
 
     @VisibleForTesting
@@ -68,7 +68,7 @@ class RecapViewModel @Inject constructor(
 
     fun saveRecipe() {
         viewModelScope.launch {
-            addRecipeUseCase(null).fold(
+            saveRecipeUseCase(null).fold(
                 { sideEffectChannel.send(SaveRecipeSuccess) },
                 { sideEffectChannel.send(SaveRecipeError) }
             )

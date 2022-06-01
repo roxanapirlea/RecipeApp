@@ -4,6 +4,7 @@ import com.roxana.recipeapp.edit.PageType
 
 sealed class EditRecipeInstructionsSideEffect
 
-object Forward : EditRecipeInstructionsSideEffect()
+object ForwardForCreation : EditRecipeInstructionsSideEffect()
+object ForwardForEditing : EditRecipeInstructionsSideEffect()
 object Back : EditRecipeInstructionsSideEffect()
 data class NavigateToPage(val page: PageType) : EditRecipeInstructionsSideEffect()

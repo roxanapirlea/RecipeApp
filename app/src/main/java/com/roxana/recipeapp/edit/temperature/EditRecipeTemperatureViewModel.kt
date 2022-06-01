@@ -3,10 +3,11 @@ package com.roxana.recipeapp.edit.temperature
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.domain.editrecipe.GetTemperatureUseCase
+import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetTemperatureUseCase
 import com.roxana.recipeapp.domain.temperature.GetPreferredTemperatureUseCase
+import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.uimodel.UiTemperature
 import com.roxana.recipeapp.uimodel.toDomainModel
 import com.roxana.recipeapp.uimodel.toUiModel
@@ -23,6 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditRecipeTemperatureViewModel @Inject constructor(
+    private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getTemperatureUseCase: GetTemperatureUseCase,
     private val setTemperatureUseCase: SetTemperatureUseCase,
     private val getPreferredTemperatureUseCase: GetPreferredTemperatureUseCase
@@ -36,11 +38,13 @@ class EditRecipeTemperatureViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val isExistingRecipe = isRecipeExistingUseCase(null).getOrDefault(false)
             val temperature =
                 getTemperatureUseCase(null).first().getOrNull()?.toString() ?: ""
             val temperatureUnit =
                 getPreferredTemperatureUseCase(null).first().getOrNull()?.toUiModel()
             _state.value = EditRecipeTemperatureViewState(
+                isExistingRecipe = isExistingRecipe,
                 temperature = temperature,
                 temperatureUnit = temperatureUnit ?: UiTemperature.Celsius
             )
@@ -54,10 +58,18 @@ class EditRecipeTemperatureViewModel @Inject constructor(
     fun onValidate() {
         viewModelScope.launch {
             setTemperatureUseCase(getInput()).fold(
-                { sideEffectChannel.send(Forward) },
-                { sideEffectChannel.send(Forward) }
+                { sendForwardEvent() },
+                { sendForwardEvent() }
             )
         }
+    }
+
+    private suspend fun sendForwardEvent() {
+        val isExistingRecipe = state.value.isExistingRecipe
+        if (isExistingRecipe)
+            sideEffectChannel.send(ForwardForEditing)
+        else
+            sideEffectChannel.send(ForwardForCreation)
     }
 
     fun onSaveAndBack() {

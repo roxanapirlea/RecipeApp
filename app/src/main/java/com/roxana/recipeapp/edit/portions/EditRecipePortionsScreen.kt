@@ -44,7 +44,8 @@ import kotlinx.coroutines.flow.flow
 fun EditRecipePortionsScreen(
     editRecipePortionsViewModel: EditRecipePortionsViewModel,
     onBack: () -> Unit = {},
-    onForward: () -> Unit = {},
+    onForwardCreationMode: () -> Unit = {},
+    onForwardEditingMode: () -> Unit = {},
     onNavigate: (PageType) -> Unit = {},
 ) {
     val state by rememberFlowWithLifecycle(editRecipePortionsViewModel.state)
@@ -57,7 +58,8 @@ fun EditRecipePortionsScreen(
         onValidate = editRecipePortionsViewModel::onValidate,
         onSaveAndGoBack = editRecipePortionsViewModel::onSaveAndBack,
         onBackNavigation = onBack,
-        onForwardNavigation = onForward,
+        onForwardNavigationForCreation = onForwardCreationMode,
+        onForwardNavigationForEditing = onForwardEditingMode,
         onSelectPage = editRecipePortionsViewModel::onSelectPage,
         onNavigateToPage = onNavigate
     )
@@ -73,7 +75,8 @@ fun AddRecipePortionsView(
     onSelectPage: (PageType) -> Unit = {},
     onNavigateToPage: (PageType) -> Unit = {},
     onBackNavigation: () -> Unit = {},
-    onForwardNavigation: () -> Unit = {},
+    onForwardNavigationForCreation: () -> Unit = {},
+    onForwardNavigationForEditing: () -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -85,7 +88,8 @@ fun AddRecipePortionsView(
     LaunchedEffect(sideEffectsFlow) {
         sideEffectsFlow.collect {
             when (it) {
-                Forward -> onForwardNavigation()
+                ForwardForCreation -> onForwardNavigationForCreation()
+                ForwardForEditing -> onForwardNavigationForEditing()
                 Back -> onBackNavigation()
                 is NavigateToPage -> onNavigateToPage(it.page)
             }
@@ -93,6 +97,7 @@ fun AddRecipePortionsView(
     }
 
     EditRecipeBackdrop(
+        recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Portions,
         backIcon = Icons.Default.ArrowBack,
         backContentDescription = stringResource(R.string.all_back),

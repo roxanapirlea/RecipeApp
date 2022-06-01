@@ -3,9 +3,10 @@ package com.roxana.recipeapp.edit.portions
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.domain.editrecipe.GetPortionsUseCase
+import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetPortionsUseCase
+import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditRecipePortionsViewModel @Inject constructor(
+    private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getPortionsUseCase: GetPortionsUseCase,
     private val setPortionsUseCase: SetPortionsUseCase
 ) : ViewModel() {
@@ -31,8 +33,9 @@ class EditRecipePortionsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val isExistingRecipe = isRecipeExistingUseCase(null).getOrDefault(false)
             val portions = getPortionsUseCase(null).first().getOrNull()?.toString() ?: ""
-            _state.value = EditRecipePortionsViewState(portions)
+            _state.value = EditRecipePortionsViewState(portions, isExistingRecipe)
         }
     }
 
@@ -43,10 +46,18 @@ class EditRecipePortionsViewModel @Inject constructor(
     fun onValidate() {
         viewModelScope.launch {
             setPortionsUseCase(state.value.portions.toShortOrNull()).fold(
-                { sideEffectChannel.send(Forward) },
-                { sideEffectChannel.send(Forward) }
+                { sendForwardEvent() },
+                { sendForwardEvent() }
             )
         }
+    }
+
+    private suspend fun sendForwardEvent() {
+        val isExistingRecipe = state.value.isExistingRecipe
+        if (isExistingRecipe)
+            sideEffectChannel.send(ForwardForEditing)
+        else
+            sideEffectChannel.send(ForwardForCreation)
     }
 
     fun onSaveAndBack() {

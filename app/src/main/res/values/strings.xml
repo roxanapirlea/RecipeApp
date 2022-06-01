@@ -74,8 +74,10 @@
     <string name="edit_recipe_instructions_page">Instructions</string>
     <string name="edit_recipe_temperature_page">Temperature</string>
     <string name="edit_recipe_time_page">Time</string>
+    <string name="edit_recipe_comments_page">Comments</string>
     <string name="edit_recipe_current_page">Currently editing</string>
-    <string name="edit_title">Add recipe</string>
+    <string name="edit_title_new_recipe">Add recipe</string>
+    <string name="edit_title_existing_recipe">Edit recipe</string>
     <string name="edit_recipe_dialog_title">Keep filled information?</string>
     <string name="edit_recipe_dialog_message">Would you like to keep the information you filled? You will be able to come back, finish editing and save the recipe.</string>
     <string name="edit_recipe_dialog_reset_info">No, discard it</string>

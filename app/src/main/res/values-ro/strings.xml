@@ -74,8 +74,10 @@
     <string name="edit_recipe_instructions_page">Instrucțiuni</string>
     <string name="edit_recipe_temperature_page">Temperatură</string>
     <string name="edit_recipe_time_page">Timp</string>
+    <string name="edit_recipe_comments_page">Commentarii</string>
     <string name="edit_recipe_current_page">În curs de editare</string>
-    <string name="edit_title">Adaugă o rețetă</string>
+    <string name="edit_title_new_recipe">Adaugă o rețetă</string>
+    <string name="edit_title_existing_recipe">Editează o rețetă</string>
     <string name="edit_recipe_dialog_title">Păstezi informațiile completate?</string>
     <string name="edit_recipe_dialog_message">Dorești să păstrezi informațiile pe care le-ai completat? Vei putea să revii, să finalizezi editarea și să salvezi rețeta.</string>
     <string name="edit_recipe_dialog_reset_info">Nu, șterge-le</string>

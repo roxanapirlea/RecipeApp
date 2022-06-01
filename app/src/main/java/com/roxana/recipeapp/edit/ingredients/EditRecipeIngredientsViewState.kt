@@ -5,7 +5,8 @@ import com.roxana.recipeapp.uimodel.UiQuantityType
 data class EditRecipeIngredientsViewState(
     val ingredients: List<IngredientState> = emptyList(),
     val editingIngredient: IngredientState = IngredientState(),
-    val quantityTypes: List<UiQuantityType> = emptyList()
+    val quantityTypes: List<UiQuantityType> = emptyList(),
+    val isExistingRecipe: Boolean = false,
 )
 
 data class IngredientState(

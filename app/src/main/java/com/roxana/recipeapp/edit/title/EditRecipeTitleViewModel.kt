@@ -3,12 +3,13 @@ package com.roxana.recipeapp.edit.title
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.domain.editrecipe.GetTitleUseCase
+import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
 import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetTitleUseCase
 import com.roxana.recipeapp.domain.onboarding.GetEditOnboardingUseCase
 import com.roxana.recipeapp.domain.onboarding.SetEditOnboardingDoneUseCase
+import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditRecipeTitleViewModel @Inject constructor(
+    private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getTitleUseCase: GetTitleUseCase,
     private val setTitleUseCase: SetTitleUseCase,
     private val resetRecipeUseCase: ResetRecipeUseCase,
@@ -37,6 +39,7 @@ class EditRecipeTitleViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val isExistingRecipe = isRecipeExistingUseCase(null).getOrDefault(false)
             val title = getTitleUseCase(null).first().getOrNull() ?: ""
             val isOnboardingDone = onboardingUseCase(null).first()
                 .getOrElse { GetEditOnboardingUseCase.Output(false) }.isDone
@@ -44,7 +47,7 @@ class EditRecipeTitleViewModel @Inject constructor(
                 sideEffectChannel.send(RevealBackdrop)
                 setOnboardingDoneUseCase.execute(null)
             }
-            _state.value = EditRecipeTitleViewState(title)
+            _state.value = EditRecipeTitleViewState(title, isExistingRecipe)
         }
     }
 
@@ -55,10 +58,18 @@ class EditRecipeTitleViewModel @Inject constructor(
     fun onValidate() {
         viewModelScope.launch {
             setTitleUseCase(state.value.title).fold(
-                { sideEffectChannel.send(Forward) },
-                { sideEffectChannel.send(Forward) }
+                { sendForwardEvent() },
+                { sendForwardEvent() }
             )
         }
+    }
+
+    private suspend fun sendForwardEvent() {
+        val isExistingRecipe = state.value.isExistingRecipe
+        if (isExistingRecipe)
+            sideEffectChannel.send(ForwardForEditing)
+        else
+            sideEffectChannel.send(ForwardForCreation)
     }
 
     fun onReset() {

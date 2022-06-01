@@ -42,7 +42,8 @@ import kotlinx.coroutines.flow.flow
 fun EditRecipeTitleScreen(
     editRecipeTitleViewModel: EditRecipeTitleViewModel,
     onBack: () -> Unit = {},
-    onForward: () -> Unit = {},
+    onForwardCreationMode: () -> Unit = {},
+    onForwardEditingMode: () -> Unit = {},
     onNavigate: (PageType) -> Unit = {},
 ) {
     val state by rememberFlowWithLifecycle(editRecipeTitleViewModel.state)
@@ -58,7 +59,8 @@ fun EditRecipeTitleScreen(
         onSaveAndGoBack = editRecipeTitleViewModel::onSaveAndBack,
         onDiscardDialog = editRecipeTitleViewModel::onDiscardDialog,
         onBackNavigation = onBack,
-        onForwardNavigation = onForward,
+        onForwardNavigationForCreation = onForwardCreationMode,
+        onForwardNavigationForEditing = onForwardEditingMode,
         onSelectPage = editRecipeTitleViewModel::onSelectPage,
         onNavigateToPage = onNavigate
     )
@@ -75,7 +77,8 @@ fun AddRecipeTitleView(
     onSaveAndGoBack: () -> Unit = {},
     onDiscardDialog: () -> Unit = {},
     onBackNavigation: () -> Unit = {},
-    onForwardNavigation: () -> Unit = {},
+    onForwardNavigationForCreation: () -> Unit = {},
+    onForwardNavigationForEditing: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onNavigateToPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
@@ -90,7 +93,8 @@ fun AddRecipeTitleView(
     LaunchedEffect(sideEffectsFlow) {
         sideEffectsFlow.collect {
             when (it) {
-                Forward -> onForwardNavigation()
+                ForwardForCreation -> onForwardNavigationForCreation()
+                ForwardForEditing -> onForwardNavigationForEditing()
                 Back -> onBackNavigation()
                 is NavigateToPage -> onNavigateToPage(it.page)
                 RevealBackdrop -> {
@@ -104,6 +108,7 @@ fun AddRecipeTitleView(
     }
 
     EditRecipeBackdrop(
+        recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Title,
         backIcon = Icons.Default.Clear,
         backContentDescription = stringResource(R.string.all_cross),

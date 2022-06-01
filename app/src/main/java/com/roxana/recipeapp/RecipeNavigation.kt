@@ -79,7 +79,8 @@ fun RecipeNavigation() {
                     onAddComment = {
                         val recipeId = backStackEntry.arguments!!.getInt(RecipeDetail.KEY_ID)
                         navController.navigate(AddComment.destination(AddComment.Arguments(recipeId)))
-                    }
+                    },
+                    onEdit = { navController.navigate(EditRecipeGraphRootScreen.route) }
                 )
             }
             composable(

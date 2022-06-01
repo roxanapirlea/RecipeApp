@@ -48,7 +48,8 @@ import kotlinx.coroutines.flow.flow
 fun EditRecipeTimeScreen(
     editRecipeTimeViewModel: EditRecipeTimeViewModel,
     onBack: () -> Unit = {},
-    onForward: () -> Unit = {},
+    onForwardCreationMode: () -> Unit = {},
+    onForwardEditingMode: () -> Unit = {},
     onNavigate: (PageType) -> Unit = {},
 ) {
     val state by rememberFlowWithLifecycle(editRecipeTimeViewModel.state)
@@ -65,7 +66,8 @@ fun EditRecipeTimeScreen(
         onValidate = editRecipeTimeViewModel::onValidate,
         onSaveAndGoBack = editRecipeTimeViewModel::onSaveAndBack,
         onBackNavigation = onBack,
-        onForwardNavigation = onForward,
+        onForwardNavigationForCreation = onForwardCreationMode,
+        onForwardNavigationForEditing = onForwardEditingMode,
         onSelectPage = editRecipeTimeViewModel::onSelectPage,
         onNavigateToPage = onNavigate
     )
@@ -85,7 +87,8 @@ fun AddRecipeTimeView(
     onSelectPage: (PageType) -> Unit = {},
     onNavigateToPage: (PageType) -> Unit = {},
     onBackNavigation: () -> Unit = {},
-    onForwardNavigation: () -> Unit = {},
+    onForwardNavigationForCreation: () -> Unit = {},
+    onForwardNavigationForEditing: () -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
     val cookingFocusRequester = remember { FocusRequester() }
@@ -100,7 +103,8 @@ fun AddRecipeTimeView(
     LaunchedEffect(sideEffectsFlow) {
         sideEffectsFlow.collect {
             when (it) {
-                Forward -> onForwardNavigation()
+                ForwardForCreation -> onForwardNavigationForCreation()
+                ForwardForEditing -> onForwardNavigationForEditing()
                 Back -> onBackNavigation()
                 is NavigateToPage -> onNavigateToPage(it.page)
             }
@@ -108,6 +112,7 @@ fun AddRecipeTimeView(
     }
 
     EditRecipeBackdrop(
+        recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Time,
         backIcon = Icons.Default.ArrowBack,
         backContentDescription = stringResource(R.string.all_back),

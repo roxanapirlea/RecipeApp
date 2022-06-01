@@ -9,6 +9,8 @@ import androidx.navigation.compose.navigation
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.categories.EditRecipeCategoriesScreen
 import com.roxana.recipeapp.edit.categories.EditRecipeCategoriesViewModel
+import com.roxana.recipeapp.edit.comments.EditRecipeCommentsScreen
+import com.roxana.recipeapp.edit.comments.EditRecipeCommentsViewModel
 import com.roxana.recipeapp.edit.ingredients.EditRecipeIngredientsScreen
 import com.roxana.recipeapp.edit.ingredients.EditRecipeIngredientsViewModel
 import com.roxana.recipeapp.edit.instructions.EditRecipeInstructionsScreen
@@ -35,7 +37,8 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
             EditRecipeTitleScreen(
                 editRecipeTitleViewModel = editRecipeTitleViewModel,
                 onBack = { navController.navigateUp() },
-                onForward = { navController.navigate(EditRecipeCategories.route) },
+                onForwardCreationMode = { navController.navigate(EditRecipeCategories.route) },
+                onForwardEditingMode = { navController.navigate(EditRecipeCategories.route) },
                 onNavigate = { navController.popOrNavigate(EditRecipeTitle, it.toScreen()) },
             )
         }
@@ -44,7 +47,8 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
             EditRecipeCategoriesScreen(
                 editRecipeCategoriesViewModel = editRecipeCategoriesViewModel,
                 onBack = { navController.navigateUp() },
-                onForward = { navController.navigate(EditRecipePortions.route) },
+                onForwardCreationMode = { navController.navigate(EditRecipePortions.route) },
+                onForwardEditingMode = { navController.navigate(EditRecipePortions.route) },
                 onNavigate = { navController.popOrNavigate(EditRecipeCategories, it.toScreen()) },
             )
         }
@@ -53,7 +57,8 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
             EditRecipePortionsScreen(
                 editRecipePortionsViewModel = editRecipePortionsViewModel,
                 onBack = { navController.navigateUp() },
-                onForward = { navController.navigate(EditRecipeIngredients.route) },
+                onForwardCreationMode = { navController.navigate(EditRecipeIngredients.route) },
+                onForwardEditingMode = { navController.navigate(EditRecipeIngredients.route) },
                 onNavigate = { navController.popOrNavigate(EditRecipePortions, it.toScreen()) },
             )
         }
@@ -62,7 +67,8 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
             EditRecipeIngredientsScreen(
                 ingredientsViewModel = editRecipeIngredientsViewModel,
                 onBack = { navController.navigateUp() },
-                onForward = { navController.navigate(EditRecipeInstructions.route) },
+                onForwardCreationMode = { navController.navigate(EditRecipeInstructions.route) },
+                onForwardEditingMode = { navController.navigate(EditRecipeInstructions.route) },
                 onNavigate = { navController.popOrNavigate(EditRecipeIngredients, it.toScreen()) },
             )
         }
@@ -71,7 +77,8 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
             EditRecipeInstructionsScreen(
                 instructionsViewModel = instructionsViewModel,
                 onBack = { navController.navigateUp() },
-                onForward = { navController.navigate(EditRecipeTemperature.route) },
+                onForwardCreationMode = { navController.navigate(EditRecipeTemperature.route) },
+                onForwardEditingMode = { navController.navigate(EditRecipeTemperature.route) },
                 onNavigate = { navController.popOrNavigate(EditRecipeInstructions, it.toScreen()) },
             )
         }
@@ -80,7 +87,8 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
             EditRecipeTemperatureScreen(
                 editRecipeTemperatureViewModel = editRecipeTemperatureViewModel,
                 onBack = { navController.navigateUp() },
-                onForward = { navController.navigate(EditRecipeTime.route) },
+                onForwardCreationMode = { navController.navigate(EditRecipeTime.route) },
+                onForwardEditingMode = { navController.navigate(EditRecipeTime.route) },
                 onNavigate = { navController.popOrNavigate(EditRecipeTemperature, it.toScreen()) },
             )
         }
@@ -89,8 +97,19 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
             EditRecipeTimeScreen(
                 editRecipeTimeViewModel = editRecipeTimeViewModel,
                 onBack = { navController.navigateUp() },
-                onForward = { navController.navigate(EditRecipeRecap.route) },
+                onForwardCreationMode = { navController.navigate(EditRecipeRecap.route) },
+                onForwardEditingMode = { navController.navigate(EditRecipeComments.route) },
                 onNavigate = { navController.popOrNavigate(EditRecipeTime, it.toScreen()) },
+            )
+        }
+        composable(route = EditRecipeComments.route) {
+            val commentsViewModel = hiltViewModel<EditRecipeCommentsViewModel>()
+            EditRecipeCommentsScreen(
+                commentsViewModel = commentsViewModel,
+                onBack = { navController.navigateUp() },
+                onForwardCreationMode = { navController.navigate(EditRecipeRecap.route) },
+                onForwardEditingMode = { navController.navigate(EditRecipeRecap.route) },
+                onNavigate = { navController.popOrNavigate(EditRecipeComments, it.toScreen()) },
             )
         }
         composable(route = EditRecipeRecap.route) {
@@ -125,6 +144,7 @@ private fun PageType.toScreen() =
         PageType.Instructions -> EditRecipeInstructions
         PageType.Temperature -> EditRecipeTemperature
         PageType.Time -> EditRecipeTime
+        PageType.Comments -> EditRecipeComments
     }
 
 interface EditRecipeScreen : Screen {
@@ -191,6 +211,14 @@ object EditRecipeTime : EditRecipeScreen {
     private const val rootRoute = "editTime"
 
     override val position: Short = 7
+    override val route: String = rootRoute
+    override val arguments: List<NamedNavArgument> = emptyList()
+}
+
+object EditRecipeComments : EditRecipeScreen {
+    private const val rootRoute = "editComments"
+
+    override val position: Short = 8
     override val route: String = rootRoute
     override val arguments: List<NamedNavArgument> = emptyList()
 }
