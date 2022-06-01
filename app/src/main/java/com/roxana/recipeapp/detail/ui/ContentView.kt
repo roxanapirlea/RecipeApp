@@ -23,12 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.detail.AddComment
-import com.roxana.recipeapp.detail.DetailViewAction
 import com.roxana.recipeapp.detail.DetailViewState
-import com.roxana.recipeapp.detail.Edit
 import com.roxana.recipeapp.detail.IngredientState
-import com.roxana.recipeapp.detail.StartCooking
 import com.roxana.recipeapp.detail.TimeState
 import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.CenteredTitle
@@ -41,7 +37,9 @@ import com.roxana.recipeapp.uimodel.UiQuantityType
 @Composable
 fun ContentView(
     state: DetailViewState.Content,
-    onAction: (DetailViewAction) -> Unit = {}
+    onStartCookingClicked: () -> Unit = {},
+    onAddCommentClicked: () -> Unit = {},
+    onEditClicked: () -> Unit = {},
 ) {
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
@@ -146,7 +144,7 @@ fun ContentView(
             }
             item {
                 FlatSecondaryButton(
-                    onClick = { onAction(AddComment) },
+                    onClick = { onAddCommentClicked() },
                     modifier = Modifier.padding(top = 16.dp)
                 ) {
                     Text(stringResource(id = R.string.all_add_comment))
@@ -162,14 +160,14 @@ fun ContentView(
         ) {
             Row(modifier = Modifier.padding(vertical = 8.dp)) {
                 FlatSecondaryButton(
-                    onClick = { onAction(Edit) },
+                    onClick = { onEditClicked() },
                     modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
                     Text(stringResource(R.string.detail_edit_recipe))
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 FlatSecondaryButton(
-                    onClick = { onAction(StartCooking) },
+                    onClick = { onStartCookingClicked() },
                     modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
                     Text(stringResource(R.string.detail_start_cooking))

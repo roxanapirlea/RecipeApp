@@ -23,32 +23,41 @@ fun DetailScreen(
     detailViewModel: DetailViewModel,
     onStartCooking: () -> Unit,
     onBack: () -> Unit = {},
-    onAddComment: () -> Unit = {}
+    onAddComment: () -> Unit = {},
+    onEdit: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(detailViewModel.state)
         .collectAsState(DetailViewState.Loading)
 
-    DetailView(state, detailViewModel.sideEffectFlow) { action ->
-        when (action) {
-            StartCooking -> onStartCooking()
-            Back -> onBack()
-            AddComment -> onAddComment()
-        }
-    }
+    DetailView(
+        state,
+        detailViewModel.sideEffectFlow,
+        onStartCookingClicked = onStartCooking,
+        onBackClicked = onBack,
+        onAddCommentClicked = onAddComment,
+        onEditClicked = detailViewModel::onEdit,
+        onStartEditing = onEdit
+    )
 }
 
 @Composable
 fun DetailView(
     state: DetailViewState,
     sideEffectsFlow: Flow<DetailSideEffect> = flow { },
-    onAction: (DetailViewAction) -> Unit = {}
+    onBackClicked: () -> Unit = {},
+    onStartCookingClicked: () -> Unit = {},
+    onAddCommentClicked: () -> Unit = {},
+    onEditClicked: () -> Unit = {},
+    onStartEditing: () -> Unit = {},
 ) {
     val scaffoldState = rememberScaffoldState()
     val localContext = LocalContext.current.applicationContext
 
     LaunchedEffect(sideEffectsFlow) {
         sideEffectsFlow.collect {
-            // no-op
+            when (it) {
+                StartEditing -> onStartEditing()
+            }
         }
     }
 
@@ -58,12 +67,17 @@ fun DetailView(
             AppBar(
                 title = stringResource(R.string.home_title),
                 icon = R.drawable.ic_arrow_back
-            ) { onAction(Back) }
+            ) { onBackClicked() }
         }
     ) {
         when (state) {
             DetailViewState.Loading -> LoadingStateView()
-            is DetailViewState.Content -> ContentView(state = state, onAction)
+            is DetailViewState.Content -> ContentView(
+                state = state,
+                onStartCookingClicked = onStartCookingClicked,
+                onAddCommentClicked = onAddCommentClicked,
+                onEditClicked = onEditClicked
+            )
         }
     }
 }

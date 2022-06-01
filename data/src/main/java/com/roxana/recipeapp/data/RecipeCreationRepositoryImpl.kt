@@ -3,17 +3,24 @@ package com.roxana.recipeapp.data
 import androidx.datastore.core.DataStore
 import com.roxana.recipeapp.domain.RecipeCreationRepository
 import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.CreationComment
 import com.roxana.recipeapp.domain.model.CreationIngredient
 import com.roxana.recipeapp.domain.model.CreationInstruction
 import com.roxana.recipeapp.domain.model.CreationRecipe
 import com.roxana.recipeapp.domain.model.Temperature
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RecipeCreationRepositoryImpl @Inject constructor(
     private val recipeDataStore: DataStore<RecipeCreation>
 ) : RecipeCreationRepository {
+
+    override suspend fun isRecipeExisting(): Boolean =
+        recipeDataStore.data.map { recipe ->
+            recipe.hasId()
+        }.first()
 
     override fun getTitle(): Flow<String?> =
         recipeDataStore.data.map { recipe ->
@@ -42,11 +49,12 @@ class RecipeCreationRepositoryImpl @Inject constructor(
         recipeDataStore.data.map { recipe ->
             recipe.ingredientsList
                 .map {
+                    val id = if (it.hasId()) it.id else null
                     val quantity =
                         if (it.hasQuantity()) it.quantity else null
                     val quantityType =
                         if (it.hasQuantityType()) it.quantityType.toDomainModel() else null
-                    CreationIngredient(it.name, quantity, quantityType)
+                    CreationIngredient(id, it.name, quantity, quantityType)
                 }
         }
 
@@ -80,19 +88,27 @@ class RecipeCreationRepositoryImpl @Inject constructor(
             if (recipe.hasTemperatureUnit()) recipe.temperatureUnit.toDomainModel() else null
         }
 
+    override fun getComments(): Flow<List<CreationComment>> =
+        recipeDataStore.data.map { recipe ->
+            recipe.commentsList
+                .map { CreationComment(it.name, it.ordinal.toShort()) }
+        }
+
     override fun getRecipe(): Flow<CreationRecipe> =
         recipeDataStore.data.map { recipe ->
+            val id = if (recipe.hasId()) recipe.id else null
             val title = recipe.title
             val portions = if (recipe.hasPortions()) recipe.portions.toShort() else null
             val categories = recipe.categoriesList
                 .mapNotNull { it.toDomainModel() }
             val ingredients = recipe.ingredientsList
                 .map {
+                    val ingredientId = if (it.hasId()) it.id else null
                     val quantity =
                         if (it.hasQuantity()) it.quantity else null
                     val quantityType =
                         if (it.hasQuantityType()) it.quantityType.toDomainModel() else null
-                    CreationIngredient(it.name, quantity, quantityType)
+                    CreationIngredient(ingredientId, it.name, quantity, quantityType)
                 }
             val instructions = recipe.instructionsList
                 .map { CreationInstruction(it.name, it.ordinal.toShort()) }
@@ -104,7 +120,10 @@ class RecipeCreationRepositoryImpl @Inject constructor(
             val temperature = if (recipe.hasTemperature()) recipe.temperature.toShort() else null
             val temperatureUnit =
                 if (recipe.hasTemperatureUnit()) recipe.temperatureUnit.toDomainModel() else null
+            val comments = recipe.commentsList
+                .map { CreationComment(it.name, it.ordinal.toShort()) }
             CreationRecipe(
+                id,
                 title,
                 null,
                 portions,
@@ -117,7 +136,7 @@ class RecipeCreationRepositoryImpl @Inject constructor(
                 waitingTime,
                 temperature,
                 temperatureUnit ?: Temperature.CELSIUS,
-                emptyList()
+                comments
             )
         }
 
@@ -176,6 +195,7 @@ class RecipeCreationRepositoryImpl @Inject constructor(
                                     quantityType = it.toCreationProto()
                                 }
                             }
+                            .apply { ingredient.id?.let { id = it } }
                             .build()
                     }
                 )
@@ -214,6 +234,68 @@ class RecipeCreationRepositoryImpl @Inject constructor(
                         this.temperature = temperature.toInt()
                     else clearTemperature()
                 }.build()
+        }
+    }
+
+    override suspend fun setComments(comments: List<CreationComment>) {
+        recipeDataStore.updateData { current ->
+            current.toBuilder()
+                .clearComments()
+                .addAllComments(
+                    comments.map {
+                        RecipeCreation.Indexed.newBuilder()
+                            .setName(it.detail)
+                            .setOrdinal(it.ordinal.toInt())
+                            .build()
+                    }
+                )
+                .build()
+        }
+    }
+
+    override suspend fun setRecipe(recipe: CreationRecipe) {
+        recipeDataStore.updateData {
+            val builder = RecipeCreation.newBuilder()
+
+            val instructions = recipe.instructions.map {
+                RecipeCreation.Indexed.newBuilder()
+                    .setName(it.name)
+                    .setOrdinal(it.ordinal.toInt())
+                    .build()
+            }
+
+            val ingredients = recipe.ingredients.map { ingredient ->
+                RecipeCreation.Ingredient.newBuilder()
+                    .setName(ingredient.name)
+                    .apply { ingredient.quantity?.let { quantity = it } }
+                    .apply {
+                        ingredient.quantityType?.let { quantityType = it.toCreationProto() }
+                    }
+                    .apply { ingredient.id?.let { id = it } }
+                    .build()
+            }
+
+            val comments = recipe.comments.map {
+                RecipeCreation.Indexed.newBuilder()
+                    .setName(it.detail)
+                    .setOrdinal(it.ordinal.toInt())
+                    .build()
+            }
+
+            recipe.id?.let { builder.id = it }
+            builder.title = recipe.name
+            builder.addAllCategories(recipe.categories.map { it.toProto() })
+            recipe.portions?.let { builder.portions = it.toInt() }
+            builder.addAllInstructions(instructions)
+            builder.addAllIngredients(ingredients)
+            recipe.timeTotal?.let { builder.totalTime = it.toInt() }
+            recipe.timePreparation?.let { builder.preparationTime = it.toInt() }
+            recipe.timeCooking?.let { builder.cookingTime = it.toInt() }
+            recipe.timeWaiting?.let { builder.waitingTime = it.toInt() }
+            recipe.temperatureUnit?.let { builder.temperatureUnit = it.toCreationProto() }
+            recipe.temperature?.let { builder.temperature = it.toInt() }
+            builder.addAllComments(comments)
+            builder.build()
         }
     }
 

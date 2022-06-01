@@ -15,11 +15,14 @@ message RecipeCreation {
   optional int32 preparationTime = 9;
   optional int32 waitingTime = 10;
   optional int32 totalTime = 11;
+  optional int32 id = 12;
+  repeated Indexed comments = 13;
 
   message Ingredient {
     optional string name = 1;
     optional double quantity = 2;
     optional MeasuringUnit quantityType = 3;
+    optional int32 id = 4;
   }
 
   message Indexed {

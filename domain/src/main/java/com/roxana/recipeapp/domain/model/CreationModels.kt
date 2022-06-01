@@ -1,6 +1,7 @@
 package com.roxana.recipeapp.domain.model
 
 data class CreationRecipe(
+    val id: Int?,
     val name: String,
     val photoPath: String?,
     val portions: Short?,
@@ -22,6 +23,7 @@ data class CreationInstruction(
 )
 
 data class CreationIngredient(
+    val id: Int?,
     val name: String,
     val quantity: Double?,
     val quantityType: QuantityType?

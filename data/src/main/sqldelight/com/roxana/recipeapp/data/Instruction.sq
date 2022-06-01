@@ -22,6 +22,10 @@ delete:
 DELETE FROM Instruction
 WHERE id = :id;
 
+deleteByRecipeId:
+DELETE FROM Instruction
+WHERE recipe_id = :id;
+
 getByRecipeId:
 SELECT *
 FROM Instruction

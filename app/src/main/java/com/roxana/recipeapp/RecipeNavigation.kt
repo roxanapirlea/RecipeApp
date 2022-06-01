@@ -34,7 +34,7 @@ fun RecipeNavigation() {
     val navController = rememberNavController(bottomSheetNavigator)
     ModalBottomSheetLayout(bottomSheetNavigator) {
         NavHost(navController, startDestination = Home.route) {
-            addRecipeGraph(navController)
+            editRecipeGraph(navController)
 
             composable(route = Home.route) {
                 val homeViewModel = hiltViewModel<HomeViewModel>()
@@ -45,7 +45,7 @@ fun RecipeNavigation() {
                             RecipeDetail.destination(RecipeDetail.Arguments(it))
                         )
                     },
-                    onNavAddRecipe = { navController.navigate(AddRecipeGraphRootScreen.route) },
+                    onNavAddRecipe = { navController.navigate(EditRecipeGraphRootScreen.route) },
                     onNavSettings = { navController.navigate(Settings.route) }
                 )
             }
@@ -79,7 +79,8 @@ fun RecipeNavigation() {
                     onAddComment = {
                         val recipeId = backStackEntry.arguments!!.getInt(RecipeDetail.KEY_ID)
                         navController.navigate(AddComment.destination(AddComment.Arguments(recipeId)))
-                    }
+                    },
+                    onEdit = { navController.navigate(EditRecipeGraphRootScreen.route) }
                 )
             }
             composable(

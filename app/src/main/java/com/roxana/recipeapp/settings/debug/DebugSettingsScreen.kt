@@ -34,7 +34,7 @@ fun DebugSettingsScreen(
     DebugSettingsView(state) { action ->
         when (action) {
             Back -> onBack()
-            is SetOnAddRecipeOnboarding ->
+            is SetOnEditRecipeOnboarding ->
                 debugSettingsViewModel.onSetAddRecipeOnboarding(action.isDone)
         }
     }
@@ -73,7 +73,7 @@ fun DebugSettingsView(
                 Text(stringResource(R.string.debug_settings_onboarding_add_recipe))
                 Switch(
                     checked = state.isAddRecipeOnboardingDone,
-                    onCheckedChange = { onAction(SetOnAddRecipeOnboarding(it)) }
+                    onCheckedChange = { onAction(SetOnEditRecipeOnboarding(it)) }
                 )
             }
         }

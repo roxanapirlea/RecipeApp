@@ -24,6 +24,10 @@ delete:
 DELETE FROM Comment
 WHERE id = :id;
 
+deleteByRecipeId:
+DELETE FROM Comment
+WHERE recipe_id = :id;
+
 getByRecipeId:
 SELECT *
 FROM Comment
