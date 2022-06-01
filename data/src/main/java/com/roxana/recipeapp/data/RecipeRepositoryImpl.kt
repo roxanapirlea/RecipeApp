@@ -199,4 +199,16 @@ class RecipeRepositoryImpl @Inject constructor(
         val nextOrdinal = (comments.maxOfOrNull { it.ordinal } ?: 0) + 1
         commentQueries.insert(comment, nextOrdinal.toShort(), recipeId.toLong())
     }
+
+    override fun getMaxTotalTime(): Flow<Int?> {
+        return recipeQueries.getMaxTotalTime().asFlow().mapToOne().map { it.MAX?.toInt() }
+    }
+
+    override fun getMaxCookingTime(): Flow<Int?> {
+        return recipeQueries.getMaxCookingTime().asFlow().mapToOne().map { it.MAX?.toInt() }
+    }
+
+    override fun getMaxPreparationTime(): Flow<Int?> {
+        return recipeQueries.getMaxPreparationTime().asFlow().mapToOne().map { it.MAX?.toInt() }
+    }
 }

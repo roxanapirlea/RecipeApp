@@ -53,3 +53,12 @@ WHERE id = :id;
 delete:
 DELETE FROM Recipe
 WHERE id = :id;
+
+getMaxTotalTime:
+SELECT MAX(time_total) FROM Recipe;
+
+getMaxCookingTime:
+SELECT MAX(time_cooking) FROM Recipe;
+
+getMaxPreparationTime:
+SELECT MAX(time_preparation) FROM Recipe;
