@@ -3,17 +3,24 @@ package com.roxana.recipeapp.data
 import androidx.datastore.core.DataStore
 import com.roxana.recipeapp.domain.RecipeCreationRepository
 import com.roxana.recipeapp.domain.model.CategoryType
+import com.roxana.recipeapp.domain.model.CreationComment
 import com.roxana.recipeapp.domain.model.CreationIngredient
 import com.roxana.recipeapp.domain.model.CreationInstruction
 import com.roxana.recipeapp.domain.model.CreationRecipe
 import com.roxana.recipeapp.domain.model.Temperature
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RecipeCreationRepositoryImpl @Inject constructor(
     private val recipeDataStore: DataStore<RecipeCreation>
 ) : RecipeCreationRepository {
+
+    override suspend fun isRecipeExisting(): Boolean =
+        recipeDataStore.data.map { recipe ->
+            recipe.hasId()
+        }.first()
 
     override fun getTitle(): Flow<String?> =
         recipeDataStore.data.map { recipe ->
@@ -81,6 +88,12 @@ class RecipeCreationRepositoryImpl @Inject constructor(
             if (recipe.hasTemperatureUnit()) recipe.temperatureUnit.toDomainModel() else null
         }
 
+    override fun getComments(): Flow<List<CreationComment>> =
+        recipeDataStore.data.map { recipe ->
+            recipe.commentsList
+                .map { CreationComment(it.name, it.ordinal.toShort()) }
+        }
+
     override fun getRecipe(): Flow<CreationRecipe> =
         recipeDataStore.data.map { recipe ->
             val id = if (recipe.hasId()) recipe.id else null
@@ -107,6 +120,8 @@ class RecipeCreationRepositoryImpl @Inject constructor(
             val temperature = if (recipe.hasTemperature()) recipe.temperature.toShort() else null
             val temperatureUnit =
                 if (recipe.hasTemperatureUnit()) recipe.temperatureUnit.toDomainModel() else null
+            val comments = recipe.commentsList
+                .map { CreationComment(it.name, it.ordinal.toShort()) }
             CreationRecipe(
                 id,
                 title,
@@ -121,7 +136,7 @@ class RecipeCreationRepositoryImpl @Inject constructor(
                 waitingTime,
                 temperature,
                 temperatureUnit ?: Temperature.CELSIUS,
-                emptyList()
+                comments
             )
         }
 
@@ -222,6 +237,22 @@ class RecipeCreationRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setComments(comments: List<CreationComment>) {
+        recipeDataStore.updateData { current ->
+            current.toBuilder()
+                .clearComments()
+                .addAllComments(
+                    comments.map {
+                        RecipeCreation.Indexed.newBuilder()
+                            .setName(it.detail)
+                            .setOrdinal(it.ordinal.toInt())
+                            .build()
+                    }
+                )
+                .build()
+        }
+    }
+
     override suspend fun setRecipe(recipe: CreationRecipe) {
         recipeDataStore.updateData {
             val builder = RecipeCreation.newBuilder()
@@ -244,6 +275,13 @@ class RecipeCreationRepositoryImpl @Inject constructor(
                     .build()
             }
 
+            val comments = recipe.comments.map {
+                RecipeCreation.Indexed.newBuilder()
+                    .setName(it.detail)
+                    .setOrdinal(it.ordinal.toInt())
+                    .build()
+            }
+
             recipe.id?.let { builder.id = it }
             builder.title = recipe.name
             builder.addAllCategories(recipe.categories.map { it.toProto() })
@@ -256,6 +294,7 @@ class RecipeCreationRepositoryImpl @Inject constructor(
             recipe.timeWaiting?.let { builder.waitingTime = it.toInt() }
             recipe.temperatureUnit?.let { builder.temperatureUnit = it.toCreationProto() }
             recipe.temperature?.let { builder.temperature = it.toInt() }
+            builder.addAllComments(comments)
             builder.build()
         }
     }
