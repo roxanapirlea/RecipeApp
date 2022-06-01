@@ -3,6 +3,7 @@ package com.roxana.recipeapp.detail
 import androidx.lifecycle.SavedStateHandle
 import com.roxana.recipeapp.RecipeDetail.KEY_ID
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
+import com.roxana.recipeapp.domain.detail.StartRecipeEditingUseCase
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.Comment
 import com.roxana.recipeapp.domain.model.Ingredient
@@ -33,6 +34,7 @@ class DetailViewModelTest {
 
     private val savedStateHandle: SavedStateHandle = mockk(relaxed = true)
     private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase = mockk(relaxed = true)
+    private val startRecipeEditingUseCase: StartRecipeEditingUseCase = mockk(relaxed = true)
     private lateinit var viewModel: DetailViewModel
 
     @Test
@@ -58,7 +60,8 @@ class DetailViewModelTest {
         every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
 
         // When
-        viewModel = DetailViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel =
+            DetailViewModel(savedStateHandle, getRecipeByIdUseCase, startRecipeEditingUseCase)
 
         // Then
         viewModel.state.value.shouldBeTypeOf<DetailViewState.Content>()
@@ -97,7 +100,8 @@ class DetailViewModelTest {
         every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
 
         // When
-        viewModel = DetailViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel =
+            DetailViewModel(savedStateHandle, getRecipeByIdUseCase, startRecipeEditingUseCase)
 
         // Then
         viewModel.state.value.shouldBeTypeOf<DetailViewState.Content>()
@@ -128,7 +132,8 @@ class DetailViewModelTest {
         every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
 
         // When
-        viewModel = DetailViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel =
+            DetailViewModel(savedStateHandle, getRecipeByIdUseCase, startRecipeEditingUseCase)
 
         // Then
         viewModel.state.value.shouldBeTypeOf<DetailViewState.Content>()

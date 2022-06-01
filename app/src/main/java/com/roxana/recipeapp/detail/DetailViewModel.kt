@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.RecipeDetail
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
+import com.roxana.recipeapp.domain.detail.StartRecipeEditingUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase
+    private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase,
+    private val startRecipeEditingUseCase: StartRecipeEditingUseCase
 ) : ViewModel() {
     @VisibleForTesting
     val _state = MutableStateFlow<DetailViewState>(DetailViewState.Loading)
@@ -64,6 +66,13 @@ class DetailViewModel @Inject constructor(
                     }
                 )
             }
+        }
+    }
+
+    fun onEdit() {
+        viewModelScope.launch {
+            val recipeId: Int = savedStateHandle.get(RecipeDetail.KEY_ID)!!
+            startRecipeEditingUseCase(recipeId).onSuccess { sideEffectChannel.send(StartEditing) }
         }
     }
 }
