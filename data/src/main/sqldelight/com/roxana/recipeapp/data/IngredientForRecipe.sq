@@ -24,6 +24,10 @@ delete:
 DELETE FROM IngredientForRecipe
 WHERE id = :id;
 
+deleteByRecipeId:
+DELETE FROM IngredientForRecipe
+WHERE recipe_id = :id;
+
 update:
 UPDATE IngredientForRecipe
 SET quantity = :quantity,

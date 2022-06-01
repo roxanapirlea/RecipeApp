@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class AddRecipeUseCase @Inject constructor(
+class SaveRecipeUseCase @Inject constructor(
     private val recipeRepository: RecipeRepository,
     private val creationRepository: RecipeCreationRepository
 ) : BaseSuspendableUseCase<Any?, Unit>() {
@@ -16,7 +16,13 @@ class AddRecipeUseCase @Inject constructor(
     override suspend fun execute(input: Any?) {
         withContext(Dispatchers.IO) {
             val creationRecipe = creationRepository.getRecipe().first()
-            recipeRepository.addRecipe(creationRecipe)
+            val isExistingRecipe = creationRecipe.id != null
+
+            if (isExistingRecipe)
+                recipeRepository.updateRecipe(creationRecipe)
+            else
+                recipeRepository.addRecipe(creationRecipe)
+
             try {
                 creationRepository.reset()
             } catch (e: Throwable) {

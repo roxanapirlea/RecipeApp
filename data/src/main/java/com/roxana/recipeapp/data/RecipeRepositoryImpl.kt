@@ -65,6 +65,63 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateRecipe(recipe: CreationRecipe) {
+        with(recipe) {
+            recipeQueries.update(
+                name = name,
+                photo_path = photoPath,
+                portions = portions,
+                time_total = timeTotal,
+                time_cooking = timeCooking,
+                time_preparation = timePreparation,
+                time_waiting = timeWaiting,
+                temperature = temperature,
+                temperature_type = temperatureUnit.toDataModel(),
+                id = id!!.toLong()
+            )
+            ingredients.forEach {
+                ingredientQueries.insert(it.name)
+                val ingredient = ingredientQueries.getByName(it.name).executeAsOne()
+                ingredientForRecipeQueries.deleteByRecipeId(recipe.id!!.toLong())
+                ingredientForRecipeQueries.insert(
+                    it.quantity,
+                    it.quantityType.toDataModel(),
+                    null,
+                    ingredient.id,
+                    recipe.id!!.toLong()
+                )
+            }
+            val existingCategories = categoryForRecipeQueries
+                .getCategoryByRecipeId(recipe.id!!.toLong())
+                .executeAsList()
+                .filter { it.name != null }
+                .associate { it.id to it.name?.toDomainModel() }
+
+            existingCategories
+                .filterNot { categories.contains(it.value) }
+                .forEach {
+                    categoryForRecipeQueries.delete(it.key)
+                }
+            categories
+                .filterNot { existingCategories.containsValue(it) }
+                .forEach {
+                    categoryForRecipeQueries.insert(
+                        it.toDataModel(),
+                        null,
+                        recipe.id!!.toLong()
+                    )
+                }
+            instructionQueries.deleteByRecipeId(recipe.id!!.toLong())
+            instructions.forEach {
+                instructionQueries.insert(it.name, it.ordinal, recipe.id!!.toLong())
+            }
+            commentQueries.deleteByRecipeId(recipe.id!!.toLong())
+            comments.forEach {
+                commentQueries.insert(it.detail, it.ordinal, recipe.id!!.toLong())
+            }
+        }
+    }
+
     override fun getRecipesSummary(): Flow<List<RecipeSummary>> {
         return recipeQueries.getRecipesSummary()
             .asFlow()
