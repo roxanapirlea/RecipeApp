@@ -3,8 +3,8 @@ package com.roxana.recipeapp.settings.debug
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.domain.debug.SetAddOnboardingValueUseCase
-import com.roxana.recipeapp.domain.onboarding.GetAddOnboardingUseCase
+import com.roxana.recipeapp.domain.debug.SetEditOnboardingValueUseCase
+import com.roxana.recipeapp.domain.onboarding.GetEditOnboardingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DebugSettingsViewModel @Inject constructor(
-    private val getAddOnboardingUseCase: GetAddOnboardingUseCase,
-    private val setAddOnboardingValueUseCase: SetAddOnboardingValueUseCase
+    private val getEditOnboardingUseCase: GetEditOnboardingUseCase,
+    private val setEditOnboardingValueUseCase: SetEditOnboardingValueUseCase
 ) : ViewModel() {
     @VisibleForTesting
     val _state = MutableStateFlow(DebugSettingsViewState())
@@ -24,9 +24,9 @@ class DebugSettingsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getAddOnboardingUseCase(null)
+            getEditOnboardingUseCase(null)
                 .collect { result ->
-                    val isDone = result.getOrDefault(GetAddOnboardingUseCase.Output(false)).isDone
+                    val isDone = result.getOrDefault(GetEditOnboardingUseCase.Output(false)).isDone
                     _state.update { it.copy(isAddRecipeOnboardingDone = isDone) }
                 }
         }
@@ -34,7 +34,7 @@ class DebugSettingsViewModel @Inject constructor(
 
     fun onSetAddRecipeOnboarding(isDone: Boolean) {
         viewModelScope.launch {
-            setAddOnboardingValueUseCase(SetAddOnboardingValueUseCase.Input(isDone))
+            setEditOnboardingValueUseCase(SetEditOnboardingValueUseCase.Input(isDone))
         }
     }
 }
