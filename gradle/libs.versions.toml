@@ -27,6 +27,7 @@ pluginProtobuf = "0.8.18"
 pluginVersions = "0.42.0"
 protobuf = "3.19.4"
 sqlDelight = "1.5.3"
+timber = "5.0.1"
 
 [libraries]
 accompanist-bottomSheet = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "accompanist" }
@@ -87,3 +88,5 @@ protobuf-protoc = { module = "com.google.protobuf:protoc", version.ref = "protob
 sqldelight-androidDriver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
 sqldelight-coroutines = { module = "com.squareup.sqldelight:coroutines-extensions-jvm", version.ref = "sqlDelight" }
 sqldelight-driver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
+
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
