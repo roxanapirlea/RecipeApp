@@ -12,7 +12,6 @@ import androidx.compose.material.BackdropScaffoldState
 import androidx.compose.material.BackdropValue
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
@@ -23,10 +22,11 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.ui.BackIcon
+import com.roxana.recipeapp.ui.CloseIcon
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -36,8 +36,7 @@ fun EditRecipeBackdrop(
     selectedPage: PageType,
     modifier: Modifier = Modifier,
     scaffoldState: BackdropScaffoldState = rememberBackdropScaffoldState(BackdropValue.Concealed),
-    backIcon: ImageVector,
-    backContentDescription: String,
+    isNavCloseIcon: Boolean = false,
     onSelectPage: (PageType) -> Unit = {},
     onBack: () -> Unit = {},
     frontLayerContent: @Composable () -> Unit = {},
@@ -56,11 +55,10 @@ fun EditRecipeBackdrop(
                     .height(BackdropScaffoldDefaults.PeekHeight)
             ) {
                 IconButton(onClick = onBack) {
-                    Icon(
-                        backIcon,
-                        contentDescription = backContentDescription,
-                        modifier = Modifier.padding(horizontal = 12.dp)
-                    )
+                    if (isNavCloseIcon)
+                        CloseIcon(Modifier.padding(horizontal = 12.dp))
+                    else
+                        BackIcon(Modifier.padding(horizontal = 12.dp))
                 }
                 BackdropAppBar(recipeAlreadyExists) {
                     scope.launch {

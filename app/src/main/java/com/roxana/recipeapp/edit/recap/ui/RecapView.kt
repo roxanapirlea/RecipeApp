@@ -3,8 +3,6 @@ package com.roxana.recipeapp.edit.recap.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,16 +25,13 @@ import com.roxana.recipeapp.detail.ui.IngredientView
 import com.roxana.recipeapp.detail.ui.InstructionView
 import com.roxana.recipeapp.detail.ui.ItemDetailsView
 import com.roxana.recipeapp.detail.ui.TimeView
-import com.roxana.recipeapp.edit.recap.Edit
 import com.roxana.recipeapp.edit.recap.IngredientState
-import com.roxana.recipeapp.edit.recap.RecapViewAction
 import com.roxana.recipeapp.edit.recap.RecapViewState
-import com.roxana.recipeapp.edit.recap.Save
 import com.roxana.recipeapp.edit.recap.TimeState
 import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.CenteredTitle
-import com.roxana.recipeapp.ui.FlatSecondaryButton
 import com.roxana.recipeapp.ui.LabelView
+import com.roxana.recipeapp.ui.TwoButtonRow
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
@@ -45,7 +39,8 @@ import com.roxana.recipeapp.uimodel.UiQuantityType
 @Composable
 fun RecapView(
     state: RecapViewState,
-    onAction: (RecapViewAction) -> Unit = {}
+    onSave: () -> Unit = {},
+    onEdit: () -> Unit = {},
 ) {
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
@@ -149,29 +144,13 @@ fun RecapView(
                 items(state.comments) { Text(it, color = MaterialTheme.colors.onBackground) }
             }
         }
-        Surface(
-            elevation = 4.dp,
-            color = MaterialTheme.colors.background,
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-        ) {
-            Row(modifier = Modifier.padding(vertical = 8.dp)) {
-                FlatSecondaryButton(
-                    onClick = { onAction(Edit) },
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                ) {
-                    Text(stringResource(R.string.edit_recipe_recap_continue_editing))
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                FlatSecondaryButton(
-                    onClick = { onAction(Save) },
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                ) {
-                    Text(stringResource(R.string.all_save))
-                }
-            }
-        }
+        TwoButtonRow(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            textStartButton = stringResource(R.string.edit_recipe_recap_continue_editing),
+            onClickStartButton = onEdit,
+            textEndButton = stringResource(R.string.all_save),
+            onClickEndButton = onSave
+        )
     }
 }
 

@@ -92,7 +92,7 @@ class EditRecipeTitleViewModel @Inject constructor(
         }
     }
 
-    fun onDiscardDialog() {
+    fun onDismissDialog() {
         _state.update { it.copy(showSaveDialog = false) }
     }
 

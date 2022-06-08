@@ -13,8 +13,9 @@
     <string name="all_settings">Paramètres</string>
     <string name="all_filters">Filtres</string>
     <string name="all_validate">Valider</string>
-    <string name="all_cross">Fermer</string>
+    <string name="all_close">Fermer</string>
     <string name="all_back">Retour</string>
+    <string name="all_search">Recherche…</string>
     <string name="all_go_to_next_screen">Vas au prochain écran</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="all_ingredients">Ingrédients</string>
@@ -66,7 +67,6 @@
     <string name="all_temperature_celsius">ºC</string>
     <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
-    <string name="home_search">Recherche…</string>
     <string name="home_empty_description_save">Enregistre tes recettes préférées</string>
     <string name="home_empty_description_instructions">Suis les instructions étape par étape</string>
     <string name="home_empty_description_quantities">Adapte les quantités à tes besoins</string>
@@ -144,7 +144,7 @@
     <string name="settings_measuring_units">Unités de mesure</string>
     <string name="settings_measuring_units_detail">Choisis les unités qui seront disponibles lors de l\'ajout d\'une nouvelle recette ou de la modification d\'une recette existante</string>
     <string name="debug_settings">Paramètres de debuggage</string>
-    <string name="filters_max_time">Temps max : %d min</string>
-    <string name="filters_max_time_cooking">Temps de cuisson max : %d min</string>
-    <string name="filters_max_time_preparation">Temps de préparation max : %d min</string>
+    <string name="filters_select_time_total">Selectionner le temps total max (minutes)</string>
+    <string name="filters_select_time_cooking">Selectionner le temps de cuisson max (minutes)</string>
+    <string name="filters_select_time_preparation">Selectionner le temps de préparation max (minutes)</string>
 </resources>

@@ -13,8 +13,9 @@
     <string name="all_settings">Settings</string>
     <string name="all_filters">Filters</string>
     <string name="all_validate">Validate</string>
-    <string name="all_cross">Close</string>
+    <string name="all_close">Close</string>
     <string name="all_back">Back</string>
+    <string name="all_search">Search…</string>
     <string name="all_go_to_next_screen">Go to next screen</string>
     <string name="all_ingredients">Ingredients</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
@@ -66,7 +67,6 @@
     <string name="all_temperature_celsius">ºC</string>
     <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
-    <string name="home_search">Search…</string>
     <string name="home_empty_description_save">Save your favourite recipes</string>
     <string name="home_empty_description_instructions">Follow the instructions step by step</string>
     <string name="home_empty_description_quantities">Adapt quantities to your needs</string>
@@ -143,9 +143,9 @@
     <string name="settings_measuring_units">Measuring units</string>
     <string name="settings_measuring_units_detail">Choose the units that will be available when adding a new recipe or editing an existing one</string>
     <string name="debug_settings">Debug settings</string>
-    <string name="filters_max_time">Maximum time: %d min</string>
-    <string name="filters_max_time_cooking">Maximum cooking time cooking: %d min</string>
-    <string name="filters_max_time_preparation">Maximum preparation time: %d min</string>
+    <string name="filters_select_time_total">Select max total time (minutes)</string>
+    <string name="filters_select_time_cooking">Select max cooking time (minutes)</string>
+    <string name="filters_select_time_preparation">Select max preparation time (minutes)</string>
     <string name="debug_settings_onboarding" translatable="false">Onboarding</string>
     <string name="debug_settings_onboarding_add_recipe" translatable="false">Add recipe onboarding done</string>
 </resources>

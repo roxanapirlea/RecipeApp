@@ -1,7 +1,6 @@
 package com.roxana.recipeapp.edit
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
@@ -19,7 +18,7 @@ import com.roxana.recipeapp.ui.FlatSecondaryButton
 fun SaveCreationDialog(
     onSave: () -> Unit,
     onDelete: () -> Unit,
-    onDiscard: () -> Unit
+    onDismiss: () -> Unit
 ) {
     val openDialog = remember { mutableStateOf(true) }
 
@@ -27,15 +26,13 @@ fun SaveCreationDialog(
         AlertDialog(
             onDismissRequest = {
                 openDialog.value = false
-                onDiscard()
+                onDismiss()
             },
             title = {
                 Text(stringResource(R.string.edit_recipe_dialog_title))
             },
             text = {
-                Column() {
-                    Text(stringResource(R.string.edit_recipe_dialog_message))
-                }
+                Text(stringResource(R.string.edit_recipe_dialog_message))
             },
             buttons = {
                 Row(

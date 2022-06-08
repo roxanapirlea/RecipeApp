@@ -14,16 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.cooking.AddComment
-import com.roxana.recipeapp.cooking.CookingViewAction
 import com.roxana.recipeapp.cooking.CookingViewState
-import com.roxana.recipeapp.cooking.DecrementPortions
-import com.roxana.recipeapp.cooking.IncrementPortions
-import com.roxana.recipeapp.cooking.ModifyQuantitiesByIngredient
-import com.roxana.recipeapp.cooking.ResetPortions
 import com.roxana.recipeapp.cooking.TimeState
-import com.roxana.recipeapp.cooking.ToggleIngredientCheck
-import com.roxana.recipeapp.cooking.ToggleInstructionCheck
 import com.roxana.recipeapp.detail.ui.EmptyItem
 import com.roxana.recipeapp.ui.CenteredTitle
 import com.roxana.recipeapp.ui.FlatSecondaryButton
@@ -34,7 +26,13 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 fun CookingInProgressView(
     state: CookingViewState.Content,
     modifier: Modifier = Modifier,
-    onAction: (CookingViewAction) -> Unit = {}
+    onVaryIngredient: () -> Unit = {},
+    onAddComment: () -> Unit = {},
+    onDecrementPortions: () -> Unit = {},
+    onIncrementPortions: () -> Unit = {},
+    onResetPortions: () -> Unit = {},
+    onToggleIngredientCheck: (id: Int, isChecked: Boolean) -> Unit = { _, _ -> },
+    onToggleInstructionCheck: (id: Short, isChecked: Boolean) -> Unit = { _, _ -> }
 ) {
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
@@ -89,13 +87,13 @@ fun CookingInProgressView(
         item {
             AdjustablePortions(
                 state.selectedPortions,
-                onPortionsIncrease = { onAction(IncrementPortions) },
-                onPortionsDecrease = { onAction(DecrementPortions) },
-                onPortionsReset = { onAction(ResetPortions) }
+                onPortionsIncrease = onIncrementPortions,
+                onPortionsDecrease = onDecrementPortions,
+                onPortionsReset = onResetPortions
             )
         }
         item {
-            FlatSecondaryButton(onClick = { onAction(ModifyQuantitiesByIngredient) }) {
+            FlatSecondaryButton(onClick = onVaryIngredient) {
                 Text(stringResource(R.string.cooking_edit_by_ingredient))
             }
         }
@@ -112,7 +110,7 @@ fun CookingInProgressView(
         else
             items(state.ingredients) { ingredient ->
                 IngredientView(ingredient = ingredient) {
-                    onAction(ToggleIngredientCheck(ingredient.id, it))
+                    onToggleIngredientCheck(ingredient.id, it)
                 }
             }
         item {
@@ -131,7 +129,7 @@ fun CookingInProgressView(
                     instruction = item.instruction,
                     isChecked = item.isChecked,
                     isCurrent = item.isCurrent,
-                    onCheckChanged = { onAction(ToggleInstructionCheck(item.id, it)) }
+                    onCheckChanged = { onToggleInstructionCheck(item.id, it) }
                 )
             }
         if (state.comments.isNotEmpty()) {
@@ -147,7 +145,7 @@ fun CookingInProgressView(
         }
         item {
             FlatSecondaryButton(
-                onClick = { onAction(AddComment) },
+                onClick = onAddComment,
                 modifier = Modifier.padding(top = 16.dp)
             ) {
                 Text(stringResource(id = R.string.all_add_comment))

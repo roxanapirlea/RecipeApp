@@ -33,19 +33,13 @@ fun EmptyView() {
                 .padding(horizontal = 8.dp),
             contentScale = ContentScale.Fit
         )
+
         Spacer(modifier = Modifier.weight(1f))
-        H5PrimaryText(
-            text = stringResource(R.string.home_empty_description_save),
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-        H5PrimaryText(
-            text = stringResource(R.string.home_empty_description_instructions),
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-        H5PrimaryText(
-            text = stringResource(R.string.home_empty_description_quantities),
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-        )
+
+        H5PrimaryText(stringResource(R.string.home_empty_description_save))
+        H5PrimaryText(stringResource(R.string.home_empty_description_instructions))
+        H5PrimaryText(stringResource(R.string.home_empty_description_quantities))
+
         Spacer(modifier = Modifier.weight(3f))
     }
 }
@@ -59,7 +53,7 @@ fun H5PrimaryText(
         text = text,
         style = MaterialTheme.typography.h5,
         color = MaterialTheme.colors.primary,
-        modifier = modifier
+        modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     )
 }
 

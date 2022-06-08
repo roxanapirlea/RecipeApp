@@ -13,8 +13,9 @@
     <string name="all_settings">Setări</string>
     <string name="all_filters">Filtre</string>
     <string name="all_validate">Validează</string>
-    <string name="all_cross">Închide</string>
+    <string name="all_close">Închide</string>
     <string name="all_back">Înapoi</string>
+    <string name="all_search">Căutare…</string>
     <string name="all_go_to_next_screen">Mergi la pasul următor</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="all_ingredients">Ingrediente</string>
@@ -66,7 +67,6 @@
     <string name="all_temperature_celsius">ºC</string>
     <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
-    <string name="home_search">Căutare…</string>
     <string name="home_empty_description_save">Salvează-ți rețetele favorite</string>
     <string name="home_empty_description_instructions">Urmează instrucțiunile pas cu pas</string>
     <string name="home_empty_description_quantities">Adaptează cantitățile la nevoile tale</string>
@@ -144,7 +144,7 @@
     <string name="settings_measuring_units">Unități de măsură</string>
     <string name="settings_measuring_units_detail">Alege unitățile care vor fi disponibile când modifici sau adaugi o nouă rețetă</string>
     <string name="debug_settings">Setări de debug</string>
-    <string name="filters_max_time">Timp maxim: %d min</string>
-    <string name="filters_max_time_cooking">Timp maxim de gătit: %d min</string>
-    <string name="filters_max_time_preparation">Timp maxim de pregatire: %d min</string>
+    <string name="filters_select_time_total">Selectează timpul total maxim (minute)</string>
+    <string name="filters_select_time_cooking">Selectează timpul de gătit maxim (minute)</string>
+    <string name="filters_select_time_preparation">Selectează timpul de pregatire maxim (minute)</string>
 </resources>

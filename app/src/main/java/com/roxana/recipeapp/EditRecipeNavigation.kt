@@ -1,231 +1,146 @@
 package com.roxana.recipeapp
 
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.roxana.recipeapp.edit.PageType
-import com.roxana.recipeapp.edit.categories.EditRecipeCategoriesScreen
+import com.roxana.recipeapp.edit.categories.EditRecipeCategoriesDestination
 import com.roxana.recipeapp.edit.categories.EditRecipeCategoriesViewModel
-import com.roxana.recipeapp.edit.comments.EditRecipeCommentsScreen
+import com.roxana.recipeapp.edit.comments.EditRecipeCommentsDestination
 import com.roxana.recipeapp.edit.comments.EditRecipeCommentsViewModel
-import com.roxana.recipeapp.edit.ingredients.EditRecipeIngredientsScreen
+import com.roxana.recipeapp.edit.ingredients.EditRecipeIngredientsDestination
 import com.roxana.recipeapp.edit.ingredients.EditRecipeIngredientsViewModel
-import com.roxana.recipeapp.edit.instructions.EditRecipeInstructionsScreen
+import com.roxana.recipeapp.edit.instructions.EditRecipeInstructionsDestination
 import com.roxana.recipeapp.edit.instructions.EditRecipeInstructionsViewModel
-import com.roxana.recipeapp.edit.portions.EditRecipePortionsScreen
+import com.roxana.recipeapp.edit.portions.EditRecipePortionsDestination
 import com.roxana.recipeapp.edit.portions.EditRecipePortionsViewModel
-import com.roxana.recipeapp.edit.recap.RecapScreen
+import com.roxana.recipeapp.edit.recap.RecapDestination
 import com.roxana.recipeapp.edit.recap.RecapViewModel
-import com.roxana.recipeapp.edit.temperature.EditRecipeTemperatureScreen
+import com.roxana.recipeapp.edit.temperature.EditRecipeTemperatureDestination
 import com.roxana.recipeapp.edit.temperature.EditRecipeTemperatureViewModel
-import com.roxana.recipeapp.edit.time.EditRecipeTimeScreen
+import com.roxana.recipeapp.edit.time.EditRecipeTimeDestination
 import com.roxana.recipeapp.edit.time.EditRecipeTimeViewModel
-import com.roxana.recipeapp.edit.title.EditRecipeTitleScreen
+import com.roxana.recipeapp.edit.title.EditRecipeTitleDestination
 import com.roxana.recipeapp.edit.title.EditRecipeTitleViewModel
 
 fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
     navigation(
-        startDestination = EditRecipeTitle.route,
-        route = EditRecipeGraphRootScreen.route
+        startDestination = EditTitleNode.route,
+        route = EditGraphRootNode.route
     ) {
 
-        composable(route = EditRecipeTitle.route) {
+        composable(route = EditTitleNode.route) {
             val editRecipeTitleViewModel = hiltViewModel<EditRecipeTitleViewModel>()
-            EditRecipeTitleScreen(
+            EditRecipeTitleDestination(
                 editRecipeTitleViewModel = editRecipeTitleViewModel,
-                onBack = { navController.navigateUp() },
-                onForwardCreationMode = { navController.navigate(EditRecipeCategories.route) },
-                onForwardEditingMode = { navController.navigate(EditRecipeCategories.route) },
-                onNavigate = { navController.popOrNavigate(EditRecipeTitle, it.toScreen()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditCategoriesNode.route) },
+                onEditNavForward = { navController.navigate(EditCategoriesNode.route) },
+                onNavToPage = { navController.popOrNavigate(EditTitleNode, it.toScreen()) },
             )
         }
-        composable(route = EditRecipeCategories.route) {
+        composable(route = EditCategoriesNode.route) {
             val editRecipeCategoriesViewModel = hiltViewModel<EditRecipeCategoriesViewModel>()
-            EditRecipeCategoriesScreen(
+            EditRecipeCategoriesDestination(
                 editRecipeCategoriesViewModel = editRecipeCategoriesViewModel,
-                onBack = { navController.navigateUp() },
-                onForwardCreationMode = { navController.navigate(EditRecipePortions.route) },
-                onForwardEditingMode = { navController.navigate(EditRecipePortions.route) },
-                onNavigate = { navController.popOrNavigate(EditRecipeCategories, it.toScreen()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditPortionsNode.route) },
+                onEditNavForward = { navController.navigate(EditPortionsNode.route) },
+                onNavToPage = { navController.popOrNavigate(EditCategoriesNode, it.toScreen()) },
             )
         }
-        composable(route = EditRecipePortions.route) {
+        composable(route = EditPortionsNode.route) {
             val editRecipePortionsViewModel = hiltViewModel<EditRecipePortionsViewModel>()
-            EditRecipePortionsScreen(
+            EditRecipePortionsDestination(
                 editRecipePortionsViewModel = editRecipePortionsViewModel,
-                onBack = { navController.navigateUp() },
-                onForwardCreationMode = { navController.navigate(EditRecipeIngredients.route) },
-                onForwardEditingMode = { navController.navigate(EditRecipeIngredients.route) },
-                onNavigate = { navController.popOrNavigate(EditRecipePortions, it.toScreen()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditIngredientsNode.route) },
+                onEditNavForward = { navController.navigate(EditIngredientsNode.route) },
+                onNavToPage = { navController.popOrNavigate(EditPortionsNode, it.toScreen()) },
             )
         }
-        composable(route = EditRecipeIngredients.route) {
+        composable(route = EditIngredientsNode.route) {
             val editRecipeIngredientsViewModel = hiltViewModel<EditRecipeIngredientsViewModel>()
-            EditRecipeIngredientsScreen(
+            EditRecipeIngredientsDestination(
                 ingredientsViewModel = editRecipeIngredientsViewModel,
-                onBack = { navController.navigateUp() },
-                onForwardCreationMode = { navController.navigate(EditRecipeInstructions.route) },
-                onForwardEditingMode = { navController.navigate(EditRecipeInstructions.route) },
-                onNavigate = { navController.popOrNavigate(EditRecipeIngredients, it.toScreen()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditInstructionsNode.route) },
+                onEditNavForward = { navController.navigate(EditInstructionsNode.route) },
+                onNavToPage = { navController.popOrNavigate(EditIngredientsNode, it.toScreen()) },
             )
         }
-        composable(route = EditRecipeInstructions.route) {
+        composable(route = EditInstructionsNode.route) {
             val instructionsViewModel = hiltViewModel<EditRecipeInstructionsViewModel>()
-            EditRecipeInstructionsScreen(
+            EditRecipeInstructionsDestination(
                 instructionsViewModel = instructionsViewModel,
-                onBack = { navController.navigateUp() },
-                onForwardCreationMode = { navController.navigate(EditRecipeTemperature.route) },
-                onForwardEditingMode = { navController.navigate(EditRecipeTemperature.route) },
-                onNavigate = { navController.popOrNavigate(EditRecipeInstructions, it.toScreen()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditTemperatureNode.route) },
+                onEditNavForward = { navController.navigate(EditTemperatureNode.route) },
+                onNavToPage = { navController.popOrNavigate(EditInstructionsNode, it.toScreen()) },
             )
         }
-        composable(route = EditRecipeTemperature.route) {
+        composable(route = EditTemperatureNode.route) {
             val editRecipeTemperatureViewModel = hiltViewModel<EditRecipeTemperatureViewModel>()
-            EditRecipeTemperatureScreen(
+            EditRecipeTemperatureDestination(
                 editRecipeTemperatureViewModel = editRecipeTemperatureViewModel,
-                onBack = { navController.navigateUp() },
-                onForwardCreationMode = { navController.navigate(EditRecipeTime.route) },
-                onForwardEditingMode = { navController.navigate(EditRecipeTime.route) },
-                onNavigate = { navController.popOrNavigate(EditRecipeTemperature, it.toScreen()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditTimeNode.route) },
+                onEditNavForward = { navController.navigate(EditTimeNode.route) },
+                onNavToPage = { navController.popOrNavigate(EditTemperatureNode, it.toScreen()) },
             )
         }
-        composable(route = EditRecipeTime.route) {
+        composable(route = EditTimeNode.route) {
             val editRecipeTimeViewModel = hiltViewModel<EditRecipeTimeViewModel>()
-            EditRecipeTimeScreen(
+            EditRecipeTimeDestination(
                 editRecipeTimeViewModel = editRecipeTimeViewModel,
-                onBack = { navController.navigateUp() },
-                onForwardCreationMode = { navController.navigate(EditRecipeRecap.route) },
-                onForwardEditingMode = { navController.navigate(EditRecipeComments.route) },
-                onNavigate = { navController.popOrNavigate(EditRecipeTime, it.toScreen()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditRecipeRecapNode.route) },
+                onEditNavForward = { navController.navigate(EditCommentsNode.route) },
+                onNavToPage = { navController.popOrNavigate(EditTimeNode, it.toScreen()) },
             )
         }
-        composable(route = EditRecipeComments.route) {
+        composable(route = EditCommentsNode.route) {
             val commentsViewModel = hiltViewModel<EditRecipeCommentsViewModel>()
-            EditRecipeCommentsScreen(
+            EditRecipeCommentsDestination(
                 commentsViewModel = commentsViewModel,
-                onBack = { navController.navigateUp() },
-                onForwardCreationMode = { navController.navigate(EditRecipeRecap.route) },
-                onForwardEditingMode = { navController.navigate(EditRecipeRecap.route) },
-                onNavigate = { navController.popOrNavigate(EditRecipeComments, it.toScreen()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditRecipeRecapNode.route) },
+                onEditNavForward = { navController.navigate(EditRecipeRecapNode.route) },
+                onNavToPage = { navController.popOrNavigate(EditCommentsNode, it.toScreen()) },
             )
         }
-        composable(route = EditRecipeRecap.route) {
+        composable(route = EditRecipeRecapNode.route) {
             val recapViewModel = hiltViewModel<RecapViewModel>()
-            RecapScreen(
+            RecapDestination(
                 recapViewModel = recapViewModel,
-                onBack = { navController.navigateUp() },
-                onFinish = { navController.popBackStack(Home.route, false) }
+                onNavBack = { navController.navigateUp() },
+                onNavFinish = { navController.popBackStack(HomeNode.route, false) }
             )
         }
     }
 }
 
-private fun NavController.popOrNavigate(from: EditRecipeScreen, to: EditRecipeScreen) {
+private fun NavController.popOrNavigate(from: EditNode, to: EditNode) {
     if (from.position <= to.position)
         navigate(to.route)
     else {
         val wasPopped = popBackStack(to.route, false)
         if (!wasPopped) {
-            popBackStack(EditRecipeTitle.route, true)
-            navigate(to.route)
+            navigate(to.route) { popUpTo(EditTitleNode.route) { inclusive = true } }
         }
     }
 }
 
 private fun PageType.toScreen() =
     when (this) {
-        PageType.Title -> EditRecipeTitle
-        PageType.Categories -> EditRecipeCategories
-        PageType.Portions -> EditRecipePortions
-        PageType.Ingredients -> EditRecipeIngredients
-        PageType.Instructions -> EditRecipeInstructions
-        PageType.Temperature -> EditRecipeTemperature
-        PageType.Time -> EditRecipeTime
-        PageType.Comments -> EditRecipeComments
+        PageType.Title -> EditTitleNode
+        PageType.Categories -> EditCategoriesNode
+        PageType.Portions -> EditPortionsNode
+        PageType.Ingredients -> EditIngredientsNode
+        PageType.Instructions -> EditInstructionsNode
+        PageType.Temperature -> EditTemperatureNode
+        PageType.Time -> EditTimeNode
+        PageType.Comments -> EditCommentsNode
     }
-
-interface EditRecipeScreen : Screen {
-    val position: Short
-}
-
-object EditRecipeGraphRootScreen : EditRecipeScreen {
-    private const val rootRoute = "editRecipeRoot"
-
-    override val position: Short = 0
-    override val route: String = rootRoute
-    override val arguments: List<NamedNavArgument> = emptyList()
-}
-
-object EditRecipeTitle : EditRecipeScreen {
-    private const val rootRoute = "editTitle"
-
-    override val position: Short = 1
-    override val route: String = rootRoute
-    override val arguments: List<NamedNavArgument> = emptyList()
-}
-
-object EditRecipeCategories : EditRecipeScreen {
-    private const val rootRoute = "editCategories"
-
-    override val position: Short = 2
-    override val route: String = rootRoute
-    override val arguments: List<NamedNavArgument> = emptyList()
-}
-
-object EditRecipePortions : EditRecipeScreen {
-    private const val rootRoute = "editPortions"
-
-    override val position: Short = 3
-    override val route: String = rootRoute
-    override val arguments: List<NamedNavArgument> = emptyList()
-}
-
-object EditRecipeIngredients : EditRecipeScreen {
-    private const val rootRoute = "editIngredients"
-
-    override val position: Short = 4
-    override val route: String = rootRoute
-    override val arguments: List<NamedNavArgument> = emptyList()
-}
-
-object EditRecipeInstructions : EditRecipeScreen {
-    private const val rootRoute = "editInstructions"
-
-    override val position: Short = 5
-    override val route: String = rootRoute
-    override val arguments: List<NamedNavArgument> = emptyList()
-}
-
-object EditRecipeTemperature : EditRecipeScreen {
-    private const val rootRoute = "editTemperature"
-
-    override val position: Short = 6
-    override val route: String = rootRoute
-    override val arguments: List<NamedNavArgument> = emptyList()
-}
-
-object EditRecipeTime : EditRecipeScreen {
-    private const val rootRoute = "editTime"
-
-    override val position: Short = 7
-    override val route: String = rootRoute
-    override val arguments: List<NamedNavArgument> = emptyList()
-}
-
-object EditRecipeComments : EditRecipeScreen {
-    private const val rootRoute = "editComments"
-
-    override val position: Short = 8
-    override val route: String = rootRoute
-    override val arguments: List<NamedNavArgument> = emptyList()
-}
-
-object EditRecipeRecap : CommonScreen {
-    private const val rootRoute = "editRecipeRecap"
-
-    override val route: String = rootRoute
-    override val arguments: List<NamedNavArgument> = emptyList()
-}
