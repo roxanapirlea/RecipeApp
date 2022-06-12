@@ -46,7 +46,7 @@ fun RecipeNavigation() {
                         )
                     },
                     onNavAddRecipe = { navController.navigate(EditRecipeGraphRootScreen.route) },
-                    onNavSettings = { navController.navigate(Settings.route) }
+                    onNavSettings = { navController.navigate(Settings.route) },
                 )
             }
             composable(route = Settings.route) {

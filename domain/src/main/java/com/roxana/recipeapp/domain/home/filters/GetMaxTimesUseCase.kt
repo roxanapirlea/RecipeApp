@@ -21,5 +21,5 @@ class GetMaxTimesUseCase @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    data class Output(val maxTotal: Int?, val maxPreparation: Int?, val maxCooking: Int?)
+    data class Output(val maxTotal: Short?, val maxPreparation: Short?, val maxCooking: Short?)
 }

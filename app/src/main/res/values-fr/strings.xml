@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Recipe App</string>
+    <string name="all_ok">Ok</string>
     <string name="all_add_new">Ajouter</string>
     <string name="all_change">Changer</string>
     <string name="all_delete">Supprimer</string>
@@ -67,6 +68,7 @@
     <string name="home_empty_description_save">Enregistre tes recettes préférées</string>
     <string name="home_empty_description_instructions">Suis les instructions étape par étape</string>
     <string name="home_empty_description_quantities">Adapte les quantités à tes besoins</string>
+    <string name="home_empty_search">Aucune recette ne correspond à votre recherche</string>
     <string name="home_recipe_fetch_error">Un problème est survenu lors de la récupération de tes recettes</string>
     <string name="edit_recipe_title_page">Titre</string>
     <string name="edit_recipe_categories_page">Catégories</string>
@@ -143,5 +145,4 @@
     <string name="filters_max_time">Temps max : %d min</string>
     <string name="filters_max_time_cooking">Temps de cuisson max : %d min</string>
     <string name="filters_max_time_preparation">Temps de préparation max : %d min</string>
-    <string name="filters_apply">Appliquer</string>
 </resources>

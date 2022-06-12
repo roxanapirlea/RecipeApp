@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Recipe App</string>
+    <string name="all_ok">OK</string>
     <string name="all_add_new">Add new</string>
     <string name="all_change">Change</string>
     <string name="all_delete">Delete</string>
@@ -67,6 +68,7 @@
     <string name="home_empty_description_save">Save your favourite recipes</string>
     <string name="home_empty_description_instructions">Follow the instructions step by step</string>
     <string name="home_empty_description_quantities">Adapt quantities to your needs</string>
+    <string name="home_empty_search">No recipe corresponds to your search</string>
     <string name="home_recipe_fetch_error">There was a problem fetching your recipes</string>
     <string name="edit_recipe_title_page">Title</string>
     <string name="edit_recipe_categories_page">Categories</string>
@@ -142,7 +144,6 @@
     <string name="filters_max_time">Maximum time: %d min</string>
     <string name="filters_max_time_cooking">Maximum cooking time cooking: %d min</string>
     <string name="filters_max_time_preparation">Maximum preparation time: %d min</string>
-    <string name="filters_apply">Apply</string>
     <string name="debug_settings_onboarding" translatable="false">Onboarding</string>
     <string name="debug_settings_onboarding_add_recipe" translatable="false">Add recipe onboarding done</string>
 </resources>

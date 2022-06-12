@@ -2,6 +2,7 @@ package com.roxana.recipeapp.data
 
 import androidx.annotation.VisibleForTesting
 import com.roxana.recipeapp.domain.RecipeRepository
+import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.Comment
 import com.roxana.recipeapp.domain.model.CreationRecipe
 import com.roxana.recipeapp.domain.model.Ingredient
@@ -122,8 +123,22 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getRecipesSummary(): Flow<List<RecipeSummary>> {
-        return recipeQueries.getRecipesSummary()
+    override fun getRecipesSummary(
+        totalTime: Short?,
+        cookingTime: Short?,
+        preparationTime: Short?,
+        category: CategoryType?
+    ): Flow<List<RecipeSummary>> {
+        return recipeQueries.getRecipesSummary(
+            totalTime,
+            totalTime == null,
+            cookingTime,
+            cookingTime == null,
+            preparationTime,
+            preparationTime == null,
+            category?.toDataModel(),
+            category == null
+        )
             .asFlow()
             .mapToList()
             .map(::mapSummary)
@@ -200,15 +215,15 @@ class RecipeRepositoryImpl @Inject constructor(
         commentQueries.insert(comment, nextOrdinal.toShort(), recipeId.toLong())
     }
 
-    override fun getMaxTotalTime(): Flow<Int?> {
-        return recipeQueries.getMaxTotalTime().asFlow().mapToOne().map { it.MAX?.toInt() }
+    override fun getMaxTotalTime(): Flow<Short?> {
+        return recipeQueries.getMaxTotalTime().asFlow().mapToOne().map { it.MAX?.toShort() }
     }
 
-    override fun getMaxCookingTime(): Flow<Int?> {
-        return recipeQueries.getMaxCookingTime().asFlow().mapToOne().map { it.MAX?.toInt() }
+    override fun getMaxCookingTime(): Flow<Short?> {
+        return recipeQueries.getMaxCookingTime().asFlow().mapToOne().map { it.MAX?.toShort() }
     }
 
-    override fun getMaxPreparationTime(): Flow<Int?> {
-        return recipeQueries.getMaxPreparationTime().asFlow().mapToOne().map { it.MAX?.toInt() }
+    override fun getMaxPreparationTime(): Flow<Short?> {
+        return recipeQueries.getMaxPreparationTime().asFlow().mapToOne().map { it.MAX?.toShort() }
     }
 }
