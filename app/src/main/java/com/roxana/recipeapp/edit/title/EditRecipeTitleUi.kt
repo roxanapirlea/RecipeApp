@@ -28,7 +28,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun EditRecipeTitleDestination(
     editRecipeTitleViewModel: EditRecipeTitleViewModel,
-    onNavBack: () -> Unit = {},
+    onNavFinish: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
     onNavToPage: (PageType) -> Unit = {},
@@ -43,7 +43,7 @@ fun EditRecipeTitleDestination(
             when (it) {
                 ForwardForCreation -> onCreationNavForward()
                 ForwardForEditing -> onEditNavForward()
-                Back -> onNavBack()
+                Close -> onNavFinish()
                 is NavigateToPage -> onNavToPage(it.page)
                 RevealBackdrop -> {
                     delay(500)
@@ -60,9 +60,9 @@ fun EditRecipeTitleDestination(
         backdropState,
         onTitleChanged = editRecipeTitleViewModel::onTitleChanged,
         onValidate = editRecipeTitleViewModel::onValidate,
-        onCheckBack = editRecipeTitleViewModel::onCheckBack,
-        onResetAndGoBack = editRecipeTitleViewModel::onReset,
-        onSaveAndGoBack = editRecipeTitleViewModel::onSaveAndBack,
+        onClose = editRecipeTitleViewModel::onCheckShouldClose,
+        onResetAndClose = editRecipeTitleViewModel::onResetAndClose,
+        onSaveAndClose = editRecipeTitleViewModel::onSaveAndClose,
         onDismissDialog = editRecipeTitleViewModel::onDismissDialog,
         onSelectPage = editRecipeTitleViewModel::onSelectPage,
     )
@@ -74,9 +74,9 @@ fun EditRecipeTitleScreen(
     state: EditRecipeTitleViewState,
     backdropState: BackdropScaffoldState = rememberBackdropScaffoldState(BackdropValue.Concealed),
     onTitleChanged: (String) -> Unit = {},
-    onCheckBack: () -> Unit = {},
-    onResetAndGoBack: () -> Unit = {},
-    onSaveAndGoBack: () -> Unit = {},
+    onClose: () -> Unit = {},
+    onResetAndClose: () -> Unit = {},
+    onSaveAndClose: () -> Unit = {},
     onDismissDialog: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
@@ -90,16 +90,15 @@ fun EditRecipeTitleScreen(
     EditRecipeBackdrop(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Title,
-        isNavCloseIcon = true,
         onSelectPage = onSelectPage,
-        onBack = onCheckBack,
+        onClose = onClose,
         scaffoldState = backdropState
     ) {
         Box(Modifier.fillMaxSize()) {
             if (state.showSaveDialog)
                 SaveCreationDialog(
-                    onSave = onSaveAndGoBack,
-                    onDelete = onResetAndGoBack,
+                    onSave = onSaveAndClose,
+                    onDelete = onResetAndClose,
                     onDismiss = onDismissDialog
                 )
 

@@ -80,7 +80,9 @@
     <string name="edit_recipe_temperature_page">Temperatură</string>
     <string name="edit_recipe_time_page">Timp</string>
     <string name="edit_recipe_comments_page">Commentarii</string>
+    <string name="edit_recipe_recap_page">Rezumat</string>
     <string name="edit_recipe_current_page">În curs de editare</string>
+    <string name="edit_recipe_show_steps">Afișează etapele de editare</string>
     <string name="edit_title_new_recipe">Adaugă o rețetă</string>
     <string name="edit_title_existing_recipe">Editează o rețetă</string>
     <string name="edit_recipe_dialog_title">Păstezi informațiile completate?</string>
@@ -123,7 +125,7 @@
     <string name="detail_preparation_time">Timpul de pregătire: %d min</string>
     <string name="detail_waiting_time">Timpul de așteptare: %d min</string>
     <string name="detail_total_time">Timpul total: %d min</string>
-    <string name="detail_temperature">Temperatură: %d %s</string>
+    <string name="detail_temperature">Temperatură: %1$d %2$s</string>
     <string name="detail_edit_recipe">Editează rețeta</string>
     <string name="detail_start_cooking">Începe gătitul</string>
     <string name="detail_recipe_fetch_error">A apărut o problemă la recuperarea rețetei</string>

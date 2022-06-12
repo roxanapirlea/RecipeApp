@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
+import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.comments.ui.EditRecipeCommentsView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
@@ -22,7 +23,7 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 @Composable
 fun EditRecipeCommentsDestination(
     commentsViewModel: EditRecipeCommentsViewModel,
-    onNavBack: () -> Unit = {},
+    onNavFinish: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
     onNavToPage: (PageType) -> Unit = {},
@@ -35,7 +36,7 @@ fun EditRecipeCommentsDestination(
             when (it) {
                 ForwardForCreation -> onCreationNavForward()
                 ForwardForEditing -> onEditNavForward()
-                Back -> onNavBack()
+                Close -> onNavFinish()
                 is NavigateToPage -> onNavToPage(it.page)
             }
         }
@@ -48,7 +49,10 @@ fun EditRecipeCommentsDestination(
         onCommentDone = commentsViewModel::onCommentDone,
         onDelete = commentsViewModel::onDeleteComment,
         onValidate = commentsViewModel::onValidate,
-        onSaveAndGoBack = commentsViewModel::onSaveAndBack,
+        onClose = commentsViewModel::onCheckShouldClose,
+        onResetAndClose = commentsViewModel::onResetAndClose,
+        onSaveAndClose = commentsViewModel::onSaveAndClose,
+        onDismissDialog = commentsViewModel::onDismissDialog,
         onSelectPage = commentsViewModel::onSelectPage
     )
 }
@@ -61,7 +65,10 @@ fun EditRecipeCommentsScreen(
     onCommentDone: () -> Unit = {},
     onSaveComment: () -> Unit = {},
     onDelete: (Int) -> Unit = {},
-    onSaveAndGoBack: () -> Unit = {},
+    onClose: () -> Unit = {},
+    onResetAndClose: () -> Unit = {},
+    onSaveAndClose: () -> Unit = {},
+    onDismissDialog: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
@@ -75,10 +82,15 @@ fun EditRecipeCommentsScreen(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Comments,
         onSelectPage = onSelectPage,
-        onBack = onSaveAndGoBack
+        onClose = onClose
     ) {
         Box(Modifier.fillMaxSize()) {
-            FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
+            if (state.showSaveDialog)
+                SaveCreationDialog(
+                    onSave = onSaveAndClose,
+                    onDelete = onResetAndClose,
+                    onDismiss = onDismissDialog
+                )
 
             EditRecipeCommentsView(
                 state = state,
@@ -88,6 +100,8 @@ fun EditRecipeCommentsScreen(
                 onSaveComment = onSaveComment,
                 onDelete = onDelete
             )
+
+            FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
         }
     }
 }

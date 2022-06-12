@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
+import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.categories.ui.EditRecipeCategoriesView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
@@ -21,7 +22,7 @@ import com.roxana.recipeapp.uimodel.UiCategoryType
 @Composable
 fun EditRecipeCategoriesDestination(
     editRecipeCategoriesViewModel: EditRecipeCategoriesViewModel,
-    onNavBack: () -> Unit = {},
+    onNavFinish: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
     onNavToPage: (PageType) -> Unit = {},
@@ -34,7 +35,7 @@ fun EditRecipeCategoriesDestination(
             when (it) {
                 ForwardForCreation -> onCreationNavForward()
                 ForwardForEditing -> onEditNavForward()
-                Back -> onNavBack()
+                Close -> onNavFinish()
                 is NavigateToPage -> onNavToPage(it.page)
             }
         }
@@ -44,7 +45,10 @@ fun EditRecipeCategoriesDestination(
         state,
         onCategoryClicked = editRecipeCategoriesViewModel::onCategoryClicked,
         onValidate = editRecipeCategoriesViewModel::onValidate,
-        onSaveAndGoBack = editRecipeCategoriesViewModel::onSaveAndBack,
+        onClose = editRecipeCategoriesViewModel::onCheckShouldClose,
+        onResetAndClose = editRecipeCategoriesViewModel::onResetAndClose,
+        onSaveAndClose = editRecipeCategoriesViewModel::onSaveAndClose,
+        onDismissDialog = editRecipeCategoriesViewModel::onDismissDialog,
         onSelectPage = editRecipeCategoriesViewModel::onSelectPage
     )
 }
@@ -54,7 +58,10 @@ fun EditRecipeCategoriesDestination(
 fun EditRecipeCategoriesScreen(
     state: EditRecipeCategoriesViewState,
     onCategoryClicked: (UiCategoryType) -> Unit = {},
-    onSaveAndGoBack: () -> Unit = {},
+    onClose: () -> Unit = {},
+    onResetAndClose: () -> Unit = {},
+    onSaveAndClose: () -> Unit = {},
+    onDismissDialog: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {}
 ) {
@@ -63,12 +70,19 @@ fun EditRecipeCategoriesScreen(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Categories,
         onSelectPage = onSelectPage,
-        onBack = onSaveAndGoBack
+        onClose = onClose
     ) {
         Box(Modifier.fillMaxSize()) {
-            FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
+            if (state.showSaveDialog)
+                SaveCreationDialog(
+                    onSave = onSaveAndClose,
+                    onDelete = onResetAndClose,
+                    onDismiss = onDismissDialog
+                )
 
             EditRecipeCategoriesView(state, onCategoryClicked)
+
+            FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
         }
     }
 }

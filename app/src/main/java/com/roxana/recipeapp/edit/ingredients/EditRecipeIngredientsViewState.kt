@@ -7,6 +7,7 @@ data class EditRecipeIngredientsViewState(
     val editingIngredient: IngredientState = IngredientState(),
     val quantityTypes: List<UiQuantityType> = emptyList(),
     val isExistingRecipe: Boolean = false,
+    val showSaveDialog: Boolean = false,
 )
 
 data class IngredientState(

@@ -80,7 +80,9 @@
     <string name="edit_recipe_temperature_page">Temperature</string>
     <string name="edit_recipe_time_page">Time</string>
     <string name="edit_recipe_comments_page">Comments</string>
+    <string name="edit_recipe_recap_page">Summary</string>
     <string name="edit_recipe_current_page">Currently editing</string>
+    <string name="edit_recipe_show_steps">Show edit steps</string>
     <string name="edit_title_new_recipe">Add recipe</string>
     <string name="edit_title_existing_recipe">Edit recipe</string>
     <string name="edit_recipe_dialog_title">Keep filled information?</string>
@@ -122,7 +124,7 @@
     <string name="detail_preparation_time">Preparation time: %d min</string>
     <string name="detail_waiting_time">Waiting time: %d min</string>
     <string name="detail_total_time">Total time: %d min</string>
-    <string name="detail_temperature">Temperature: %d %s</string>
+    <string name="detail_temperature">Temperature: %1$d %2$s</string>
     <string name="detail_edit_recipe">Edit recipe</string>
     <string name="detail_start_cooking">Start cooking</string>
     <string name="detail_recipe_fetch_error">There was a problem fetching your recipe</string>

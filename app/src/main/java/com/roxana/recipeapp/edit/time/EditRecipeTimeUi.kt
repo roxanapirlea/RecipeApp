@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
+import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.time.ui.EditRecipeTimeView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
@@ -22,7 +23,7 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 @Composable
 fun EditRecipeTimeDestination(
     editRecipeTimeViewModel: EditRecipeTimeViewModel,
-    onNavBack: () -> Unit = {},
+    onNavFinish: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
     onNavToPage: (PageType) -> Unit = {},
@@ -35,7 +36,7 @@ fun EditRecipeTimeDestination(
             when (it) {
                 ForwardForCreation -> onCreationNavForward()
                 ForwardForEditing -> onEditNavForward()
-                Back -> onNavBack()
+                Close -> onNavFinish()
                 is NavigateToPage -> onNavToPage(it.page)
             }
         }
@@ -49,7 +50,10 @@ fun EditRecipeTimeDestination(
         onTotalChange = editRecipeTimeViewModel::onTotalChanged,
         onComputeTotal = editRecipeTimeViewModel::onComputeTotal,
         onValidate = editRecipeTimeViewModel::onValidate,
-        onSaveAndGoBack = editRecipeTimeViewModel::onSaveAndBack,
+        onClose = editRecipeTimeViewModel::onCheckShouldClose,
+        onResetAndClose = editRecipeTimeViewModel::onResetAndClose,
+        onSaveAndClose = editRecipeTimeViewModel::onSaveAndClose,
+        onDismissDialog = editRecipeTimeViewModel::onDismissDialog,
         onSelectPage = editRecipeTimeViewModel::onSelectPage,
     )
 }
@@ -63,7 +67,10 @@ fun EditRecipeTimeScreen(
     onWaitingChange: (String) -> Unit = {},
     onTotalChange: (String) -> Unit = {},
     onComputeTotal: () -> Unit = {},
-    onSaveAndGoBack: () -> Unit = {},
+    onClose: () -> Unit = {},
+    onResetAndClose: () -> Unit = {},
+    onSaveAndClose: () -> Unit = {},
+    onDismissDialog: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
@@ -80,11 +87,15 @@ fun EditRecipeTimeScreen(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Time,
         onSelectPage = onSelectPage,
-        onBack = onSaveAndGoBack,
+        onClose = onClose,
     ) {
         Box(Modifier.fillMaxSize()) {
-            if (state.isValid())
-                FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
+            if (state.showSaveDialog)
+                SaveCreationDialog(
+                    onSave = onSaveAndClose,
+                    onDelete = onResetAndClose,
+                    onDismiss = onDismissDialog
+                )
 
             EditRecipeTimeView(
                 state = state,
@@ -99,6 +110,9 @@ fun EditRecipeTimeScreen(
                 onComputeTotal = onComputeTotal,
                 onValidate = onValidate
             )
+
+            if (state.isValid())
+                FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
         }
     }
 }

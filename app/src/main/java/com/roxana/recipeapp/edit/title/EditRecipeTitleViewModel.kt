@@ -72,22 +72,22 @@ class EditRecipeTitleViewModel @Inject constructor(
             sideEffectChannel.send(ForwardForCreation)
     }
 
-    fun onReset() {
+    fun onResetAndClose() {
         _state.update { it.copy(showSaveDialog = false) }
         viewModelScope.launch {
             resetRecipeUseCase(null).fold(
-                { sideEffectChannel.send(Back) },
-                { sideEffectChannel.send(Back) }
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
             )
         }
     }
 
-    fun onSaveAndBack() {
+    fun onSaveAndClose() {
         _state.update { it.copy(showSaveDialog = false) }
         viewModelScope.launch {
             setTitleUseCase(state.value.title).fold(
-                { sideEffectChannel.send(Back) },
-                { sideEffectChannel.send(Back) }
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
             )
         }
     }
@@ -96,7 +96,7 @@ class EditRecipeTitleViewModel @Inject constructor(
         _state.update { it.copy(showSaveDialog = false) }
     }
 
-    fun onCheckBack() {
+    fun onCheckShouldClose() {
         _state.update { it.copy(showSaveDialog = true) }
     }
 

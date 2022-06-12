@@ -80,7 +80,9 @@
     <string name="edit_recipe_temperature_page">Température</string>
     <string name="edit_recipe_time_page">Temps</string>
     <string name="edit_recipe_comments_page">Commentaires</string>
+    <string name="edit_recipe_recap_page">Recapitulatif</string>
     <string name="edit_recipe_current_page">En cours d\'édition</string>
+    <string name="edit_recipe_show_steps">Afficher les étapes de modification</string>
     <string name="edit_title_new_recipe">Ajouter une recette</string>
     <string name="edit_title_existing_recipe">Editer une recette</string>
     <string name="edit_recipe_dialog_title">Conserver les informations remplies ?</string>
@@ -123,7 +125,7 @@
     <string name="detail_preparation_time">Temps de préparation : %d min</string>
     <string name="detail_waiting_time">Temps d\'attente : %d min</string>
     <string name="detail_total_time">Temps total : %d min</string>
-    <string name="detail_temperature">Température : %d %s</string>
+    <string name="detail_temperature">Température : %1$d %2$s</string>
     <string name="detail_edit_recipe">Modifier la recette</string>
     <string name="detail_start_cooking">Commencer à cuisiner</string>
     <string name="detail_recipe_fetch_error">Un problème est survenu lors de la récupération de ta recette</string>

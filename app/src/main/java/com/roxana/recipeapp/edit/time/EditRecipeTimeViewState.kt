@@ -6,6 +6,7 @@ data class EditRecipeTimeViewState(
     val waiting: String = "",
     val total: String = "",
     val isExistingRecipe: Boolean = false,
+    val showSaveDialog: Boolean = false,
 )
 
 fun EditRecipeTimeViewState.isCookingValid() = cooking.isEmpty() || cooking.toShortOrNull() != null

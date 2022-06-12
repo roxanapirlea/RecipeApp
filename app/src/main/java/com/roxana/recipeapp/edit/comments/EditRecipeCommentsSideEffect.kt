@@ -6,5 +6,5 @@ sealed class EditRecipeCommentsSideEffect
 
 object ForwardForCreation : EditRecipeCommentsSideEffect()
 object ForwardForEditing : EditRecipeCommentsSideEffect()
-object Back : EditRecipeCommentsSideEffect()
+object Close : EditRecipeCommentsSideEffect()
 data class NavigateToPage(val page: PageType) : EditRecipeCommentsSideEffect()

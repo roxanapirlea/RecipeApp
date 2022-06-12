@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
+import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.temperature.ui.EditRecipeTemperatureView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
@@ -22,7 +23,7 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 @Composable
 fun EditRecipeTemperatureDestination(
     editRecipeTemperatureViewModel: EditRecipeTemperatureViewModel,
-    onNavBack: () -> Unit = {},
+    onNavFinish: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
     onNavToPage: (PageType) -> Unit = {},
@@ -35,7 +36,7 @@ fun EditRecipeTemperatureDestination(
             when (it) {
                 ForwardForCreation -> onCreationNavForward()
                 ForwardForEditing -> onEditNavForward()
-                Back -> onNavBack()
+                Close -> onNavFinish()
                 is NavigateToPage -> onNavToPage(it.page)
             }
         }
@@ -45,7 +46,10 @@ fun EditRecipeTemperatureDestination(
         state,
         onTemperatureChanged = editRecipeTemperatureViewModel::onTemperatureChanged,
         onValidate = editRecipeTemperatureViewModel::onValidate,
-        onSaveAndGoBack = editRecipeTemperatureViewModel::onSaveAndBack,
+        onClose = editRecipeTemperatureViewModel::onCheckShouldClose,
+        onResetAndClose = editRecipeTemperatureViewModel::onResetAndClose,
+        onSaveAndClose = editRecipeTemperatureViewModel::onSaveAndClose,
+        onDismissDialog = editRecipeTemperatureViewModel::onDismissDialog,
         onSelectPage = editRecipeTemperatureViewModel::onSelectPage
     )
 }
@@ -55,7 +59,10 @@ fun EditRecipeTemperatureDestination(
 fun EditRecipeTemperatureScreen(
     state: EditRecipeTemperatureViewState,
     onTemperatureChanged: (String) -> Unit = {},
-    onSaveAndGoBack: () -> Unit = {},
+    onClose: () -> Unit = {},
+    onResetAndClose: () -> Unit = {},
+    onSaveAndClose: () -> Unit = {},
+    onDismissDialog: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
@@ -69,11 +76,15 @@ fun EditRecipeTemperatureScreen(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Temperature,
         onSelectPage = onSelectPage,
-        onBack = onSaveAndGoBack
+        onClose = onClose
     ) {
         Box(Modifier.fillMaxSize()) {
-            if (state.isValid())
-                FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
+            if (state.showSaveDialog)
+                SaveCreationDialog(
+                    onSave = onSaveAndClose,
+                    onDelete = onResetAndClose,
+                    onDismiss = onDismissDialog
+                )
 
             EditRecipeTemperatureView(
                 state = state,
@@ -81,6 +92,9 @@ fun EditRecipeTemperatureScreen(
                 onTemperatureChanged = onTemperatureChanged,
                 onValidate = onValidate
             )
+
+            if (state.isValid())
+                FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
         }
     }
 }

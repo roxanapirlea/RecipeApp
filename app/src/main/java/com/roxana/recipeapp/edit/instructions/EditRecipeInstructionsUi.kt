@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
+import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.instructions.ui.EditRecipeInstructionsView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
@@ -22,7 +23,7 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 @Composable
 fun EditRecipeInstructionsDestination(
     instructionsViewModel: EditRecipeInstructionsViewModel,
-    onNavBack: () -> Unit = {},
+    onNavFinish: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
     onNavToPage: (PageType) -> Unit = {},
@@ -35,7 +36,7 @@ fun EditRecipeInstructionsDestination(
             when (it) {
                 ForwardForCreation -> onCreationNavForward()
                 ForwardForEditing -> onEditNavForward()
-                Back -> onNavBack()
+                Close -> onNavFinish()
                 is NavigateToPage -> onNavToPage(it.page)
             }
         }
@@ -48,7 +49,10 @@ fun EditRecipeInstructionsDestination(
         onInstructionDone = instructionsViewModel::onInstructionDone,
         onDelete = instructionsViewModel::onDeleteInstruction,
         onValidate = instructionsViewModel::onValidate,
-        onSaveAndGoBack = instructionsViewModel::onSaveAndBack,
+        onClose = instructionsViewModel::onCheckShouldClose,
+        onResetAndClose = instructionsViewModel::onResetAndClose,
+        onSaveAndClose = instructionsViewModel::onSaveAndClose,
+        onDismissDialog = instructionsViewModel::onDismissDialog,
         onSelectPage = instructionsViewModel::onSelectPage
     )
 }
@@ -61,7 +65,10 @@ fun EditRecipeInstructionsScreen(
     onInstructionDone: () -> Unit = {},
     onSaveInstruction: () -> Unit = {},
     onDelete: (Int) -> Unit = {},
-    onSaveAndGoBack: () -> Unit = {},
+    onClose: () -> Unit = {},
+    onResetAndClose: () -> Unit = {},
+    onSaveAndClose: () -> Unit = {},
+    onDismissDialog: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
@@ -75,10 +82,15 @@ fun EditRecipeInstructionsScreen(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Instructions,
         onSelectPage = onSelectPage,
-        onBack = onSaveAndGoBack
+        onClose = onClose
     ) {
         Box(Modifier.fillMaxSize()) {
-            FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
+            if (state.showSaveDialog)
+                SaveCreationDialog(
+                    onSave = onSaveAndClose,
+                    onDelete = onResetAndClose,
+                    onDismiss = onDismissDialog
+                )
 
             EditRecipeInstructionsView(
                 state = state,
@@ -88,6 +100,8 @@ fun EditRecipeInstructionsScreen(
                 onSaveInstruction = onSaveInstruction,
                 onDelete = onDelete
             )
+
+            FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
         }
     }
 }

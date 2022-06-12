@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetRecipeUseCase
+import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SaveRecipeUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,13 +14,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RecapViewModel @Inject constructor(
     private val getRecipeUseCase: GetRecipeUseCase,
-    private val saveRecipeUseCase: SaveRecipeUseCase
+    private val saveRecipeUseCase: SaveRecipeUseCase,
+    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
 
     @VisibleForTesting
@@ -66,12 +69,37 @@ class RecapViewModel @Inject constructor(
         }
     }
 
-    fun saveRecipe() {
+    fun createRecipe() {
         viewModelScope.launch {
             saveRecipeUseCase(null).fold(
                 { sideEffectChannel.send(SaveRecipeSuccess) },
                 { sideEffectChannel.send(SaveRecipeError) }
             )
         }
+    }
+
+    fun onResetAndClose() {
+        _state.update { it.copy(showSaveDialog = false) }
+        viewModelScope.launch {
+            resetRecipeUseCase(null).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
+            )
+        }
+    }
+
+    fun onClose() {
+        _state.update { it.copy(showSaveDialog = false) }
+        viewModelScope.launch {
+            sideEffectChannel.send(Close)
+        }
+    }
+
+    fun onDismissDialog() {
+        _state.update { it.copy(showSaveDialog = false) }
+    }
+
+    fun onCheckShouldClose() {
+        _state.update { it.copy(showSaveDialog = true) }
     }
 }

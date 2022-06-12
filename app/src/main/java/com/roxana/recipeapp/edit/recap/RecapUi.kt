@@ -1,34 +1,39 @@
 package com.roxana.recipeapp.edit.recap
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.BackdropScaffoldState
+import androidx.compose.material.BackdropValue
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.edit.EditRecipeBackdrop
+import com.roxana.recipeapp.edit.PageType
+import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.recap.ui.RecapView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
-import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RecapDestination(
     recapViewModel: RecapViewModel,
     onNavBack: () -> Unit = {},
-    onNavFinish: () -> Unit = {}
+    onNavFinish: () -> Unit = {},
+    onNavToPage: (PageType) -> Unit = {},
 ) {
     val state by rememberFlowWithLifecycle(recapViewModel.state)
         .collectAsState(RecapViewState())
 
-    val scaffoldState = rememberScaffoldState()
+    val scaffoldState = rememberBackdropScaffoldState(initialValue = BackdropValue.Concealed)
     val localContext = LocalContext.current.applicationContext
 
     LaunchedEffect(recapViewModel.sideEffectFlow) {
@@ -45,6 +50,7 @@ fun RecapDestination(
                     )
                     onNavFinish()
                 }
+                Close -> onNavFinish()
             }
         }
     }
@@ -52,32 +58,50 @@ fun RecapDestination(
     RecapScreen(
         state,
         scaffoldState,
-        onSave = recapViewModel::saveRecipe,
+        onCreateRecipe = recapViewModel::createRecipe,
         onEdit = onNavBack,
-        onBack = onNavBack
+        onClose = recapViewModel::onCheckShouldClose,
+        onResetAndClose = recapViewModel::onResetAndClose,
+        onSaveAndClose = recapViewModel::onClose,
+        onDismissDialog = recapViewModel::onDismissDialog,
+        onSelectPage = onNavToPage
     )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RecapScreen(
     state: RecapViewState,
-    scaffoldState: ScaffoldState,
-    onSave: () -> Unit = {},
+    scaffoldState: BackdropScaffoldState,
+    onCreateRecipe: () -> Unit = {},
     onEdit: () -> Unit = {},
-    onBack: () -> Unit = {}
+    onClose: () -> Unit = {},
+    onResetAndClose: () -> Unit = {},
+    onSaveAndClose: () -> Unit = {},
+    onDismissDialog: () -> Unit = {},
+    onSelectPage: (PageType) -> Unit = {},
 ) {
-    Scaffold(
+    EditRecipeBackdrop(
+        recipeAlreadyExists = state.isExistingRecipe,
+        selectedPage = PageType.Recap,
         scaffoldState = scaffoldState,
-        topBar = {
-            AppBar(title = stringResource(R.string.edit_recipe_recap), onIconClick = onBack)
+        onSelectPage = onSelectPage,
+        onClose = onClose
+    ) {
+        Box(Modifier.fillMaxSize()) {
+            if (state.showSaveDialog)
+                SaveCreationDialog(
+                    onSave = onSaveAndClose,
+                    onDelete = onResetAndClose,
+                    onDismiss = onDismissDialog
+                )
+
+            RecapView(
+                state = state,
+                onSave = onCreateRecipe,
+                onEdit = onEdit
+            )
         }
-    ) { contentPadding ->
-        RecapView(
-            state = state,
-            modifier = Modifier.padding(contentPadding),
-            onSave = onSave,
-            onEdit = onEdit
-        )
     }
 }
 

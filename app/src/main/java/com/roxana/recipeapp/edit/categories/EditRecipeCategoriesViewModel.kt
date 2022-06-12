@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetAvailableCategoriesUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetCategoriesUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
+import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetCategoriesUseCase
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.uimodel.UiCategoryType
@@ -27,7 +28,8 @@ class EditRecipeCategoriesViewModel @Inject constructor(
     private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getAvailableCategoriesUseCase: GetAvailableCategoriesUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val setCategoriesUseCase: SetCategoriesUseCase
+    private val setCategoriesUseCase: SetCategoriesUseCase,
+    private val resetRecipeUseCase: ResetRecipeUseCase
 ) : ViewModel() {
     @VisibleForTesting
     val _state = MutableStateFlow(EditRecipeCategoriesViewState())
@@ -78,13 +80,32 @@ class EditRecipeCategoriesViewModel @Inject constructor(
             sideEffectChannel.send(ForwardForCreation)
     }
 
-    fun onSaveAndBack() {
+    fun onResetAndClose() {
+        _state.update { it.copy(showSaveDialog = false) }
         viewModelScope.launch {
-            setCategoriesUseCase(getSelectedCategories()).fold(
-                { sideEffectChannel.send(Back) },
-                { sideEffectChannel.send(Back) }
+            resetRecipeUseCase(null).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
             )
         }
+    }
+
+    fun onSaveAndClose() {
+        _state.update { it.copy(showSaveDialog = false) }
+        viewModelScope.launch {
+            setCategoriesUseCase(getSelectedCategories()).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
+            )
+        }
+    }
+
+    fun onDismissDialog() {
+        _state.update { it.copy(showSaveDialog = false) }
+    }
+
+    fun onCheckShouldClose() {
+        _state.update { it.copy(showSaveDialog = true) }
     }
 
     fun onSelectPage(page: PageType) {

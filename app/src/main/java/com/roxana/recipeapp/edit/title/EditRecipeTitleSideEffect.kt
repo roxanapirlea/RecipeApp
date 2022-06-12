@@ -6,6 +6,6 @@ sealed class EditRecipeTitleSideEffect
 
 object ForwardForCreation : EditRecipeTitleSideEffect()
 object ForwardForEditing : EditRecipeTitleSideEffect()
-object Back : EditRecipeTitleSideEffect()
+object Close : EditRecipeTitleSideEffect()
 data class NavigateToPage(val page: PageType) : EditRecipeTitleSideEffect()
 object RevealBackdrop : EditRecipeTitleSideEffect()

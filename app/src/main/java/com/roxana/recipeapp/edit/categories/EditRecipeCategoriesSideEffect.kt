@@ -6,5 +6,5 @@ sealed class EditRecipeCategoriesSideEffect
 
 object ForwardForCreation : EditRecipeCategoriesSideEffect()
 object ForwardForEditing : EditRecipeCategoriesSideEffect()
-object Back : EditRecipeCategoriesSideEffect()
+object Close : EditRecipeCategoriesSideEffect()
 data class NavigateToPage(val page: PageType) : EditRecipeCategoriesSideEffect()
