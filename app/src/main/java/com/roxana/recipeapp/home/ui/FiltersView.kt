@@ -24,6 +24,7 @@ import com.roxana.recipeapp.uimodel.UiCategoryType
 @Composable
 fun FiltersView(
     state: FiltersState,
+    modifier: Modifier = Modifier,
     onCategoryClicked: (UiCategoryType) -> Unit = {},
     onTotalTimeSelected: (Int) -> Unit = {},
     onPreparationTimeSelected: (Int) -> Unit = {},
@@ -31,7 +32,7 @@ fun FiltersView(
     onResetFiltersClicked: () -> Unit = {},
     onCloseFiltersClicked: () -> Unit = {}
 ) {
-    Box(Modifier.fillMaxSize()) {
+    Box(modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

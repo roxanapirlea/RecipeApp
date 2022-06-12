@@ -20,9 +20,9 @@ import com.roxana.recipeapp.R
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
-fun EmptyView() {
+fun EmptyView(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Image(

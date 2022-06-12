@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.home
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.roxana.recipeapp.R
@@ -92,14 +94,15 @@ fun HomeScreen(
             if ((state as? HomeViewState.Content)?.showFilters != true)
                 FloatingActionButton(onClick = onAddRecipeClicked) { AddIcon() }
         }
-    ) {
+    ) { contentPadding ->
         when (state) {
-            HomeViewState.Loading -> LoadingStateView()
-            HomeViewState.Empty -> EmptyView()
+            HomeViewState.Loading -> LoadingStateView(Modifier.padding(contentPadding))
+            HomeViewState.Empty -> EmptyView(Modifier.padding(contentPadding))
             is HomeViewState.Content -> {
                 if (state.showFilters)
                     FiltersView(
                         state = state.filtersState,
+                        modifier = Modifier.padding(contentPadding),
                         onCategoryClicked = onCategoryClicked,
                         onTotalTimeSelected = onTotalTimeSelected,
                         onPreparationTimeSelected = onPreparationTimeSelected,
@@ -110,6 +113,7 @@ fun HomeScreen(
                 else
                     RecipeListView(
                         state = state,
+                        modifier = Modifier.padding(contentPadding),
                         onFiltersClicked = onFiltersClicked,
                         onSearchQueryModified = onSearchQueryModified,
                         onRecipeSelected = onRecipeSelected

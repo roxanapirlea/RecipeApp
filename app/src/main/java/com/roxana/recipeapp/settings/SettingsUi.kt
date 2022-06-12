@@ -1,11 +1,13 @@
 package com.roxana.recipeapp.settings
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.R
@@ -49,9 +51,10 @@ fun SettingsScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = { AppBar(title = stringResource(R.string.home_title), onIconClick = onBack) }
-    ) {
+    ) { contentPadding ->
         SettingsView(
             state,
+            modifier = Modifier.padding(contentPadding),
             onDebugSettingsClicked = onDebugSettingsClicked,
             onTemperatureSelected = onTemperatureSelected,
             onMeasuringUnitChanged = onMeasuringUnitChanged

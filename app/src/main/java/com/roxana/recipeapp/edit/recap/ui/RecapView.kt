@@ -39,10 +39,11 @@ import com.roxana.recipeapp.uimodel.UiQuantityType
 @Composable
 fun RecapView(
     state: RecapViewState,
+    modifier: Modifier = Modifier,
     onSave: () -> Unit = {},
     onEdit: () -> Unit = {},
 ) {
-    Box(Modifier.fillMaxSize()) {
+    Box(modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()

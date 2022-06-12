@@ -41,9 +41,10 @@ fun DebugSettingsScreen(
         topBar = {
             AppBar(title = stringResource(R.string.debug_settings), onIconClick = onBack)
         }
-    ) {
+    ) { contentPadding ->
         DebugSettingsView(
             state,
+            modifier = Modifier.padding(contentPadding),
             onSetOnEditRecipeOnboarding = onSetOnEditRecipeOnboarding
         )
     }

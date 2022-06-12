@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.cooking
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.roxana.recipeapp.R
@@ -73,11 +75,12 @@ fun CookingView(
         topBar = {
             AppBar(title = stringResource(R.string.home_title), onIconClick = onBack)
         }
-    ) {
+    ) { contentPadding ->
         when (state) {
-            CookingViewState.Loading -> LoadingStateView()
+            CookingViewState.Loading -> LoadingStateView(Modifier.padding(contentPadding))
             is CookingViewState.Content -> CookingInProgressView(
                 state,
+                modifier = Modifier.padding(contentPadding),
                 onVaryIngredient = onVaryIngredient,
                 onAddComment = onAddComment,
                 onDecrementPortions = onDecrementPortions,

@@ -26,13 +26,15 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 @Composable
 fun RecipeListView(
     state: HomeViewState.Content,
+    modifier: Modifier = Modifier,
     onFiltersClicked: () -> Unit = {},
     onSearchQueryModified: (String) -> Unit = {},
     onRecipeSelected: (Int) -> Unit = {}
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp, start = 16.dp)
+        contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp, start = 16.dp),
+        modifier = modifier
     ) {
         item {
             Row(Modifier.fillMaxWidth()) {

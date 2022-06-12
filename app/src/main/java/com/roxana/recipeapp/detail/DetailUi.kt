@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.detail
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
@@ -7,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.detail.ui.RecipeDetailView
@@ -58,11 +60,12 @@ fun DetailScreen(
         topBar = {
             AppBar(title = stringResource(R.string.home_title), onIconClick = onBackClicked)
         }
-    ) {
+    ) { contentPadding ->
         when (state) {
-            DetailViewState.Loading -> LoadingStateView()
+            DetailViewState.Loading -> LoadingStateView(Modifier.padding(contentPadding))
             is DetailViewState.Content -> RecipeDetailView(
                 state = state,
+                modifier = Modifier.padding(contentPadding),
                 onStartCookingClicked = onStartCookingClicked,
                 onAddCommentClicked = onAddCommentClicked,
                 onEditClicked = onEditClicked

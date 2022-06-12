@@ -19,10 +19,11 @@ import com.roxana.recipeapp.ui.LabelView
 @Composable
 fun DebugSettingsView(
     state: DebugSettingsViewState,
+    modifier: Modifier = Modifier,
     onSetOnEditRecipeOnboarding: (Boolean) -> Unit = {}
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {

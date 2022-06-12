@@ -35,11 +35,12 @@ import com.roxana.recipeapp.uimodel.UiQuantityType
 @Composable
 fun RecipeDetailView(
     state: DetailViewState.Content,
+    modifier: Modifier = Modifier,
     onStartCookingClicked: () -> Unit = {},
     onAddCommentClicked: () -> Unit = {},
     onEditClicked: () -> Unit = {},
 ) {
-    Box(Modifier.fillMaxSize()) {
+    Box(modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()

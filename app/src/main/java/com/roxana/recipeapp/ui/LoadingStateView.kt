@@ -10,10 +10,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
-fun LoadingStateView() {
+fun LoadingStateView(modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         CircularProgressIndicator()
     }

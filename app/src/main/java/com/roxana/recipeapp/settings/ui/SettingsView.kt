@@ -26,11 +26,12 @@ import com.roxana.recipeapp.uimodel.UiTemperature
 @Composable
 fun SettingsView(
     state: SettingsViewState,
+    modifier: Modifier = Modifier,
     onDebugSettingsClicked: () -> Unit = {},
     onTemperatureSelected: (UiTemperature) -> Unit = {},
     onMeasuringUnitChanged: (UiQuantityType, Boolean) -> Unit = { _, _ -> }
 ) {
-    LazyColumn(contentPadding = PaddingValues(16.dp), modifier = Modifier.fillMaxWidth()) {
+    LazyColumn(contentPadding = PaddingValues(16.dp), modifier = modifier.fillMaxWidth()) {
         if (BuildConfig.DEBUG) {
             item {
                 TextButton(
