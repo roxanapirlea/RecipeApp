@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    compileSdk projectTargetSdk
+    compileSdk projectCompileSdk
 
     defaultConfig {
         applicationId "com.roxana.recipeapp"
