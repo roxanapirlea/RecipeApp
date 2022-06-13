@@ -3,7 +3,7 @@ package com.roxana.recipeapp.uimodel
 import androidx.annotation.StringRes
 import com.roxana.recipeapp.R
 
-sealed class UiCategoryType(@StringRes val text: Int) {
+sealed class UiCategoryType(@StringRes val text: Int) : java.io.Serializable {
     object Breakfast : UiCategoryType(R.string.all_category_breakfast)
     object Lunch : UiCategoryType(R.string.all_category_lunch)
     object Dinner : UiCategoryType(R.string.all_category_dinner)

@@ -1,14 +1,17 @@
 <resources>
     <string name="app_name">Recipe App</string>
+    <string name="all_ok">Ok</string>
     <string name="all_add_new">Adaugă</string>
     <string name="all_change">Modifică</string>
     <string name="all_delete">Șterge</string>
+    <string name="all_clear">Șterge</string>
     <string name="all_done">Gata</string>
     <string name="all_edit">Editează</string>
     <string name="all_reset">Resetează</string>
     <string name="all_save">Salvează</string>
     <string name="all_select">Selectează…</string>
     <string name="all_settings">Setări</string>
+    <string name="all_filters">Filtre</string>
     <string name="all_validate">Validează</string>
     <string name="all_cross">Închide</string>
     <string name="all_back">Înapoi</string>
@@ -63,9 +66,11 @@
     <string name="all_temperature_celsius">ºC</string>
     <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
+    <string name="home_search">Căutare…</string>
     <string name="home_empty_description_save">Salvează-ți rețetele favorite</string>
     <string name="home_empty_description_instructions">Urmează instrucțiunile pas cu pas</string>
     <string name="home_empty_description_quantities">Adaptează cantitățile la nevoile tale</string>
+    <string name="home_empty_search">Nicio rețetă nu corespunde căutării tale</string>
     <string name="home_recipe_fetch_error">A apărut o problemă la recuperarea rețetelor tale</string>
     <string name="edit_recipe_title_page">Titlu</string>
     <string name="edit_recipe_categories_page">Categorii</string>
@@ -139,4 +144,7 @@
     <string name="settings_measuring_units">Unități de măsură</string>
     <string name="settings_measuring_units_detail">Alege unitățile care vor fi disponibile când modifici sau adaugi o nouă rețetă</string>
     <string name="debug_settings">Setări de debug</string>
+    <string name="filters_max_time">Timp maxim: %d min</string>
+    <string name="filters_max_time_cooking">Timp maxim de gătit: %d min</string>
+    <string name="filters_max_time_preparation">Timp maxim de pregatire: %d min</string>
 </resources>

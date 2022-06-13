@@ -19,10 +19,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.home.ui.ContentView
 import com.roxana.recipeapp.home.ui.EmptyView
+import com.roxana.recipeapp.home.ui.FiltersView
 import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.LoadingStateView
 import com.roxana.recipeapp.ui.theme.RecipeTheme
+import com.roxana.recipeapp.uimodel.UiCategoryType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -36,20 +38,38 @@ fun HomeScreen(
     val state by rememberFlowWithLifecycle(homeViewModel.state)
         .collectAsState(HomeViewState.Loading)
 
-    HomeView(state, homeViewModel.sideEffectFlow) { action ->
-        when (action) {
-            AddRecipe -> onNavAddRecipe()
-            is RecipeDetail -> onNavDetail(action.id)
-            Settings -> onNavSettings()
-        }
-    }
+    HomeView(
+        state,
+        homeViewModel.sideEffectFlow,
+        onSettingsClicked = onNavSettings,
+        onAddRecipeClicked = onNavAddRecipe,
+        onRecipeSelected = onNavDetail,
+        onFiltersClicked = homeViewModel::onFiltersClicked,
+        onCategoryClicked = homeViewModel::onCategoryClicked,
+        onTotalTimeSelected = homeViewModel::onTotalTimeSelected,
+        onPreparationTimeSelected = homeViewModel::onPreparationTimeSelected,
+        onCookingTimeSelected = homeViewModel::onCookingTimeSelected,
+        onResetFiltersClicked = homeViewModel::onResetFiltersClicked,
+        onCloseFiltersClicked = homeViewModel::onCloseFiltersClicked,
+        onSearchQueryModified = homeViewModel::onQueryModified
+    )
 }
 
 @Composable
 fun HomeView(
     state: HomeViewState,
     sideEffectsFlow: Flow<HomeSideEffect> = flow { },
-    onAction: (HomeViewAction) -> Unit = {}
+    onSettingsClicked: () -> Unit = {},
+    onAddRecipeClicked: () -> Unit = {},
+    onFiltersClicked: () -> Unit = {},
+    onRecipeSelected: (Int) -> Unit = {},
+    onCategoryClicked: (UiCategoryType) -> Unit = {},
+    onTotalTimeSelected: (Int) -> Unit = {},
+    onPreparationTimeSelected: (Int) -> Unit = {},
+    onCookingTimeSelected: (Int) -> Unit = {},
+    onResetFiltersClicked: () -> Unit = {},
+    onCloseFiltersClicked: () -> Unit = {},
+    onSearchQueryModified: (String) -> Unit = {}
 ) {
     val scaffoldState = rememberScaffoldState()
     val localContext = LocalContext.current.applicationContext
@@ -71,7 +91,7 @@ fun HomeView(
             AppBar(
                 title = stringResource(R.string.home_title),
                 actions = {
-                    IconButton(onClick = { onAction(Settings) }) {
+                    IconButton(onClick = onSettingsClicked) {
                         Icon(
                             Icons.Default.Settings,
                             contentDescription = stringResource(R.string.all_settings)
@@ -81,18 +101,37 @@ fun HomeView(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { onAction(AddRecipe) }) {
-                Icon(
-                    imageVector = Icons.Rounded.Add,
-                    contentDescription = null
-                )
-            }
+            if ((state as? HomeViewState.Content)?.showFilters != true)
+                FloatingActionButton(onClick = onAddRecipeClicked) {
+                    Icon(
+                        imageVector = Icons.Rounded.Add,
+                        contentDescription = null
+                    )
+                }
         }
     ) {
         when (state) {
             HomeViewState.Loading -> LoadingStateView()
             HomeViewState.Empty -> EmptyView()
-            is HomeViewState.Content -> ContentView(state, onAction)
+            is HomeViewState.Content -> {
+                if (state.showFilters)
+                    FiltersView(
+                        state = state.filtersState,
+                        onCategoryClicked = onCategoryClicked,
+                        onTotalTimeSelected = onTotalTimeSelected,
+                        onPreparationTimeSelected = onPreparationTimeSelected,
+                        onCookingTimeSelected = onCookingTimeSelected,
+                        onResetFiltersClicked = onResetFiltersClicked,
+                        onCloseFiltersClicked = onCloseFiltersClicked,
+                    )
+                else
+                    ContentView(
+                        state = state,
+                        onFiltersClicked = onFiltersClicked,
+                        onSearchQueryModified = onSearchQueryModified,
+                        onRecipeSelected = onRecipeSelected
+                    )
+            }
         }
     }
 }

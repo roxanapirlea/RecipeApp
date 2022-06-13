@@ -2,6 +2,7 @@ package com.roxana.recipeapp.data
 
 import androidx.annotation.VisibleForTesting
 import com.roxana.recipeapp.domain.RecipeRepository
+import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.Comment
 import com.roxana.recipeapp.domain.model.CreationRecipe
 import com.roxana.recipeapp.domain.model.Ingredient
@@ -122,8 +123,24 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getRecipesSummary(): Flow<List<RecipeSummary>> {
-        return recipeQueries.getRecipesSummary()
+    override fun getRecipesSummary(
+        nameQuery: String,
+        totalTime: Short?,
+        cookingTime: Short?,
+        preparationTime: Short?,
+        category: CategoryType?
+    ): Flow<List<RecipeSummary>> {
+        return recipeQueries.getRecipesSummary(
+            totalTime,
+            totalTime == null,
+            cookingTime,
+            cookingTime == null,
+            preparationTime,
+            preparationTime == null,
+            category?.toDataModel(),
+            category == null,
+            nameQuery
+        )
             .asFlow()
             .mapToList()
             .map(::mapSummary)
@@ -198,5 +215,17 @@ class RecipeRepositoryImpl @Inject constructor(
         val comments = commentQueries.getByRecipeId(recipeId.toLong()).executeAsList()
         val nextOrdinal = (comments.maxOfOrNull { it.ordinal } ?: 0) + 1
         commentQueries.insert(comment, nextOrdinal.toShort(), recipeId.toLong())
+    }
+
+    override fun getMaxTotalTime(): Flow<Short?> {
+        return recipeQueries.getMaxTotalTime().asFlow().mapToOne().map { it.MAX?.toShort() }
+    }
+
+    override fun getMaxCookingTime(): Flow<Short?> {
+        return recipeQueries.getMaxCookingTime().asFlow().mapToOne().map { it.MAX?.toShort() }
+    }
+
+    override fun getMaxPreparationTime(): Flow<Short?> {
+        return recipeQueries.getMaxPreparationTime().asFlow().mapToOne().map { it.MAX?.toShort() }
     }
 }

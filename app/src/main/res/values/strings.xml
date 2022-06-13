@@ -1,14 +1,17 @@
 <resources>
     <string name="app_name">Recipe App</string>
+    <string name="all_ok">OK</string>
     <string name="all_add_new">Add new</string>
     <string name="all_change">Change</string>
     <string name="all_delete">Delete</string>
+    <string name="all_clear">Clear</string>
     <string name="all_done">Done</string>
     <string name="all_edit">Edit</string>
     <string name="all_reset">Reset</string>
     <string name="all_save">Save</string>
     <string name="all_select">Select…</string>
     <string name="all_settings">Settings</string>
+    <string name="all_filters">Filters</string>
     <string name="all_validate">Validate</string>
     <string name="all_cross">Close</string>
     <string name="all_back">Back</string>
@@ -63,9 +66,11 @@
     <string name="all_temperature_celsius">ºC</string>
     <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
+    <string name="home_search">Search…</string>
     <string name="home_empty_description_save">Save your favourite recipes</string>
     <string name="home_empty_description_instructions">Follow the instructions step by step</string>
     <string name="home_empty_description_quantities">Adapt quantities to your needs</string>
+    <string name="home_empty_search">No recipe corresponds to your search</string>
     <string name="home_recipe_fetch_error">There was a problem fetching your recipes</string>
     <string name="edit_recipe_title_page">Title</string>
     <string name="edit_recipe_categories_page">Categories</string>
@@ -138,6 +143,9 @@
     <string name="settings_measuring_units">Measuring units</string>
     <string name="settings_measuring_units_detail">Choose the units that will be available when adding a new recipe or editing an existing one</string>
     <string name="debug_settings">Debug settings</string>
+    <string name="filters_max_time">Maximum time: %d min</string>
+    <string name="filters_max_time_cooking">Maximum cooking time cooking: %d min</string>
+    <string name="filters_max_time_preparation">Maximum preparation time: %d min</string>
     <string name="debug_settings_onboarding" translatable="false">Onboarding</string>
     <string name="debug_settings_onboarding_add_recipe" translatable="false">Add recipe onboarding done</string>
 </resources>
