@@ -14,6 +14,7 @@ class GetRecipesSummaryUseCase @Inject constructor(
 ) : BaseFlowUseCase<GetRecipesSummaryUseCase.Input, List<RecipeSummary>>() {
     override fun execute(input: Input): Flow<List<RecipeSummary>> =
         recipeRepository.getRecipesSummary(
+            input.query.trim(),
             input.totalTime,
             input.cookingTime,
             input.preparationTime,
@@ -21,6 +22,7 @@ class GetRecipesSummaryUseCase @Inject constructor(
         ).flowOn(Dispatchers.IO)
 
     data class Input(
+        val query: String = "",
         val totalTime: Short? = null,
         val cookingTime: Short? = null,
         val preparationTime: Short? = null,

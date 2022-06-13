@@ -27,12 +27,14 @@ data class FiltersState(
     val selectedTotalTime: Int? = null,
     val selectedCookingTime: Int? = null,
     val selectedPreparationTime: Int? = null,
-    val selectedCategory: UiCategoryType? = null
+    val selectedCategory: UiCategoryType? = null,
+    val query: String = ""
 )
 
 data class FiltersSelection(
     val totalTime: Int? = null,
     val cookingTime: Int? = null,
     val preparationTime: Int? = null,
-    val category: UiCategoryType? = null
+    val category: UiCategoryType? = null,
+    val query: String = ""
 )

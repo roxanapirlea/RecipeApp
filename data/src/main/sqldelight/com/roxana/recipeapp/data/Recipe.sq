@@ -35,7 +35,8 @@ LEFT JOIN CategoryForRecipe ON Recipe.id = CategoryForRecipe.recipe_id
 WHERE (Recipe.time_total <= :time_total OR Recipe.time_total ISNULL OR :ignore_time_total)
 AND (Recipe.time_cooking <= :time_cooking OR Recipe.time_cooking ISNULL OR :ignore_time_cooking)
 AND (Recipe.time_preparation <= :time_preparation OR Recipe.time_preparation ISNULL OR :ignore_time_preparation)
-AND (CategoryForRecipe.name = :category OR :ignore_category);
+AND (CategoryForRecipe.name = :category OR :ignore_category)
+AND Recipe.name LIKE :query || '%';
 
 insert:
 INSERT INTO Recipe(name, photo_path, portions, time_total, time_cooking, time_preparation, time_waiting, temperature, temperature_type)

@@ -51,6 +51,7 @@ fun HomeScreen(
         onCookingTimeSelected = homeViewModel::onCookingTimeSelected,
         onResetFiltersClicked = homeViewModel::onResetFiltersClicked,
         onCloseFiltersClicked = homeViewModel::onCloseFiltersClicked,
+        onSearchQueryModified = homeViewModel::onQueryModified
     )
 }
 
@@ -67,7 +68,8 @@ fun HomeView(
     onPreparationTimeSelected: (Int) -> Unit = {},
     onCookingTimeSelected: (Int) -> Unit = {},
     onResetFiltersClicked: () -> Unit = {},
-    onCloseFiltersClicked: () -> Unit = {}
+    onCloseFiltersClicked: () -> Unit = {},
+    onSearchQueryModified: (String) -> Unit = {}
 ) {
     val scaffoldState = rememberScaffoldState()
     val localContext = LocalContext.current.applicationContext
@@ -126,6 +128,7 @@ fun HomeView(
                     ContentView(
                         state = state,
                         onFiltersClicked = onFiltersClicked,
+                        onSearchQueryModified = onSearchQueryModified,
                         onRecipeSelected = onRecipeSelected
                     )
             }

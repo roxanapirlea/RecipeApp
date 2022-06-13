@@ -4,6 +4,7 @@
     <string name="all_add_new">Ajouter</string>
     <string name="all_change">Changer</string>
     <string name="all_delete">Supprimer</string>
+    <string name="all_clear">Effacer</string>
     <string name="all_done">Fini</string>
     <string name="all_edit">Modifier</string>
     <string name="all_reset">Réinitialiser</string>
@@ -65,6 +66,7 @@
     <string name="all_temperature_celsius">ºC</string>
     <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
+    <string name="home_search">Recherche…</string>
     <string name="home_empty_description_save">Enregistre tes recettes préférées</string>
     <string name="home_empty_description_instructions">Suis les instructions étape par étape</string>
     <string name="home_empty_description_quantities">Adapte les quantités à tes besoins</string>

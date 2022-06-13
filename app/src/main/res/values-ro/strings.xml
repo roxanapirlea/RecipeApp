@@ -4,6 +4,7 @@
     <string name="all_add_new">Adaugă</string>
     <string name="all_change">Modifică</string>
     <string name="all_delete">Șterge</string>
+    <string name="all_clear">Șterge</string>
     <string name="all_done">Gata</string>
     <string name="all_edit">Editează</string>
     <string name="all_reset">Resetează</string>
@@ -65,6 +66,7 @@
     <string name="all_temperature_celsius">ºC</string>
     <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
+    <string name="home_search">Căutare…</string>
     <string name="home_empty_description_save">Salvează-ți rețetele favorite</string>
     <string name="home_empty_description_instructions">Urmează instrucțiunile pas cu pas</string>
     <string name="home_empty_description_quantities">Adaptează cantitățile la nevoile tale</string>

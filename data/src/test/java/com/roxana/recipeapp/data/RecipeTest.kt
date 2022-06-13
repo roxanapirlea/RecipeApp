@@ -128,7 +128,7 @@ class RecipeTest {
         categoryQueries.insert(null, null, 1)
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true)
+        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
             .executeAsList()
 
         // Then
@@ -141,7 +141,7 @@ class RecipeTest {
         queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6, null)
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true)
+        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
             .executeAsList()
 
         // Then
@@ -209,7 +209,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(4, false, null, true, null, true, null, true)
+        val output = queries.getRecipesSummary(4, false, null, true, null, true, null, true, "")
             .executeAsList()
 
         // Then
@@ -257,7 +257,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true)
+        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
             .executeAsList()
 
         // Then
@@ -269,10 +269,13 @@ class RecipeTest {
     @Test
     fun filterRecipeSummaries_when_getRecipesSummary_given_cookingTimeFilter() {
         // Given
-        val recipeNullCookingTime = Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
-        val recipeRightCookingTime = Recipe(2, "Cookie", null, null, null, null, 6, null, null, null)
+        val recipeNullCookingTime =
+            Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
+        val recipeRightCookingTime =
+            Recipe(2, "Cookie", null, null, null, null, 6, null, null, null)
         val recipeSameCookingTime = Recipe(3, "Cookie", null, null, null, null, 8, null, null, null)
-        val recipeWrongCookingTime = Recipe(4, "Brownie", null, null, null, null, 10, null, null, null)
+        val recipeWrongCookingTime =
+            Recipe(4, "Brownie", null, null, null, null, 10, null, null, null)
         with(recipeNullCookingTime) {
             queries.insert(
                 name = name,
@@ -327,7 +330,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(null, true, 8, false, null, true, null, true)
+        val output = queries.getRecipesSummary(null, true, 8, false, null, true, null, true, "")
             .executeAsList()
 
         // Then
@@ -345,7 +348,8 @@ class RecipeTest {
     @Test
     fun filterRecipeSummaries_when_getRecipesSummary_given_ignoreCookingTimeFilter() {
         // Given
-        val recipeNullCookingTime = Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
+        val recipeNullCookingTime =
+            Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
         val recipeCookingTime = Recipe(2, "Cookie", null, null, null, null, 4, null, null, null)
         with(recipeNullCookingTime) {
             queries.insert(
@@ -375,7 +379,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true)
+        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
             .executeAsList()
 
         // Then
@@ -387,10 +391,14 @@ class RecipeTest {
     @Test
     fun filterRecipeSummaries_when_getRecipesSummary_given_preparationTimeFilter() {
         // Given
-        val recipeNullPreparationTime = Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
-        val recipeRightPreparationTime = Recipe(2, "Cookie", null, null, null, 3, null, null, null, null)
-        val recipeSamePreparationTime = Recipe(3, "Cookie", null, null, null, 4, null, null, null, null)
-        val recipeWrongPreparationTime = Recipe(4, "Brownie", null, null, null, 5, null, null, null, null)
+        val recipeNullPreparationTime =
+            Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
+        val recipeRightPreparationTime =
+            Recipe(2, "Cookie", null, null, null, 3, null, null, null, null)
+        val recipeSamePreparationTime =
+            Recipe(3, "Cookie", null, null, null, 4, null, null, null, null)
+        val recipeWrongPreparationTime =
+            Recipe(4, "Brownie", null, null, null, 5, null, null, null, null)
         with(recipeNullPreparationTime) {
             queries.insert(
                 name = name,
@@ -445,7 +453,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, 4, false, null, true)
+        val output = queries.getRecipesSummary(null, true, null, true, 4, false, null, true, "")
             .executeAsList()
 
         // Then
@@ -463,7 +471,8 @@ class RecipeTest {
     @Test
     fun filterRecipeSummaries_when_getRecipesSummary_given_ignorePreparationTimeFilter() {
         // Given
-        val recipeNullPreparationTime = Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
+        val recipeNullPreparationTime =
+            Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
         val recipePreparationTime = Recipe(2, "Cookie", null, null, null, 3, null, null, null, null)
         with(recipeNullPreparationTime) {
             queries.insert(
@@ -493,7 +502,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true)
+        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
             .executeAsList()
 
         // Then
@@ -551,7 +560,17 @@ class RecipeTest {
         categoryQueries.insert(DbCategoryType.LUNCH, null, 3)
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, DbCategoryType.DESSERT, false)
+        val output = queries.getRecipesSummary(
+            null,
+            true,
+            null,
+            true,
+            null,
+            true,
+            DbCategoryType.DESSERT,
+            false,
+            ""
+        )
             .executeAsList()
 
         // Then
@@ -593,7 +612,7 @@ class RecipeTest {
         categoryQueries.insert(DbCategoryType.DESSERT, null, 2)
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true)
+        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
             .executeAsList()
 
         // Then

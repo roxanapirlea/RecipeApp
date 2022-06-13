@@ -124,6 +124,7 @@ class RecipeRepositoryImpl @Inject constructor(
     }
 
     override fun getRecipesSummary(
+        nameQuery: String,
         totalTime: Short?,
         cookingTime: Short?,
         preparationTime: Short?,
@@ -137,7 +138,8 @@ class RecipeRepositoryImpl @Inject constructor(
             preparationTime,
             preparationTime == null,
             category?.toDataModel(),
-            category == null
+            category == null,
+            nameQuery
         )
             .asFlow()
             .mapToList()

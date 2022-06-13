@@ -10,6 +10,7 @@ interface RecipeRepository {
     suspend fun addRecipe(recipe: CreationRecipe)
     suspend fun updateRecipe(recipe: CreationRecipe)
     fun getRecipesSummary(
+        nameQuery: String,
         totalTime: Short?,
         cookingTime: Short?,
         preparationTime: Short?,

@@ -46,6 +46,7 @@ class HomeViewModel @Inject constructor(
                 _filters.flatMapLatest { selectedFilters ->
                     getRecipesSummaryUseCase(
                         GetRecipesSummaryUseCase.Input(
+                            query = selectedFilters.query,
                             totalTime = selectedFilters.totalTime?.toShort(),
                             cookingTime = selectedFilters.cookingTime?.toShort(),
                             preparationTime = selectedFilters.preparationTime?.toShort(),
@@ -81,6 +82,7 @@ class HomeViewModel @Inject constructor(
     ): HomeViewState {
         val recipes = recipesSummary.map { it.toState() }
         val categories = getCategoriesUseCase(null).getOrElse { emptyList() }
+        val query = selectedFilters.query
 
         val filtersState = maxTimesResult.getOrNull()?.let {
             FiltersState(
@@ -92,13 +94,14 @@ class HomeViewModel @Inject constructor(
                 selectedTotalTime = selectedFilters.totalTime ?: it.maxTotal?.toInt(),
                 selectedCookingTime = selectedFilters.cookingTime ?: it.maxCooking?.toInt(),
                 selectedPreparationTime =
-                selectedFilters.preparationTime ?: it.maxPreparation?.toInt()
+                selectedFilters.preparationTime ?: it.maxPreparation?.toInt(),
+                query = query
             )
         } ?: FiltersState()
 
         val filtersSelectionCount: Int = computeFilterCount(filtersState)
 
-        return if (recipes.isEmpty() && filtersSelectionCount == 0)
+        return if (recipes.isEmpty() && filtersSelectionCount == 0 && query.isBlank())
             HomeViewState.Empty
         else
             HomeViewState.Content(recipes, false, filtersState, filtersSelectionCount)
@@ -165,5 +168,9 @@ class HomeViewModel @Inject constructor(
             val newSelection = if (it.category == category) null else category
             it.copy(category = newSelection)
         }
+    }
+
+    fun onQueryModified(query: String) {
+        _filters.update { it.copy(query = query) }
     }
 }
