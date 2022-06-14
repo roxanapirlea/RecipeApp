@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.edit.categories
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -73,6 +74,8 @@ fun EditRecipeCategoriesScreen(
         onClose = onClose
     ) {
         Box(Modifier.fillMaxSize()) {
+            BackHandler(onBack = onClose)
+
             if (state.showSaveDialog)
                 SaveCreationDialog(
                     onSave = onSaveAndClose,

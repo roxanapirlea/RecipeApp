@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.edit.time
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -90,6 +91,8 @@ fun EditRecipeTimeScreen(
         onClose = onClose,
     ) {
         Box(Modifier.fillMaxSize()) {
+            BackHandler(onBack = onClose)
+
             if (state.showSaveDialog)
                 SaveCreationDialog(
                     onSave = onSaveAndClose,

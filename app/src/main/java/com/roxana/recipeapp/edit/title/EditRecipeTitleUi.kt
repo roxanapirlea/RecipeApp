@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.edit.title
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.BackdropScaffoldState
@@ -95,6 +96,8 @@ fun EditRecipeTitleScreen(
         scaffoldState = backdropState
     ) {
         Box(Modifier.fillMaxSize()) {
+            BackHandler(onBack = onClose)
+
             if (state.showSaveDialog)
                 SaveCreationDialog(
                     onSave = onSaveAndClose,

@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.edit.comments
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -85,6 +86,8 @@ fun EditRecipeCommentsScreen(
         onClose = onClose
     ) {
         Box(Modifier.fillMaxSize()) {
+            BackHandler(onBack = onClose)
+
             if (state.showSaveDialog)
                 SaveCreationDialog(
                     onSave = onSaveAndClose,
