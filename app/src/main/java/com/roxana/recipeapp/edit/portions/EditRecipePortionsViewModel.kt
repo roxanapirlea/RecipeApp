@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetPortionsUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
+import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetPortionsUseCase
 import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class EditRecipePortionsViewModel @Inject constructor(
     private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getPortionsUseCase: GetPortionsUseCase,
-    private val setPortionsUseCase: SetPortionsUseCase
+    private val setPortionsUseCase: SetPortionsUseCase,
+    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
     @VisibleForTesting
     val _state = MutableStateFlow(EditRecipePortionsViewState())
@@ -60,13 +62,31 @@ class EditRecipePortionsViewModel @Inject constructor(
             sideEffectChannel.send(ForwardForCreation)
     }
 
-    fun onSaveAndBack() {
+    fun onResetAndClose() {
+        _state.update { it.copy(showSaveDialog = false) }
         viewModelScope.launch {
-            setPortionsUseCase(state.value.portions.toShortOrNull()).fold(
-                { sideEffectChannel.send(Back) },
-                { sideEffectChannel.send(Back) }
+            resetRecipeUseCase(null).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
             )
         }
+    }
+
+    fun onSaveAndClose() {
+        viewModelScope.launch {
+            setPortionsUseCase(state.value.portions.toShortOrNull()).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
+            )
+        }
+    }
+
+    fun onDismissDialog() {
+        _state.update { it.copy(showSaveDialog = false) }
+    }
+
+    fun onCheckShouldClose() {
+        _state.update { it.copy(showSaveDialog = true) }
     }
 
     fun onSelectPage(page: PageType) {

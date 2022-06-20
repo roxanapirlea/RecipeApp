@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetCommentsUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
+import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetCommentsUseCase
 import com.roxana.recipeapp.domain.model.CreationComment
 import com.roxana.recipeapp.edit.PageType
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class EditRecipeCommentsViewModel @Inject constructor(
     private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getCommentsUseCase: GetCommentsUseCase,
-    private val setCommentsUseCase: SetCommentsUseCase
+    private val setCommentsUseCase: SetCommentsUseCase,
+    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
     @VisibleForTesting
     val _state = MutableStateFlow(EditRecipeCommentsViewState())
@@ -89,13 +91,31 @@ class EditRecipeCommentsViewModel @Inject constructor(
             sideEffectChannel.send(ForwardForCreation)
     }
 
-    fun onSaveAndBack() {
+    fun onResetAndClose() {
+        _state.update { it.copy(showSaveDialog = false) }
         viewModelScope.launch {
-            setCommentsUseCase(getAllComments()).fold(
-                { sideEffectChannel.send(Back) },
-                { sideEffectChannel.send(Back) }
+            resetRecipeUseCase(null).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
             )
         }
+    }
+
+    fun onSaveAndClose() {
+        viewModelScope.launch {
+            setCommentsUseCase(getAllComments()).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
+            )
+        }
+    }
+
+    fun onDismissDialog() {
+        _state.update { it.copy(showSaveDialog = false) }
+    }
+
+    fun onCheckShouldClose() {
+        _state.update { it.copy(showSaveDialog = true) }
     }
 
     fun onSelectPage(page: PageType) {

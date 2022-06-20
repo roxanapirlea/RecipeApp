@@ -5,6 +5,7 @@ import com.roxana.recipeapp.uimodel.UiCategoryType
 data class EditRecipeCategoriesViewState(
     val categories: List<CategoryState> = emptyList(),
     val isExistingRecipe: Boolean = false,
+    val showSaveDialog: Boolean = false
 )
 
 data class CategoryState(

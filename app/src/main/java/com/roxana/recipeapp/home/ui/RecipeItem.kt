@@ -23,11 +23,9 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.home.RecipeState
 import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.RoundedStartShape
-import com.roxana.recipeapp.ui.getIntermediateColors
+import com.roxana.recipeapp.ui.getPrimarySecondaryColor
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
-
-private const val IMAGE_COLOR_COUNT = 5
 
 @Composable
 fun RecipeItem(
@@ -49,20 +47,10 @@ fun RecipeItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            val colors = getIntermediateColors(
-                MaterialTheme.colors.primary,
-                MaterialTheme.colors.secondary,
-                IMAGE_COLOR_COUNT
-            ) + getIntermediateColors(
-                MaterialTheme.colors.primary,
-                MaterialTheme.colors.secondary,
-                IMAGE_COLOR_COUNT
-            ).reversed()
-
             Spacer(
                 modifier = Modifier
                     .size(80.dp)
-                    .background(colors[index % (IMAGE_COLOR_COUNT * 2)], CircleShape)
+                    .background(getPrimarySecondaryColor(index), CircleShape)
             )
             Column() {
                 Text(

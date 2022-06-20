@@ -13,7 +13,9 @@ data class RecapViewState(
     val comments: List<String> = emptyList(),
     val time: TimeState = TimeState(),
     val temperature: Short? = null,
-    val temperatureUnit: UiTemperature? = null
+    val temperatureUnit: UiTemperature? = null,
+    val isExistingRecipe: Boolean = false,
+    val showSaveDialog: Boolean = false,
 )
 
 data class IngredientState(

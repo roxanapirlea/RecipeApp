@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.AddComment
+import com.roxana.recipeapp.AddCommentNode
 import com.roxana.recipeapp.domain.comment.AddCommentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -33,7 +33,7 @@ class AddCommentViewModel @Inject constructor(
     }
 
     fun onSaveComment() {
-        val recipeId = savedStateHandle.get<Int>(AddComment.KEY_ID)!!
+        val recipeId = savedStateHandle.get<Int>(AddCommentNode.KEY_ID)!!
         viewModelScope.launch {
             addCommentUseCase(
                 AddCommentUseCase.Input(recipeId, state.value.comment)

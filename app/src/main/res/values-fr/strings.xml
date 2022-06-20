@@ -13,8 +13,9 @@
     <string name="all_settings">Paramètres</string>
     <string name="all_filters">Filtres</string>
     <string name="all_validate">Valider</string>
-    <string name="all_cross">Fermer</string>
+    <string name="all_close">Fermer</string>
     <string name="all_back">Retour</string>
+    <string name="all_search">Recherche…</string>
     <string name="all_go_to_next_screen">Vas au prochain écran</string>
     <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
     <string name="all_ingredients">Ingrédients</string>
@@ -66,7 +67,6 @@
     <string name="all_temperature_celsius">ºC</string>
     <string name="all_temperature_fahrenheit">ºF</string>
     <string name="home_title">@string/app_name</string>
-    <string name="home_search">Recherche…</string>
     <string name="home_empty_description_save">Enregistre tes recettes préférées</string>
     <string name="home_empty_description_instructions">Suis les instructions étape par étape</string>
     <string name="home_empty_description_quantities">Adapte les quantités à tes besoins</string>
@@ -80,7 +80,9 @@
     <string name="edit_recipe_temperature_page">Température</string>
     <string name="edit_recipe_time_page">Temps</string>
     <string name="edit_recipe_comments_page">Commentaires</string>
+    <string name="edit_recipe_recap_page">Recapitulatif</string>
     <string name="edit_recipe_current_page">En cours d\'édition</string>
+    <string name="edit_recipe_show_steps">Afficher les étapes de modification</string>
     <string name="edit_title_new_recipe">Ajouter une recette</string>
     <string name="edit_title_existing_recipe">Editer une recette</string>
     <string name="edit_recipe_dialog_title">Conserver les informations remplies ?</string>
@@ -123,7 +125,7 @@
     <string name="detail_preparation_time">Temps de préparation : %d min</string>
     <string name="detail_waiting_time">Temps d\'attente : %d min</string>
     <string name="detail_total_time">Temps total : %d min</string>
-    <string name="detail_temperature">Température : %d %s</string>
+    <string name="detail_temperature">Température : %1$d %2$s</string>
     <string name="detail_edit_recipe">Modifier la recette</string>
     <string name="detail_start_cooking">Commencer à cuisiner</string>
     <string name="detail_recipe_fetch_error">Un problème est survenu lors de la récupération de ta recette</string>
@@ -144,7 +146,7 @@
     <string name="settings_measuring_units">Unités de mesure</string>
     <string name="settings_measuring_units_detail">Choisis les unités qui seront disponibles lors de l\'ajout d\'une nouvelle recette ou de la modification d\'une recette existante</string>
     <string name="debug_settings">Paramètres de debuggage</string>
-    <string name="filters_max_time">Temps max : %d min</string>
-    <string name="filters_max_time_cooking">Temps de cuisson max : %d min</string>
-    <string name="filters_max_time_preparation">Temps de préparation max : %d min</string>
+    <string name="filters_select_time_total">Selectionner le temps total max (minutes)</string>
+    <string name="filters_select_time_cooking">Selectionner le temps de cuisson max (minutes)</string>
+    <string name="filters_select_time_preparation">Selectionner le temps de préparation max (minutes)</string>
 </resources>

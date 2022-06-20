@@ -6,6 +6,7 @@ buildscript {
     ext {
         projectMinSdk = 23
         projectTargetSdk = 31
+        projectCompileSdk = 32
     }
     repositories {
         google()
@@ -16,6 +17,7 @@ buildscript {
         maven { url "https://jetbrains.bintray.com/intellij-third-party-dependencies" }
     }
     dependencies {
+        classpath files(libs.class.superclass.protectionDomain.codeSource.location)
         classpath libs.buildTools
         classpath libs.plugin.hilt
         classpath libs.plugin.kotlin

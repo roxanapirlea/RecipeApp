@@ -23,10 +23,11 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.ui.CloseIcon
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -36,10 +37,8 @@ fun EditRecipeBackdrop(
     selectedPage: PageType,
     modifier: Modifier = Modifier,
     scaffoldState: BackdropScaffoldState = rememberBackdropScaffoldState(BackdropValue.Concealed),
-    backIcon: ImageVector,
-    backContentDescription: String,
     onSelectPage: (PageType) -> Unit = {},
-    onBack: () -> Unit = {},
+    onClose: () -> Unit = {},
     frontLayerContent: @Composable () -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
@@ -55,13 +54,22 @@ fun EditRecipeBackdrop(
                 modifier = Modifier
                     .height(BackdropScaffoldDefaults.PeekHeight)
             ) {
-                IconButton(onClick = onBack) {
-                    Icon(
-                        backIcon,
-                        contentDescription = backContentDescription,
-                        modifier = Modifier.padding(horizontal = 12.dp)
-                    )
+                if (scaffoldState.isConcealed) {
+                    IconButton(
+                        onClick = { scope.launch { scaffoldState.reveal() } }
+                    ) {
+                        Icon(
+                            painterResource(R.drawable.ic_expand),
+                            contentDescription = stringResource(R.string.edit_recipe_show_steps),
+                            modifier = modifier,
+                        )
+                    }
+                } else {
+                    IconButton(onClick = onClose) {
+                        CloseIcon(Modifier.padding(horizontal = 12.dp))
+                    }
                 }
+
                 BackdropAppBar(recipeAlreadyExists) {
                     scope.launch {
                         if (scaffoldState.isRevealed)

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetTemperatureUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
+import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetTemperatureUseCase
 import com.roxana.recipeapp.domain.temperature.GetPreferredTemperatureUseCase
 import com.roxana.recipeapp.edit.PageType
@@ -27,7 +28,8 @@ class EditRecipeTemperatureViewModel @Inject constructor(
     private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getTemperatureUseCase: GetTemperatureUseCase,
     private val setTemperatureUseCase: SetTemperatureUseCase,
-    private val getPreferredTemperatureUseCase: GetPreferredTemperatureUseCase
+    private val getPreferredTemperatureUseCase: GetPreferredTemperatureUseCase,
+    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
     @VisibleForTesting
     val _state = MutableStateFlow(EditRecipeTemperatureViewState())
@@ -72,13 +74,31 @@ class EditRecipeTemperatureViewModel @Inject constructor(
             sideEffectChannel.send(ForwardForCreation)
     }
 
-    fun onSaveAndBack() {
+    fun onResetAndClose() {
+        _state.update { it.copy(showSaveDialog = false) }
         viewModelScope.launch {
-            setTemperatureUseCase(getInput()).fold(
-                { sideEffectChannel.send(Back) },
-                { sideEffectChannel.send(Back) }
+            resetRecipeUseCase(null).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
             )
         }
+    }
+
+    fun onSaveAndClose() {
+        viewModelScope.launch {
+            setTemperatureUseCase(getInput()).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
+            )
+        }
+    }
+
+    fun onDismissDialog() {
+        _state.update { it.copy(showSaveDialog = false) }
+    }
+
+    fun onCheckShouldClose() {
+        _state.update { it.copy(showSaveDialog = true) }
     }
 
     fun onSelectPage(page: PageType) {

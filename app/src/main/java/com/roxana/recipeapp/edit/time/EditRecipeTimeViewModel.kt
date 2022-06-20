@@ -8,6 +8,7 @@ import com.roxana.recipeapp.domain.editrecipe.GetPreparationTimeUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetTotalTimeUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetWaitingTimeUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
+import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetTimeUseCase
 import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +29,8 @@ class EditRecipeTimeViewModel @Inject constructor(
     private val getPreparationTimeUseCase: GetPreparationTimeUseCase,
     private val getWaitingTimeUseCase: GetWaitingTimeUseCase,
     private val getTotalTimeUseCase: GetTotalTimeUseCase,
-    private val setTimeUseCase: SetTimeUseCase
+    private val setTimeUseCase: SetTimeUseCase,
+    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
     @VisibleForTesting
     val _state = MutableStateFlow(EditRecipeTimeViewState())
@@ -98,13 +100,31 @@ class EditRecipeTimeViewModel @Inject constructor(
             sideEffectChannel.send(ForwardForCreation)
     }
 
-    fun onSaveAndBack() {
+    fun onResetAndClose() {
+        _state.update { it.copy(showSaveDialog = false) }
         viewModelScope.launch {
-            setTimeUseCase(getInput()).fold(
-                { sideEffectChannel.send(Back) },
-                { sideEffectChannel.send(Back) }
+            resetRecipeUseCase(null).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
             )
         }
+    }
+
+    fun onSaveAndClose() {
+        viewModelScope.launch {
+            setTimeUseCase(getInput()).fold(
+                { sideEffectChannel.send(Close) },
+                { sideEffectChannel.send(Close) }
+            )
+        }
+    }
+
+    fun onDismissDialog() {
+        _state.update { it.copy(showSaveDialog = false) }
+    }
+
+    fun onCheckShouldClose() {
+        _state.update { it.copy(showSaveDialog = true) }
     }
 
     fun onSelectPage(page: PageType) {

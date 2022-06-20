@@ -13,7 +13,8 @@ enum class PageType {
     Instructions,
     Temperature,
     Time,
-    Comments
+    Comments,
+    Recap
 }
 
 private val addPages = listOf(
@@ -23,7 +24,8 @@ private val addPages = listOf(
     Page(PageType.Ingredients, R.string.edit_recipe_ingredients_page),
     Page(PageType.Instructions, R.string.edit_recipe_instructions_page),
     Page(PageType.Temperature, R.string.edit_recipe_temperature_page),
-    Page(PageType.Time, R.string.edit_recipe_time_page)
+    Page(PageType.Time, R.string.edit_recipe_time_page),
+    Page(PageType.Recap, R.string.edit_recipe_recap_page)
 )
 
 private val editPages = listOf(
@@ -34,7 +36,8 @@ private val editPages = listOf(
     Page(PageType.Instructions, R.string.edit_recipe_instructions_page),
     Page(PageType.Temperature, R.string.edit_recipe_temperature_page),
     Page(PageType.Time, R.string.edit_recipe_time_page),
-    Page(PageType.Comments, R.string.edit_recipe_comments_page)
+    Page(PageType.Comments, R.string.edit_recipe_comments_page),
+    Page(PageType.Recap, R.string.edit_recipe_recap_page)
 )
 
 fun pagesForAddRecipe(selected: PageType): List<Page> = addPages.map {

@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roxana.recipeapp.RecipeDetail
+import com.roxana.recipeapp.RecipeDetailNode
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.domain.detail.StartRecipeEditingUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
@@ -32,7 +32,7 @@ class DetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val recipeId: Int = savedStateHandle.get(RecipeDetail.KEY_ID)!!
+            val recipeId: Int = savedStateHandle.get(RecipeDetailNode.KEY_ID)!!
             getRecipeByIdUseCase(recipeId).collect { result ->
                 result.fold(
                     { recipe ->
@@ -71,7 +71,7 @@ class DetailViewModel @Inject constructor(
 
     fun onEdit() {
         viewModelScope.launch {
-            val recipeId: Int = savedStateHandle.get(RecipeDetail.KEY_ID)!!
+            val recipeId: Int = savedStateHandle.get(RecipeDetailNode.KEY_ID)!!
             startRecipeEditingUseCase(recipeId).onSuccess { sideEffectChannel.send(StartEditing) }
         }
     }

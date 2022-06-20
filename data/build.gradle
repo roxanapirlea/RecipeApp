@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    compileSdk projectTargetSdk
+    compileSdk projectCompileSdk
 
     defaultConfig {
         minSdk projectMinSdk
