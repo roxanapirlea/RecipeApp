@@ -32,6 +32,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -101,6 +102,8 @@ fun IngredientTextField(
                 onValueChange = { onIngredientChange(it) },
                 label = stringResource(R.string.edit_recipe_ingredient_hint),
                 textStyle = MaterialTheme.typography.body1,
+                keyboardType = KeyboardType.Text,
+                capitalisation = KeyboardCapitalization.None,
                 imeAction = ImeAction.Done,
                 onImeAction = {
                     onSave()
