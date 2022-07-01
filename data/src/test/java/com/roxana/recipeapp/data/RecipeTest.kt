@@ -128,7 +128,7 @@ class RecipeTest {
         categoryQueries.insert(null, null, 1)
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
+        val output = queries.getRecipesSummary(null, null, null, null, "")
             .executeAsList()
 
         // Then
@@ -141,7 +141,7 @@ class RecipeTest {
         queries.insert("Donut", "path", 1, 2, 3, 4, 5, 6, null)
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
+        val output = queries.getRecipesSummary(null, null, null, null, "")
             .executeAsList()
 
         // Then
@@ -209,7 +209,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(4, false, null, true, null, true, null, true, "")
+        val output = queries.getRecipesSummary(4, null, null, null, "")
             .executeAsList()
 
         // Then
@@ -257,7 +257,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
+        val output = queries.getRecipesSummary(null, null, null, null, "")
             .executeAsList()
 
         // Then
@@ -330,7 +330,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(null, true, 8, false, null, true, null, true, "")
+        val output = queries.getRecipesSummary(null, 8, null, null, "")
             .executeAsList()
 
         // Then
@@ -379,7 +379,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
+        val output = queries.getRecipesSummary(null, null, null, null, "")
             .executeAsList()
 
         // Then
@@ -453,7 +453,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, 4, false, null, true, "")
+        val output = queries.getRecipesSummary(null, null, 4, null, "")
             .executeAsList()
 
         // Then
@@ -502,7 +502,7 @@ class RecipeTest {
         }
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
+        val output = queries.getRecipesSummary(null, null, null, null, "")
             .executeAsList()
 
         // Then
@@ -560,17 +560,7 @@ class RecipeTest {
         categoryQueries.insert(DbCategoryType.LUNCH, null, 3)
 
         // When
-        val output = queries.getRecipesSummary(
-            null,
-            true,
-            null,
-            true,
-            null,
-            true,
-            DbCategoryType.DESSERT,
-            false,
-            ""
-        )
+        val output = queries.getRecipesSummary(null, null, null, DbCategoryType.DESSERT, "")
             .executeAsList()
 
         // Then
@@ -612,7 +602,7 @@ class RecipeTest {
         categoryQueries.insert(DbCategoryType.DESSERT, null, 2)
 
         // When
-        val output = queries.getRecipesSummary(null, true, null, true, null, true, null, true, "")
+        val output = queries.getRecipesSummary(null, null, null, null, "")
             .executeAsList()
 
         // Then
