@@ -51,8 +51,11 @@ fun FiltersView(
             Spacer(modifier = Modifier.height(8.dp))
             if (state.maxTotalTime != null) {
                 TimeSlider(
-                    label = stringResource(R.string.filters_select_time_total),
-                    selected = state.selectedTotalTime!!,
+                    label = stringResource(
+                        R.string.filters_select_time_total,
+                        state.selectedTotalTime!!
+                    ),
+                    selected = state.selectedTotalTime,
                     max = state.maxTotalTime,
                     onSelected = onTotalTimeSelected,
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -61,8 +64,11 @@ fun FiltersView(
             if (state.maxCookingTime != null) {
                 Spacer(modifier = Modifier.height(8.dp))
                 TimeSlider(
-                    label = stringResource(R.string.filters_select_time_cooking),
-                    selected = state.selectedCookingTime!!,
+                    label = stringResource(
+                        R.string.filters_select_time_cooking,
+                        state.selectedCookingTime!!
+                    ),
+                    selected = state.selectedCookingTime,
                     max = state.maxCookingTime,
                     onSelected = onCookingTimeSelected,
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -70,8 +76,11 @@ fun FiltersView(
             }
             if (state.maxPreparationTime != null) {
                 TimeSlider(
-                    label = stringResource(R.string.filters_select_time_preparation),
-                    selected = state.selectedPreparationTime!!,
+                    label = stringResource(
+                        R.string.filters_select_time_preparation,
+                        state.selectedPreparationTime!!
+                    ),
+                    selected = state.selectedPreparationTime,
                     max = state.maxPreparationTime,
                     onSelected = onPreparationTimeSelected
                 )

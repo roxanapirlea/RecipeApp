@@ -6,10 +6,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.roxana.recipeapp.R
-import com.roxana.recipeapp.misc.toFormattedString
+import com.roxana.recipeapp.misc.formatIngredient
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiQuantityType
 
@@ -20,18 +18,7 @@ fun IngredientView(
     quantityType: UiQuantityType,
     modifier: Modifier = Modifier
 ) {
-    val formattedQuantity = quantity?.toFormattedString() ?: ""
-    val formattedQuantityType = stringResource(quantityType.textForSelected)
-    val formattedIngredient =
-        if (quantity == null)
-            name
-        else
-            stringResource(
-                R.string.all_ingredient_placeholders,
-                formattedQuantity,
-                formattedQuantityType,
-                name
-            )
+    val formattedIngredient = formatIngredient(name, quantity, quantityType)
     Text(formattedIngredient, color = MaterialTheme.colors.onBackground, modifier = modifier)
 }
 
