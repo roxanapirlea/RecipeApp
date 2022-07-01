@@ -58,7 +58,8 @@ class RecapViewModel @Inject constructor(
                                 preparation = recipe.timePreparation
                             ),
                             temperature = recipe.temperature,
-                            temperatureUnit = recipe.temperatureUnit?.toUiModel()
+                            temperatureUnit = recipe.temperatureUnit?.toUiModel(),
+                            isExistingRecipe = recipe.id != null
                         )
                         _state.value = content
                     },
