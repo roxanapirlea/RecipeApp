@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.edit.ingredients
+package com.roxana.recipeapp.edit.ingredients.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -36,6 +36,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.edit.ingredients.IngredientState
+import com.roxana.recipeapp.edit.ingredients.isQuantityValid
 import com.roxana.recipeapp.ui.RecipeTextField
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiQuantityType

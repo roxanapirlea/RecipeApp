@@ -20,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.ingredients.EditRecipeIngredientsViewState
-import com.roxana.recipeapp.edit.ingredients.IngredientTextField
 import com.roxana.recipeapp.ui.DividerAlpha16
 import com.roxana.recipeapp.ui.LabelView
 import com.roxana.recipeapp.uimodel.UiQuantityType
