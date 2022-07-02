@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -43,17 +44,26 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             combine(
-                _filters.flatMapLatest { selectedFilters ->
-                    getRecipesSummaryUseCase(
-                        GetRecipesSummaryUseCase.Input(
-                            query = selectedFilters.query,
-                            totalTime = selectedFilters.totalTime?.toShort(),
-                            cookingTime = selectedFilters.cookingTime?.toShort(),
-                            preparationTime = selectedFilters.preparationTime?.toShort(),
-                            category = selectedFilters.category?.toDomainModel()
-                        )
-                    ).map { result -> result to selectedFilters }
-                },
+                _filters
+                    .onEach { selectedFilters ->
+                        _state.update {
+                            when (it) {
+                                is HomeViewState.Content -> it.copy(query = selectedFilters.query)
+                                else -> it
+                            }
+                        }
+                    }
+                    .flatMapLatest { selectedFilters ->
+                        getRecipesSummaryUseCase(
+                            GetRecipesSummaryUseCase.Input(
+                                query = selectedFilters.query,
+                                totalTime = selectedFilters.totalTime?.toShort(),
+                                cookingTime = selectedFilters.cookingTime?.toShort(),
+                                preparationTime = selectedFilters.preparationTime?.toShort(),
+                                category = selectedFilters.category?.toDomainModel()
+                            )
+                        ).map { result -> result to selectedFilters }
+                    },
                 getMaxTimesUseCase(null)
             ) { (recipesResult, selectedFilters), maxTimesResult ->
                 val recipesSummary = recipesResult.getOrElse {
@@ -94,8 +104,7 @@ class HomeViewModel @Inject constructor(
                 selectedTotalTime = selectedFilters.totalTime ?: it.maxTotal?.toInt(),
                 selectedCookingTime = selectedFilters.cookingTime ?: it.maxCooking?.toInt(),
                 selectedPreparationTime =
-                selectedFilters.preparationTime ?: it.maxPreparation?.toInt(),
-                query = query
+                selectedFilters.preparationTime ?: it.maxPreparation?.toInt()
             )
         } ?: FiltersState()
 
@@ -104,7 +113,7 @@ class HomeViewModel @Inject constructor(
         return if (recipes.isEmpty() && filtersSelectionCount == 0 && query.isBlank())
             HomeViewState.Empty
         else
-            HomeViewState.Content(recipes, false, filtersState, filtersSelectionCount)
+            HomeViewState.Content(recipes, false, filtersState, filtersSelectionCount, query)
     }
 
     private fun RecipeSummary.toState() = RecipeState(id, name, categories.map { it.toUiModel() })

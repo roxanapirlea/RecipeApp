@@ -39,7 +39,7 @@ fun RecipeListView(
         item {
             Row(Modifier.fillMaxWidth()) {
                 SearchTextField(
-                    value = state.filtersState.query,
+                    value = state.query,
                     modifier = Modifier.weight(1f),
                     onValueChange = onSearchQueryModified
                 )

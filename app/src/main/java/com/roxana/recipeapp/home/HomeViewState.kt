@@ -9,7 +9,8 @@ sealed class HomeViewState {
         val recipes: List<RecipeState> = listOf(),
         val showFilters: Boolean = false,
         val filtersState: FiltersState = FiltersState(),
-        val filtersSelectionCount: Int = 0
+        val filtersSelectionCount: Int = 0,
+        val query: String = ""
     ) : HomeViewState()
 }
 
@@ -27,8 +28,7 @@ data class FiltersState(
     val selectedTotalTime: Int? = null,
     val selectedCookingTime: Int? = null,
     val selectedPreparationTime: Int? = null,
-    val selectedCategory: UiCategoryType? = null,
-    val query: String = ""
+    val selectedCategory: UiCategoryType? = null
 )
 
 data class FiltersSelection(
