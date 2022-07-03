@@ -48,6 +48,7 @@ fun IngredientTextField(
     ingredient: IngredientState,
     quantityTypes: List<UiQuantityType>,
     modifier: Modifier = Modifier,
+    startFocusRequester: FocusRequester = remember { FocusRequester() },
     onIngredientChange: (String) -> Unit = {},
     onQuantityChange: (String) -> Unit = {},
     onTypeChange: (UiQuantityType) -> Unit = {},
@@ -56,10 +57,9 @@ fun IngredientTextField(
     var isExpanded by remember { mutableStateOf(false) }
 
     val nameFocusRequester = remember { FocusRequester() }
-    val quantityFocusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
-        quantityFocusRequester.requestFocus()
+        startFocusRequester.requestFocus()
     }
 
     Row(
@@ -81,7 +81,7 @@ fun IngredientTextField(
                         .padding(end = 8.dp)
                         .defaultMinSize(0.dp, 0.dp)
                         .weight(3f)
-                        .focusRequester(quantityFocusRequester)
+                        .focusRequester(startFocusRequester)
                 )
                 QuantityTypeMenu(
                     selectedQuantityType = ingredient.quantityType,
@@ -92,7 +92,7 @@ fun IngredientTextField(
                     },
                     isExpanded = isExpanded,
                     onIsExpandedChanged = {
-                        if (it) quantityFocusRequester.freeFocus()
+                        if (it) startFocusRequester.freeFocus()
                         isExpanded = it
                     }
                 )
@@ -107,7 +107,7 @@ fun IngredientTextField(
                 imeAction = ImeAction.Done,
                 onImeAction = {
                     onSave()
-                    quantityFocusRequester.requestFocus()
+                    startFocusRequester.requestFocus()
                 },
                 modifier = Modifier
                     .defaultMinSize(0.dp, 0.dp)
@@ -122,7 +122,7 @@ fun IngredientTextField(
                 .padding(start = 6.dp)
                 .clickable {
                     onSave()
-                    quantityFocusRequester.requestFocus()
+                    startFocusRequester.requestFocus()
                 }
                 .padding(12.dp)
                 .size(32.dp)
