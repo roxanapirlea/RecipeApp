@@ -2,6 +2,7 @@ package com.roxana.recipeapp.detail
 
 import androidx.lifecycle.SavedStateHandle
 import com.roxana.recipeapp.RecipeDetailNode.KEY_ID
+import com.roxana.recipeapp.domain.detail.DeleteRecipeUseCase
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.domain.detail.StartRecipeEditingUseCase
 import com.roxana.recipeapp.domain.model.CategoryType
@@ -34,6 +35,7 @@ class DetailViewModelTest {
     private val savedStateHandle: SavedStateHandle = mockk(relaxed = true)
     private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase = mockk(relaxed = true)
     private val startRecipeEditingUseCase: StartRecipeEditingUseCase = mockk(relaxed = true)
+    private val deleteRecipeUseCase: DeleteRecipeUseCase = mockk(relaxed = true)
     private lateinit var viewModel: DetailViewModel
 
     @Test
@@ -60,7 +62,12 @@ class DetailViewModelTest {
 
         // When
         viewModel =
-            DetailViewModel(savedStateHandle, getRecipeByIdUseCase, startRecipeEditingUseCase)
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
 
         // Then
         val content = viewModel.state.value
@@ -99,7 +106,12 @@ class DetailViewModelTest {
 
         // When
         viewModel =
-            DetailViewModel(savedStateHandle, getRecipeByIdUseCase, startRecipeEditingUseCase)
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
 
         // Then
         val content = viewModel.state.value
@@ -130,7 +142,12 @@ class DetailViewModelTest {
 
         // When
         viewModel =
-            DetailViewModel(savedStateHandle, getRecipeByIdUseCase, startRecipeEditingUseCase)
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
 
         // Then
         val content = viewModel.state.value

@@ -15,6 +15,7 @@
     <string name="all_validate">Validează</string>
     <string name="all_close">Închide</string>
     <string name="all_back">Înapoi</string>
+    <string name="all_undo">Anulați</string>
     <string name="all_search">Căutare…</string>
     <string name="all_go_to_next_screen">Mergi la pasul următor</string>
     <string name="all_ingredient_placeholders">%1$s %2$s</string>
@@ -214,6 +215,7 @@
     <string name="detail_edit_recipe">Editează rețeta</string>
     <string name="detail_start_cooking">Începe gătitul</string>
     <string name="detail_recipe_fetch_error">A apărut o problemă la recuperarea rețetei</string>
+    <string name="detail_recipe_deleted">Rețeta a fost ștearsă</string>
     <string name="cooking_portions">Porții</string>
     <string name="cooking_time">Timp</string>
     <string name="cooking_time_cooking">Gătit: %d min</string>

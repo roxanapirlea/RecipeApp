@@ -15,6 +15,7 @@
     <string name="all_validate">Valider</string>
     <string name="all_close">Fermer</string>
     <string name="all_back">Retour</string>
+    <string name="all_undo">Annuler</string>
     <string name="all_search">Recherche…</string>
     <string name="all_go_to_next_screen">Vas au prochain écran</string>
     <string name="all_ingredient_placeholders">%1$s %2$s</string>
@@ -214,6 +215,7 @@
     <string name="detail_edit_recipe">Modifier la recette</string>
     <string name="detail_start_cooking">Commencer à cuisiner</string>
     <string name="detail_recipe_fetch_error">Un problème est survenu lors de la récupération de ta recette</string>
+    <string name="detail_recipe_deleted">Recette supprimée</string>
     <string name="cooking_portions">Portions</string>
     <string name="cooking_time">Temps</string>
     <string name="cooking_time_cooking">Cuisson : %d min</string>

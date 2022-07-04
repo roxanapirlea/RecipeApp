@@ -16,7 +16,8 @@ data class DetailViewState(
     val temperatureUnit: UiTemperature? = null,
     val isLoading: Boolean = true,
     val isFetchingError: Boolean = false,
-    val shouldStartEditing: Boolean = false
+    val navigation: Navigation? = null,
+    val shouldShowDeleteMessage: Boolean = false,
 )
 
 data class IngredientState(
@@ -33,3 +34,5 @@ data class TimeState(
 ) {
     val isEmpty = total == null && cooking == null && preparation == null && waiting == null
 }
+
+enum class Navigation { EDIT, BACK }

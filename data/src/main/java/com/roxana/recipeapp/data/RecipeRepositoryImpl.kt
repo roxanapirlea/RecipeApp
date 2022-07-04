@@ -224,4 +224,8 @@ class RecipeRepositoryImpl @Inject constructor(
     override fun getMaxPreparationTime(): Flow<Short?> {
         return recipeQueries.getMaxPreparationTime().asFlow().mapToOne().map { it.MAX?.toShort() }
     }
+
+    override suspend fun deleteById(id: Int) {
+        recipeQueries.delete(id.toLong())
+    }
 }
