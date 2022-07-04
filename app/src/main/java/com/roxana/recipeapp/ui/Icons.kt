@@ -6,6 +6,7 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -73,5 +74,14 @@ fun CheckIcon(modifier: Modifier = Modifier) {
         modifier = modifier,
         imageVector = Icons.Rounded.Check,
         contentDescription = stringResource(R.string.all_save)
+    )
+}
+
+@Composable
+fun DeleteIcon(modifier: Modifier = Modifier) {
+    Icon(
+        modifier = modifier,
+        imageVector = Icons.Rounded.Delete,
+        contentDescription = stringResource(R.string.all_delete)
     )
 }

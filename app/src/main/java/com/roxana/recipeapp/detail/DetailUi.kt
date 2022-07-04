@@ -1,9 +1,11 @@
 package com.roxana.recipeapp.detail
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,6 +18,7 @@ import com.roxana.recipeapp.R
 import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.detail.ui.RecipeDetailView
 import com.roxana.recipeapp.ui.AppBar
+import com.roxana.recipeapp.ui.DeleteIcon
 import com.roxana.recipeapp.ui.LoadingStateView
 
 @Composable
@@ -41,10 +44,26 @@ fun DetailDestination(
             detailViewModel.onErrorDismissed()
         }
     }
-    if (state.shouldStartEditing) {
-        LaunchedEffect(state.shouldStartEditing) {
-            onNavEdit()
-            detailViewModel.onEditingStarted()
+    state.navigation?.let { navigation ->
+        LaunchedEffect(navigation) {
+            when (navigation) {
+                Navigation.EDIT -> onNavEdit()
+                Navigation.BACK -> onNavBack()
+            }
+            detailViewModel.onNavigationDone()
+        }
+    }
+    if (state.shouldShowDeleteMessage) {
+        LaunchedEffect(state.shouldShowDeleteMessage) {
+            val result = scaffoldState.snackbarHostState.showSnackbar(
+                message = localContext.getString(R.string.detail_recipe_deleted),
+                duration = SnackbarDuration.Short,
+                actionLabel = localContext.getString(R.string.all_undo)
+            )
+            when (result) {
+                SnackbarResult.Dismissed -> detailViewModel.onDeleteMessageDismissed()
+                SnackbarResult.ActionPerformed -> detailViewModel.onUndoDelete()
+            }
         }
     }
 
@@ -55,6 +74,7 @@ fun DetailDestination(
         onBackClicked = onNavBack,
         onAddCommentClicked = onNavAddComment,
         onEditClicked = detailViewModel::onEdit,
+        onDeleteClicked = detailViewModel::onDelete,
     )
 }
 
@@ -65,12 +85,17 @@ fun DetailScreen(
     onBackClicked: () -> Unit = {},
     onStartCookingClicked: () -> Unit = {},
     onAddCommentClicked: () -> Unit = {},
-    onEditClicked: () -> Unit = {}
+    onEditClicked: () -> Unit = {},
+    onDeleteClicked: () -> Unit = {},
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            AppBar(title = stringResource(R.string.home_title), onIconClick = onBackClicked)
+            AppBar(
+                title = stringResource(R.string.home_title),
+                onIconClick = onBackClicked,
+                actions = { IconButton(onClick = onDeleteClicked) { DeleteIcon() } }
+            )
         }
     ) { contentPadding ->
         when {

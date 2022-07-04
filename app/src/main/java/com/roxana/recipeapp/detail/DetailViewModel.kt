@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.RecipeDetailNode
+import com.roxana.recipeapp.domain.detail.DeleteRecipeUseCase
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.domain.detail.StartRecipeEditingUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase,
-    private val startRecipeEditingUseCase: StartRecipeEditingUseCase
+    private val startRecipeEditingUseCase: StartRecipeEditingUseCase,
+    private val deleteRecipeUseCase: DeleteRecipeUseCase
 ) : ViewModel() {
     @VisibleForTesting
     val _state = MutableStateFlow(DetailViewState(isLoading = true))
@@ -68,15 +70,33 @@ class DetailViewModel @Inject constructor(
 
     fun onEdit() {
         viewModelScope.launch {
-            val recipeId: Int = savedStateHandle.get(RecipeDetailNode.KEY_ID)!!
+            val recipeId: Int = savedStateHandle[RecipeDetailNode.KEY_ID]!!
             startRecipeEditingUseCase(recipeId).onSuccess {
-                _state.update { it.copy(shouldStartEditing = true) }
+                _state.update { it.copy(navigation = Navigation.EDIT) }
             }
         }
     }
 
-    fun onEditingStarted() {
-        _state.update { it.copy(shouldStartEditing = false) }
+    fun onNavigationDone() {
+        _state.update { it.copy(navigation = null) }
+    }
+
+    fun onDelete() {
+        _state.update { it.copy(shouldShowDeleteMessage = true) }
+    }
+
+    fun onUndoDelete() {
+        _state.update { it.copy(shouldShowDeleteMessage = false) }
+    }
+
+    fun onDeleteMessageDismissed() {
+        viewModelScope.launch {
+            _state.update { it.copy(shouldShowDeleteMessage = false) }
+            val recipeId: Int = savedStateHandle[RecipeDetailNode.KEY_ID]!!
+            deleteRecipeUseCase(recipeId).onSuccess {
+                _state.update { it.copy(navigation = Navigation.BACK) }
+            }
+        }
     }
 
     fun onErrorDismissed() {

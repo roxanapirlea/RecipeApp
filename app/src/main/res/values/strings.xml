@@ -15,6 +15,7 @@
     <string name="all_validate">Validate</string>
     <string name="all_close">Close</string>
     <string name="all_back">Back</string>
+    <string name="all_undo">Undo</string>
     <string name="all_search">Search…</string>
     <string name="all_go_to_next_screen">Go to next screen</string>
     <string name="all_ingredients">Ingredients</string>
@@ -181,6 +182,7 @@
     <string name="detail_edit_recipe">Edit recipe</string>
     <string name="detail_start_cooking">Start cooking</string>
     <string name="detail_recipe_fetch_error">There was a problem fetching your recipe</string>
+    <string name="detail_recipe_deleted">Recipe deleted</string>
     <string name="cooking_portions">Servings</string>
     <string name="cooking_time">Time</string>
     <string name="cooking_time_cooking">Cooking: %d min</string>
