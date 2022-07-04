@@ -20,7 +20,7 @@ import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.recap.ui.RecapView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @OptIn(ExperimentalMaterialApi::class)

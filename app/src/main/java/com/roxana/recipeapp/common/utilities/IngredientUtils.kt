@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.misc
+package com.roxana.recipeapp.common.utilities
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi

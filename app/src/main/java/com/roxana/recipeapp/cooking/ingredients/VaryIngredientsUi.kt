@@ -4,9 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.roxana.recipeapp.cooking.ingredients.ui.VaryIngredientsView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 
 @Composable
 fun VaryIngredientsDestination(

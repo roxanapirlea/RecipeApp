@@ -18,7 +18,7 @@ import com.roxana.recipeapp.R
 import com.roxana.recipeapp.home.ui.EmptyView
 import com.roxana.recipeapp.home.ui.FiltersView
 import com.roxana.recipeapp.home.ui.RecipeListView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.AddIcon
 import com.roxana.recipeapp.ui.LoadingStateView
 import com.roxana.recipeapp.ui.SettingsIcon

@@ -3,9 +3,7 @@ package com.roxana.recipeapp.edit.ingredients
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -15,16 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.FabSave
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.ingredients.ui.EditRecipeIngredientsView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
-import com.roxana.recipeapp.ui.CheckIcon
-import com.roxana.recipeapp.ui.ForwardIcon
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiQuantityType
 

@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.cooking.ui.CookingInProgressView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.LoadingStateView
 

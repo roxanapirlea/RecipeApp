@@ -14,8 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.common.utilities.formatIngredient
 import com.roxana.recipeapp.edit.ingredients.IngredientState
-import com.roxana.recipeapp.misc.formatIngredient
 
 @Composable
 fun IngredientText(

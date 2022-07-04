@@ -11,7 +11,7 @@ import com.roxana.recipeapp.domain.model.CreationIngredient
 import com.roxana.recipeapp.domain.quantities.GetAllQuantityTypesUseCase
 import com.roxana.recipeapp.domain.quantities.GetPreferredQuantitiesUseCase
 import com.roxana.recipeapp.edit.PageType
-import com.roxana.recipeapp.misc.toFormattedString
+import com.roxana.recipeapp.common.utilities.toFormattedString
 import com.roxana.recipeapp.uimodel.UiQuantityType
 import com.roxana.recipeapp.uimodel.toDomainModel
 import com.roxana.recipeapp.uimodel.toUiModel

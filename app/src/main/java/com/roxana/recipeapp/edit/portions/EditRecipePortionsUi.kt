@@ -18,7 +18,7 @@ import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.portions.ui.EditRecipePortionsView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
