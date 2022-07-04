@@ -23,6 +23,12 @@ class CookingViewModel @Inject constructor(
     private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase
 ) : ViewModel() {
 
+    companion object {
+        private const val KEY_SAVE_PORTIONS_COEF = "key_save_portions_coef"
+        private const val KEY_SAVE_CHECKED_INSTRUCTIONS = "key_save_checked_instructions"
+        private const val KEY_SAVE_CHECKED_INGREDIENTS = "key_save_checked_ingredients"
+    }
+
     @VisibleForTesting
     val _state = MutableStateFlow<CookingViewState>(CookingViewState.Loading)
     val state: StateFlow<CookingViewState> = _state.asStateFlow()
@@ -32,31 +38,47 @@ class CookingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val recipeId: Int = savedStateHandle.get(CookingNode.KEY_ID)!!
+            val recipeId: Int = savedStateHandle[CookingNode.KEY_ID]!!
             val quantityMultiplier: Double = savedStateHandle.get<String>(
                 CookingNode.KEY_PORTIONS_MULTIPLIER
             )?.toDoubleOrNull() ?: 1.0
-            getRecipeByIdUseCase(recipeId).collect {
-                it.fold(
+            getRecipeByIdUseCase(recipeId).collect { result ->
+                result.fold(
                     { recipe ->
                         val nonNullPortions = recipe.portions?.toDouble() ?: 1.0
+                        val multiplier =
+                            savedStateHandle[KEY_SAVE_PORTIONS_COEF] ?: quantityMultiplier
+                        val checkedIngredients = savedStateHandle.get<List<Int>>(
+                            KEY_SAVE_CHECKED_INGREDIENTS
+                        ) ?: emptyList()
+                        val checkedInstructions = savedStateHandle.get<List<Short>>(
+                            KEY_SAVE_CHECKED_INSTRUCTIONS
+                        ) ?: emptyList()
+
                         val content = CookingViewState.Content(
                             title = recipe.name,
                             portions = recipe.portions,
-                            selectedPortions = nonNullPortions * quantityMultiplier,
+                            selectedPortions = nonNullPortions * multiplier,
                             ingredients = recipe.ingredients.map {
                                 val quantityForSelectedPortions =
-                                    it.quantity?.let { quantity -> quantity * quantityMultiplier }
+                                    it.quantity?.let { quantity -> quantity * multiplier }
                                 IngredientState(
                                     it.id,
                                     it.name,
                                     it.quantity,
                                     quantityForSelectedPortions,
-                                    it.quantityType.toUiModel()
+                                    it.quantityType.toUiModel(),
+                                    checkedIngredients.contains(it.id)
                                 )
                             },
                             instructions = recipe.instructions.sortedBy { it.ordinal }
-                                .map { InstructionState(it.ordinal, it.name) }
+                                .map {
+                                    InstructionState(
+                                        it.ordinal,
+                                        it.name,
+                                        checkedInstructions.contains(it.ordinal)
+                                    )
+                                }
                                 .updateCurrent(),
                             comments = recipe.comments.sortedBy { it.ordinal }.map { it.name },
                             time = TimeState(
@@ -86,6 +108,7 @@ class CookingViewModel @Inject constructor(
         if (selectedPortions == 0.0) return
 
         val multiplyCoefficient = selectedPortions / (content.portions ?: 0)
+        savedStateHandle[KEY_SAVE_PORTIONS_COEF] = multiplyCoefficient
 
         _state.value = content.copy(
             selectedPortions = selectedPortions,
@@ -101,6 +124,7 @@ class CookingViewModel @Inject constructor(
         if (selectedPortions == 0.0) return
 
         val multiplyCoefficient = selectedPortions / (content.portions ?: 0)
+        savedStateHandle[KEY_SAVE_PORTIONS_COEF] = multiplyCoefficient
 
         _state.value = content.copy(
             selectedPortions = selectedPortions,
@@ -113,6 +137,7 @@ class CookingViewModel @Inject constructor(
         val content = state.value as CookingViewState.Content
 
         val selectedPortions = content.portions?.toDouble() ?: 1.0
+        savedStateHandle.remove<Double>(KEY_SAVE_PORTIONS_COEF)
 
         _state.value = content.copy(
             selectedPortions = selectedPortions,
@@ -125,10 +150,12 @@ class CookingViewModel @Inject constructor(
         val content = state.value as CookingViewState.Content
 
         val updatedIngredient = content.ingredients.getById(id).copy(isChecked = isChecked)
+        val newIngredients = content.ingredients.updateItem(id, updatedIngredient)
 
-        _state.value = content.copy(
-            ingredients = content.ingredients.updateItem(id, updatedIngredient)
-        )
+        savedStateHandle[KEY_SAVE_CHECKED_INGREDIENTS] =
+            newIngredients.filter { it.isChecked }.map { it.id }
+
+        _state.value = content.copy(ingredients = newIngredients)
     }
 
     fun toggleInstructionCheck(id: Short, isChecked: Boolean) {
@@ -137,9 +164,13 @@ class CookingViewModel @Inject constructor(
         val content = state.value as CookingViewState.Content
 
         val updatedInstruction = content.instructions.getById(id).copy(isChecked = isChecked)
+        val newInstructions = content.instructions.updateItem(id, updatedInstruction)
+
+        savedStateHandle[KEY_SAVE_CHECKED_INSTRUCTIONS] =
+            newInstructions.filter { it.isChecked }.map { it.id }
 
         _state.value = content.copy(
-            instructions = content.instructions.updateItem(id, updatedInstruction).updateCurrent()
+            instructions = newInstructions.updateCurrent()
         )
     }
 
