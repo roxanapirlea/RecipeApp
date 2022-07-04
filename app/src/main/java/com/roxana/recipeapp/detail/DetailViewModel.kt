@@ -24,7 +24,7 @@ class DetailViewModel @Inject constructor(
     private val startRecipeEditingUseCase: StartRecipeEditingUseCase
 ) : ViewModel() {
     @VisibleForTesting
-    val _state = MutableStateFlow<DetailViewState>(DetailViewState.Loading)
+    val _state = MutableStateFlow(DetailViewState(isLoading = true))
     val state: StateFlow<DetailViewState> = _state.asStateFlow()
 
     private val sideEffectChannel = Channel<DetailSideEffect>(Channel.BUFFERED)
@@ -36,7 +36,7 @@ class DetailViewModel @Inject constructor(
             getRecipeByIdUseCase(recipeId).collect { result ->
                 result.fold(
                     { recipe ->
-                        val content = DetailViewState.Content(
+                        val content = DetailViewState(
                             title = recipe.name,
                             categories = recipe.categories.map { it.toUiModel() },
                             portions = recipe.portions,
@@ -57,7 +57,8 @@ class DetailViewModel @Inject constructor(
                                 preparation = recipe.timePreparation
                             ),
                             temperature = recipe.temperature,
-                            temperatureUnit = recipe.temperatureUnit?.toUiModel()
+                            temperatureUnit = recipe.temperatureUnit?.toUiModel(),
+                            isLoading = false
                         )
                         _state.value = content
                     },

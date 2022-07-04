@@ -26,7 +26,7 @@ fun CookingDestination(
     onNavVaryIngredient: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(cookingViewModel.state)
-        .collectAsState(CookingViewState.Loading)
+        .collectAsState(CookingViewState(isLoading = true))
 
     val scaffoldState = rememberScaffoldState()
     val localContext = LocalContext.current.applicationContext
@@ -76,9 +76,9 @@ fun CookingView(
             AppBar(title = stringResource(R.string.home_title), onIconClick = onBack)
         }
     ) { contentPadding ->
-        when (state) {
-            CookingViewState.Loading -> LoadingStateView(Modifier.padding(contentPadding))
-            is CookingViewState.Content -> CookingInProgressView(
+        when (state.isLoading) {
+            true -> LoadingStateView(Modifier.padding(contentPadding))
+            false -> CookingInProgressView(
                 state,
                 modifier = Modifier.padding(contentPadding),
                 onVaryIngredient = onVaryIngredient,

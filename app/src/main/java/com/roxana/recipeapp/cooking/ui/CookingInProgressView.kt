@@ -24,7 +24,7 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
 fun CookingInProgressView(
-    state: CookingViewState.Content,
+    state: CookingViewState,
     modifier: Modifier = Modifier,
     onVaryIngredient: () -> Unit = {},
     onAddComment: () -> Unit = {},
@@ -163,7 +163,7 @@ fun CookingInProgressView(
 fun CookingInProgressPreviewLight() {
     RecipeTheme {
         CookingInProgressView(
-            CookingViewState.Content(
+            CookingViewState(
                 title = "Title",
                 time = TimeState(8, 4, 3, 1),
                 temperature = 150
@@ -182,7 +182,7 @@ fun CookingInProgressPreviewLight() {
 fun CookingInProgressPreviewDark() {
     RecipeTheme {
         CookingInProgressView(
-            CookingViewState.Content(
+            CookingViewState(
                 title = "Title",
                 time = TimeState(8, 4, 3, 1),
                 temperature = 150

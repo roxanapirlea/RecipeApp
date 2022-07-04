@@ -33,7 +33,7 @@ fun HomeDestination(
     onNavSettings: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(homeViewModel.state)
-        .collectAsState(HomeViewState.Loading)
+        .collectAsState(HomeViewState(isLoading = true))
 
     val scaffoldState = rememberScaffoldState()
     val localContext = LocalContext.current.applicationContext
@@ -91,14 +91,14 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            if ((state as? HomeViewState.Content)?.showFilters != true)
+            if (!state.showFilters)
                 FloatingActionButton(onClick = onAddRecipeClicked) { AddIcon() }
         }
     ) { contentPadding ->
-        when (state) {
-            HomeViewState.Loading -> LoadingStateView(Modifier.padding(contentPadding))
-            HomeViewState.Empty -> EmptyView(Modifier.padding(contentPadding))
-            is HomeViewState.Content -> {
+        when {
+            state.isLoading -> LoadingStateView(Modifier.padding(contentPadding))
+            state.isEmpty -> EmptyView(Modifier.padding(contentPadding))
+            else -> {
                 if (state.showFilters)
                     FiltersView(
                         state = state.filtersState,

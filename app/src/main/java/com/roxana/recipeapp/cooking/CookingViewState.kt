@@ -3,21 +3,18 @@ package com.roxana.recipeapp.cooking
 import com.roxana.recipeapp.uimodel.UiQuantityType
 import com.roxana.recipeapp.uimodel.UiTemperature
 
-sealed class CookingViewState {
-    object Loading : CookingViewState()
-
-    data class Content(
-        val title: String = "",
-        val portions: Short? = null,
-        val selectedPortions: Double = 1.0,
-        val ingredients: List<IngredientState> = emptyList(),
-        val instructions: List<InstructionState> = emptyList(),
-        val comments: List<String> = emptyList(),
-        val time: TimeState = TimeState(),
-        val temperature: Short? = null,
-        val temperatureUnit: UiTemperature? = null
-    ) : CookingViewState()
-}
+data class CookingViewState(
+    val title: String = "",
+    val portions: Short? = null,
+    val selectedPortions: Double = 1.0,
+    val ingredients: List<IngredientState> = emptyList(),
+    val instructions: List<InstructionState> = emptyList(),
+    val comments: List<String> = emptyList(),
+    val time: TimeState = TimeState(),
+    val temperature: Short? = null,
+    val temperatureUnit: UiTemperature? = null,
+    val isLoading: Boolean = true
+)
 
 data class IngredientState(
     val id: Int,

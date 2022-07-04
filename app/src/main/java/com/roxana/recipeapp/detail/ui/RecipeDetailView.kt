@@ -34,7 +34,7 @@ import com.roxana.recipeapp.uimodel.UiQuantityType
 
 @Composable
 fun RecipeDetailView(
-    state: DetailViewState.Content,
+    state: DetailViewState,
     modifier: Modifier = Modifier,
     onStartCookingClicked: () -> Unit = {},
     onAddCommentClicked: () -> Unit = {},
@@ -169,7 +169,7 @@ fun RecipeDetailView(
 fun DetailContentViewPreviewLight() {
     RecipeTheme {
         RecipeDetailView(
-            DetailViewState.Content(
+            DetailViewState(
                 title = "Crepes",
                 portions = 2,
                 categories = listOf(UiCategoryType.Breakfast, UiCategoryType.Dessert),
@@ -195,7 +195,7 @@ fun DetailContentViewPreviewLight() {
 fun DetailContentViewPreviewDark() {
     RecipeTheme {
         RecipeDetailView(
-            DetailViewState.Content(
+            DetailViewState(
                 title = "Crepes",
                 portions = 1,
                 categories = listOf(UiCategoryType.Breakfast, UiCategoryType.Dessert),

@@ -33,7 +33,7 @@ class HomeViewModel @Inject constructor(
     private val getMaxTimesUseCase: GetMaxTimesUseCase,
 ) : ViewModel() {
     @VisibleForTesting
-    val _state = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
+    val _state = MutableStateFlow(HomeViewState(isLoading = true))
     val state: StateFlow<HomeViewState> = _state.asStateFlow()
 
     private val _filters = MutableStateFlow(FiltersSelection())
@@ -46,12 +46,7 @@ class HomeViewModel @Inject constructor(
             combine(
                 _filters
                     .onEach { selectedFilters ->
-                        _state.update {
-                            when (it) {
-                                is HomeViewState.Content -> it.copy(query = selectedFilters.query)
-                                else -> it
-                            }
-                        }
+                        _state.update { it.copy(query = selectedFilters.query) }
                     }
                     .flatMapLatest { selectedFilters ->
                         getRecipesSummaryUseCase(
@@ -73,13 +68,13 @@ class HomeViewModel @Inject constructor(
                 mapContent(recipesSummary, maxTimesResult, selectedFilters)
             }.collect { state ->
                 _state.update {
-                    if (state is HomeViewState.Content && it is HomeViewState.Content)
-                        it.copy(
-                            recipes = state.recipes,
-                            filtersState = state.filtersState,
-                            filtersSelectionCount = state.filtersSelectionCount
-                        )
-                    else state
+                    it.copy(
+                        recipes = state.recipes,
+                        filtersState = state.filtersState,
+                        filtersSelectionCount = state.filtersSelectionCount,
+                        isLoading = state.isLoading,
+                        isEmpty = state.isEmpty
+                    )
                 }
             }
         }
@@ -111,9 +106,17 @@ class HomeViewModel @Inject constructor(
         val filtersSelectionCount: Int = computeFilterCount(filtersState)
 
         return if (recipes.isEmpty() && filtersSelectionCount == 0 && query.isBlank())
-            HomeViewState.Empty
+            HomeViewState(isEmpty = true, isLoading = false)
         else
-            HomeViewState.Content(recipes, false, filtersState, filtersSelectionCount, query)
+            HomeViewState(
+                recipes,
+                false,
+                filtersState,
+                filtersSelectionCount,
+                query,
+                isLoading = false,
+                isEmpty = false
+            )
     }
 
     private fun RecipeSummary.toState() = RecipeState(id, name, categories.map { it.toUiModel() })
@@ -133,31 +136,16 @@ class HomeViewModel @Inject constructor(
     private fun Int?.orZero(): Int = this ?: 0
 
     fun onFiltersClicked() {
-        _state.update {
-            when (it) {
-                is HomeViewState.Content -> it.copy(showFilters = true)
-                else -> it
-            }
-        }
+        _state.update { it.copy(showFilters = true) }
     }
 
     fun onResetFiltersClicked() {
-        _state.update {
-            when (it) {
-                is HomeViewState.Content -> it.copy(showFilters = false)
-                else -> it
-            }
-        }
+        _state.update { it.copy(showFilters = false) }
         _filters.value = FiltersSelection()
     }
 
     fun onCloseFiltersClicked() {
-        _state.update {
-            when (it) {
-                is HomeViewState.Content -> it.copy(showFilters = false)
-                else -> it
-            }
-        }
+        _state.update { it.copy(showFilters = false) }
     }
 
     fun onTotalTimeSelected(time: Int) {

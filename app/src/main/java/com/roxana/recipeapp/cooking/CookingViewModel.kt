@@ -30,7 +30,7 @@ class CookingViewModel @Inject constructor(
     }
 
     @VisibleForTesting
-    val _state = MutableStateFlow<CookingViewState>(CookingViewState.Loading)
+    val _state = MutableStateFlow(CookingViewState(isLoading = true))
     val state: StateFlow<CookingViewState> = _state.asStateFlow()
 
     private val sideEffectChannel = Channel<CookingSideEffect>(Channel.BUFFERED)
@@ -55,7 +55,7 @@ class CookingViewModel @Inject constructor(
                             KEY_SAVE_CHECKED_INSTRUCTIONS
                         ) ?: emptyList()
 
-                        val content = CookingViewState.Content(
+                        val state = CookingViewState(
                             title = recipe.name,
                             portions = recipe.portions,
                             selectedPortions = nonNullPortions * multiplier,
@@ -88,9 +88,10 @@ class CookingViewModel @Inject constructor(
                                 preparation = recipe.timePreparation
                             ),
                             temperature = recipe.temperature,
-                            temperatureUnit = recipe.temperatureUnit?.toUiModel()
+                            temperatureUnit = recipe.temperatureUnit?.toUiModel(),
+                            isLoading = false
                         )
-                        _state.value = content
+                        _state.value = state
                     },
                     {
                         sideEffectChannel.send(FetchingError)
@@ -101,8 +102,7 @@ class CookingViewModel @Inject constructor(
     }
 
     fun onDecrementPortions() {
-        if (state.value !is CookingViewState.Content) return
-        val content = state.value as CookingViewState.Content
+        val content = state.value
 
         val selectedPortions = floor(content.selectedPortions) - 1
         if (selectedPortions == 0.0) return
@@ -117,8 +117,7 @@ class CookingViewModel @Inject constructor(
     }
 
     fun onIncrementPortions() {
-        if (state.value !is CookingViewState.Content) return
-        val content = state.value as CookingViewState.Content
+        val content = state.value
 
         val selectedPortions = floor(content.selectedPortions) + 1
         if (selectedPortions == 0.0) return
@@ -133,8 +132,7 @@ class CookingViewModel @Inject constructor(
     }
 
     fun onResetPortions() {
-        if (state.value !is CookingViewState.Content) return
-        val content = state.value as CookingViewState.Content
+        val content = state.value
 
         val selectedPortions = content.portions?.toDouble() ?: 1.0
         savedStateHandle.remove<Double>(KEY_SAVE_PORTIONS_COEF)
@@ -146,8 +144,7 @@ class CookingViewModel @Inject constructor(
     }
 
     fun toggleIngredientCheck(id: Int, isChecked: Boolean) {
-        if (state.value !is CookingViewState.Content) return
-        val content = state.value as CookingViewState.Content
+        val content = state.value
 
         val updatedIngredient = content.ingredients.getById(id).copy(isChecked = isChecked)
         val newIngredients = content.ingredients.updateItem(id, updatedIngredient)
@@ -159,9 +156,7 @@ class CookingViewModel @Inject constructor(
     }
 
     fun toggleInstructionCheck(id: Short, isChecked: Boolean) {
-        if (state.value !is CookingViewState.Content) return
-
-        val content = state.value as CookingViewState.Content
+        val content = state.value
 
         val updatedInstruction = content.instructions.getById(id).copy(isChecked = isChecked)
         val newInstructions = content.instructions.updateItem(id, updatedInstruction)

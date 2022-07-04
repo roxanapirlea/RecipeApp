@@ -25,7 +25,7 @@ fun DetailDestination(
     onNavEdit: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(detailViewModel.state)
-        .collectAsState(DetailViewState.Loading)
+        .collectAsState(DetailViewState(isLoading = true))
 
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(detailViewModel.sideEffectFlow) {
@@ -61,9 +61,9 @@ fun DetailScreen(
             AppBar(title = stringResource(R.string.home_title), onIconClick = onBackClicked)
         }
     ) { contentPadding ->
-        when (state) {
-            DetailViewState.Loading -> LoadingStateView(Modifier.padding(contentPadding))
-            is DetailViewState.Content -> RecipeDetailView(
+        when {
+            state.isLoading -> LoadingStateView(Modifier.padding(contentPadding))
+            else -> RecipeDetailView(
                 state = state,
                 modifier = Modifier.padding(contentPadding),
                 onStartCookingClicked = onStartCookingClicked,
