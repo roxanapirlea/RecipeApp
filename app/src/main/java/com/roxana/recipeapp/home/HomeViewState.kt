@@ -9,7 +9,8 @@ data class HomeViewState(
     val filtersSelectionCount: Int = 0,
     val query: String = "",
     val isLoading: Boolean = true,
-    val isEmpty: Boolean = false
+    val isEmpty: Boolean = false,
+    val isFetchingError: Boolean = false
 )
 
 data class RecipeState(

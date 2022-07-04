@@ -8,11 +8,10 @@ import com.roxana.recipeapp.VaryIngredientQuantitiesNode
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,9 +24,6 @@ class VaryIngredientsViewModel @Inject constructor(
     @VisibleForTesting
     val _state = MutableStateFlow(VaryIngredientsState())
     val state: StateFlow<VaryIngredientsState> = _state.asStateFlow()
-
-    private val sideEffectChannel = Channel<VaryIngredientSideEffect>(Channel.BUFFERED)
-    val sideEffectFlow = sideEffectChannel.receiveAsFlow()
 
     init {
         val recipeId = savedStateHandle.get<Int>(VaryIngredientQuantitiesNode.KEY_RECIPE_ID)!!
@@ -67,14 +63,14 @@ class VaryIngredientsViewModel @Inject constructor(
         val ingredient = state.value.updatedIngredient ?: return
         if (ingredient.isQuantityInError) return
         val recipeId = savedStateHandle.get<Int>(VaryIngredientQuantitiesNode.KEY_RECIPE_ID)!!
+        val multiplier = ingredient.quantityText.toDouble() / ingredient.quantity
 
-        viewModelScope.launch {
-            sideEffectChannel.send(
-                ValidateSuccess(
-                    ingredient.quantityText.toDouble() / ingredient.quantity,
-                    recipeId
-                )
-            )
+        _state.update {
+            it.copy(validation = Validation(recipeId, multiplier))
         }
+    }
+
+    fun onValidateDone() {
+        _state.update { it.copy(validation = null) }
     }
 }

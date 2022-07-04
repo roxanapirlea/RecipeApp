@@ -15,11 +15,10 @@ fun AddCommentDestination(
     val state by rememberFlowWithLifecycle(addCommentViewModel.state)
         .collectAsState(AddCommentState())
 
-    LaunchedEffect(addCommentViewModel.sideEffectFlow) {
-        addCommentViewModel.sideEffectFlow.collect { sideEffect ->
-            when (sideEffect) {
-                SaveSuccess -> onNavBack()
-            }
+    if (state.isValidated) {
+        LaunchedEffect(state.isValidated) {
+            onNavBack()
+            addCommentViewModel.onValidateDone()
         }
     }
 

@@ -13,7 +13,8 @@ data class CookingViewState(
     val time: TimeState = TimeState(),
     val temperature: Short? = null,
     val temperatureUnit: UiTemperature? = null,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val isFetchingError: Boolean = false
 )
 
 data class IngredientState(

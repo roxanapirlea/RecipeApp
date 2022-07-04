@@ -8,11 +8,10 @@ import com.roxana.recipeapp.CookingNode
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.floor
@@ -32,9 +31,6 @@ class CookingViewModel @Inject constructor(
     @VisibleForTesting
     val _state = MutableStateFlow(CookingViewState(isLoading = true))
     val state: StateFlow<CookingViewState> = _state.asStateFlow()
-
-    private val sideEffectChannel = Channel<CookingSideEffect>(Channel.BUFFERED)
-    val sideEffectFlow = sideEffectChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -89,12 +85,13 @@ class CookingViewModel @Inject constructor(
                             ),
                             temperature = recipe.temperature,
                             temperatureUnit = recipe.temperatureUnit?.toUiModel(),
-                            isLoading = false
+                            isLoading = false,
+                            isFetchingError = false
                         )
                         _state.value = state
                     },
                     {
-                        sideEffectChannel.send(FetchingError)
+                        _state.update { it.copy(isFetchingError = true) }
                     }
                 )
             }
@@ -167,6 +164,10 @@ class CookingViewModel @Inject constructor(
         _state.value = content.copy(
             instructions = newInstructions.updateCurrent()
         )
+    }
+
+    fun onDismissError() {
+        _state.update { it.copy(isFetchingError = false) }
     }
 
     private fun List<IngredientState>.updateQuantities(

@@ -13,12 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.tooling.preview.Preview
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.portions.ui.EditRecipePortionsView
-import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
@@ -32,14 +32,15 @@ fun EditRecipePortionsDestination(
     val state by rememberFlowWithLifecycle(editRecipePortionsViewModel.state)
         .collectAsState(EditRecipePortionsViewState())
 
-    LaunchedEffect(editRecipePortionsViewModel.sideEffectFlow) {
-        editRecipePortionsViewModel.sideEffectFlow.collect {
-            when (it) {
-                ForwardForCreation -> onCreationNavForward()
-                ForwardForEditing -> onEditNavForward()
-                Close -> onNavFinish()
-                is NavigateToPage -> onNavToPage(it.page)
+    state.navigation?.let { navigation ->
+        LaunchedEffect(navigation) {
+            when (navigation) {
+                Navigation.ForwardCreation -> onCreationNavForward()
+                Navigation.ForwardEditing -> onEditNavForward()
+                Navigation.Close -> onNavFinish()
+                is Navigation.ToPage -> onNavToPage(navigation.page)
             }
+            editRecipePortionsViewModel.onNavigationDone()
         }
     }
 

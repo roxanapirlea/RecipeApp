@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.roxana.recipeapp.cooking.ingredients.ui.VaryIngredientsView
 import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
+import com.roxana.recipeapp.cooking.ingredients.ui.VaryIngredientsView
 
 @Composable
 fun VaryIngredientsDestination(
@@ -15,14 +15,10 @@ fun VaryIngredientsDestination(
     val state by rememberFlowWithLifecycle(varyIngredientsViewModel.state)
         .collectAsState(VaryIngredientsState())
 
-    LaunchedEffect(varyIngredientsViewModel.sideEffectFlow) {
-        varyIngredientsViewModel.sideEffectFlow.collect { sideEffect ->
-            when (sideEffect) {
-                is ValidateSuccess -> onNavQuantityMultiplierSet(
-                    sideEffect.portionsMultiplier,
-                    sideEffect.recipeId
-                )
-            }
+    state.validation?.let { validation ->
+        LaunchedEffect(validation) {
+            onNavQuantityMultiplierSet(validation.portionsMultiplier, validation.recipeId)
+            varyIngredientsViewModel.onValidateDone()
         }
     }
 

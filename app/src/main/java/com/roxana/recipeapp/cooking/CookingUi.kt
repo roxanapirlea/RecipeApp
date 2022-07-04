@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.cooking.ui.CookingInProgressView
 import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
+import com.roxana.recipeapp.cooking.ui.CookingInProgressView
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.LoadingStateView
 
@@ -31,14 +31,13 @@ fun CookingDestination(
     val scaffoldState = rememberScaffoldState()
     val localContext = LocalContext.current.applicationContext
 
-    LaunchedEffect(cookingViewModel.sideEffectFlow) {
-        cookingViewModel.sideEffectFlow.collect { sideEffect ->
-            when (sideEffect) {
-                FetchingError -> scaffoldState.snackbarHostState.showSnackbar(
-                    message = localContext.getString(R.string.cooking_fetch_error),
-                    duration = SnackbarDuration.Short
-                )
-            }
+    if (state.isFetchingError) {
+        LaunchedEffect(state.isFetchingError) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = localContext.getString(R.string.cooking_fetch_error),
+                duration = SnackbarDuration.Short
+            )
+            cookingViewModel.onDismissError()
         }
     }
 

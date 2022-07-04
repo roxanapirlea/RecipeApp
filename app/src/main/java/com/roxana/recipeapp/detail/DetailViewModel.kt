@@ -9,11 +9,10 @@ import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.domain.detail.StartRecipeEditingUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,9 +25,6 @@ class DetailViewModel @Inject constructor(
     @VisibleForTesting
     val _state = MutableStateFlow(DetailViewState(isLoading = true))
     val state: StateFlow<DetailViewState> = _state.asStateFlow()
-
-    private val sideEffectChannel = Channel<DetailSideEffect>(Channel.BUFFERED)
-    val sideEffectFlow = sideEffectChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -63,7 +59,7 @@ class DetailViewModel @Inject constructor(
                         _state.value = content
                     },
                     {
-                        sideEffectChannel.send(FetchingError)
+                        _state.update { it.copy(isFetchingError = true) }
                     }
                 )
             }
@@ -73,7 +69,17 @@ class DetailViewModel @Inject constructor(
     fun onEdit() {
         viewModelScope.launch {
             val recipeId: Int = savedStateHandle.get(RecipeDetailNode.KEY_ID)!!
-            startRecipeEditingUseCase(recipeId).onSuccess { sideEffectChannel.send(StartEditing) }
+            startRecipeEditingUseCase(recipeId).onSuccess {
+                _state.update { it.copy(shouldStartEditing = true) }
+            }
         }
+    }
+
+    fun onEditingStarted() {
+        _state.update { it.copy(shouldStartEditing = false) }
+    }
+
+    fun onErrorDismissed() {
+        _state.update { it.copy(isFetchingError = false) }
     }
 }
