@@ -17,7 +17,7 @@
     <string name="all_back">Înapoi</string>
     <string name="all_search">Căutare…</string>
     <string name="all_go_to_next_screen">Mergi la pasul următor</string>
-    <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
+    <string name="all_ingredient_placeholders">%1$s %2$s</string>
     <string name="all_ingredients">Ingrediente</string>
     <string name="all_instructions">Instrucțiuni</string>
     <string name="all_comments">Comentarii</string>
@@ -30,6 +30,91 @@
     <string name="all_category_main">Fel principal</string>
     <string name="all_category_side">Garnitură</string>
     <string name="all_category_snack">Gustare</string>
+    <plurals name="all_plurals_quantity_centiliter">
+        <item quantity="one">%scl</item>
+        <item quantity="few">%scl</item>
+        <item quantity="other">%scl</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_cup">
+        <item quantity="one">%s cană</item>
+        <item quantity="few">%s căni</item>
+        <item quantity="other">%s căni</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_deciliter">
+        <item quantity="one">%sdl</item>
+        <item quantity="few">%sdl</item>
+        <item quantity="other">%sdl</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_fl_ounce">
+        <item quantity="one">%s fl oz</item>
+        <item quantity="few">%s fl oz</item>
+        <item quantity="other">%s fl oz</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_g">
+        <item quantity="one">%sg</item>
+        <item quantity="few">%sg</item>
+        <item quantity="other">%sg</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_gallon">
+        <item quantity="one">%s gal</item>
+        <item quantity="few">%s gal</item>
+        <item quantity="other">%s gal</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_gill">
+        <item quantity="one">%s gill</item>
+        <item quantity="few">%s gills</item>
+        <item quantity="other">%s gills</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_liter">
+        <item quantity="one">%sl</item>
+        <item quantity="few">%sl</item>
+        <item quantity="other">%sl</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_kg">
+        <item quantity="one">%skg</item>
+        <item quantity="few">%skg</item>
+        <item quantity="other">%skg</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_milliliter">
+        <item quantity="one">%sml</item>
+        <item quantity="few">%sml</item>
+        <item quantity="other">%sml</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_none">
+        <item quantity="one">%s</item>
+        <item quantity="few">%s</item>
+        <item quantity="other">%s</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_ounce">
+        <item quantity="one">%soz</item>
+        <item quantity="few">%soz</item>
+        <item quantity="other">%soz</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_pint">
+        <item quantity="one">%spt</item>
+        <item quantity="few">%spt</item>
+        <item quantity="other">%spt</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_pound">
+        <item quantity="one">%slb</item>
+        <item quantity="few">%slb</item>
+        <item quantity="other">%slb</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_quart">
+        <item quantity="one">%sqt</item>
+        <item quantity="few">%sqt</item>
+        <item quantity="other">%sqt</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_tablespoon">
+        <item quantity="one">%s lingură</item>
+        <item quantity="few">%s linguri</item>
+        <item quantity="other">%s linguri</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_teaspoon">
+        <item quantity="one">%s linguriță</item>
+        <item quantity="few">%s lingurițe</item>
+        <item quantity="other">%s lingurițe</item>
+    </plurals>
     <string name="all_quantity_centiliter">cl</string>
     <string name="all_quantity_cup">cană</string>
     <string name="all_quantity_deciliter">dl</string>
@@ -90,7 +175,7 @@
     <string name="edit_recipe_dialog_reset_info">Nu, șterge-le</string>
     <string name="edit_recipe_dialog_keep_recipe">Da, păstrează-le</string>
     <string name="edit_recipe_title_label">Introdu titlul rețetei</string>
-    <string name="edit_recipe_categories_label">Selectați categoriile rețetei</string>
+    <string name="edit_recipe_categories_label">Selectează categoriile rețetei</string>
     <string name="edit_recipe_portions_label">Numărul de porții</string>
     <string name="edit_recipe_temperature_label">Temperatura (%s)</string>
     <string name="edit_recipe_time_label">Timp (în minute)</string>
@@ -146,7 +231,7 @@
     <string name="settings_measuring_units">Unități de măsură</string>
     <string name="settings_measuring_units_detail">Alege unitățile care vor fi disponibile când modifici sau adaugi o nouă rețetă</string>
     <string name="debug_settings">Setări de debug</string>
-    <string name="filters_select_time_total">Selectează timpul total maxim (minute)</string>
-    <string name="filters_select_time_cooking">Selectează timpul de gătit maxim (minute)</string>
-    <string name="filters_select_time_preparation">Selectează timpul de pregatire maxim (minute)</string>
+    <string name="filters_select_time_total">Timpul total maxim: %dmin</string>
+    <string name="filters_select_time_cooking">Timpul de gătit maxim: %dmin</string>
+    <string name="filters_select_time_preparation">Timpul de pregatire maxim: %dmin</string>
 </resources>

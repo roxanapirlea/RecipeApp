@@ -3,16 +3,18 @@ package com.roxana.recipeapp.detail
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.detail.ui.RecipeDetailView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.LoadingStateView
 
@@ -25,14 +27,24 @@ fun DetailDestination(
     onNavEdit: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(detailViewModel.state)
-        .collectAsState(DetailViewState.Loading)
+        .collectAsState(DetailViewState(isLoading = true))
 
     val scaffoldState = rememberScaffoldState()
-    LaunchedEffect(detailViewModel.sideEffectFlow) {
-        detailViewModel.sideEffectFlow.collect {
-            when (it) {
-                StartEditing -> onNavEdit()
-            }
+    val localContext = LocalContext.current.applicationContext
+
+    if (state.isFetchingError) {
+        LaunchedEffect(state.isFetchingError) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = localContext.getString(R.string.cooking_fetch_error),
+                duration = SnackbarDuration.Short
+            )
+            detailViewModel.onErrorDismissed()
+        }
+    }
+    if (state.shouldStartEditing) {
+        LaunchedEffect(state.shouldStartEditing) {
+            onNavEdit()
+            detailViewModel.onEditingStarted()
         }
     }
 
@@ -61,9 +73,9 @@ fun DetailScreen(
             AppBar(title = stringResource(R.string.home_title), onIconClick = onBackClicked)
         }
     ) { contentPadding ->
-        when (state) {
-            DetailViewState.Loading -> LoadingStateView(Modifier.padding(contentPadding))
-            is DetailViewState.Content -> RecipeDetailView(
+        when {
+            state.isLoading -> LoadingStateView(Modifier.padding(contentPadding))
+            else -> RecipeDetailView(
                 state = state,
                 modifier = Modifier.padding(contentPadding),
                 onStartCookingClicked = onStartCookingClicked,

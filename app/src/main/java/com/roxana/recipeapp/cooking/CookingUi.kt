@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.cooking.ui.CookingInProgressView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.LoadingStateView
 
@@ -26,19 +26,18 @@ fun CookingDestination(
     onNavVaryIngredient: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(cookingViewModel.state)
-        .collectAsState(CookingViewState.Loading)
+        .collectAsState(CookingViewState(isLoading = true))
 
     val scaffoldState = rememberScaffoldState()
     val localContext = LocalContext.current.applicationContext
 
-    LaunchedEffect(cookingViewModel.sideEffectFlow) {
-        cookingViewModel.sideEffectFlow.collect { sideEffect ->
-            when (sideEffect) {
-                FetchingError -> scaffoldState.snackbarHostState.showSnackbar(
-                    message = localContext.getString(R.string.cooking_fetch_error),
-                    duration = SnackbarDuration.Short
-                )
-            }
+    if (state.isFetchingError) {
+        LaunchedEffect(state.isFetchingError) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = localContext.getString(R.string.cooking_fetch_error),
+                duration = SnackbarDuration.Short
+            )
+            cookingViewModel.onDismissError()
         }
     }
 
@@ -76,9 +75,9 @@ fun CookingView(
             AppBar(title = stringResource(R.string.home_title), onIconClick = onBack)
         }
     ) { contentPadding ->
-        when (state) {
-            CookingViewState.Loading -> LoadingStateView(Modifier.padding(contentPadding))
-            is CookingViewState.Content -> CookingInProgressView(
+        when (state.isLoading) {
+            true -> LoadingStateView(Modifier.padding(contentPadding))
+            false -> CookingInProgressView(
                 state,
                 modifier = Modifier.padding(contentPadding),
                 onVaryIngredient = onVaryIngredient,

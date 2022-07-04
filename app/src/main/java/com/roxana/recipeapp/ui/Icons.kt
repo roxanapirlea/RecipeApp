@@ -4,6 +4,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
@@ -63,5 +64,14 @@ fun ForwardIcon(modifier: Modifier = Modifier) {
         modifier = modifier,
         imageVector = Icons.Rounded.ArrowForward,
         contentDescription = stringResource(R.string.all_go_to_next_screen)
+    )
+}
+
+@Composable
+fun CheckIcon(modifier: Modifier = Modifier) {
+    Icon(
+        modifier = modifier,
+        imageVector = Icons.Rounded.Check,
+        contentDescription = stringResource(R.string.all_save)
     )
 }

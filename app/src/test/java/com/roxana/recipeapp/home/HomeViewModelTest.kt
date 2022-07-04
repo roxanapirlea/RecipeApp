@@ -7,6 +7,7 @@ import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.RecipeSummary
 import com.roxana.recipeapp.helpers.MainCoroutineRule
 import com.roxana.recipeapp.uimodel.UiCategoryType
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.every
@@ -46,7 +47,7 @@ class HomeViewModelTest {
             HomeViewModel(getRecipesSummaryUseCase, getCategoriesUseCase, getMaxTimesUseCase)
 
         // Then
-        viewModel.state.value shouldBe HomeViewState.Empty
+        viewModel.state.value.isEmpty.shouldBeTrue()
     }
 
     @Test
@@ -78,7 +79,7 @@ class HomeViewModelTest {
             HomeViewModel(getRecipesSummaryUseCase, getCategoriesUseCase, getMaxTimesUseCase)
 
         // Then
-        viewModel.state.value shouldBe HomeViewState.Content(
+        viewModel.state.value shouldBe HomeViewState(
             listOf(
                 RecipeState(0, "Crepes", listOf(UiCategoryType.Breakfast, UiCategoryType.Dessert)),
                 RecipeState(1, "Omlette", listOf(UiCategoryType.Breakfast))
@@ -94,7 +95,8 @@ class HomeViewModelTest {
                 selectedCookingTime = 3,
                 selectedCategory = null
             ),
-            0
+            0,
+            isLoading = false
         )
     }
 }

@@ -16,6 +16,9 @@ data class RecapViewState(
     val temperatureUnit: UiTemperature? = null,
     val isExistingRecipe: Boolean = false,
     val showSaveDialog: Boolean = false,
+    val isFetchingError: Boolean = false,
+    val shouldClose: Boolean = false,
+    val saveResult: SaveResult? = null
 )
 
 data class IngredientState(
@@ -32,3 +35,5 @@ data class TimeState(
 ) {
     val isEmpty = total == null && cooking == null && preparation == null && waiting == null
 }
+
+data class SaveResult(val isSuccessful: Boolean)

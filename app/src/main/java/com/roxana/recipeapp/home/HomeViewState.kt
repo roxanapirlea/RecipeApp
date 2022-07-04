@@ -2,16 +2,16 @@ package com.roxana.recipeapp.home
 
 import com.roxana.recipeapp.uimodel.UiCategoryType
 
-sealed class HomeViewState {
-    object Empty : HomeViewState()
-    object Loading : HomeViewState()
-    data class Content(
-        val recipes: List<RecipeState> = listOf(),
-        val showFilters: Boolean = false,
-        val filtersState: FiltersState = FiltersState(),
-        val filtersSelectionCount: Int = 0
-    ) : HomeViewState()
-}
+data class HomeViewState(
+    val recipes: List<RecipeState> = listOf(),
+    val showFilters: Boolean = false,
+    val filtersState: FiltersState = FiltersState(),
+    val filtersSelectionCount: Int = 0,
+    val query: String = "",
+    val isLoading: Boolean = true,
+    val isEmpty: Boolean = false,
+    val isFetchingError: Boolean = false
+)
 
 data class RecipeState(
     val id: Int = 0,
@@ -27,8 +27,7 @@ data class FiltersState(
     val selectedTotalTime: Int? = null,
     val selectedCookingTime: Int? = null,
     val selectedPreparationTime: Int? = null,
-    val selectedCategory: UiCategoryType? = null,
-    val query: String = ""
+    val selectedCategory: UiCategoryType? = null
 )
 
 data class FiltersSelection(

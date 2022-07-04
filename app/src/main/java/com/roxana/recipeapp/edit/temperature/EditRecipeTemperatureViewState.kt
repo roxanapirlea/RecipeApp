@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.edit.temperature
 
+import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.uimodel.UiTemperature
 
 data class EditRecipeTemperatureViewState(
@@ -7,7 +8,15 @@ data class EditRecipeTemperatureViewState(
     val temperatureUnit: UiTemperature = UiTemperature.Celsius,
     val isExistingRecipe: Boolean = false,
     val showSaveDialog: Boolean = false,
+    val navigation: Navigation? = null,
 )
+
+sealed class Navigation {
+    object ForwardCreation : Navigation()
+    object ForwardEditing : Navigation()
+    object Close : Navigation()
+    data class ToPage(val page: PageType) : Navigation()
+}
 
 fun EditRecipeTemperatureViewState.isValid() =
     temperature.isEmpty() || temperature.toShortOrNull() != null

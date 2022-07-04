@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.misc.toFormattedString
+import com.roxana.recipeapp.common.utilities.toFormattedString
 
 @Composable
 fun AdjustablePortions(

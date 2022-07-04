@@ -14,8 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.common.utilities.formatIngredient
 import com.roxana.recipeapp.edit.ingredients.IngredientState
-import com.roxana.recipeapp.misc.toFormattedString
 
 @Composable
 fun IngredientText(
@@ -23,15 +23,11 @@ fun IngredientText(
     modifier: Modifier = Modifier,
     onDelete: () -> Unit = {}
 ) {
-    val quantity = ingredient.quantity.toDoubleOrNull()?.toFormattedString() ?: ""
-    val quantityType = stringResource(ingredient.quantityType.textForSelected)
-    val formattedIngredient =
-        stringResource(
-            R.string.all_ingredient_placeholders,
-            quantity,
-            quantityType,
-            ingredient.name
-        )
+    val formattedIngredient = formatIngredient(
+        ingredient.name,
+        ingredient.quantity.toDoubleOrNull(),
+        ingredient.quantityType
+    )
     Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
         Text(
             text = formattedIngredient,

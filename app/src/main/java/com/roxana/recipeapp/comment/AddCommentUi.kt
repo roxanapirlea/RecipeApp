@@ -5,7 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.roxana.recipeapp.comment.ui.AddCommentView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 
 @Composable
 fun AddCommentDestination(
@@ -15,11 +15,10 @@ fun AddCommentDestination(
     val state by rememberFlowWithLifecycle(addCommentViewModel.state)
         .collectAsState(AddCommentState())
 
-    LaunchedEffect(addCommentViewModel.sideEffectFlow) {
-        addCommentViewModel.sideEffectFlow.collect { sideEffect ->
-            when (sideEffect) {
-                SaveSuccess -> onNavBack()
-            }
+    if (state.isValidated) {
+        LaunchedEffect(state.isValidated) {
+            onNavBack()
+            addCommentViewModel.onValidateDone()
         }
     }
 

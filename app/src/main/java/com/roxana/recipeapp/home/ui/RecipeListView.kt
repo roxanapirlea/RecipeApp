@@ -25,7 +25,7 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
 fun RecipeListView(
-    state: HomeViewState.Content,
+    state: HomeViewState,
     modifier: Modifier = Modifier,
     onFiltersClicked: () -> Unit = {},
     onSearchQueryModified: (String) -> Unit = {},
@@ -39,7 +39,7 @@ fun RecipeListView(
         item {
             Row(Modifier.fillMaxWidth()) {
                 SearchTextField(
-                    value = state.filtersState.query,
+                    value = state.query,
                     modifier = Modifier.weight(1f),
                     onValueChange = onSearchQueryModified
                 )
@@ -74,7 +74,7 @@ fun RecipeListView(
 fun RecipeListPreview() {
     RecipeTheme {
         RecipeListView(
-            HomeViewState.Content(listOf(RecipeState(1, "Recipe 1"), RecipeState(2, "Recipe 2")))
+            HomeViewState(listOf(RecipeState(1, "Recipe 1"), RecipeState(2, "Recipe 2")))
         )
     }
 }
@@ -84,7 +84,7 @@ fun RecipeListPreview() {
 fun RecipeListFilterPreview() {
     RecipeTheme {
         RecipeListView(
-            HomeViewState.Content(
+            HomeViewState(
                 listOf(RecipeState(1, "Recipe 1"), RecipeState(2, "Recipe 2")),
                 filtersSelectionCount = 2
             )

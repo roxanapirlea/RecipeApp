@@ -18,7 +18,7 @@
     <string name="all_search">Search…</string>
     <string name="all_go_to_next_screen">Go to next screen</string>
     <string name="all_ingredients">Ingredients</string>
-    <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
+    <string name="all_ingredient_placeholders">%1$s %2$s</string>
     <string name="all_instructions">Instructions</string>
     <string name="all_comments">Comments</string>
     <string name="all_add_comment">Add comment</string>
@@ -30,6 +30,59 @@
     <string name="all_category_main">Main</string>
     <string name="all_category_side">Side</string>
     <string name="all_category_snack">Snack</string>
+    <plurals name="all_plurals_quantity_centiliter">
+        <item quantity="other">%scl</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_cup">
+        <item quantity="one">%s cup</item>
+        <item quantity="other">%s cups</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_deciliter">
+        <item quantity="other">%sdl</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_fl_ounce">
+        <item quantity="other">%s fl oz</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_g">
+        <item quantity="other">%sg</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_gallon">
+        <item quantity="other">%s gal</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_gill">
+        <item quantity="one">%s gill</item>
+        <item quantity="other">%s gills</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_liter">
+        <item quantity="other">%sl</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_kg">
+        <item quantity="other">%skg</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_milliliter">
+        <item quantity="other">%sml</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_none">
+        <item quantity="other">%s</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_ounce">
+        <item quantity="other">%soz</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_pint">
+        <item quantity="other">%spt</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_pound">
+        <item quantity="other">%slb</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_quart">
+        <item quantity="other">%sqt</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_tablespoon">
+        <item quantity="other">%s tbsp</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_teaspoon">
+        <item quantity="other">%s tsp</item>
+    </plurals>
     <string name="all_quantity_centiliter">cl</string>
     <string name="all_quantity_cup">cup</string>
     <string name="all_quantity_deciliter">dl</string>
@@ -145,9 +198,9 @@
     <string name="settings_measuring_units">Measuring units</string>
     <string name="settings_measuring_units_detail">Choose the units that will be available when adding a new recipe or editing an existing one</string>
     <string name="debug_settings">Debug settings</string>
-    <string name="filters_select_time_total">Select max total time (minutes)</string>
-    <string name="filters_select_time_cooking">Select max cooking time (minutes)</string>
-    <string name="filters_select_time_preparation">Select max preparation time (minutes)</string>
+    <string name="filters_select_time_total">Max total time: %dmin</string>
+    <string name="filters_select_time_cooking">Max cooking time: %dmin</string>
+    <string name="filters_select_time_preparation">Max preparation time: %dmin</string>
     <string name="debug_settings_onboarding" translatable="false">Onboarding</string>
     <string name="debug_settings_onboarding_add_recipe" translatable="false">Add recipe onboarding done</string>
 </resources>

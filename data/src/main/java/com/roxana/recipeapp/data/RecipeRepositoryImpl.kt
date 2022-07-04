@@ -132,13 +132,9 @@ class RecipeRepositoryImpl @Inject constructor(
     ): Flow<List<RecipeSummary>> {
         return recipeQueries.getRecipesSummary(
             totalTime,
-            totalTime == null,
             cookingTime,
-            cookingTime == null,
             preparationTime,
-            preparationTime == null,
             category?.toDataModel(),
-            category == null,
             nameQuery
         )
             .asFlow()

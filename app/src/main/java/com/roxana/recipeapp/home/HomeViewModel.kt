@@ -12,14 +12,13 @@ import com.roxana.recipeapp.uimodel.toDomainModel
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,44 +31,45 @@ class HomeViewModel @Inject constructor(
     private val getMaxTimesUseCase: GetMaxTimesUseCase,
 ) : ViewModel() {
     @VisibleForTesting
-    val _state = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
+    val _state = MutableStateFlow(HomeViewState(isLoading = true))
     val state: StateFlow<HomeViewState> = _state.asStateFlow()
 
     private val _filters = MutableStateFlow(FiltersSelection())
 
-    private val sideEffectChannel = Channel<HomeSideEffect>(Channel.BUFFERED)
-    val sideEffectFlow = sideEffectChannel.receiveAsFlow()
-
     init {
         viewModelScope.launch {
             combine(
-                _filters.flatMapLatest { selectedFilters ->
-                    getRecipesSummaryUseCase(
-                        GetRecipesSummaryUseCase.Input(
-                            query = selectedFilters.query,
-                            totalTime = selectedFilters.totalTime?.toShort(),
-                            cookingTime = selectedFilters.cookingTime?.toShort(),
-                            preparationTime = selectedFilters.preparationTime?.toShort(),
-                            category = selectedFilters.category?.toDomainModel()
-                        )
-                    ).map { result -> result to selectedFilters }
-                },
+                _filters
+                    .onEach { selectedFilters ->
+                        _state.update { it.copy(query = selectedFilters.query) }
+                    }
+                    .flatMapLatest { selectedFilters ->
+                        getRecipesSummaryUseCase(
+                            GetRecipesSummaryUseCase.Input(
+                                query = selectedFilters.query,
+                                totalTime = selectedFilters.totalTime?.toShort(),
+                                cookingTime = selectedFilters.cookingTime?.toShort(),
+                                preparationTime = selectedFilters.preparationTime?.toShort(),
+                                category = selectedFilters.category?.toDomainModel()
+                            )
+                        ).map { result -> result to selectedFilters }
+                    },
                 getMaxTimesUseCase(null)
             ) { (recipesResult, selectedFilters), maxTimesResult ->
                 val recipesSummary = recipesResult.getOrElse {
-                    sideEffectChannel.send(ItemsFetchingError)
+                    _state.update { it.copy(isFetchingError = true) }
                     emptyList()
                 }
                 mapContent(recipesSummary, maxTimesResult, selectedFilters)
             }.collect { state ->
                 _state.update {
-                    if (state is HomeViewState.Content && it is HomeViewState.Content)
-                        it.copy(
-                            recipes = state.recipes,
-                            filtersState = state.filtersState,
-                            filtersSelectionCount = state.filtersSelectionCount
-                        )
-                    else state
+                    it.copy(
+                        recipes = state.recipes,
+                        filtersState = state.filtersState,
+                        filtersSelectionCount = state.filtersSelectionCount,
+                        isLoading = state.isLoading,
+                        isEmpty = state.isEmpty
+                    )
                 }
             }
         }
@@ -94,17 +94,24 @@ class HomeViewModel @Inject constructor(
                 selectedTotalTime = selectedFilters.totalTime ?: it.maxTotal?.toInt(),
                 selectedCookingTime = selectedFilters.cookingTime ?: it.maxCooking?.toInt(),
                 selectedPreparationTime =
-                selectedFilters.preparationTime ?: it.maxPreparation?.toInt(),
-                query = query
+                selectedFilters.preparationTime ?: it.maxPreparation?.toInt()
             )
         } ?: FiltersState()
 
         val filtersSelectionCount: Int = computeFilterCount(filtersState)
 
         return if (recipes.isEmpty() && filtersSelectionCount == 0 && query.isBlank())
-            HomeViewState.Empty
+            HomeViewState(isEmpty = true, isLoading = false)
         else
-            HomeViewState.Content(recipes, false, filtersState, filtersSelectionCount)
+            HomeViewState(
+                recipes,
+                false,
+                filtersState,
+                filtersSelectionCount,
+                query,
+                isLoading = false,
+                isEmpty = false
+            )
     }
 
     private fun RecipeSummary.toState() = RecipeState(id, name, categories.map { it.toUiModel() })
@@ -124,31 +131,16 @@ class HomeViewModel @Inject constructor(
     private fun Int?.orZero(): Int = this ?: 0
 
     fun onFiltersClicked() {
-        _state.update {
-            when (it) {
-                is HomeViewState.Content -> it.copy(showFilters = true)
-                else -> it
-            }
-        }
+        _state.update { it.copy(showFilters = true) }
     }
 
     fun onResetFiltersClicked() {
-        _state.update {
-            when (it) {
-                is HomeViewState.Content -> it.copy(showFilters = false)
-                else -> it
-            }
-        }
+        _state.update { it.copy(showFilters = false) }
         _filters.value = FiltersSelection()
     }
 
     fun onCloseFiltersClicked() {
-        _state.update {
-            when (it) {
-                is HomeViewState.Content -> it.copy(showFilters = false)
-                else -> it
-            }
-        }
+        _state.update { it.copy(showFilters = false) }
     }
 
     fun onTotalTimeSelected(time: Int) {
@@ -172,5 +164,9 @@ class HomeViewModel @Inject constructor(
 
     fun onQueryModified(query: String) {
         _filters.update { it.copy(query = query) }
+    }
+
+    fun onErrorDismissed() {
+        _state.update { it.copy(isFetchingError = false) }
     }
 }

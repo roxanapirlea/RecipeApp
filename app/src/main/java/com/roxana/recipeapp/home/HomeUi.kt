@@ -15,10 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.home.ui.EmptyView
 import com.roxana.recipeapp.home.ui.FiltersView
 import com.roxana.recipeapp.home.ui.RecipeListView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.AddIcon
 import com.roxana.recipeapp.ui.LoadingStateView
 import com.roxana.recipeapp.ui.SettingsIcon
@@ -33,19 +33,18 @@ fun HomeDestination(
     onNavSettings: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(homeViewModel.state)
-        .collectAsState(HomeViewState.Loading)
+        .collectAsState(HomeViewState(isLoading = true))
 
     val scaffoldState = rememberScaffoldState()
     val localContext = LocalContext.current.applicationContext
 
-    LaunchedEffect(homeViewModel.sideEffectFlow) {
-        homeViewModel.sideEffectFlow.collect { sideEffect ->
-            when (sideEffect) {
-                ItemsFetchingError -> scaffoldState.snackbarHostState.showSnackbar(
-                    message = localContext.getString(R.string.home_recipe_fetch_error),
-                    duration = SnackbarDuration.Short
-                )
-            }
+    if (state.isFetchingError) {
+        LaunchedEffect(state.isFetchingError) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = localContext.getString(R.string.home_recipe_fetch_error),
+                duration = SnackbarDuration.Short
+            )
+            homeViewModel.onErrorDismissed()
         }
     }
 
@@ -91,14 +90,14 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            if ((state as? HomeViewState.Content)?.showFilters != true)
+            if (!state.showFilters)
                 FloatingActionButton(onClick = onAddRecipeClicked) { AddIcon() }
         }
     ) { contentPadding ->
-        when (state) {
-            HomeViewState.Loading -> LoadingStateView(Modifier.padding(contentPadding))
-            HomeViewState.Empty -> EmptyView(Modifier.padding(contentPadding))
-            is HomeViewState.Content -> {
+        when {
+            state.isLoading -> LoadingStateView(Modifier.padding(contentPadding))
+            state.isEmpty -> EmptyView(Modifier.padding(contentPadding))
+            else -> {
                 if (state.showFilters)
                     FiltersView(
                         state = state.filtersState,

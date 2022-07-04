@@ -18,7 +18,6 @@ import com.roxana.recipeapp.uimodel.UiTemperature
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainInOrder
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -64,8 +63,7 @@ class DetailViewModelTest {
             DetailViewModel(savedStateHandle, getRecipeByIdUseCase, startRecipeEditingUseCase)
 
         // Then
-        viewModel.state.value.shouldBeTypeOf<DetailViewState.Content>()
-        val content = viewModel.state.value as DetailViewState.Content
+        val content = viewModel.state.value
         content.title shouldBe "fake name"
         content.portions shouldBe 2
         content.categories.shouldContainAll(UiCategoryType.Dinner, UiCategoryType.Dessert)
@@ -104,8 +102,7 @@ class DetailViewModelTest {
             DetailViewModel(savedStateHandle, getRecipeByIdUseCase, startRecipeEditingUseCase)
 
         // Then
-        viewModel.state.value.shouldBeTypeOf<DetailViewState.Content>()
-        val content = viewModel.state.value as DetailViewState.Content
+        val content = viewModel.state.value
         content.instructions.shouldContainInOrder("instr1", "instr2")
     }
 
@@ -136,8 +133,7 @@ class DetailViewModelTest {
             DetailViewModel(savedStateHandle, getRecipeByIdUseCase, startRecipeEditingUseCase)
 
         // Then
-        viewModel.state.value.shouldBeTypeOf<DetailViewState.Content>()
-        val content = viewModel.state.value as DetailViewState.Content
+        val content = viewModel.state.value
         content.comments.shouldContainInOrder("comm1", "comm2")
     }
 }

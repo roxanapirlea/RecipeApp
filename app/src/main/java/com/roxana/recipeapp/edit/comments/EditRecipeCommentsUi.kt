@@ -13,12 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.tooling.preview.Preview
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
+import com.roxana.recipeapp.edit.FabSave
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.comments.ui.EditRecipeCommentsView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
@@ -32,14 +33,15 @@ fun EditRecipeCommentsDestination(
     val state by rememberFlowWithLifecycle(commentsViewModel.state)
         .collectAsState(EditRecipeCommentsViewState())
 
-    LaunchedEffect(commentsViewModel.sideEffectFlow) {
-        commentsViewModel.sideEffectFlow.collect {
-            when (it) {
-                ForwardForCreation -> onCreationNavForward()
-                ForwardForEditing -> onEditNavForward()
-                Close -> onNavFinish()
-                is NavigateToPage -> onNavToPage(it.page)
+    state.navigation?.let { navigation ->
+        LaunchedEffect(navigation) {
+            when (navigation) {
+                Navigation.ForwardCreation -> onCreationNavForward()
+                Navigation.ForwardEditing -> onEditNavForward()
+                Navigation.Close -> onNavFinish()
+                is Navigation.ToPage -> onNavToPage(navigation.page)
             }
+            commentsViewModel.onNavigationDone()
         }
     }
 
@@ -104,7 +106,10 @@ fun EditRecipeCommentsScreen(
                 onDelete = onDelete
             )
 
-            FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
+            if (state.editingComment.isBlank())
+                FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
+            else
+                FabSave(modifier = Modifier.align(Alignment.BottomEnd), onSaveComment)
         }
     }
 }

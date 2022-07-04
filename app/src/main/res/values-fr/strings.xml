@@ -17,7 +17,7 @@
     <string name="all_back">Retour</string>
     <string name="all_search">Recherche…</string>
     <string name="all_go_to_next_screen">Vas au prochain écran</string>
-    <string name="all_ingredient_placeholders">%1$s%2$s %3$s</string>
+    <string name="all_ingredient_placeholders">%1$s %2$s</string>
     <string name="all_ingredients">Ingrédients</string>
     <string name="all_instructions">Instructions</string>
     <string name="all_comments">Commentaires</string>
@@ -30,6 +30,91 @@
     <string name="all_category_main">Plat principal</string>
     <string name="all_category_side">Accompagnement</string>
     <string name="all_category_snack">Grignotage</string>
+    <plurals name="all_plurals_quantity_centiliter">
+        <item quantity="one">%scl</item>
+        <item quantity="many">%scl</item>
+        <item quantity="other">%scl</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_cup">
+        <item quantity="one">%s tasse</item>
+        <item quantity="many">%s tasses</item>
+        <item quantity="other">%s tasses</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_deciliter">
+        <item quantity="one">%sdl</item>
+        <item quantity="many">%sdl</item>
+        <item quantity="other">%sdl</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_fl_ounce">
+        <item quantity="one">%s fl oz</item>
+        <item quantity="many">%s fl oz</item>
+        <item quantity="other">%s fl oz</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_g">
+        <item quantity="one">%sg</item>
+        <item quantity="many">%sg</item>
+        <item quantity="other">%sg</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_gallon">
+        <item quantity="one">%s gal</item>
+        <item quantity="many">%s gal</item>
+        <item quantity="other">%s gal</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_gill">
+        <item quantity="one">%s gill</item>
+        <item quantity="many">%s gills</item>
+        <item quantity="other">%s gills</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_liter">
+        <item quantity="one">%sl</item>
+        <item quantity="many">%sl</item>
+        <item quantity="other">%sl</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_kg">
+        <item quantity="one">%skg</item>
+        <item quantity="many">%skg</item>
+        <item quantity="other">%skg</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_milliliter">
+        <item quantity="one">%sml</item>
+        <item quantity="many">%sml</item>
+        <item quantity="other">%sml</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_none">
+        <item quantity="one">%s</item>
+        <item quantity="many">%s</item>
+        <item quantity="other">%s</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_ounce">
+        <item quantity="one">%soz</item>
+        <item quantity="many">%soz</item>
+        <item quantity="other">%soz</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_pint">
+        <item quantity="one">%spt</item>
+        <item quantity="many">%spt</item>
+        <item quantity="other">%spt</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_pound">
+        <item quantity="one">%slb</item>
+        <item quantity="many">%slb</item>
+        <item quantity="other">%slb</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_quart">
+        <item quantity="one">%sqt</item>
+        <item quantity="many">%sqt</item>
+        <item quantity="other">%sqt</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_tablespoon">
+        <item quantity="one">%s c à s</item>
+        <item quantity="many">%s c à s</item>
+        <item quantity="other">%s c à s</item>
+    </plurals>
+    <plurals name="all_plurals_quantity_teaspoon">
+        <item quantity="one">%s c à c</item>
+        <item quantity="many">%s c à c</item>
+        <item quantity="other">%s c à c</item>
+    </plurals>
     <string name="all_quantity_centiliter">cl</string>
     <string name="all_quantity_cup">tasse</string>
     <string name="all_quantity_deciliter">dl</string>
@@ -86,7 +171,7 @@
     <string name="edit_title_new_recipe">Ajouter une recette</string>
     <string name="edit_title_existing_recipe">Editer une recette</string>
     <string name="edit_recipe_dialog_title">Conserver les informations remplies ?</string>
-    <string name="edit_recipe_dialog_message">Souhaites conserver les informations que tu as renseignées ? Tu pourras revenir, terminer la modification et enregistrer la recette.</string>
+    <string name="edit_recipe_dialog_message">Souhaites-tu conserver les informations que tu as renseigné ? Tu pourras revenir, modifier et enregistrer la recette.</string>
     <string name="edit_recipe_dialog_reset_info">Non, supprimez-les</string>
     <string name="edit_recipe_dialog_keep_recipe">Oui, gardez-les</string>
     <string name="edit_recipe_title_hint">Titre</string>
@@ -113,7 +198,7 @@
     <string name="edit_recipe_save_error">Impossible d\'enregistrer la recette</string>
     <string name="edit_recipe_save_success">Recette enregistrée avec succès</string>
     <string name="edit_recipe_recap">Recapitulatif</string>
-    <string name="edit_recipe_recap_continue_editing">Continuee d\'editer</string>
+    <string name="edit_recipe_recap_continue_editing">Continuer d\'editer</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d portion)</item>
         <item quantity="many">(%d portions)</item>
@@ -135,7 +220,7 @@
     <string name="cooking_time_waiting">Attente : %d min</string>
     <string name="cooking_time_preparation">Préparation : %d min</string>
     <string name="cooking_time_total">Total : %d min</string>
-    <string name="cooking_edit_by_ingredient">Modifier par la quantité d\'un ingrédient</string>
+    <string name="cooking_edit_by_ingredient">Modifier les quantités suivant un ingrédient</string>
     <string name="cooking_plus">Plus un</string>
     <string name="cooking_minus">Moins un</string>
     <string name="cooking_fetch_error">Un problème est survenu lors de la récupération de ta recette</string>
@@ -146,7 +231,7 @@
     <string name="settings_measuring_units">Unités de mesure</string>
     <string name="settings_measuring_units_detail">Choisis les unités qui seront disponibles lors de l\'ajout d\'une nouvelle recette ou de la modification d\'une recette existante</string>
     <string name="debug_settings">Paramètres de debuggage</string>
-    <string name="filters_select_time_total">Selectionner le temps total max (minutes)</string>
-    <string name="filters_select_time_cooking">Selectionner le temps de cuisson max (minutes)</string>
-    <string name="filters_select_time_preparation">Selectionner le temps de préparation max (minutes)</string>
+    <string name="filters_select_time_total">Temps total max: %dmin</string>
+    <string name="filters_select_time_cooking">Temps de cuisson max: %dmin</string>
+    <string name="filters_select_time_preparation">Temps de préparation max: %dmin</string>
 </resources>

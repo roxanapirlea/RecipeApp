@@ -11,12 +11,10 @@ import com.roxana.recipeapp.domain.onboarding.GetEditOnboardingUseCase
 import com.roxana.recipeapp.domain.onboarding.SetEditOnboardingDoneUseCase
 import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,9 +32,6 @@ class EditRecipeTitleViewModel @Inject constructor(
     val _state = MutableStateFlow(EditRecipeTitleViewState())
     val state: StateFlow<EditRecipeTitleViewState> = _state.asStateFlow()
 
-    private val sideEffectChannel = Channel<EditRecipeTitleSideEffect>(Channel.BUFFERED)
-    val sideEffectFlow = sideEffectChannel.receiveAsFlow()
-
     init {
         viewModelScope.launch {
             val isExistingRecipe = isRecipeExistingUseCase(null).getOrDefault(false)
@@ -44,10 +39,16 @@ class EditRecipeTitleViewModel @Inject constructor(
             val isOnboardingDone = onboardingUseCase(null).first()
                 .getOrElse { GetEditOnboardingUseCase.Output(false) }.isDone
             if (!isOnboardingDone) {
-                sideEffectChannel.send(RevealBackdrop)
-                setOnboardingDoneUseCase.execute(null)
+                _state.update { it.copy(shouldRevealBackdrop = true) }
             }
             _state.value = EditRecipeTitleViewState(title, isExistingRecipe)
+        }
+    }
+
+    fun onBackdropRevealed() {
+        viewModelScope.launch {
+            setOnboardingDoneUseCase.execute(null)
+            _state.update { it.copy(shouldRevealBackdrop = false) }
         }
     }
 
@@ -64,20 +65,20 @@ class EditRecipeTitleViewModel @Inject constructor(
         }
     }
 
-    private suspend fun sendForwardEvent() {
+    private fun sendForwardEvent() {
         val isExistingRecipe = state.value.isExistingRecipe
         if (isExistingRecipe)
-            sideEffectChannel.send(ForwardForEditing)
+            _state.update { it.copy(navigation = Navigation.ForwardEditing) }
         else
-            sideEffectChannel.send(ForwardForCreation)
+            _state.update { it.copy(navigation = Navigation.ForwardCreation) }
     }
 
     fun onResetAndClose() {
         _state.update { it.copy(showSaveDialog = false) }
         viewModelScope.launch {
             resetRecipeUseCase(null).fold(
-                { sideEffectChannel.send(Close) },
-                { sideEffectChannel.send(Close) }
+                { _state.update { it.copy(navigation = Navigation.Close) } },
+                { _state.update { it.copy(navigation = Navigation.Close) } }
             )
         }
     }
@@ -86,8 +87,8 @@ class EditRecipeTitleViewModel @Inject constructor(
         _state.update { it.copy(showSaveDialog = false) }
         viewModelScope.launch {
             setTitleUseCase(state.value.title).fold(
-                { sideEffectChannel.send(Close) },
-                { sideEffectChannel.send(Close) }
+                { _state.update { it.copy(navigation = Navigation.Close) } },
+                { _state.update { it.copy(navigation = Navigation.Close) } }
             )
         }
     }
@@ -103,9 +104,13 @@ class EditRecipeTitleViewModel @Inject constructor(
     fun onSelectPage(page: PageType) {
         viewModelScope.launch {
             setTitleUseCase(state.value.title).fold(
-                { sideEffectChannel.send(NavigateToPage(page)) },
-                { sideEffectChannel.send(NavigateToPage(page)) }
+                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } },
+                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } }
             )
         }
+    }
+
+    fun onNavigationDone() {
+        _state.update { it.copy(navigation = null) }
     }
 }

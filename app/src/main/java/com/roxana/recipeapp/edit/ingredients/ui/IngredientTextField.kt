@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.edit.ingredients
+package com.roxana.recipeapp.edit.ingredients.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -32,10 +32,13 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.edit.ingredients.IngredientState
+import com.roxana.recipeapp.edit.ingredients.isQuantityValid
 import com.roxana.recipeapp.ui.RecipeTextField
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiQuantityType
@@ -45,6 +48,7 @@ fun IngredientTextField(
     ingredient: IngredientState,
     quantityTypes: List<UiQuantityType>,
     modifier: Modifier = Modifier,
+    startFocusRequester: FocusRequester = remember { FocusRequester() },
     onIngredientChange: (String) -> Unit = {},
     onQuantityChange: (String) -> Unit = {},
     onTypeChange: (UiQuantityType) -> Unit = {},
@@ -53,10 +57,9 @@ fun IngredientTextField(
     var isExpanded by remember { mutableStateOf(false) }
 
     val nameFocusRequester = remember { FocusRequester() }
-    val quantityFocusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
-        quantityFocusRequester.requestFocus()
+        startFocusRequester.requestFocus()
     }
 
     Row(
@@ -78,7 +81,7 @@ fun IngredientTextField(
                         .padding(end = 8.dp)
                         .defaultMinSize(0.dp, 0.dp)
                         .weight(3f)
-                        .focusRequester(quantityFocusRequester)
+                        .focusRequester(startFocusRequester)
                 )
                 QuantityTypeMenu(
                     selectedQuantityType = ingredient.quantityType,
@@ -89,7 +92,7 @@ fun IngredientTextField(
                     },
                     isExpanded = isExpanded,
                     onIsExpandedChanged = {
-                        if (it) quantityFocusRequester.freeFocus()
+                        if (it) startFocusRequester.freeFocus()
                         isExpanded = it
                     }
                 )
@@ -99,10 +102,12 @@ fun IngredientTextField(
                 onValueChange = { onIngredientChange(it) },
                 label = stringResource(R.string.edit_recipe_ingredient_hint),
                 textStyle = MaterialTheme.typography.body1,
+                keyboardType = KeyboardType.Text,
+                capitalisation = KeyboardCapitalization.None,
                 imeAction = ImeAction.Done,
                 onImeAction = {
                     onSave()
-                    quantityFocusRequester.requestFocus()
+                    startFocusRequester.requestFocus()
                 },
                 modifier = Modifier
                     .defaultMinSize(0.dp, 0.dp)
@@ -117,7 +122,7 @@ fun IngredientTextField(
                 .padding(start = 6.dp)
                 .clickable {
                     onSave()
-                    quantityFocusRequester.requestFocus()
+                    startFocusRequester.requestFocus()
                 }
                 .padding(12.dp)
                 .size(32.dp)

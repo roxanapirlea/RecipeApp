@@ -16,12 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.tooling.preview.Preview
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.title.ui.EditRecipeTitleView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import kotlinx.coroutines.delay
 
@@ -39,20 +39,24 @@ fun EditRecipeTitleDestination(
 
     val backdropState = rememberBackdropScaffoldState(BackdropValue.Concealed)
 
-    LaunchedEffect(editRecipeTitleViewModel.sideEffectFlow) {
-        editRecipeTitleViewModel.sideEffectFlow.collect {
-            when (it) {
-                ForwardForCreation -> onCreationNavForward()
-                ForwardForEditing -> onEditNavForward()
-                Close -> onNavFinish()
-                is NavigateToPage -> onNavToPage(it.page)
-                RevealBackdrop -> {
-                    delay(500)
-                    backdropState.reveal()
-                    delay(500)
-                    backdropState.conceal()
-                }
+    state.navigation?.let { navigation ->
+        LaunchedEffect(navigation) {
+            when (navigation) {
+                Navigation.ForwardCreation -> onCreationNavForward()
+                Navigation.ForwardEditing -> onEditNavForward()
+                Navigation.Close -> onNavFinish()
+                is Navigation.ToPage -> onNavToPage(navigation.page)
             }
+            editRecipeTitleViewModel.onNavigationDone()
+        }
+    }
+    if (state.shouldRevealBackdrop) {
+        LaunchedEffect(state.shouldRevealBackdrop) {
+            delay(500)
+            backdropState.reveal()
+            delay(500)
+            backdropState.conceal()
+            editRecipeTitleViewModel.onBackdropRevealed()
         }
     }
 

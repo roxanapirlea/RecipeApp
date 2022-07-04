@@ -10,12 +10,10 @@ import com.roxana.recipeapp.domain.editrecipe.SetCommentsUseCase
 import com.roxana.recipeapp.domain.model.CreationComment
 import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,9 +28,6 @@ class EditRecipeCommentsViewModel @Inject constructor(
     @VisibleForTesting
     val _state = MutableStateFlow(EditRecipeCommentsViewState())
     val state: StateFlow<EditRecipeCommentsViewState> = _state.asStateFlow()
-
-    private val sideEffectChannel = Channel<EditRecipeCommentsSideEffect>(Channel.BUFFERED)
-    val sideEffectFlow = sideEffectChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -83,20 +78,20 @@ class EditRecipeCommentsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun sendForwardEvent() {
+    private fun sendForwardEvent() {
         val isExistingRecipe = state.value.isExistingRecipe
         if (isExistingRecipe)
-            sideEffectChannel.send(ForwardForEditing)
+            _state.update { it.copy(navigation = Navigation.ForwardEditing) }
         else
-            sideEffectChannel.send(ForwardForCreation)
+            _state.update { it.copy(navigation = Navigation.ForwardCreation) }
     }
 
     fun onResetAndClose() {
         _state.update { it.copy(showSaveDialog = false) }
         viewModelScope.launch {
             resetRecipeUseCase(null).fold(
-                { sideEffectChannel.send(Close) },
-                { sideEffectChannel.send(Close) }
+                { _state.update { it.copy(navigation = Navigation.Close) } },
+                { _state.update { it.copy(navigation = Navigation.Close) } }
             )
         }
     }
@@ -104,8 +99,8 @@ class EditRecipeCommentsViewModel @Inject constructor(
     fun onSaveAndClose() {
         viewModelScope.launch {
             setCommentsUseCase(getAllComments()).fold(
-                { sideEffectChannel.send(Close) },
-                { sideEffectChannel.send(Close) }
+                { _state.update { it.copy(navigation = Navigation.Close) } },
+                { _state.update { it.copy(navigation = Navigation.Close) } }
             )
         }
     }
@@ -121,10 +116,14 @@ class EditRecipeCommentsViewModel @Inject constructor(
     fun onSelectPage(page: PageType) {
         viewModelScope.launch {
             setCommentsUseCase(getAllComments()).fold(
-                { sideEffectChannel.send(NavigateToPage(page)) },
-                { sideEffectChannel.send(NavigateToPage(page)) }
+                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } },
+                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } }
             )
         }
+    }
+
+    fun onNavigationDone() {
+        _state.update { it.copy(navigation = null) }
     }
 
     private fun getAllComments() = state.value.comments

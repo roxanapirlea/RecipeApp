@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.misc
+package com.roxana.recipeapp.common.utilities
 
 fun Double.toFormattedString(): String =
     if (this - this.toLong() == 0.0)

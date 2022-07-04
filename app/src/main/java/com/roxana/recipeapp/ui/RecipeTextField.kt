@@ -27,6 +27,7 @@ fun RecipeTextField(
     textStyle: TextStyle = MaterialTheme.typography.body1,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Default,
+    capitalisation: KeyboardCapitalization = KeyboardCapitalization.Sentences,
     onImeAction: () -> Unit = {},
 ) {
     OutlinedTextField(
@@ -41,7 +42,7 @@ fun RecipeTextField(
         } else null,
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
-            capitalization = KeyboardCapitalization.Sentences,
+            capitalization = capitalisation,
             imeAction = imeAction
         ),
         keyboardActions = KeyboardActions { onImeAction() },

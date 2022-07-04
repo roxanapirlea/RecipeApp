@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.R
+import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.recap.ui.RecapView
-import com.roxana.recipeapp.misc.rememberFlowWithLifecycle
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -37,22 +37,36 @@ fun RecapDestination(
     val scaffoldState = rememberBackdropScaffoldState(initialValue = BackdropValue.Concealed)
     val localContext = LocalContext.current.applicationContext
 
-    LaunchedEffect(recapViewModel.sideEffectFlow) {
-        recapViewModel.sideEffectFlow.collect {
-            when (it) {
-                SaveRecipeError -> scaffoldState.snackbarHostState.showSnackbar(
+    if (state.isFetchingError) {
+        LaunchedEffect(state.isFetchingError) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = localContext.getString(R.string.detail_recipe_fetch_error),
+                duration = SnackbarDuration.Short
+            )
+            recapViewModel.onErrorDismissed()
+        }
+    }
+    if (state.shouldClose) {
+        LaunchedEffect(state.shouldClose) {
+            onNavFinish()
+            recapViewModel.onClosingDone()
+        }
+    }
+    state.saveResult?.let { result ->
+        LaunchedEffect(result) {
+            if (result.isSuccessful) {
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = localContext.getString(R.string.edit_recipe_save_success),
+                    duration = SnackbarDuration.Short
+                )
+                onNavFinish()
+            } else {
+                scaffoldState.snackbarHostState.showSnackbar(
                     message = localContext.getString(R.string.edit_recipe_save_error),
                     duration = SnackbarDuration.Short
                 )
-                SaveRecipeSuccess -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = localContext.getString(R.string.edit_recipe_save_success),
-                        duration = SnackbarDuration.Short
-                    )
-                    onNavFinish()
-                }
-                Close -> onNavFinish()
             }
+            recapViewModel.onSaveResultDismissed()
         }
     }
 
