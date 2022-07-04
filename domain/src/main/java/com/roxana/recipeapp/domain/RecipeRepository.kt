@@ -22,4 +22,5 @@ interface RecipeRepository {
     fun getMaxTotalTime(): Flow<Short?>
     fun getMaxCookingTime(): Flow<Short?>
     fun getMaxPreparationTime(): Flow<Short?>
+    suspend fun deleteById(id: Int)
 }
