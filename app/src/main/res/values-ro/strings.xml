@@ -27,6 +27,9 @@
     <string name="all_camera_permission_title">Allow camera usage?</string>
     <string name="all_camera_permission_denied">Camera nu este disponibilă.</string>
     <string name="all_request_permission">Cere permisiunea</string>
+    <string name="all_take_photo">Fă poză</string>
+    <string name="all_captured_image">Imaginea capturată</string>
+    <string name="all_camera_config_error">A apărut o problemă la configurarea camerei</string>
     <string name="all_category_breakfast">Mic dejun</string>
     <string name="all_category_dessert">Desert</string>
     <string name="all_category_dinner">Cină</string>
@@ -205,6 +208,8 @@
     <string name="edit_recipe_recap">Rezumat</string>
     <string name="edit_recipe_recap_continue_editing">Continuați editarea</string>
     <string name="edit_recipe_add_photo_permission">Vă rugăm să acordați permisiunea camerei pentru a face o fotografie a rețetei</string>
+    <string name="edit_recipe_photo_retake">Faceți din nou fotografia</string>
+    <string name="edit_recipe_photo_save">Adaugă la rețetă</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d porție)</item>
         <item quantity="few">(%d porții)</item>

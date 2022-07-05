@@ -27,6 +27,9 @@
     <string name="all_camera_permission_title">Allow camera usage?</string>
     <string name="all_camera_permission_denied">Camera not available.</string>
     <string name="all_request_permission">Request permission</string>
+    <string name="all_take_photo">Take picture</string>
+    <string name="all_captured_image">Captured image</string>
+    <string name="all_camera_config_error">There was a problem configuring the camera</string>
     <string name="all_category_breakfast">Breakfast</string>
     <string name="all_category_dessert">Dessert</string>
     <string name="all_category_dinner">Dinner</string>
@@ -173,6 +176,8 @@
     <string name="edit_recipe_recap">Summary</string>
     <string name="edit_recipe_recap_continue_editing">Continue editing</string>
     <string name="edit_recipe_add_photo_permission">Please grant the camera permission in order to take a photo of the recipe</string>
+    <string name="edit_recipe_photo_retake">Retake photo</string>
+    <string name="edit_recipe_photo_save">Add to the recipe</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d serving)</item>
         <item quantity="other">(%d servings)</item>
