@@ -42,6 +42,7 @@ fun RecapView(
     modifier: Modifier = Modifier,
     onSave: () -> Unit = {},
     onEdit: () -> Unit = {},
+    onTakePicture: () -> Unit = {},
 ) {
     Box(modifier.fillMaxSize()) {
         LazyColumn(
@@ -80,6 +81,9 @@ fun RecapView(
                             .padding(bottom = 16.dp)
                     )
                 }
+            }
+            if (state.photoPath == null) {
+                item { EmptyPhoto(onTakePicture = onTakePicture) }
             }
             if (!state.time.isEmpty) {
                 item {

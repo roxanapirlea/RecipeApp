@@ -132,6 +132,7 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
                 onNavBack = { navController.switch(EditRecipeRecapNode, EditTitleNode) },
                 onNavFinish = { navController.popBackStack(HomeNode.route, false) },
                 onNavToPage = { navController.switch(EditRecipeRecapNode, it.toNode()) },
+                onNavToPhotoCapture = { navController.navigate(PhotoCaptureNode.route) },
             )
         }
     }

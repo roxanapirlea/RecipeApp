@@ -30,6 +30,7 @@ fun RecapDestination(
     onNavBack: () -> Unit = {},
     onNavFinish: () -> Unit = {},
     onNavToPage: (PageType) -> Unit = {},
+    onNavToPhotoCapture: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(recapViewModel.state)
         .collectAsState(RecapViewState())
@@ -79,7 +80,8 @@ fun RecapDestination(
         onResetAndClose = recapViewModel::onResetAndClose,
         onSaveAndClose = recapViewModel::onClose,
         onDismissDialog = recapViewModel::onDismissDialog,
-        onSelectPage = onNavToPage
+        onSelectPage = onNavToPage,
+        onTakePicture = onNavToPhotoCapture
     )
 }
 
@@ -95,6 +97,7 @@ fun RecapScreen(
     onSaveAndClose: () -> Unit = {},
     onDismissDialog: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
+    onTakePicture: () -> Unit = {},
 ) {
     EditRecipeBackdrop(
         recipeAlreadyExists = state.isExistingRecipe,
@@ -116,7 +119,8 @@ fun RecapScreen(
             RecapView(
                 state = state,
                 onSave = onCreateRecipe,
-                onEdit = onEdit
+                onEdit = onEdit,
+                onTakePicture = onTakePicture
             )
         }
     }
