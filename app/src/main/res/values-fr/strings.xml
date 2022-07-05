@@ -16,6 +16,7 @@
     <string name="all_close">Fermer</string>
     <string name="all_back">Retour</string>
     <string name="all_undo">Annuler</string>
+    <string name="all_error">Erreur</string>
     <string name="all_search">Recherche…</string>
     <string name="all_go_to_next_screen">Vas au prochain écran</string>
     <string name="all_ingredient_placeholders">%1$s %2$s</string>
@@ -23,6 +24,9 @@
     <string name="all_instructions">Instructions</string>
     <string name="all_comments">Commentaires</string>
     <string name="all_add_comment">Ajouter un commentaire</string>
+    <string name="all_camera_permission_title">Allow camera usage?</string>
+    <string name="all_camera_permission_denied">Caméra non disponible.</string>
+    <string name="all_request_permission">Demander la permission</string>
     <string name="all_category_breakfast">Petit déjeuner</string>
     <string name="all_category_dessert">Dessert</string>
     <string name="all_category_dinner">Dîner</string>
@@ -200,6 +204,7 @@
     <string name="edit_recipe_save_success">Recette enregistrée avec succès</string>
     <string name="edit_recipe_recap">Recapitulatif</string>
     <string name="edit_recipe_recap_continue_editing">Continuer d\'editer</string>
+    <string name="edit_recipe_add_photo_permission">Donne l\'autorisation à l\'appareil photo pour prendre une photo de la recette</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d portion)</item>
         <item quantity="many">(%d portions)</item>

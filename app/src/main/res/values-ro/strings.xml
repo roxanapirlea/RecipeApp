@@ -16,6 +16,7 @@
     <string name="all_close">Închide</string>
     <string name="all_back">Înapoi</string>
     <string name="all_undo">Anulați</string>
+    <string name="all_error">Eroare</string>
     <string name="all_search">Căutare…</string>
     <string name="all_go_to_next_screen">Mergi la pasul următor</string>
     <string name="all_ingredient_placeholders">%1$s %2$s</string>
@@ -23,6 +24,9 @@
     <string name="all_instructions">Instrucțiuni</string>
     <string name="all_comments">Comentarii</string>
     <string name="all_add_comment">Adaugă un comentariu</string>
+    <string name="all_camera_permission_title">Allow camera usage?</string>
+    <string name="all_camera_permission_denied">Camera nu este disponibilă.</string>
+    <string name="all_request_permission">Cere permisiunea</string>
     <string name="all_category_breakfast">Mic dejun</string>
     <string name="all_category_dessert">Desert</string>
     <string name="all_category_dinner">Cină</string>
@@ -200,6 +204,7 @@
     <string name="edit_recipe_save_success">Rețetă salvată cu succes</string>
     <string name="edit_recipe_recap">Rezumat</string>
     <string name="edit_recipe_recap_continue_editing">Continuați editarea</string>
+    <string name="edit_recipe_add_photo_permission">Vă rugăm să acordați permisiunea camerei pentru a face o fotografie a rețetei</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d porție)</item>
         <item quantity="few">(%d porții)</item>
