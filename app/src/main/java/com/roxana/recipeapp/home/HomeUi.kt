@@ -20,6 +20,7 @@ import com.roxana.recipeapp.home.ui.EmptyView
 import com.roxana.recipeapp.home.ui.FiltersView
 import com.roxana.recipeapp.home.ui.RecipeListView
 import com.roxana.recipeapp.ui.AddIcon
+import com.roxana.recipeapp.ui.BackIcon
 import com.roxana.recipeapp.ui.LoadingStateView
 import com.roxana.recipeapp.ui.SettingsIcon
 import com.roxana.recipeapp.ui.SlotAppBar
@@ -86,7 +87,12 @@ fun HomeScreen(
         topBar = {
             SlotAppBar(
                 title = stringResource(R.string.home_title),
-                actions = { IconButton(onClick = onSettingsClicked) { SettingsIcon() } }
+                actions = {
+                    if (!state.showFilters)
+                        IconButton(onClick = onSettingsClicked) { SettingsIcon() }
+                },
+                icon = if (state.showFilters) { { BackIcon() } } else null,
+                onIconClick = onCloseFiltersClicked
             )
         },
         floatingActionButton = {
