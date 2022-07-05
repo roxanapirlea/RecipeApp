@@ -18,6 +18,13 @@ object HomeNode : CommonNode {
     override val args: List<NamedNavArgument> = emptyList()
 }
 
+object PhotoCaptureNode : CommonNode {
+    private const val ROOT = "scan"
+
+    override val route: String = ROOT
+    override val args: List<NamedNavArgument> = emptyList()
+}
+
 object SettingsNode : CommonNode {
     private const val ROOT = "settings"
 
