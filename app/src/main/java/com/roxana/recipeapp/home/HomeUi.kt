@@ -48,6 +48,12 @@ fun HomeDestination(
             homeViewModel.onErrorDismissed()
         }
     }
+    state.randomRecipeId?.let {
+        LaunchedEffect(state.randomRecipeId) {
+            onNavDetail(it)
+            homeViewModel.onNavToRandomRecipe()
+        }
+    }
 
     HomeScreen(
         state,
@@ -62,7 +68,8 @@ fun HomeDestination(
         onCookingTimeSelected = homeViewModel::onCookingTimeSelected,
         onResetFiltersClicked = homeViewModel::onResetFiltersClicked,
         onCloseFiltersClicked = homeViewModel::onCloseFiltersClicked,
-        onSearchQueryModified = homeViewModel::onQueryModified
+        onSearchQueryModified = homeViewModel::onQueryModified,
+        onRandomRecipe = homeViewModel::onRandomRecipe,
     )
 }
 
@@ -80,7 +87,8 @@ fun HomeScreen(
     onCookingTimeSelected: (Int) -> Unit = {},
     onResetFiltersClicked: () -> Unit = {},
     onCloseFiltersClicked: () -> Unit = {},
-    onSearchQueryModified: (String) -> Unit = {}
+    onSearchQueryModified: (String) -> Unit = {},
+    onRandomRecipe: () -> Unit = {},
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
@@ -121,7 +129,8 @@ fun HomeScreen(
                         modifier = Modifier.padding(contentPadding),
                         onFiltersClicked = onFiltersClicked,
                         onSearchQueryModified = onSearchQueryModified,
-                        onRecipeSelected = onRecipeSelected
+                        onRecipeSelected = onRecipeSelected,
+                        onRandomRecipe = onRandomRecipe
                     )
             }
         }
