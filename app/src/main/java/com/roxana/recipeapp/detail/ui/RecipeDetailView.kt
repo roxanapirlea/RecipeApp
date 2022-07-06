@@ -3,6 +3,7 @@ package com.roxana.recipeapp.detail.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,6 +28,7 @@ import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.CenteredTitle
 import com.roxana.recipeapp.ui.FlatSecondaryButton
 import com.roxana.recipeapp.ui.LabelView
+import com.roxana.recipeapp.ui.RecipeImage
 import com.roxana.recipeapp.ui.TwoButtonRow
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
@@ -42,10 +44,19 @@ fun RecipeDetailView(
 ) {
     Box(modifier.fillMaxSize()) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 32.dp)
         ) {
+            state.photoPath?.let {
+                item {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        RecipeImage(
+                            path = it,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                }
+            }
             item {
                 CategoriesView(
                     categories = state.categories,

@@ -36,6 +36,7 @@ class DetailViewModel @Inject constructor(
                     { recipe ->
                         val content = DetailViewState(
                             title = recipe.name,
+                            photoPath = recipe.photoPath,
                             categories = recipe.categories.map { it.toUiModel() },
                             portions = recipe.portions,
                             ingredients = recipe.ingredients.map {

@@ -1,18 +1,14 @@
 package com.roxana.recipeapp.edit.recap.ui
 
 import android.content.res.Configuration
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -21,15 +17,11 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.detail.ui.EmptyItem
 import com.roxana.recipeapp.detail.ui.IngredientView
@@ -42,6 +34,7 @@ import com.roxana.recipeapp.edit.recap.TimeState
 import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.CenteredTitle
 import com.roxana.recipeapp.ui.LabelView
+import com.roxana.recipeapp.ui.RecipeImage
 import com.roxana.recipeapp.ui.SecondaryButton
 import com.roxana.recipeapp.ui.TwoButtonRow
 import com.roxana.recipeapp.ui.theme.RecipeTheme
@@ -67,15 +60,9 @@ fun RecapView(
             state.photoPath?.let {
                 item {
                     Box(modifier = Modifier.fillMaxWidth()) {
-                        AsyncImage(
-                            modifier = Modifier
-                                .heightIn(max = 250.dp)
-                                .widthIn(max = 250.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .align(Alignment.Center),
-                            model = Uri.parse(it),
-                            contentDescription = stringResource(R.string.all_captured_image),
-                            contentScale = ContentScale.FillHeight
+                        RecipeImage(
+                            path = it,
+                            modifier = Modifier.align(Alignment.Center)
                         )
                         SecondaryButton(
                             modifier = Modifier.align(Alignment.BottomCenter),
