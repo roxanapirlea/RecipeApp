@@ -81,7 +81,8 @@ fun RecapDestination(
         onSaveAndClose = recapViewModel::onClose,
         onDismissDialog = recapViewModel::onDismissDialog,
         onSelectPage = onNavToPage,
-        onTakePicture = onNavToPhotoCapture
+        onTakePicture = onNavToPhotoCapture,
+        onDeletePicture = recapViewModel::onDeletePicture
     )
 }
 
@@ -98,6 +99,7 @@ fun RecapScreen(
     onDismissDialog: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onTakePicture: () -> Unit = {},
+    onDeletePicture: () -> Unit = {},
 ) {
     EditRecipeBackdrop(
         recipeAlreadyExists = state.isExistingRecipe,
@@ -120,7 +122,8 @@ fun RecapScreen(
                 state = state,
                 onSave = onCreateRecipe,
                 onEdit = onEdit,
-                onTakePicture = onTakePicture
+                onTakePicture = onTakePicture,
+                onDeletePicture = onDeletePicture
             )
         }
     }
