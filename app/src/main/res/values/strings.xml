@@ -134,6 +134,7 @@
     <string name="home_empty_search">No recipe corresponds to your search</string>
     <string name="home_recipe_fetch_error">There was a problem fetching your recipes</string>
     <string name="edit_recipe_title_page">Title</string>
+    <string name="edit_recipe_photo_page">Photo</string>
     <string name="edit_recipe_categories_page">Categories</string>
     <string name="edit_recipe_portions_page">Servings</string>
     <string name="edit_recipe_ingredients_page">Ingredients</string>
@@ -151,6 +152,7 @@
     <string name="edit_recipe_dialog_reset_info">No, discard it</string>
     <string name="edit_recipe_dialog_keep_recipe">Yes, keep it</string>
     <string name="edit_recipe_title_label">Enter the recipe title</string>
+    <string name="edit_recipe_photo_label">Choose a photo for the recipe</string>
     <string name="edit_recipe_categories_label">Select categories for the recipe</string>
     <string name="edit_recipe_portions_label">Number of servings</string>
     <string name="edit_recipe_temperature_label">Temperature (%s)</string>
@@ -177,6 +179,7 @@
     <string name="edit_recipe_recap_continue_editing">Continue editing</string>
     <string name="edit_recipe_add_photo_permission">Please grant the camera permission in order to take a photo of the recipe</string>
     <string name="edit_recipe_photo_retake">Retake photo</string>
+    <string name="edit_recipe_no_photo">No photo</string>
     <string name="edit_recipe_photo_save">Add to the recipe</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d serving)</item>

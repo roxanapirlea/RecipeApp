@@ -94,6 +94,11 @@ class RecipeCreationRepositoryImpl @Inject constructor(
                 .map { CreationComment(it.name, it.ordinal.toShort()) }
         }
 
+    override fun getPhotoPath(): Flow<String?> =
+        recipeDataStore.data.map { recipe ->
+            if (recipe.hasPhotoPath()) recipe.photoPath else null
+        }
+
     override fun getRecipe(): Flow<CreationRecipe> =
         recipeDataStore.data.map { recipe ->
             val id = if (recipe.hasId()) recipe.id else null

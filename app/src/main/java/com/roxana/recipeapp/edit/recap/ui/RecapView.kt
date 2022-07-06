@@ -9,11 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +32,6 @@ import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.CenteredTitle
 import com.roxana.recipeapp.ui.LabelView
 import com.roxana.recipeapp.ui.RecipeImage
-import com.roxana.recipeapp.ui.SecondaryButton
 import com.roxana.recipeapp.ui.TwoButtonRow
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
@@ -47,8 +43,6 @@ fun RecapView(
     modifier: Modifier = Modifier,
     onSave: () -> Unit = {},
     onEdit: () -> Unit = {},
-    onTakePicture: () -> Unit = {},
-    onDeletePicture: () -> Unit = {}
 ) {
     Box(modifier.fillMaxSize()) {
         LazyColumn(
@@ -64,15 +58,6 @@ fun RecapView(
                             path = it,
                             modifier = Modifier.align(Alignment.Center)
                         )
-                        SecondaryButton(
-                            modifier = Modifier.align(Alignment.BottomCenter),
-                            onClick = onDeletePicture
-                        ) {
-                            Icon(
-                                Icons.Rounded.Delete,
-                                contentDescription = stringResource(R.string.all_delete)
-                            )
-                        }
                     }
                 }
             }
@@ -109,7 +94,7 @@ fun RecapView(
                 }
             }
             if (state.photoPath == null) {
-                item { EmptyPhoto(onTakePicture = onTakePicture) }
+                item { EmptyItem(stringResource(R.string.edit_recipe_no_photo)) }
             }
             if (!state.time.isEmpty) {
                 item {

@@ -8,6 +8,8 @@ import androidx.navigation.compose.navigation
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.categories.EditRecipeCategoriesDestination
 import com.roxana.recipeapp.edit.categories.EditRecipeCategoriesViewModel
+import com.roxana.recipeapp.edit.choosephoto.EditRecipeChoosePhotoDestination
+import com.roxana.recipeapp.edit.choosephoto.EditRecipeChoosePhotoViewModel
 import com.roxana.recipeapp.edit.comments.EditRecipeCommentsDestination
 import com.roxana.recipeapp.edit.comments.EditRecipeCommentsViewModel
 import com.roxana.recipeapp.edit.ingredients.EditRecipeIngredientsDestination
@@ -36,9 +38,20 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
             EditRecipeTitleDestination(
                 editRecipeTitleViewModel = editRecipeTitleViewModel,
                 onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onCreationNavForward = { navController.switch(EditTitleNode, EditCategoriesNode) },
-                onEditNavForward = { navController.switch(EditTitleNode, EditCategoriesNode) },
+                onCreationNavForward = { navController.switch(EditTitleNode, EditChoosePhotoNode) },
+                onEditNavForward = { navController.switch(EditTitleNode, EditChoosePhotoNode) },
                 onNavToPage = { navController.switch(EditTitleNode, it.toNode()) },
+            )
+        }
+        composable(route = EditChoosePhotoNode.route) {
+            val editRecipeChoosePhotoViewModel = hiltViewModel<EditRecipeChoosePhotoViewModel>()
+            EditRecipeChoosePhotoDestination(
+                editRecipeChoosePhotoViewModel = editRecipeChoosePhotoViewModel,
+                onNavFinish = { navController.popBackStack(HomeNode.route, false) },
+                onCreationNavForward = { navController.switch(EditChoosePhotoNode, EditCategoriesNode) },
+                onEditNavForward = { navController.switch(EditChoosePhotoNode, EditCategoriesNode) },
+                onNavToPage = { navController.switch(EditChoosePhotoNode, it.toNode()) },
+                onCapturePhoto = { navController.navigate(PhotoCaptureNode.route) }
             )
         }
         composable(route = EditCategoriesNode.route) {
@@ -132,7 +145,6 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
                 onNavBack = { navController.switch(EditRecipeRecapNode, EditTitleNode) },
                 onNavFinish = { navController.popBackStack(HomeNode.route, false) },
                 onNavToPage = { navController.switch(EditRecipeRecapNode, it.toNode()) },
-                onNavToPhotoCapture = { navController.navigate(PhotoCaptureNode.route) },
             )
         }
     }
@@ -149,6 +161,7 @@ private fun NavController.switch(currentNode: EditNode, nextNode: EditNode) {
 private fun PageType.toNode() =
     when (this) {
         PageType.Title -> EditTitleNode
+        PageType.Photo -> EditChoosePhotoNode
         PageType.Categories -> EditCategoriesNode
         PageType.Portions -> EditPortionsNode
         PageType.Ingredients -> EditIngredientsNode
@@ -161,13 +174,14 @@ private fun PageType.toNode() =
 
 private fun EditNode.ordinal() = when (this) {
     EditTitleNode -> 0
-    EditCategoriesNode -> 1
-    EditPortionsNode -> 2
-    EditIngredientsNode -> 3
-    EditInstructionsNode -> 4
-    EditTemperatureNode -> 5
-    EditTimeNode -> 6
-    EditCommentsNode -> 7
-    EditRecipeRecapNode -> 8
+    EditChoosePhotoNode -> 1
+    EditCategoriesNode -> 2
+    EditPortionsNode -> 3
+    EditIngredientsNode -> 4
+    EditInstructionsNode -> 5
+    EditTemperatureNode -> 6
+    EditTimeNode -> 7
+    EditCommentsNode -> 8
+    EditRecipeRecapNode -> 9
     else -> Int.MAX_VALUE
 }

@@ -18,6 +18,13 @@ object EditTitleNode : EditNode {
     override val args: List<NamedNavArgument> = emptyList()
 }
 
+object EditChoosePhotoNode : EditNode {
+    private const val ROOT = "edit_choose_photo"
+
+    override val route: String = ROOT
+    override val args: List<NamedNavArgument> = emptyList()
+}
+
 object EditCategoriesNode : EditNode {
     private const val ROOT = "edit_categories"
 

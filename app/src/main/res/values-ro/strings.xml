@@ -166,6 +166,7 @@
     <string name="home_empty_search">Nicio rețetă nu corespunde căutării tale</string>
     <string name="home_recipe_fetch_error">A apărut o problemă la recuperarea rețetelor tale</string>
     <string name="edit_recipe_title_page">Titlu</string>
+    <string name="edit_recipe_photo_page">Fotografie</string>
     <string name="edit_recipe_categories_page">Categorii</string>
     <string name="edit_recipe_portions_page">Porții</string>
     <string name="edit_recipe_ingredients_page">Ingrediente</string>
@@ -183,6 +184,7 @@
     <string name="edit_recipe_dialog_reset_info">Nu, șterge-le</string>
     <string name="edit_recipe_dialog_keep_recipe">Da, păstrează-le</string>
     <string name="edit_recipe_title_label">Introdu titlul rețetei</string>
+    <string name="edit_recipe_photo_label">lege o fotografie pentru rerețetă</string>
     <string name="edit_recipe_categories_label">Selectează categoriile rețetei</string>
     <string name="edit_recipe_portions_label">Numărul de porții</string>
     <string name="edit_recipe_temperature_label">Temperatura (%s)</string>
@@ -209,6 +211,7 @@
     <string name="edit_recipe_recap_continue_editing">Continuați editarea</string>
     <string name="edit_recipe_add_photo_permission">Vă rugăm să acordați permisiunea camerei pentru a face o fotografie a rețetei</string>
     <string name="edit_recipe_photo_retake">Faceți din nou fotografia</string>
+    <string name="edit_recipe_no_photo">Nicio fotografie</string>
     <string name="edit_recipe_photo_save">Adaugă la rețetă</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d porție)</item>
