@@ -23,7 +23,7 @@ class StartRecipeEditingUseCase @Inject constructor(
         CreationRecipe(
             id = id,
             name = name,
-            photoPath = null,
+            photoPath = photoPath,
             portions = portions,
             categories = categories,
             instructions = instructions.map { CreationInstruction(it.name, it.ordinal) },

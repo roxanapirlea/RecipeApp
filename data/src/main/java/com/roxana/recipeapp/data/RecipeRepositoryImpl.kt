@@ -193,6 +193,7 @@ class RecipeRepositoryImpl @Inject constructor(
         return Recipe(
             id = dataRecipe.id.toInt(),
             name = dataRecipe.name,
+            photoPath = dataRecipe.photo_path,
             portions = dataRecipe.portions,
             categories = categories,
             ingredients = ingredients,
