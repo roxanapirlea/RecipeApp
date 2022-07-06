@@ -98,6 +98,7 @@ class RecipeCreationRepositoryImpl @Inject constructor(
         recipeDataStore.data.map { recipe ->
             val id = if (recipe.hasId()) recipe.id else null
             val title = recipe.title
+            val photoPath = if (recipe.hasPhotoPath()) recipe.photoPath else null
             val portions = if (recipe.hasPortions()) recipe.portions.toShort() else null
             val categories = recipe.categoriesList
                 .mapNotNull { it.toDomainModel() }
@@ -125,7 +126,7 @@ class RecipeCreationRepositoryImpl @Inject constructor(
             CreationRecipe(
                 id,
                 title,
-                null,
+                photoPath,
                 portions,
                 categories,
                 instructions,
@@ -253,6 +254,19 @@ class RecipeCreationRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setPhotoPath(photoPath: String?) {
+        recipeDataStore.updateData { current ->
+            current.toBuilder()
+                .apply {
+                    if (photoPath != null)
+                        setPhotoPath(photoPath)
+                    else
+                        clearPhotoPath()
+                }
+                .build()
+        }
+    }
+
     override suspend fun setRecipe(recipe: CreationRecipe) {
         recipeDataStore.updateData {
             val builder = RecipeCreation.newBuilder()
@@ -284,6 +298,7 @@ class RecipeCreationRepositoryImpl @Inject constructor(
 
             recipe.id?.let { builder.id = it }
             builder.title = recipe.name
+            recipe.photoPath?.let { builder.photoPath = it }
             builder.addAllCategories(recipe.categories.map { it.toProto() })
             recipe.portions?.let { builder.portions = it.toInt() }
             builder.addAllInstructions(instructions)

@@ -30,6 +30,7 @@ interface RecipeCreationRepository {
     suspend fun setTemperature(temperature: Short?, temperatureUnit: Temperature)
     fun getComments(): Flow<List<CreationComment>>
     suspend fun setComments(comments: List<CreationComment>)
+    suspend fun setPhotoPath(photoPath: String?)
     fun getRecipe(): Flow<CreationRecipe>
     suspend fun setRecipe(recipe: CreationRecipe)
     suspend fun reset()
