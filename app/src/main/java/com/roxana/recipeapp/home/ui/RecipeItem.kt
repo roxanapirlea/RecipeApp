@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,8 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.roxana.recipeapp.home.RecipeState
 import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.RoundedStartShape
@@ -47,12 +51,26 @@ fun RecipeItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(
-                modifier = Modifier
-                    .size(80.dp)
-                    .background(getPrimarySecondaryColor(index), CircleShape)
-            )
-            Column() {
+            Box(modifier = Modifier.size(80.dp)) {
+                if (recipeState.photoPath == null) {
+                    Spacer(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .background(getPrimarySecondaryColor(index), CircleShape)
+                    )
+                } else {
+                    AsyncImage(
+                        model = recipeState.photoPath,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        placeholder = ColorPainter(getPrimarySecondaryColor(index)),
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(CircleShape)
+                    )
+                }
+            }
+            Column {
                 Text(
                     text = recipeState.name,
                     style = MaterialTheme.typography.subtitle1,
@@ -80,6 +98,7 @@ fun RecipeSummaryPreviewLight() {
             recipeState = RecipeState(
                 1,
                 "Crepes",
+                null,
                 listOf(UiCategoryType.Breakfast, UiCategoryType.Dessert)
             ),
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp)
@@ -99,6 +118,7 @@ fun RecipeSummaryPreviewDark() {
             recipeState = RecipeState(
                 1,
                 "Crepes",
+                null,
                 listOf(UiCategoryType.Breakfast, UiCategoryType.Dessert)
             ),
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp)
