@@ -165,6 +165,7 @@
     <string name="home_empty_description_quantities">Adapte les quantités à tes besoins</string>
     <string name="home_empty_search">Aucune recette ne correspond à votre recherche</string>
     <string name="home_recipe_fetch_error">Un problème est survenu lors de la récupération de tes recettes</string>
+    <string name="home_random_recipe">Choisir une reccette à ma place</string>
     <string name="edit_recipe_title_page">Titre</string>
     <string name="edit_recipe_photo_page">Photo</string>
     <string name="edit_recipe_categories_page">Catégories</string>

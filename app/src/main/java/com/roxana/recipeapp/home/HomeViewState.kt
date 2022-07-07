@@ -10,7 +10,8 @@ data class HomeViewState(
     val query: String = "",
     val isLoading: Boolean = true,
     val isEmpty: Boolean = false,
-    val isFetchingError: Boolean = false
+    val isFetchingError: Boolean = false,
+    val randomRecipeId: Int? = null
 )
 
 data class RecipeState(

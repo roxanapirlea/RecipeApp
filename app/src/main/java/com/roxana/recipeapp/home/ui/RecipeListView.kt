@@ -29,7 +29,8 @@ fun RecipeListView(
     modifier: Modifier = Modifier,
     onFiltersClicked: () -> Unit = {},
     onSearchQueryModified: (String) -> Unit = {},
-    onRecipeSelected: (Int) -> Unit = {}
+    onRecipeSelected: (Int) -> Unit = {},
+    onRandomRecipe: () -> Unit = {},
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -58,7 +59,10 @@ fun RecipeListView(
         }
         if (state.recipes.isEmpty()) {
             item { Text(stringResource(R.string.home_empty_search)) }
-        } else
+        } else {
+            item {
+                RecipeRandomItem(onClick = onRandomRecipe)
+            }
             items(items = state.recipes, key = { recipe -> recipe.id }) { recipe ->
                 RecipeItem(
                     recipeState = recipe,
@@ -66,6 +70,7 @@ fun RecipeListView(
                     onClick = onRecipeSelected
                 )
             }
+        }
     }
 }
 

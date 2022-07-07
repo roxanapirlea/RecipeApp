@@ -169,4 +169,13 @@ class HomeViewModel @Inject constructor(
     fun onErrorDismissed() {
         _state.update { it.copy(isFetchingError = false) }
     }
+
+    fun onRandomRecipe() {
+        val recipeId = _state.value.recipes.random().id
+        _state.update { it.copy(randomRecipeId = recipeId) }
+    }
+
+    fun onNavToRandomRecipe() {
+        _state.update { it.copy(randomRecipeId = null) }
+    }
 }

@@ -133,6 +133,7 @@
     <string name="home_empty_description_quantities">Adapt quantities to your needs</string>
     <string name="home_empty_search">No recipe corresponds to your search</string>
     <string name="home_recipe_fetch_error">There was a problem fetching your recipes</string>
+    <string name="home_random_recipe">Pick a recipe for me</string>
     <string name="edit_recipe_title_page">Title</string>
     <string name="edit_recipe_photo_page">Photo</string>
     <string name="edit_recipe_categories_page">Categories</string>
