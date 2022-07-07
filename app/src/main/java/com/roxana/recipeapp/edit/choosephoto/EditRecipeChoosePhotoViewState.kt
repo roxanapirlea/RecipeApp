@@ -1,7 +1,6 @@
 package com.roxana.recipeapp.edit.choosephoto
 
 import com.roxana.recipeapp.edit.PageType
-import com.roxana.recipeapp.uimodel.UiTemperature
 
 data class EditRecipeChoosePhotoViewState(
     val photoPath: String? = null,
@@ -15,5 +14,5 @@ sealed class Navigation {
     object ForwardEditing : Navigation()
     object Close : Navigation()
     data class ToPage(val page: PageType) : Navigation()
-    object PhotoCapture: Navigation()
+    object PhotoCapture : Navigation()
 }

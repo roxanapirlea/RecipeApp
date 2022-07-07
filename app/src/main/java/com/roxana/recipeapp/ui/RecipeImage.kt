@@ -4,7 +4,6 @@ import android.net.Uri
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -20,7 +19,7 @@ fun RecipeImage(
 ) {
     AsyncImage(
         modifier = modifier
-            .size(250.dp,250.dp)
+            .size(250.dp, 250.dp)
             .clip(RoundedCornerShape(16.dp)),
         model = Uri.parse(path),
         contentDescription = stringResource(R.string.all_captured_image),

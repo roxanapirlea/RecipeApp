@@ -56,11 +56,13 @@ class HomeViewModelTest {
         val recipe1 = RecipeSummary(
             0,
             "Crepes",
+            null,
             listOf(CategoryType.BREAKFAST, CategoryType.DESSERT)
         )
         val recipe2 = RecipeSummary(
             1,
             "Omlette",
+            null,
             listOf(CategoryType.BREAKFAST)
         )
 
@@ -81,8 +83,13 @@ class HomeViewModelTest {
         // Then
         viewModel.state.value shouldBe HomeViewState(
             listOf(
-                RecipeState(0, "Crepes", listOf(UiCategoryType.Breakfast, UiCategoryType.Dessert)),
-                RecipeState(1, "Omlette", listOf(UiCategoryType.Breakfast))
+                RecipeState(
+                    0,
+                    "Crepes",
+                    null,
+                    listOf(UiCategoryType.Breakfast, UiCategoryType.Dessert)
+                ),
+                RecipeState(1, "Omlette", null, listOf(UiCategoryType.Breakfast))
             ),
             false,
             FiltersState(

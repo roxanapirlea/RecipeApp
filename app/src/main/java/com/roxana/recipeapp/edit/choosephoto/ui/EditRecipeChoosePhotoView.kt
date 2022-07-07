@@ -51,7 +51,6 @@ fun EditRecipeChoosePhotoView(
                     Text(stringResource(R.string.edit_recipe_photo_retake))
                 }
             }
-
         } else {
             EmptyItem(text = stringResource(R.string.edit_recipe_no_photo))
             Spacer(modifier = Modifier.weight(1f))
