@@ -79,7 +79,7 @@ fun RecapDestination(
         onResetAndClose = recapViewModel::onResetAndClose,
         onSaveAndClose = recapViewModel::onClose,
         onDismissDialog = recapViewModel::onDismissDialog,
-        onSelectPage = onNavToPage
+        onSelectPage = onNavToPage,
     )
 }
 
@@ -116,7 +116,7 @@ fun RecapScreen(
             RecapView(
                 state = state,
                 onSave = onCreateRecipe,
-                onEdit = onEdit
+                onEdit = onEdit,
             )
         }
     }

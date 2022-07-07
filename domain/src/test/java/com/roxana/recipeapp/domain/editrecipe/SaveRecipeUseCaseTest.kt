@@ -1,5 +1,6 @@
 package com.roxana.recipeapp.domain.editrecipe
 
+import com.roxana.recipeapp.domain.PhotoRepository
 import com.roxana.recipeapp.domain.RecipeCreationRepository
 import com.roxana.recipeapp.domain.RecipeRepository
 import com.roxana.recipeapp.domain.model.CreationRecipe
@@ -18,11 +19,12 @@ import org.junit.Test
 class SaveRecipeUseCaseTest {
     private val recipeRepository: RecipeRepository = mockk(relaxed = true)
     private val creationRepository: RecipeCreationRepository = mockk(relaxed = true)
+    private val photoRepository: PhotoRepository = mockk(relaxed = true)
     private lateinit var useCase: SaveRecipeUseCase
 
     @Before
     fun setUp() {
-        useCase = SaveRecipeUseCase(recipeRepository, creationRepository)
+        useCase = SaveRecipeUseCase(recipeRepository, creationRepository, photoRepository)
     }
 
     private val baseCreationRecipe = CreationRecipe(

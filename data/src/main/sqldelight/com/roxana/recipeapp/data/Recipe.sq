@@ -29,7 +29,7 @@ FROM Recipe
 ORDER BY name;
 
 getRecipesSummary:
-SELECT Recipe.id, Recipe.name, CategoryForRecipe.name AS category
+SELECT Recipe.id, Recipe.name, Recipe.photo_path, CategoryForRecipe.name AS category
 FROM Recipe
 LEFT JOIN CategoryForRecipe ON Recipe.id = CategoryForRecipe.recipe_id
 WHERE (:time_total ISNULL OR Recipe.time_total ISNULL OR Recipe.time_total <= :time_total)

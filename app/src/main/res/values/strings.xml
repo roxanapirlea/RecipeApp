@@ -16,6 +16,7 @@
     <string name="all_close">Close</string>
     <string name="all_back">Back</string>
     <string name="all_undo">Undo</string>
+    <string name="all_error">Error</string>
     <string name="all_search">Search…</string>
     <string name="all_go_to_next_screen">Go to next screen</string>
     <string name="all_ingredients">Ingredients</string>
@@ -23,6 +24,12 @@
     <string name="all_instructions">Instructions</string>
     <string name="all_comments">Comments</string>
     <string name="all_add_comment">Add comment</string>
+    <string name="all_camera_permission_title">Allow camera usage?</string>
+    <string name="all_camera_permission_denied">Camera not available.</string>
+    <string name="all_request_permission">Request permission</string>
+    <string name="all_take_photo">Take picture</string>
+    <string name="all_captured_image">Captured image</string>
+    <string name="all_camera_config_error">There was a problem configuring the camera</string>
     <string name="all_category_breakfast">Breakfast</string>
     <string name="all_category_dessert">Dessert</string>
     <string name="all_category_dinner">Dinner</string>
@@ -127,6 +134,7 @@
     <string name="home_empty_search">No recipe corresponds to your search</string>
     <string name="home_recipe_fetch_error">There was a problem fetching your recipes</string>
     <string name="edit_recipe_title_page">Title</string>
+    <string name="edit_recipe_photo_page">Photo</string>
     <string name="edit_recipe_categories_page">Categories</string>
     <string name="edit_recipe_portions_page">Servings</string>
     <string name="edit_recipe_ingredients_page">Ingredients</string>
@@ -144,6 +152,7 @@
     <string name="edit_recipe_dialog_reset_info">No, discard it</string>
     <string name="edit_recipe_dialog_keep_recipe">Yes, keep it</string>
     <string name="edit_recipe_title_label">Enter the recipe title</string>
+    <string name="edit_recipe_photo_label">Choose a photo for the recipe</string>
     <string name="edit_recipe_categories_label">Select categories for the recipe</string>
     <string name="edit_recipe_portions_label">Number of servings</string>
     <string name="edit_recipe_temperature_label">Temperature (%s)</string>
@@ -168,6 +177,10 @@
     <string name="edit_recipe_save_success">Recipe saved successfully</string>
     <string name="edit_recipe_recap">Summary</string>
     <string name="edit_recipe_recap_continue_editing">Continue editing</string>
+    <string name="edit_recipe_add_photo_permission">Please grant the camera permission in order to take a photo of the recipe</string>
+    <string name="edit_recipe_photo_retake">Retake photo</string>
+    <string name="edit_recipe_no_photo">No photo</string>
+    <string name="edit_recipe_photo_save">Add to the recipe</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d serving)</item>
         <item quantity="other">(%d servings)</item>

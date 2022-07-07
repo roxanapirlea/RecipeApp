@@ -34,6 +34,7 @@ class RecapViewModel @Inject constructor(
                     { recipe ->
                         val content = RecapViewState(
                             title = recipe.name,
+                            photoPath = recipe.photoPath,
                             categories = recipe.categories.map { it.toUiModel() },
                             portions = recipe.portions,
                             ingredients = recipe.ingredients.map {
@@ -45,7 +46,8 @@ class RecapViewModel @Inject constructor(
                             },
                             instructions = recipe.instructions.sortedBy { it.ordinal }
                                 .map { it.name },
-                            comments = recipe.comments.sortedBy { it.ordinal }.map { it.detail },
+                            comments = recipe.comments.sortedBy { it.ordinal }
+                                .map { it.detail },
                             time = TimeState(
                                 total = recipe.timeTotal,
                                 cooking = recipe.timeCooking,

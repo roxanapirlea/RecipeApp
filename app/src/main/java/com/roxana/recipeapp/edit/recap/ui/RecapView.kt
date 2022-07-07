@@ -31,6 +31,7 @@ import com.roxana.recipeapp.edit.recap.TimeState
 import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.CenteredTitle
 import com.roxana.recipeapp.ui.LabelView
+import com.roxana.recipeapp.ui.RecipeImage
 import com.roxana.recipeapp.ui.TwoButtonRow
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
@@ -48,7 +49,18 @@ fun RecapView(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)
         ) {
+            state.photoPath?.let {
+                item {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        RecipeImage(
+                            path = it,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                }
+            }
             item {
                 CategoriesView(
                     categories = state.categories,
@@ -80,6 +92,9 @@ fun RecapView(
                             .padding(bottom = 16.dp)
                     )
                 }
+            }
+            if (state.photoPath == null) {
+                item { EmptyItem(stringResource(R.string.edit_recipe_no_photo)) }
             }
             if (!state.time.isEmpty) {
                 item {

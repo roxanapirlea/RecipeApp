@@ -17,6 +17,8 @@ import com.roxana.recipeapp.cooking.ingredients.VaryIngredientsDestination
 import com.roxana.recipeapp.cooking.ingredients.VaryIngredientsViewModel
 import com.roxana.recipeapp.detail.DetailDestination
 import com.roxana.recipeapp.detail.DetailViewModel
+import com.roxana.recipeapp.edit.photocapture.PhotoCaptureDestination
+import com.roxana.recipeapp.edit.photocapture.PhotoCaptureViewModel
 import com.roxana.recipeapp.home.HomeDestination
 import com.roxana.recipeapp.home.HomeViewModel
 import com.roxana.recipeapp.settings.SettingsDestination
@@ -38,8 +40,17 @@ fun RecipeNavigation() {
                 HomeDestination(
                     homeViewModel = homeViewModel,
                     onNavDetail = { navController.navigate(RecipeDetailNode.destination(it)) },
-                    onNavAddRecipe = { navController.navigate(EditGraphRootNode.route) },
+                    onNavAddRecipe = {
+                        navController.navigate(EditGraphRootNode.route)
+                    },
                     onNavSettings = { navController.navigate(SettingsNode.route) },
+                )
+            }
+            composable(route = PhotoCaptureNode.route) {
+                val photoCaptureViewModel = hiltViewModel<PhotoCaptureViewModel>()
+                PhotoCaptureDestination(
+                    photoCaptureViewModel = photoCaptureViewModel,
+                    onBack = { navController.navigateUp() },
                 )
             }
             composable(route = SettingsNode.route) {

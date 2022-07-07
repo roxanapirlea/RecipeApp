@@ -6,6 +6,7 @@ import com.roxana.recipeapp.uimodel.UiTemperature
 
 data class DetailViewState(
     val title: String = "",
+    val photoPath: String? = null,
     val categories: List<UiCategoryType> = emptyList(),
     val portions: Short? = null,
     val ingredients: List<IngredientState> = emptyList(),

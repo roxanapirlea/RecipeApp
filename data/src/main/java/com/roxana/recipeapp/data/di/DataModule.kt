@@ -7,6 +7,7 @@ import androidx.datastore.dataStoreFile
 import com.roxana.recipeapp.data.CategoryForRecipe
 import com.roxana.recipeapp.data.Database
 import com.roxana.recipeapp.data.IngredientForRecipe
+import com.roxana.recipeapp.data.PhotoRepositoryImpl
 import com.roxana.recipeapp.data.Recipe
 import com.roxana.recipeapp.data.RecipeCreation
 import com.roxana.recipeapp.data.RecipeCreationRepositoryImpl
@@ -15,6 +16,7 @@ import com.roxana.recipeapp.data.RecipeRepositoryImpl
 import com.roxana.recipeapp.data.Settings
 import com.roxana.recipeapp.data.SettingsRepositoryImpl
 import com.roxana.recipeapp.data.SettingsSerializer
+import com.roxana.recipeapp.domain.PhotoRepository
 import com.roxana.recipeapp.domain.RecipeCreationRepository
 import com.roxana.recipeapp.domain.RecipeRepository
 import com.roxana.recipeapp.domain.SettingsRepository
@@ -125,4 +127,8 @@ abstract class DataModuleBinds {
     abstract fun bindRecipeCreationRepository(
         impl: RecipeCreationRepositoryImpl
     ): RecipeCreationRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindPhotoRepository(impl: PhotoRepositoryImpl): PhotoRepository
 }

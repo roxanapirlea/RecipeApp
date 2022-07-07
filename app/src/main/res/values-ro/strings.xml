@@ -16,6 +16,7 @@
     <string name="all_close">Închide</string>
     <string name="all_back">Înapoi</string>
     <string name="all_undo">Anulați</string>
+    <string name="all_error">Eroare</string>
     <string name="all_search">Căutare…</string>
     <string name="all_go_to_next_screen">Mergi la pasul următor</string>
     <string name="all_ingredient_placeholders">%1$s %2$s</string>
@@ -23,6 +24,12 @@
     <string name="all_instructions">Instrucțiuni</string>
     <string name="all_comments">Comentarii</string>
     <string name="all_add_comment">Adaugă un comentariu</string>
+    <string name="all_camera_permission_title">Allow camera usage?</string>
+    <string name="all_camera_permission_denied">Camera nu este disponibilă.</string>
+    <string name="all_request_permission">Cere permisiunea</string>
+    <string name="all_take_photo">Fă poză</string>
+    <string name="all_captured_image">Imaginea capturată</string>
+    <string name="all_camera_config_error">A apărut o problemă la configurarea camerei</string>
     <string name="all_category_breakfast">Mic dejun</string>
     <string name="all_category_dessert">Desert</string>
     <string name="all_category_dinner">Cină</string>
@@ -159,6 +166,7 @@
     <string name="home_empty_search">Nicio rețetă nu corespunde căutării tale</string>
     <string name="home_recipe_fetch_error">A apărut o problemă la recuperarea rețetelor tale</string>
     <string name="edit_recipe_title_page">Titlu</string>
+    <string name="edit_recipe_photo_page">Fotografie</string>
     <string name="edit_recipe_categories_page">Categorii</string>
     <string name="edit_recipe_portions_page">Porții</string>
     <string name="edit_recipe_ingredients_page">Ingrediente</string>
@@ -176,6 +184,7 @@
     <string name="edit_recipe_dialog_reset_info">Nu, șterge-le</string>
     <string name="edit_recipe_dialog_keep_recipe">Da, păstrează-le</string>
     <string name="edit_recipe_title_label">Introdu titlul rețetei</string>
+    <string name="edit_recipe_photo_label">lege o fotografie pentru rerețetă</string>
     <string name="edit_recipe_categories_label">Selectează categoriile rețetei</string>
     <string name="edit_recipe_portions_label">Numărul de porții</string>
     <string name="edit_recipe_temperature_label">Temperatura (%s)</string>
@@ -200,6 +209,10 @@
     <string name="edit_recipe_save_success">Rețetă salvată cu succes</string>
     <string name="edit_recipe_recap">Rezumat</string>
     <string name="edit_recipe_recap_continue_editing">Continuați editarea</string>
+    <string name="edit_recipe_add_photo_permission">Vă rugăm să acordați permisiunea camerei pentru a face o fotografie a rețetei</string>
+    <string name="edit_recipe_photo_retake">Faceți din nou fotografia</string>
+    <string name="edit_recipe_no_photo">Nicio fotografie</string>
+    <string name="edit_recipe_photo_save">Adaugă la rețetă</string>
     <plurals name="detail_portions">
         <item quantity="one">(%d porție)</item>
         <item quantity="few">(%d porții)</item>

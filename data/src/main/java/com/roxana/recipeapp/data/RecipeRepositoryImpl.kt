@@ -148,7 +148,8 @@ class RecipeRepositoryImpl @Inject constructor(
             .groupBy { it.id to it.name }
             .map { (pairIdName, summary) ->
                 val categories = summary.mapNotNull { it.category?.toDomainModel() }
-                RecipeSummary(pairIdName.first.toInt(), pairIdName.second, categories)
+                val photoPath = summary.first().photo_path
+                RecipeSummary(pairIdName.first.toInt(), pairIdName.second, photoPath, categories)
             }
 
     override suspend fun getRecipeById(id: Int): Recipe {
@@ -193,6 +194,7 @@ class RecipeRepositoryImpl @Inject constructor(
         return Recipe(
             id = dataRecipe.id.toInt(),
             name = dataRecipe.name,
+            photoPath = dataRecipe.photo_path,
             portions = dataRecipe.portions,
             categories = categories,
             ingredients = ingredients,

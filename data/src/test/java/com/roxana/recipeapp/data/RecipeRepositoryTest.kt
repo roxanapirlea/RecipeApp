@@ -254,10 +254,10 @@ internal class RecipeRepositoryTest {
     fun returnRecipeSummary_when_mapSummary() {
         // Given
         val dbSummaries = listOf(
-            GetRecipesSummary(1, "recipe 1", DbCategoryType.LUNCH),
-            GetRecipesSummary(1, "recipe 1", DbCategoryType.DINNER),
-            GetRecipesSummary(1, "recipe 1", null),
-            GetRecipesSummary(2, "recipe 2", null)
+            GetRecipesSummary(1, "recipe 1", null, DbCategoryType.LUNCH),
+            GetRecipesSummary(1, "recipe 1", null, DbCategoryType.DINNER),
+            GetRecipesSummary(1, "recipe 1", null, null),
+            GetRecipesSummary(2, "recipe 2", null, null)
         )
 
         // When
@@ -265,8 +265,8 @@ internal class RecipeRepositoryTest {
 
         // Then
         summaries shouldBe listOf(
-            RecipeSummary(1, "recipe 1", listOf(CategoryType.LUNCH, CategoryType.DINNER)),
-            RecipeSummary(2, "recipe 2", listOf())
+            RecipeSummary(1, "recipe 1", null, listOf(CategoryType.LUNCH, CategoryType.DINNER)),
+            RecipeSummary(2, "recipe 2", null, listOf())
         )
     }
 

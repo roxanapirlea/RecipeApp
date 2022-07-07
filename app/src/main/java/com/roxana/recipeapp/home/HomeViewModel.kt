@@ -114,7 +114,7 @@ class HomeViewModel @Inject constructor(
             )
     }
 
-    private fun RecipeSummary.toState() = RecipeState(id, name, categories.map { it.toUiModel() })
+    private fun RecipeSummary.toState() = RecipeState(id, name, photoPath, categories.map { it.toUiModel() })
 
     private fun computeFilterCount(filters: FiltersState): Int {
         var count = 0

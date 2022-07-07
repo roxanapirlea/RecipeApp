@@ -16,6 +16,7 @@ data class HomeViewState(
 data class RecipeState(
     val id: Int = 0,
     val name: String = "",
+    val photoPath: String? = null,
     val categories: List<UiCategoryType> = emptyList()
 )
 

@@ -46,6 +46,7 @@ class DetailViewModelTest {
         val recipeModel = Recipe(
             id = recipeId,
             name = "fake name",
+            photoPath = null,
             portions = 2,
             categories = listOf(CategoryType.DINNER, CategoryType.DESSERT),
             ingredients = listOf(Ingredient(1, "ingr", 3.0, QuantityType.CUP)),
@@ -90,6 +91,7 @@ class DetailViewModelTest {
         val recipeModel = Recipe(
             id = recipeId,
             name = "fake name",
+            photoPath = null,
             portions = 2,
             categories = listOf(CategoryType.DINNER, CategoryType.DESSERT),
             ingredients = listOf(Ingredient(1, "ingr", 3.0, QuantityType.CUP)),
@@ -126,6 +128,7 @@ class DetailViewModelTest {
         val recipeModel = Recipe(
             id = recipeId,
             name = "fake name",
+            photoPath = null,
             portions = 2,
             categories = listOf(CategoryType.DINNER, CategoryType.DESSERT),
             ingredients = listOf(Ingredient(1, "ingr", 3.0, QuantityType.CUP)),

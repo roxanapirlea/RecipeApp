@@ -3,6 +3,7 @@ package com.roxana.recipeapp.domain.model
 data class Recipe(
     val id: Int,
     val name: String,
+    val photoPath: String?,
     val portions: Short?,
     val categories: List<CategoryType>,
     val ingredients: List<Ingredient>,

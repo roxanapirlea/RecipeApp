@@ -7,6 +7,7 @@ data class Page(val type: PageType, @StringRes val name: Int, val isSelected: Bo
 
 enum class PageType {
     Title,
+    Photo,
     Categories,
     Portions,
     Ingredients,
@@ -19,6 +20,7 @@ enum class PageType {
 
 private val addPages = listOf(
     Page(PageType.Title, R.string.edit_recipe_title_page),
+    Page(PageType.Photo, R.string.edit_recipe_photo_page),
     Page(PageType.Categories, R.string.edit_recipe_categories_page),
     Page(PageType.Portions, R.string.edit_recipe_portions_page),
     Page(PageType.Ingredients, R.string.edit_recipe_ingredients_page),
@@ -30,6 +32,7 @@ private val addPages = listOf(
 
 private val editPages = listOf(
     Page(PageType.Title, R.string.edit_recipe_title_page),
+    Page(PageType.Photo, R.string.edit_recipe_photo_page),
     Page(PageType.Categories, R.string.edit_recipe_categories_page),
     Page(PageType.Portions, R.string.edit_recipe_portions_page),
     Page(PageType.Ingredients, R.string.edit_recipe_ingredients_page),
