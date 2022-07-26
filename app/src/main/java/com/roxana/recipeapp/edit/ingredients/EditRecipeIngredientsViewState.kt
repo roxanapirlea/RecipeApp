@@ -9,7 +9,6 @@ data class EditRecipeIngredientsViewState(
     val canAddIngredient: Boolean = false,
     val quantityTypes: List<UiQuantityType> = emptyList(),
     val isExistingRecipe: Boolean = false,
-    val showSaveDialog: Boolean = false,
     val navigation: Navigation? = null,
 )
 
@@ -24,6 +23,6 @@ data class IngredientState(
 sealed class Navigation {
     object ForwardCreation : Navigation()
     object ForwardEditing : Navigation()
-    object Close : Navigation()
-    data class ToPage(val page: PageType) : Navigation()
+    object Back : Navigation()
+    data class ToPage(val page: PageType, val isExistingRecipe: Boolean) : Navigation()
 }

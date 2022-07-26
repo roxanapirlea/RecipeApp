@@ -104,8 +104,16 @@ class EditRecipeTitleViewModel @Inject constructor(
     fun onSelectPage(page: PageType) {
         viewModelScope.launch {
             setTitleUseCase(state.value.title).fold(
-                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } },
-                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } }
+                {
+                    _state.update {
+                        it.copy(navigation = Navigation.ToPage(page, state.value.isExistingRecipe))
+                    }
+                },
+                {
+                    _state.update {
+                        it.copy(navigation = Navigation.ToPage(page, state.value.isExistingRecipe))
+                    }
+                }
             )
         }
     }

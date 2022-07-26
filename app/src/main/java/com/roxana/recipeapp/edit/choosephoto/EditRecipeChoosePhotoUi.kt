@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.edit.choosephoto
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -15,17 +14,16 @@ import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
-import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.choosephoto.ui.EditRecipeChoosePhotoView
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
 fun EditRecipeChoosePhotoDestination(
     editRecipeChoosePhotoViewModel: EditRecipeChoosePhotoViewModel,
-    onNavFinish: () -> Unit = {},
+    onNavBack: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
-    onNavToPage: (PageType) -> Unit = {},
+    onNavToPage: (pageType: PageType, isEdition: Boolean) -> Unit = { _, _ -> },
     onCapturePhoto: () -> Unit = {},
 ) {
     val state by rememberFlowWithLifecycle(editRecipeChoosePhotoViewModel.state)
@@ -36,8 +34,9 @@ fun EditRecipeChoosePhotoDestination(
             when (navigation) {
                 Navigation.ForwardCreation -> onCreationNavForward()
                 Navigation.ForwardEditing -> onEditNavForward()
-                Navigation.Close -> onNavFinish()
-                is Navigation.ToPage -> onNavToPage(navigation.page)
+                Navigation.Back -> onNavBack()
+                is Navigation.ToPage -> onNavToPage(navigation.page, navigation.isExistingRecipe)
+                Navigation.PhotoCapture -> onCapturePhoto()
             }
             editRecipeChoosePhotoViewModel.onNavigationDone()
         }
@@ -49,10 +48,7 @@ fun EditRecipeChoosePhotoDestination(
         onRecapturePhoto = editRecipeChoosePhotoViewModel::onRecapturePhoto,
         onClearPhoto = editRecipeChoosePhotoViewModel::onClearPhoto,
         onValidate = editRecipeChoosePhotoViewModel::onValidate,
-        onClose = editRecipeChoosePhotoViewModel::onCheckShouldClose,
-        onResetAndClose = editRecipeChoosePhotoViewModel::onResetAndClose,
-        onSaveAndClose = editRecipeChoosePhotoViewModel::onSaveAndClose,
-        onDismissDialog = editRecipeChoosePhotoViewModel::onDismissDialog,
+        onBack = editRecipeChoosePhotoViewModel::onBack,
         onSelectPage = editRecipeChoosePhotoViewModel::onSelectPage
     )
 }
@@ -64,10 +60,7 @@ fun EditRecipeChoosePhotoScreen(
     onCapturePhoto: () -> Unit = {},
     onRecapturePhoto: () -> Unit = {},
     onClearPhoto: () -> Unit = {},
-    onClose: () -> Unit = {},
-    onResetAndClose: () -> Unit = {},
-    onSaveAndClose: () -> Unit = {},
-    onDismissDialog: () -> Unit = {},
+    onBack: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
@@ -75,25 +68,15 @@ fun EditRecipeChoosePhotoScreen(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Photo,
         onSelectPage = onSelectPage,
-        onClose = onClose
+        onNavIcon = onBack
     ) {
         Box(Modifier.fillMaxSize()) {
-            BackHandler(onBack = onClose)
-
-            if (state.showSaveDialog)
-                SaveCreationDialog(
-                    onSave = onSaveAndClose,
-                    onDelete = onResetAndClose,
-                    onDismiss = onDismissDialog
-                )
-
             EditRecipeChoosePhotoView(
                 state = state,
                 onCapturePhoto = onCapturePhoto,
                 onRecapturePhoto = onRecapturePhoto,
                 onClearPhoto = onClearPhoto,
             )
-
             FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
         }
     }

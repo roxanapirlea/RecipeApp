@@ -69,38 +69,28 @@ class EditRecipeTemperatureViewModel @Inject constructor(
             _state.update { it.copy(navigation = Navigation.ForwardCreation) }
     }
 
-    fun onResetAndClose() {
-        _state.update { it.copy(showSaveDialog = false) }
-        viewModelScope.launch {
-            resetRecipeUseCase(null).fold(
-                { _state.update { it.copy(navigation = Navigation.Close) } },
-                { _state.update { it.copy(navigation = Navigation.Close) } }
-            )
-        }
-    }
-
-    fun onSaveAndClose() {
+    fun onBack() {
         viewModelScope.launch {
             setTemperatureUseCase(getInput()).fold(
-                { _state.update { it.copy(navigation = Navigation.Close) } },
-                { _state.update { it.copy(navigation = Navigation.Close) } }
+                { _state.update { it.copy(navigation = Navigation.Back) } },
+                { _state.update { it.copy(navigation = Navigation.Back) } }
             )
         }
-    }
-
-    fun onDismissDialog() {
-        _state.update { it.copy(showSaveDialog = false) }
-    }
-
-    fun onCheckShouldClose() {
-        _state.update { it.copy(showSaveDialog = true) }
     }
 
     fun onSelectPage(page: PageType) {
         viewModelScope.launch {
             setTemperatureUseCase(getInput()).fold(
-                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } },
-                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } }
+                {
+                    _state.update {
+                        it.copy(navigation = Navigation.ToPage(page, state.value.isExistingRecipe))
+                    }
+                },
+                {
+                    _state.update {
+                        it.copy(navigation = Navigation.ToPage(page, state.value.isExistingRecipe))
+                    }
+                }
             )
         }
     }

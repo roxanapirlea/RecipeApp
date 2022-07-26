@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.edit.portions
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -17,17 +16,16 @@ import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
-import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.portions.ui.EditRecipePortionsView
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
 fun EditRecipePortionsDestination(
     editRecipePortionsViewModel: EditRecipePortionsViewModel,
-    onNavFinish: () -> Unit = {},
+    onNavBack: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
-    onNavToPage: (PageType) -> Unit = {},
+    onNavToPage: (pageType: PageType, isEdition: Boolean) -> Unit = { _, _ -> },
 ) {
     val state by rememberFlowWithLifecycle(editRecipePortionsViewModel.state)
         .collectAsState(EditRecipePortionsViewState())
@@ -37,8 +35,8 @@ fun EditRecipePortionsDestination(
             when (navigation) {
                 Navigation.ForwardCreation -> onCreationNavForward()
                 Navigation.ForwardEditing -> onEditNavForward()
-                Navigation.Close -> onNavFinish()
-                is Navigation.ToPage -> onNavToPage(navigation.page)
+                Navigation.Back -> onNavBack()
+                is Navigation.ToPage -> onNavToPage(navigation.page, navigation.isExistingRecipe)
             }
             editRecipePortionsViewModel.onNavigationDone()
         }
@@ -48,10 +46,7 @@ fun EditRecipePortionsDestination(
         state,
         onPortionsChanged = editRecipePortionsViewModel::onPortionsChanged,
         onValidate = editRecipePortionsViewModel::onValidate,
-        onClose = editRecipePortionsViewModel::onCheckShouldClose,
-        onResetAndClose = editRecipePortionsViewModel::onResetAndClose,
-        onSaveAndClose = editRecipePortionsViewModel::onSaveAndClose,
-        onDismissDialog = editRecipePortionsViewModel::onDismissDialog,
+        onBack = editRecipePortionsViewModel::onBack,
         onSelectPage = editRecipePortionsViewModel::onSelectPage,
     )
 }
@@ -61,10 +56,7 @@ fun EditRecipePortionsDestination(
 fun EditRecipePortionsScreen(
     state: EditRecipePortionsViewState,
     onPortionsChanged: (String) -> Unit = {},
-    onClose: () -> Unit = {},
-    onResetAndClose: () -> Unit = {},
-    onSaveAndClose: () -> Unit = {},
-    onDismissDialog: () -> Unit = {},
+    onBack: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
@@ -78,18 +70,9 @@ fun EditRecipePortionsScreen(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Portions,
         onSelectPage = onSelectPage,
-        onClose = onClose
+        onNavIcon = onBack
     ) {
         Box(Modifier.fillMaxSize()) {
-            BackHandler(onBack = onClose)
-
-            if (state.showSaveDialog)
-                SaveCreationDialog(
-                    onSave = onSaveAndClose,
-                    onDelete = onResetAndClose,
-                    onDismiss = onDismissDialog
-                )
-
             EditRecipePortionsView(
                 state = state,
                 focusRequester = focusRequester,
