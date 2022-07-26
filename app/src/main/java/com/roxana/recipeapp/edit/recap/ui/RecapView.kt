@@ -3,6 +3,7 @@ package com.roxana.recipeapp.edit.recap.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -44,16 +45,20 @@ fun RecapView(
     onSave: () -> Unit = {},
     onEdit: () -> Unit = {},
 ) {
-    Box(modifier.fillMaxSize()) {
+    Column(modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(1f)
                 .padding(horizontal = 16.dp)
-                .padding(top = 16.dp)
         ) {
             state.photoPath?.let {
                 item {
-                    Box(modifier = Modifier.fillMaxWidth()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp)
+                    ) {
                         RecipeImage(
                             path = it,
                             modifier = Modifier.align(Alignment.Center)
@@ -161,7 +166,6 @@ fun RecapView(
             }
         }
         TwoButtonRow(
-            modifier = Modifier.align(Alignment.BottomCenter),
             textStartButton = stringResource(R.string.edit_recipe_recap_continue_editing),
             onClickStartButton = onEdit,
             textEndButton = stringResource(R.string.all_save),

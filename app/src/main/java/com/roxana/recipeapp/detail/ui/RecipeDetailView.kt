@@ -3,6 +3,7 @@ package com.roxana.recipeapp.detail.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,9 +27,9 @@ import com.roxana.recipeapp.detail.IngredientState
 import com.roxana.recipeapp.detail.TimeState
 import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.CenteredTitle
-import com.roxana.recipeapp.ui.button.SecondaryButton
 import com.roxana.recipeapp.ui.LabelView
 import com.roxana.recipeapp.ui.RecipeImage
+import com.roxana.recipeapp.ui.button.SecondaryButton
 import com.roxana.recipeapp.ui.button.TwoButtonRow
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
@@ -42,9 +43,9 @@ fun RecipeDetailView(
     onAddCommentClicked: () -> Unit = {},
     onEditClicked: () -> Unit = {},
 ) {
-    Box(modifier.fillMaxSize()) {
+    Column(modifier.fillMaxSize()) {
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().weight(1f),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 32.dp)
         ) {
             state.photoPath?.let {
@@ -162,7 +163,6 @@ fun RecipeDetailView(
             }
         }
         TwoButtonRow(
-            modifier = Modifier.align(Alignment.BottomCenter),
             textStartButton = stringResource(R.string.detail_edit_recipe),
             textEndButton = stringResource(R.string.detail_start_cooking),
             onClickStartButton = onEditClicked,
