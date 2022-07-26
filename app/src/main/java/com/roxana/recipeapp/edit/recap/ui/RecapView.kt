@@ -32,7 +32,7 @@ import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.CenteredTitle
 import com.roxana.recipeapp.ui.LabelView
 import com.roxana.recipeapp.ui.RecipeImage
-import com.roxana.recipeapp.ui.TwoButtonRow
+import com.roxana.recipeapp.ui.button.TwoButtonRow
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType

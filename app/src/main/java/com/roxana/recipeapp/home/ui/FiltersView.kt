@@ -18,7 +18,7 @@ import com.google.accompanist.flowlayout.FlowRow
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.home.FiltersState
 import com.roxana.recipeapp.ui.SelectableCategory
-import com.roxana.recipeapp.ui.TwoButtonRow
+import com.roxana.recipeapp.ui.button.TwoButtonRow
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
 

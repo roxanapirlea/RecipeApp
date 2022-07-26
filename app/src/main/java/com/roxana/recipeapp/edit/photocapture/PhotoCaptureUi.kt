@@ -32,7 +32,7 @@ import com.roxana.recipeapp.permission.ui.CameraPermissionDenied
 import com.roxana.recipeapp.permission.ui.CameraPermissionExplanation
 import com.roxana.recipeapp.scan.CameraView
 import com.roxana.recipeapp.ui.AppBar
-import com.roxana.recipeapp.ui.FlatSecondaryButton
+import com.roxana.recipeapp.ui.button.SecondaryButton
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -145,10 +145,10 @@ fun CapturedImage(
                 .padding(bottom = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            FlatSecondaryButton(onClick = onTakeAnotherPhoto) {
+            SecondaryButton(onClick = onTakeAnotherPhoto) {
                 Text(stringResource(R.string.edit_recipe_photo_retake))
             }
-            FlatSecondaryButton(onClick = onAcceptPhoto) {
+            SecondaryButton(onClick = onAcceptPhoto) {
                 Text(stringResource(R.string.edit_recipe_photo_save))
             }
         }

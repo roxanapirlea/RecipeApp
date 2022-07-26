@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.ui.FlatSecondaryButton
+import com.roxana.recipeapp.ui.button.SecondaryButton
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
@@ -30,7 +30,7 @@ fun CameraPermissionExplanation(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = text, textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 16.dp))
-        FlatSecondaryButton(onClick = onRequest) {
+        SecondaryButton(onClick = onRequest) {
             Text(stringResource(R.string.all_request_permission))
         }
     }

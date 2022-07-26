@@ -15,7 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.cooking.ingredients.VaryIngredientsState
-import com.roxana.recipeapp.ui.FlatSecondaryButton
+import com.roxana.recipeapp.ui.button.SecondaryButton
 import com.roxana.recipeapp.ui.textfield.RecipePrimaryTextField
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -57,7 +57,7 @@ fun VaryIngredientsView(
             )
         }
         if (state.updatedIngredient?.isQuantityInError == false)
-            FlatSecondaryButton(
+            SecondaryButton(
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(8.dp),

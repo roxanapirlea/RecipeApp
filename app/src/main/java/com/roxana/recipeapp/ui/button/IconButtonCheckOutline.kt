@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.ui
+package com.roxana.recipeapp.ui.button
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton

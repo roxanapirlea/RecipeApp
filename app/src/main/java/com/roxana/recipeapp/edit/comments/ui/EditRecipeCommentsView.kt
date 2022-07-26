@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.comments.EditRecipeCommentsViewState
 import com.roxana.recipeapp.ui.DividerAlpha16
-import com.roxana.recipeapp.ui.IconButtonCheckOutline
 import com.roxana.recipeapp.ui.LabelView
+import com.roxana.recipeapp.ui.button.IconButtonCheckOutline
 import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
 
 @Composable

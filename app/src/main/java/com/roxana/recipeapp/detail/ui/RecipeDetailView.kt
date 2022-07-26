@@ -26,10 +26,10 @@ import com.roxana.recipeapp.detail.IngredientState
 import com.roxana.recipeapp.detail.TimeState
 import com.roxana.recipeapp.ui.CategoriesView
 import com.roxana.recipeapp.ui.CenteredTitle
-import com.roxana.recipeapp.ui.FlatSecondaryButton
+import com.roxana.recipeapp.ui.button.SecondaryButton
 import com.roxana.recipeapp.ui.LabelView
 import com.roxana.recipeapp.ui.RecipeImage
-import com.roxana.recipeapp.ui.TwoButtonRow
+import com.roxana.recipeapp.ui.button.TwoButtonRow
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
@@ -153,7 +153,7 @@ fun RecipeDetailView(
                 items(state.comments) { Text(it, color = MaterialTheme.colors.onBackground) }
             }
             item {
-                FlatSecondaryButton(
+                SecondaryButton(
                     onClick = onAddCommentClicked,
                     modifier = Modifier.padding(top = 16.dp)
                 ) {

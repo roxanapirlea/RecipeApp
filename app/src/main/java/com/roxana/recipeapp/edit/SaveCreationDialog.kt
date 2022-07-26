@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.ui.FlatSecondaryButton
+import com.roxana.recipeapp.ui.button.SecondaryButton
 
 @Composable
 fun SaveCreationDialog(
@@ -51,7 +51,7 @@ fun SaveCreationDialog(
                         .padding(8.dp),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    FlatSecondaryButton(
+                    SecondaryButton(
                         onClick = {
                             openDialog.value = false
                             onDelete()
@@ -66,7 +66,7 @@ fun SaveCreationDialog(
                             textAlign = TextAlign.Center
                         )
                     }
-                    FlatSecondaryButton(
+                    SecondaryButton(
                         onClick = {
                             openDialog.value = false
                             onSave()

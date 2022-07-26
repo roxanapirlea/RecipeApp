@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.ui
+package com.roxana.recipeapp.ui.button
 
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -34,7 +34,7 @@ fun TwoButtonRow(
                 .height(IntrinsicSize.Min)
                 .padding(vertical = 8.dp)
         ) {
-            FlatSecondaryButton(
+            SecondaryButton(
                 onClick = onClickStartButton,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -43,7 +43,7 @@ fun TwoButtonRow(
             ) {
                 Text(textStartButton, textAlign = TextAlign.Center)
             }
-            FlatSecondaryButton(
+            SecondaryButton(
                 onClick = onClickEndButton,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)

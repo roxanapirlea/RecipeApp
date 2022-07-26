@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.comment.AddCommentState
-import com.roxana.recipeapp.ui.FlatSecondaryButton
+import com.roxana.recipeapp.ui.button.SecondaryButton
 import com.roxana.recipeapp.ui.textfield.RecipePrimaryTextField
 
 @Composable
@@ -32,7 +32,7 @@ fun AddCommentView(
             onImeAction = onSaveComment,
             onValueChange = onChangeComment,
         )
-        FlatSecondaryButton(
+        SecondaryButton(
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(8.dp),
