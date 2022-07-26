@@ -72,7 +72,10 @@ class EditRecipeIngredientsViewModel @Inject constructor(
     fun onIngredientNameChanged(text: String) {
         _state.update {
             val editing = it.editingIngredient.copy(name = text)
-            it.copy(editingIngredient = editing, canAddIngredient = text.isNotBlank())
+            it.copy(
+                editingIngredient = editing,
+                canAddIngredient = text.isNotBlank() && !editing.isQuantityError
+            )
         }
     }
 
@@ -81,7 +84,10 @@ class EditRecipeIngredientsViewModel @Inject constructor(
             val quantityError = !isQuantityValid(text)
             val editing =
                 it.editingIngredient.copy(quantity = text, isQuantityError = quantityError)
-            it.copy(editingIngredient = editing, canAddIngredient = !quantityError)
+            it.copy(
+                editingIngredient = editing,
+                canAddIngredient = editing.name.isNotBlank() && !quantityError
+            )
         }
     }
 

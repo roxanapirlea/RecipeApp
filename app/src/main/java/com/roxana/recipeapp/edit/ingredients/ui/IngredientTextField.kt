@@ -72,7 +72,7 @@ fun IngredientTextField(
                 RecipeSecondaryTextField(
                     value = ingredient.quantity,
                     onValueChange = { onQuantityChange(it) },
-                    isError = !ingredient.isQuantityError,
+                    isError = ingredient.isQuantityError,
                     label = stringResource(R.string.edit_recipe_quantity_hint),
                     keyboardType = KeyboardType.Number,
                     textStyle = MaterialTheme.typography.body1,
