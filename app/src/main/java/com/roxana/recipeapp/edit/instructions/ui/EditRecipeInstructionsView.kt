@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -23,8 +24,9 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.instructions.EditRecipeInstructionsViewState
 import com.roxana.recipeapp.ui.DividerAlpha16
+import com.roxana.recipeapp.ui.IconButtonCheckOutline
 import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.TrailingIconTextField
+import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
 
 @Composable
 fun EditRecipeInstructionsView(
@@ -56,16 +58,16 @@ fun EditRecipeInstructionsView(
             LabelView(text = stringResource(R.string.all_instructions))
         }
         Spacer(modifier = Modifier.weight(0.5f))
-        TrailingIconTextField(
+        RecipeSecondaryTextField(
             value = state.editingInstruction,
             onValueChange = onInstructionChanged,
             label = stringResource(R.string.edit_recipe_instruction_hint),
-            trailingIcon = R.drawable.ic_check_outline,
-            onTrailingIconClicked = onSaveInstruction,
-            focusRequester = focusRequester,
+            trailing = if (state.canAddInstruction) {
+                { IconButtonCheckOutline(onSaveInstruction) }
+            } else null,
             imeAction = ImeAction.Done,
             onImeAction = onInstructionDone,
-            modifier = Modifier
+            modifier = Modifier.fillMaxWidth().focusRequester(focusRequester)
         )
         if (state.instructions.isNotEmpty())
             DividerAlpha16(Modifier.padding(bottom = 4.dp, top = 16.dp))

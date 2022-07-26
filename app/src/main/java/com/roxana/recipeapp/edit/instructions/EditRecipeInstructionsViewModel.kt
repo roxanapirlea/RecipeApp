@@ -45,16 +45,19 @@ class EditRecipeInstructionsViewModel @Inject constructor(
 
     fun onInstructionChanged(text: String) {
         _state.update {
-            it.copy(editingInstruction = text)
+            it.copy(editingInstruction = text, canAddInstruction = text.isNotBlank())
         }
     }
 
     fun onSaveInstruction() {
         _state.update { state ->
-            state.copy(
-                instructions = state.instructions + state.editingInstruction,
-                editingInstruction = ""
-            )
+            if (state.canAddInstruction)
+                state.copy(
+                    instructions = state.instructions + state.editingInstruction,
+                    editingInstruction = "",
+                    canAddInstruction = false
+                )
+            else state
         }
     }
 

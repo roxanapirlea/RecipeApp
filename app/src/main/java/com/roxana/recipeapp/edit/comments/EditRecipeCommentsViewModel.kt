@@ -45,16 +45,19 @@ class EditRecipeCommentsViewModel @Inject constructor(
 
     fun onCommentChanged(text: String) {
         _state.update {
-            it.copy(editingComment = text)
+            it.copy(editingComment = text, canAddEditingComment = text.isNotBlank())
         }
     }
 
     fun onSaveComment() {
         _state.update { state ->
-            state.copy(
-                comments = state.comments + state.editingComment,
-                editingComment = ""
-            )
+            if (state.canAddEditingComment)
+                state.copy(
+                    comments = state.comments + state.editingComment,
+                    editingComment = "",
+                    canAddEditingComment = false
+                )
+            else state
         }
     }
 

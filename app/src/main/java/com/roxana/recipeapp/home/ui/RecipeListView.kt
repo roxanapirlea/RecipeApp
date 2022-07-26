@@ -20,7 +20,7 @@ import com.roxana.recipeapp.R
 import com.roxana.recipeapp.home.HomeViewState
 import com.roxana.recipeapp.home.RecipeState
 import com.roxana.recipeapp.ui.FilterIcon
-import com.roxana.recipeapp.ui.SearchTextField
+import com.roxana.recipeapp.ui.textfield.SearchTextField
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable

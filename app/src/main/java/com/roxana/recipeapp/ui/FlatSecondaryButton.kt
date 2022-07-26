@@ -17,6 +17,7 @@ import com.roxana.recipeapp.ui.theme.RecipeTheme
 fun FlatSecondaryButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    isEnabled: Boolean = true,
     content: @Composable RowScope.() -> Unit
 ) {
     Button(
@@ -25,7 +26,8 @@ fun FlatSecondaryButton(
         shape = RectangleShape,
         colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary),
         modifier = modifier,
-        content = content
+        enabled = isEnabled,
+        content = content,
     )
 }
 

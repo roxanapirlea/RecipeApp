@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -23,8 +24,9 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.comments.EditRecipeCommentsViewState
 import com.roxana.recipeapp.ui.DividerAlpha16
+import com.roxana.recipeapp.ui.IconButtonCheckOutline
 import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.TrailingIconTextField
+import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
 
 @Composable
 fun EditRecipeCommentsView(
@@ -56,16 +58,16 @@ fun EditRecipeCommentsView(
             LabelView(text = stringResource(R.string.all_comments))
         }
         Spacer(modifier = Modifier.weight(0.5f))
-        TrailingIconTextField(
+        RecipeSecondaryTextField(
             value = state.editingComment,
             onValueChange = onCommentChanged,
             label = stringResource(R.string.edit_recipe_comment_hint),
-            trailingIcon = R.drawable.ic_check_outline,
-            onTrailingIconClicked = onSaveComment,
-            focusRequester = focusRequester,
+            trailing = if (state.canAddEditingComment) {
+                { IconButtonCheckOutline(onSaveComment) }
+            } else null,
             imeAction = ImeAction.Done,
             onImeAction = onCommentDone,
-            modifier = Modifier
+            modifier = Modifier.fillMaxWidth().focusRequester(focusRequester)
         )
         if (state.comments.isNotEmpty())
             DividerAlpha16(Modifier.padding(bottom = 4.dp, top = 16.dp))

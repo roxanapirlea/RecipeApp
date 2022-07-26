@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -38,8 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.ingredients.IngredientState
-import com.roxana.recipeapp.edit.ingredients.isQuantityValid
-import com.roxana.recipeapp.ui.RecipeTextField
+import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiQuantityType
 
@@ -48,6 +48,7 @@ fun IngredientTextField(
     ingredient: IngredientState,
     quantityTypes: List<UiQuantityType>,
     modifier: Modifier = Modifier,
+    canSave: Boolean = false,
     startFocusRequester: FocusRequester = remember { FocusRequester() },
     onIngredientChange: (String) -> Unit = {},
     onQuantityChange: (String) -> Unit = {},
@@ -68,10 +69,10 @@ fun IngredientTextField(
     ) {
         Column(Modifier.weight(3f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                RecipeTextField(
+                RecipeSecondaryTextField(
                     value = ingredient.quantity,
                     onValueChange = { onQuantityChange(it) },
-                    isError = !ingredient.isQuantityValid(),
+                    isError = !ingredient.isQuantityError,
                     label = stringResource(R.string.edit_recipe_quantity_hint),
                     keyboardType = KeyboardType.Number,
                     textStyle = MaterialTheme.typography.body1,
@@ -97,7 +98,7 @@ fun IngredientTextField(
                     }
                 )
             }
-            RecipeTextField(
+            RecipeSecondaryTextField(
                 value = ingredient.name,
                 onValueChange = { onIngredientChange(it) },
                 label = stringResource(R.string.edit_recipe_ingredient_hint),
@@ -114,19 +115,27 @@ fun IngredientTextField(
                     .focusRequester(nameFocusRequester)
             )
         }
-        Icon(
-            painterResource(R.drawable.ic_check_outline),
-            tint = MaterialTheme.colors.primary,
-            contentDescription = stringResource(R.string.all_save),
-            modifier = Modifier
-                .padding(start = 6.dp)
-                .clickable {
-                    onSave()
-                    startFocusRequester.requestFocus()
-                }
-                .padding(12.dp)
-                .size(32.dp)
-        )
+        if (canSave) {
+            Icon(
+                painterResource(R.drawable.ic_check_outline),
+                tint = MaterialTheme.colors.primary,
+                contentDescription = stringResource(R.string.all_save),
+                modifier = Modifier
+                    .padding(start = 6.dp)
+                    .clickable {
+                        onSave()
+                        startFocusRequester.requestFocus()
+                    }
+                    .padding(12.dp)
+                    .size(32.dp)
+            )
+        } else {
+            Spacer(
+                modifier = Modifier
+                    .padding(start = 6.dp)
+                    .size(32.dp)
+            )
+        }
     }
 }
 
@@ -202,7 +211,7 @@ fun IngredientTextFieldPreviewLight() {
 fun IngredientTextFieldFilledPreviewLight() {
     RecipeTheme {
         IngredientTextField(
-            ingredient = IngredientState(null, "Flour", "2.0", UiQuantityType.Cup),
+            ingredient = IngredientState(null, "Flour", "2.0", false, UiQuantityType.Cup),
             quantityTypes = listOf(),
             onIngredientChange = {},
             onQuantityChange = {},
@@ -240,7 +249,7 @@ fun IngredientTextFieldPreviewDark() {
 fun IngredientTextFieldFilledPreviewDark() {
     RecipeTheme {
         IngredientTextField(
-            ingredient = IngredientState(null, "Flour", "2.0", UiQuantityType.Cup),
+            ingredient = IngredientState(null, "Flour", "2.0", false, UiQuantityType.Cup),
             quantityTypes = listOf(),
             onIngredientChange = {},
             onQuantityChange = {},

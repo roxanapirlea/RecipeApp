@@ -61,6 +61,7 @@ fun EditRecipeIngredientsView(
             ingredient = state.editingIngredient,
             modifier = Modifier.fillMaxWidth(),
             quantityTypes = state.quantityTypes,
+            canSave = state.canAddIngredient,
             onIngredientChange = onIngredientNameChanged,
             onQuantityChange = onIngredientQuantityChanged,
             onTypeChange = onIngredientQuantityTypeChanged,

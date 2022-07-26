@@ -106,13 +106,13 @@ fun EditRecipeIngredientsScreen(
                 startFocusRequester = startFocusRequester,
             )
 
-            if (state.editingIngredient.isEmpty())
-                FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
-            else
+            if (state.canAddIngredient)
                 FabSave(modifier = Modifier.align(Alignment.BottomEnd)) {
                     onSaveIngredient()
                     startFocusRequester.requestFocus()
                 }
+            else
+                FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
         }
     }
 }

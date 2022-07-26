@@ -5,6 +5,7 @@ import com.roxana.recipeapp.edit.PageType
 data class EditRecipeCommentsViewState(
     val comments: List<String> = emptyList(),
     val editingComment: String = "",
+    val canAddEditingComment: Boolean = false,
     val isExistingRecipe: Boolean = false,
     val showSaveDialog: Boolean = false,
     val navigation: Navigation? = null,
