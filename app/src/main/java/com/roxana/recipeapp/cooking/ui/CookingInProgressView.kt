@@ -18,8 +18,8 @@ import com.roxana.recipeapp.cooking.CookingViewState
 import com.roxana.recipeapp.cooking.TimeState
 import com.roxana.recipeapp.detail.ui.EmptyItem
 import com.roxana.recipeapp.ui.CenteredTitle
-import com.roxana.recipeapp.ui.FlatSecondaryButton
 import com.roxana.recipeapp.ui.LabelView
+import com.roxana.recipeapp.ui.button.SecondaryButton
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
@@ -93,7 +93,7 @@ fun CookingInProgressView(
             )
         }
         item {
-            FlatSecondaryButton(onClick = onVaryIngredient) {
+            SecondaryButton(onClick = onVaryIngredient) {
                 Text(stringResource(R.string.cooking_edit_by_ingredient))
             }
         }
@@ -144,7 +144,7 @@ fun CookingInProgressView(
             items(state.comments) { Text(it, color = MaterialTheme.colors.onBackground) }
         }
         item {
-            FlatSecondaryButton(
+            SecondaryButton(
                 onClick = onAddComment,
                 modifier = Modifier.padding(top = 16.dp)
             ) {

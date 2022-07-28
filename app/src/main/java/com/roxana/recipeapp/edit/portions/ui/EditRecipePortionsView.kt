@@ -18,11 +18,12 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.portions.EditRecipePortionsViewState
 import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.RecipeTextField
+import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
 
 @Composable
 fun EditRecipePortionsView(
@@ -52,12 +53,13 @@ fun EditRecipePortionsView(
             LabelView(text = stringResource(R.string.edit_recipe_portions_label))
         }
         Spacer(modifier = Modifier.weight(0.5f))
-        RecipeTextField(
+        RecipeSecondaryTextField(
             value = state.portions,
             onValueChange = onPortionsChanged,
             placeholder = stringResource(R.string.edit_recipe_portions_hint),
             imeAction = ImeAction.Done,
             onImeAction = onValidate,
+            keyboardType = KeyboardType.Decimal,
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequester)

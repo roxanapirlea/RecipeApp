@@ -45,16 +45,19 @@ class EditRecipeCommentsViewModel @Inject constructor(
 
     fun onCommentChanged(text: String) {
         _state.update {
-            it.copy(editingComment = text)
+            it.copy(editingComment = text, canAddEditingComment = text.isNotBlank())
         }
     }
 
     fun onSaveComment() {
         _state.update { state ->
-            state.copy(
-                comments = state.comments + state.editingComment,
-                editingComment = ""
-            )
+            if (state.canAddEditingComment)
+                state.copy(
+                    comments = state.comments + state.editingComment,
+                    editingComment = "",
+                    canAddEditingComment = false
+                )
+            else state
         }
     }
 
@@ -86,38 +89,28 @@ class EditRecipeCommentsViewModel @Inject constructor(
             _state.update { it.copy(navigation = Navigation.ForwardCreation) }
     }
 
-    fun onResetAndClose() {
-        _state.update { it.copy(showSaveDialog = false) }
-        viewModelScope.launch {
-            resetRecipeUseCase(null).fold(
-                { _state.update { it.copy(navigation = Navigation.Close) } },
-                { _state.update { it.copy(navigation = Navigation.Close) } }
-            )
-        }
-    }
-
-    fun onSaveAndClose() {
+    fun onBack() {
         viewModelScope.launch {
             setCommentsUseCase(getAllComments()).fold(
-                { _state.update { it.copy(navigation = Navigation.Close) } },
-                { _state.update { it.copy(navigation = Navigation.Close) } }
+                { _state.update { it.copy(navigation = Navigation.Back) } },
+                { _state.update { it.copy(navigation = Navigation.Back) } }
             )
         }
-    }
-
-    fun onDismissDialog() {
-        _state.update { it.copy(showSaveDialog = false) }
-    }
-
-    fun onCheckShouldClose() {
-        _state.update { it.copy(showSaveDialog = true) }
     }
 
     fun onSelectPage(page: PageType) {
         viewModelScope.launch {
             setCommentsUseCase(getAllComments()).fold(
-                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } },
-                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } }
+                {
+                    _state.update {
+                        it.copy(navigation = Navigation.ToPage(page, state.value.isExistingRecipe))
+                    }
+                },
+                {
+                    _state.update {
+                        it.copy(navigation = Navigation.ToPage(page, state.value.isExistingRecipe))
+                    }
+                }
             )
         }
     }

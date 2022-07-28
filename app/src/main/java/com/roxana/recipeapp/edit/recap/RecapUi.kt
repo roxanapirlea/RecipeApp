@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.edit.recap
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.BackdropScaffoldState
@@ -19,7 +18,6 @@ import com.roxana.recipeapp.R
 import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.PageType
-import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.recap.ui.RecapView
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
@@ -29,7 +27,7 @@ fun RecapDestination(
     recapViewModel: RecapViewModel,
     onNavBack: () -> Unit = {},
     onNavFinish: () -> Unit = {},
-    onNavToPage: (PageType) -> Unit = {},
+    onNavToPage: (pageType: PageType, isEdition: Boolean) -> Unit = { _, _ -> },
 ) {
     val state by rememberFlowWithLifecycle(recapViewModel.state)
         .collectAsState(RecapViewState())
@@ -75,10 +73,7 @@ fun RecapDestination(
         scaffoldState,
         onCreateRecipe = recapViewModel::createRecipe,
         onEdit = onNavBack,
-        onClose = recapViewModel::onCheckShouldClose,
-        onResetAndClose = recapViewModel::onResetAndClose,
-        onSaveAndClose = recapViewModel::onClose,
-        onDismissDialog = recapViewModel::onDismissDialog,
+        onBack = onNavBack,
         onSelectPage = onNavToPage,
     )
 }
@@ -90,29 +85,17 @@ fun RecapScreen(
     scaffoldState: BackdropScaffoldState,
     onCreateRecipe: () -> Unit = {},
     onEdit: () -> Unit = {},
-    onClose: () -> Unit = {},
-    onResetAndClose: () -> Unit = {},
-    onSaveAndClose: () -> Unit = {},
-    onDismissDialog: () -> Unit = {},
-    onSelectPage: (PageType) -> Unit = {},
+    onBack: () -> Unit = {},
+    onSelectPage: (pageType: PageType, isEdition: Boolean) -> Unit = { _, _ -> },
 ) {
     EditRecipeBackdrop(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Recap,
         scaffoldState = scaffoldState,
-        onSelectPage = onSelectPage,
-        onClose = onClose
+        onSelectPage = { onSelectPage(it, state.isExistingRecipe) },
+        onNavIcon = onBack
     ) {
         Box(Modifier.fillMaxSize()) {
-            BackHandler(onBack = onClose)
-
-            if (state.showSaveDialog)
-                SaveCreationDialog(
-                    onSave = onSaveAndClose,
-                    onDelete = onResetAndClose,
-                    onDismiss = onDismissDialog
-                )
-
             RecapView(
                 state = state,
                 onSave = onCreateRecipe,

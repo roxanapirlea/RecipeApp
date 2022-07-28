@@ -45,16 +45,19 @@ class EditRecipeInstructionsViewModel @Inject constructor(
 
     fun onInstructionChanged(text: String) {
         _state.update {
-            it.copy(editingInstruction = text)
+            it.copy(editingInstruction = text, canAddInstruction = text.isNotBlank())
         }
     }
 
     fun onSaveInstruction() {
         _state.update { state ->
-            state.copy(
-                instructions = state.instructions + state.editingInstruction,
-                editingInstruction = ""
-            )
+            if (state.canAddInstruction)
+                state.copy(
+                    instructions = state.instructions + state.editingInstruction,
+                    editingInstruction = "",
+                    canAddInstruction = false
+                )
+            else state
         }
     }
 
@@ -86,39 +89,28 @@ class EditRecipeInstructionsViewModel @Inject constructor(
             _state.update { it.copy(navigation = Navigation.ForwardCreation) }
     }
 
-    fun onResetAndClose() {
-        _state.update { it.copy(showSaveDialog = false) }
-        viewModelScope.launch {
-            resetRecipeUseCase(null).fold(
-                { _state.update { it.copy(navigation = Navigation.Close) } },
-                { _state.update { it.copy(navigation = Navigation.Close) } }
-            )
-        }
-    }
-
-    fun onSaveAndClose() {
-        _state.update { it.copy(showSaveDialog = false) }
+    fun onBack() {
         viewModelScope.launch {
             setInstructionsUseCase(getAllInstructions()).fold(
-                { _state.update { it.copy(navigation = Navigation.Close) } },
-                { _state.update { it.copy(navigation = Navigation.Close) } }
+                { _state.update { it.copy(navigation = Navigation.Back) } },
+                { _state.update { it.copy(navigation = Navigation.Back) } }
             )
         }
-    }
-
-    fun onDismissDialog() {
-        _state.update { it.copy(showSaveDialog = false) }
-    }
-
-    fun onCheckShouldClose() {
-        _state.update { it.copy(showSaveDialog = true) }
     }
 
     fun onSelectPage(page: PageType) {
         viewModelScope.launch {
             setInstructionsUseCase(getAllInstructions()).fold(
-                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } },
-                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } }
+                {
+                    _state.update {
+                        it.copy(navigation = Navigation.ToPage(page, state.value.isExistingRecipe))
+                    }
+                },
+                {
+                    _state.update {
+                        it.copy(navigation = Navigation.ToPage(page, state.value.isExistingRecipe))
+                    }
+                }
             )
         }
     }

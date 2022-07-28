@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.title.EditRecipeTitleViewState
 import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.RecipeTextField
+import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
 
 @Composable
 fun EditRecipeTitleView(
@@ -37,7 +37,7 @@ fun EditRecipeTitleView(
             modifier = Modifier.padding(bottom = 8.dp),
         )
         Spacer(modifier = Modifier.weight(0.5f))
-        RecipeTextField(
+        RecipeSecondaryTextField(
             value = state.title,
             onValueChange = onTitleChanged,
             placeholder = stringResource(R.string.edit_recipe_title_hint),

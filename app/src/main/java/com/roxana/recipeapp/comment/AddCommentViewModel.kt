@@ -25,10 +25,12 @@ class AddCommentViewModel @Inject constructor(
     val state: StateFlow<AddCommentState> = _state.asStateFlow()
 
     fun onChangeComment(comment: String) {
-        _state.value = state.value.copy(comment = comment)
+        _state.value = state.value.copy(comment = comment, canSave = comment.isNotBlank())
     }
 
     fun onSaveComment() {
+        if (state.value.comment.isBlank()) return
+
         val recipeId = savedStateHandle.get<Int>(AddCommentNode.KEY_ID)!!
         viewModelScope.launch {
             addCommentUseCase(

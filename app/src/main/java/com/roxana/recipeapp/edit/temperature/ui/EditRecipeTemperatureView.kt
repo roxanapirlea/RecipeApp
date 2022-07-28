@@ -18,11 +18,12 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.temperature.EditRecipeTemperatureViewState
 import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.RecipeTextField
+import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
 
 @Composable
 fun EditRecipeTemperatureView(
@@ -58,10 +59,11 @@ fun EditRecipeTemperatureView(
             )
         }
         Spacer(modifier = Modifier.weight(0.5f))
-        RecipeTextField(
+        RecipeSecondaryTextField(
             value = state.temperature,
             onValueChange = onTemperatureChanged,
             placeholder = stringResource(R.string.edit_recipe_temperature_hint),
+            keyboardType = KeyboardType.Decimal,
             imeAction = ImeAction.Done,
             onImeAction = onValidate,
             modifier = Modifier

@@ -84,29 +84,7 @@ class RecapViewModel @Inject constructor(
         _state.update { it.copy(saveResult = null) }
     }
 
-    fun onResetAndClose() {
-        _state.update { it.copy(showSaveDialog = false) }
-        viewModelScope.launch {
-            resetRecipeUseCase(null).fold(
-                { _state.update { it.copy(shouldClose = true) } },
-                { _state.update { it.copy(shouldClose = true) } }
-            )
-        }
-    }
-
-    fun onClose() {
-        _state.update { it.copy(showSaveDialog = false, shouldClose = true) }
-    }
-
     fun onClosingDone() {
         _state.update { it.copy(shouldClose = false) }
-    }
-
-    fun onDismissDialog() {
-        _state.update { it.copy(showSaveDialog = false) }
-    }
-
-    fun onCheckShouldClose() {
-        _state.update { it.copy(showSaveDialog = true) }
     }
 }

@@ -38,19 +38,23 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
             EditRecipeTitleDestination(
                 editRecipeTitleViewModel = editRecipeTitleViewModel,
                 onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onCreationNavForward = { navController.switch(EditTitleNode, EditChoosePhotoNode) },
-                onEditNavForward = { navController.switch(EditTitleNode, EditChoosePhotoNode) },
-                onNavToPage = { navController.switch(EditTitleNode, it.toNode()) },
+                onCreationNavForward = { navController.navigate(EditChoosePhotoNode.route) },
+                onEditNavForward = { navController.navigate(EditChoosePhotoNode.route) },
+                onNavToPage = { page, isEditing ->
+                    navController.fromNodeToNode(EditTitleNode, page.toNode(), isEditing)
+                },
             )
         }
         composable(route = EditChoosePhotoNode.route) {
             val editRecipeChoosePhotoViewModel = hiltViewModel<EditRecipeChoosePhotoViewModel>()
             EditRecipeChoosePhotoDestination(
                 editRecipeChoosePhotoViewModel = editRecipeChoosePhotoViewModel,
-                onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onCreationNavForward = { navController.switch(EditChoosePhotoNode, EditCategoriesNode) },
-                onEditNavForward = { navController.switch(EditChoosePhotoNode, EditCategoriesNode) },
-                onNavToPage = { navController.switch(EditChoosePhotoNode, it.toNode()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditCategoriesNode.route) },
+                onEditNavForward = { navController.navigate(EditCategoriesNode.route) },
+                onNavToPage = { page, isEditing ->
+                    navController.fromNodeToNode(EditChoosePhotoNode, page.toNode(), isEditing)
+                },
                 onCapturePhoto = { navController.navigate(PhotoCaptureNode.route) }
             )
         }
@@ -58,104 +62,113 @@ fun NavGraphBuilder.editRecipeGraph(navController: NavController) {
             val editRecipeCategoriesViewModel = hiltViewModel<EditRecipeCategoriesViewModel>()
             EditRecipeCategoriesDestination(
                 editRecipeCategoriesViewModel = editRecipeCategoriesViewModel,
-                onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onCreationNavForward = {
-                    navController.switch(EditCategoriesNode, EditPortionsNode)
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditPortionsNode.route) },
+                onEditNavForward = { navController.navigate(EditPortionsNode.route) },
+                onNavToPage = { page, isEditing ->
+                    navController.fromNodeToNode(EditCategoriesNode, page.toNode(), isEditing)
                 },
-                onEditNavForward = { navController.switch(EditCategoriesNode, EditPortionsNode) },
-                onNavToPage = { navController.switch(EditCategoriesNode, it.toNode()) },
             )
         }
         composable(route = EditPortionsNode.route) {
             val editRecipePortionsViewModel = hiltViewModel<EditRecipePortionsViewModel>()
             EditRecipePortionsDestination(
                 editRecipePortionsViewModel = editRecipePortionsViewModel,
-                onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onCreationNavForward = {
-                    navController.switch(EditPortionsNode, EditIngredientsNode)
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditIngredientsNode.route) },
+                onEditNavForward = { navController.navigate(EditIngredientsNode.route) },
+                onNavToPage = { page, isEditing ->
+                    navController.fromNodeToNode(EditPortionsNode, page.toNode(), isEditing)
                 },
-                onEditNavForward = { navController.switch(EditPortionsNode, EditIngredientsNode) },
-                onNavToPage = { navController.switch(EditPortionsNode, it.toNode()) },
             )
         }
         composable(route = EditIngredientsNode.route) {
             val editRecipeIngredientsViewModel = hiltViewModel<EditRecipeIngredientsViewModel>()
             EditRecipeIngredientsDestination(
                 ingredientsViewModel = editRecipeIngredientsViewModel,
-                onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onCreationNavForward = {
-                    navController.switch(EditIngredientsNode, EditInstructionsNode)
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditInstructionsNode.route) },
+                onEditNavForward = { navController.navigate(EditInstructionsNode.route) },
+                onNavToPage = { page, isEditing ->
+                    navController.fromNodeToNode(EditIngredientsNode, page.toNode(), isEditing)
                 },
-                onEditNavForward = {
-                    navController.switch(EditIngredientsNode, EditInstructionsNode)
-                },
-                onNavToPage = { navController.switch(EditIngredientsNode, it.toNode()) },
             )
         }
         composable(route = EditInstructionsNode.route) {
             val instructionsViewModel = hiltViewModel<EditRecipeInstructionsViewModel>()
             EditRecipeInstructionsDestination(
                 instructionsViewModel = instructionsViewModel,
-                onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onCreationNavForward = {
-                    navController.switch(EditInstructionsNode, EditTemperatureNode)
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditTemperatureNode.route) },
+                onEditNavForward = { navController.navigate(EditTemperatureNode.route) },
+                onNavToPage = { page, isEditing ->
+                    navController.fromNodeToNode(EditInstructionsNode, page.toNode(), isEditing)
                 },
-                onEditNavForward = {
-                    navController.switch(EditInstructionsNode, EditTemperatureNode)
-                },
-                onNavToPage = { navController.switch(EditInstructionsNode, it.toNode()) },
             )
         }
         composable(route = EditTemperatureNode.route) {
             val editRecipeTemperatureViewModel = hiltViewModel<EditRecipeTemperatureViewModel>()
             EditRecipeTemperatureDestination(
                 editRecipeTemperatureViewModel = editRecipeTemperatureViewModel,
-                onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onCreationNavForward = { navController.switch(EditTemperatureNode, EditTimeNode) },
-                onEditNavForward = { navController.switch(EditTemperatureNode, EditTimeNode) },
-                onNavToPage = { navController.switch(EditTemperatureNode, it.toNode()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditTimeNode.route) },
+                onEditNavForward = { navController.navigate(EditTimeNode.route) },
+                onNavToPage = { page, isEditing ->
+                    navController.fromNodeToNode(EditTemperatureNode, page.toNode(), isEditing)
+                },
             )
         }
         composable(route = EditTimeNode.route) {
             val editRecipeTimeViewModel = hiltViewModel<EditRecipeTimeViewModel>()
             EditRecipeTimeDestination(
                 editRecipeTimeViewModel = editRecipeTimeViewModel,
-                onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onCreationNavForward = { navController.switch(EditTimeNode, EditRecipeRecapNode) },
-                onEditNavForward = { navController.switch(EditTimeNode, EditCommentsNode) },
-                onNavToPage = { navController.switch(EditTimeNode, it.toNode()) },
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditRecipeRecapNode.route) },
+                onEditNavForward = { navController.navigate(EditCommentsNode.route) },
+                onNavToPage = { page, isEditing ->
+                    navController.fromNodeToNode(EditTimeNode, page.toNode(), isEditing)
+                },
             )
         }
         composable(route = EditCommentsNode.route) {
             val commentsViewModel = hiltViewModel<EditRecipeCommentsViewModel>()
             EditRecipeCommentsDestination(
                 commentsViewModel = commentsViewModel,
-                onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onCreationNavForward = {
-                    navController.switch(EditCommentsNode, EditRecipeRecapNode)
+                onNavBack = { navController.navigateUp() },
+                onCreationNavForward = { navController.navigate(EditRecipeRecapNode.route) },
+                onEditNavForward = { navController.navigate(EditRecipeRecapNode.route) },
+                onNavToPage = { page, isEditing ->
+                    navController.fromNodeToNode(EditCommentsNode, page.toNode(), isEditing)
                 },
-                onEditNavForward = { navController.switch(EditCommentsNode, EditRecipeRecapNode) },
-                onNavToPage = { navController.switch(EditCommentsNode, it.toNode()) },
             )
         }
         composable(route = EditRecipeRecapNode.route) {
             val recapViewModel = hiltViewModel<RecapViewModel>()
             RecapDestination(
                 recapViewModel = recapViewModel,
-                onNavBack = { navController.switch(EditRecipeRecapNode, EditTitleNode) },
+                onNavBack = { navController.navigateUp() },
                 onNavFinish = { navController.popBackStack(HomeNode.route, false) },
-                onNavToPage = { navController.switch(EditRecipeRecapNode, it.toNode()) },
+                onNavToPage = { page, isEditing ->
+                    navController.fromNodeToNode(EditRecipeRecapNode, page.toNode(), isEditing)
+                },
             )
         }
     }
 }
 
-private fun NavController.switch(currentNode: EditNode, nextNode: EditNode) {
-    if (currentNode.ordinal() == nextNode.ordinal()) return
-    if (currentNode.ordinal() > nextNode.ordinal())
-        navigate(nextNode.route)
+private fun NavController.fromNodeToNode(
+    currentNode: EditNode,
+    nextNode: EditNode,
+    isEdit: Boolean
+) {
+    val nodes = if (isEdit) editingEditNodes else creationEditNodes
+    val currentIndex = nodes.indexOf(currentNode)
+    val nextIndex = nodes.indexOf(nextNode)
+    if (currentIndex == nextIndex) return
+    if (currentIndex < nextIndex)
+        for (i in (currentIndex + 1)..nextIndex) navigate(nodes[i].route)
     else
-        navigate(nextNode.route) { popUpTo(EditTitleNode.route) }
+        popBackStack(nextNode.route, inclusive = false)
 }
 
 private fun PageType.toNode() =
@@ -172,16 +185,27 @@ private fun PageType.toNode() =
         PageType.Recap -> EditRecipeRecapNode
     }
 
-private fun EditNode.ordinal() = when (this) {
-    EditTitleNode -> 0
-    EditChoosePhotoNode -> 1
-    EditCategoriesNode -> 2
-    EditPortionsNode -> 3
-    EditIngredientsNode -> 4
-    EditInstructionsNode -> 5
-    EditTemperatureNode -> 6
-    EditTimeNode -> 7
-    EditCommentsNode -> 8
-    EditRecipeRecapNode -> 9
-    else -> Int.MAX_VALUE
-}
+private val creationEditNodes = listOf(
+    EditTitleNode,
+    EditChoosePhotoNode,
+    EditCategoriesNode,
+    EditPortionsNode,
+    EditIngredientsNode,
+    EditInstructionsNode,
+    EditTemperatureNode,
+    EditTimeNode,
+    EditRecipeRecapNode,
+)
+
+private val editingEditNodes = listOf(
+    EditTitleNode,
+    EditChoosePhotoNode,
+    EditCategoriesNode,
+    EditPortionsNode,
+    EditIngredientsNode,
+    EditInstructionsNode,
+    EditTemperatureNode,
+    EditTimeNode,
+    EditCommentsNode,
+    EditRecipeRecapNode,
+)

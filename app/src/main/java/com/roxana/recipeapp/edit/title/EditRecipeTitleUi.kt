@@ -22,6 +22,7 @@ import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.title.ui.EditRecipeTitleView
+import com.roxana.recipeapp.ui.CloseIcon
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import kotlinx.coroutines.delay
 
@@ -32,7 +33,7 @@ fun EditRecipeTitleDestination(
     onNavFinish: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
-    onNavToPage: (PageType) -> Unit = {},
+    onNavToPage: (pageType: PageType, isEdition: Boolean) -> Unit = { _, _ -> },
 ) {
     val state by rememberFlowWithLifecycle(editRecipeTitleViewModel.state)
         .collectAsState(EditRecipeTitleViewState())
@@ -45,7 +46,7 @@ fun EditRecipeTitleDestination(
                 Navigation.ForwardCreation -> onCreationNavForward()
                 Navigation.ForwardEditing -> onEditNavForward()
                 Navigation.Close -> onNavFinish()
-                is Navigation.ToPage -> onNavToPage(navigation.page)
+                is Navigation.ToPage -> onNavToPage(navigation.page, navigation.isExistingRecipe)
             }
             editRecipeTitleViewModel.onNavigationDone()
         }
@@ -96,7 +97,8 @@ fun EditRecipeTitleScreen(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Title,
         onSelectPage = onSelectPage,
-        onClose = onClose,
+        onNavIcon = onClose,
+        navIcon = { CloseIcon() },
         scaffoldState = backdropState
     ) {
         Box(Modifier.fillMaxSize()) {

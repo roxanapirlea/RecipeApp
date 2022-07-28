@@ -30,7 +30,7 @@ import com.roxana.recipeapp.edit.time.isPreparationValid
 import com.roxana.recipeapp.edit.time.isTotalValid
 import com.roxana.recipeapp.edit.time.isWaitingValid
 import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.RecipeTextField
+import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
 
 @Composable
 fun EditRecipeTimeView(
@@ -71,7 +71,7 @@ fun EditRecipeTimeView(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            RecipeTextField(
+            RecipeSecondaryTextField(
                 value = state.cooking,
                 onValueChange = onCookingChange,
                 isError = !state.isCookingValid(),
@@ -86,7 +86,7 @@ fun EditRecipeTimeView(
                     .weight(1f)
                     .focusRequester(cookingFocusRequester)
             )
-            RecipeTextField(
+            RecipeSecondaryTextField(
                 value = state.preparation,
                 onValueChange = onPreparationChange,
                 isError = !state.isPreparationValid(),
@@ -101,7 +101,7 @@ fun EditRecipeTimeView(
                     .weight(1f)
                     .focusRequester(preparationFocusRequester)
             )
-            RecipeTextField(
+            RecipeSecondaryTextField(
                 value = state.waiting,
                 onValueChange = onWaitingChange,
                 isError = !state.isWaitingValid(),
@@ -121,7 +121,7 @@ fun EditRecipeTimeView(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            RecipeTextField(
+            RecipeSecondaryTextField(
                 value = state.total,
                 onValueChange = onTotalChange,
                 isError = !state.isTotalValid(),

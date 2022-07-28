@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.edit.comments
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -18,17 +17,16 @@ import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.FabSave
 import com.roxana.recipeapp.edit.PageType
-import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.comments.ui.EditRecipeCommentsView
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
 fun EditRecipeCommentsDestination(
     commentsViewModel: EditRecipeCommentsViewModel,
-    onNavFinish: () -> Unit = {},
+    onNavBack: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
-    onNavToPage: (PageType) -> Unit = {},
+    onNavToPage: (pageType: PageType, isEdition: Boolean) -> Unit = { _, _ -> },
 ) {
     val state by rememberFlowWithLifecycle(commentsViewModel.state)
         .collectAsState(EditRecipeCommentsViewState())
@@ -38,8 +36,8 @@ fun EditRecipeCommentsDestination(
             when (navigation) {
                 Navigation.ForwardCreation -> onCreationNavForward()
                 Navigation.ForwardEditing -> onEditNavForward()
-                Navigation.Close -> onNavFinish()
-                is Navigation.ToPage -> onNavToPage(navigation.page)
+                Navigation.Back -> onNavBack()
+                is Navigation.ToPage -> onNavToPage(navigation.page, navigation.isExistingRecipe)
             }
             commentsViewModel.onNavigationDone()
         }
@@ -52,10 +50,7 @@ fun EditRecipeCommentsDestination(
         onCommentDone = commentsViewModel::onCommentDone,
         onDelete = commentsViewModel::onDeleteComment,
         onValidate = commentsViewModel::onValidate,
-        onClose = commentsViewModel::onCheckShouldClose,
-        onResetAndClose = commentsViewModel::onResetAndClose,
-        onSaveAndClose = commentsViewModel::onSaveAndClose,
-        onDismissDialog = commentsViewModel::onDismissDialog,
+        onBack = commentsViewModel::onBack,
         onSelectPage = commentsViewModel::onSelectPage
     )
 }
@@ -68,10 +63,7 @@ fun EditRecipeCommentsScreen(
     onCommentDone: () -> Unit = {},
     onSaveComment: () -> Unit = {},
     onDelete: (Int) -> Unit = {},
-    onClose: () -> Unit = {},
-    onResetAndClose: () -> Unit = {},
-    onSaveAndClose: () -> Unit = {},
-    onDismissDialog: () -> Unit = {},
+    onBack: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
@@ -85,18 +77,9 @@ fun EditRecipeCommentsScreen(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Comments,
         onSelectPage = onSelectPage,
-        onClose = onClose
+        onNavIcon = onBack
     ) {
         Box(Modifier.fillMaxSize()) {
-            BackHandler(onBack = onClose)
-
-            if (state.showSaveDialog)
-                SaveCreationDialog(
-                    onSave = onSaveAndClose,
-                    onDelete = onResetAndClose,
-                    onDismiss = onDismissDialog
-                )
-
             EditRecipeCommentsView(
                 state = state,
                 focusRequester = focusRequester,

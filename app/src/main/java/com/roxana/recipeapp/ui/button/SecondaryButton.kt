@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.ui
+package com.roxana.recipeapp.ui.button
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.RowScope
@@ -8,22 +8,20 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
-fun FlatSecondaryButton(
+fun SecondaryButton(
     modifier: Modifier = Modifier,
+    isEnabled: Boolean = true,
     onClick: () -> Unit = {},
     content: @Composable RowScope.() -> Unit
 ) {
     Button(
         onClick = onClick,
-        elevation = ButtonDefaults.elevation(0.dp, 0.dp),
-        shape = RectangleShape,
         colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary),
+        enabled = isEnabled,
         modifier = modifier,
         content = content
     )
@@ -35,9 +33,9 @@ fun FlatSecondaryButton(
     group = "Light"
 )
 @Composable
-fun FlatSecondaryButtonPreviewLight() {
+fun SecondaryButtonPreviewLight() {
     RecipeTheme {
-        FlatSecondaryButton { Text("Button") }
+        SecondaryButton { Text("Button") }
     }
 }
 
@@ -47,8 +45,8 @@ fun FlatSecondaryButtonPreviewLight() {
     group = "Dark"
 )
 @Composable
-fun FlatSecondaryButtonPreviewDark() {
+fun SecondaryButtonPreviewDark() {
     RecipeTheme {
-        FlatSecondaryButton { Text("Button") }
+        SecondaryButton { Text("Button") }
     }
 }

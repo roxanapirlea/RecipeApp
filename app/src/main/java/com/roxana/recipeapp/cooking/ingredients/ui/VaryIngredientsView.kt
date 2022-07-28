@@ -3,10 +3,6 @@ package com.roxana.recipeapp.cooking.ingredients.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +15,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.cooking.ingredients.VaryIngredientsState
-import com.roxana.recipeapp.ui.FlatSecondaryButton
+import com.roxana.recipeapp.ui.button.SecondaryButton
+import com.roxana.recipeapp.ui.textfield.RecipePrimaryTextField
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -45,30 +42,22 @@ fun VaryIngredientsView(
                 ingredient.quantity.toInt(),
                 ""
             )
-            OutlinedTextField(
+            RecipePrimaryTextField(
                 value = ingredient.quantityText,
                 onValueChange = onQuantityChanged,
-                label = {
-                    Text(
-                        stringResource(
-                            R.string.vary_ingredients_label,
-                            ingredient.name,
-                            quantityTypeText
-                        )
-                    )
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done
+                label = stringResource(
+                    R.string.vary_ingredients_label,
+                    ingredient.name,
+                    quantityTypeText
                 ),
-                textStyle = MaterialTheme.typography.body1,
-                singleLine = true,
-                keyboardActions = KeyboardActions { onValidate() },
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done,
+                onImeAction = onValidate,
                 modifier = Modifier.fillMaxWidth()
             )
         }
         if (state.updatedIngredient?.isQuantityInError == false)
-            FlatSecondaryButton(
+            SecondaryButton(
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(8.dp),

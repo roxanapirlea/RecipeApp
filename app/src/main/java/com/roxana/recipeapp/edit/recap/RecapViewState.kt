@@ -16,7 +16,6 @@ data class RecapViewState(
     val temperatureUnit: UiTemperature? = null,
     val photoPath: String? = null,
     val isExistingRecipe: Boolean = false,
-    val showSaveDialog: Boolean = false,
     val isFetchingError: Boolean = false,
     val shouldClose: Boolean = false,
     val saveResult: SaveResult? = null

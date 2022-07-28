@@ -6,18 +6,20 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
 fun LabelView(
     text: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colors.onBackground,
 ) {
     Text(
         text = text,
         style = MaterialTheme.typography.h5,
-        color = MaterialTheme.colors.onBackground,
+        color = color,
         modifier = modifier
     )
 }

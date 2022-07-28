@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.detail.ui.EmptyItem
 import com.roxana.recipeapp.edit.choosephoto.EditRecipeChoosePhotoViewState
-import com.roxana.recipeapp.ui.FlatSecondaryButton
 import com.roxana.recipeapp.ui.LabelView
 import com.roxana.recipeapp.ui.RecipeImage
+import com.roxana.recipeapp.ui.button.SecondaryButton
 
 @Composable
 fun EditRecipeChoosePhotoView(
@@ -44,17 +44,17 @@ fun EditRecipeChoosePhotoView(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FlatSecondaryButton(onClick = onClearPhoto, modifier = Modifier.weight(1f)) {
+                SecondaryButton(onClick = onClearPhoto, modifier = Modifier.weight(1f)) {
                     Text(stringResource(R.string.all_delete))
                 }
-                FlatSecondaryButton(onClick = onRecapturePhoto, modifier = Modifier.weight(1f)) {
+                SecondaryButton(onClick = onRecapturePhoto, modifier = Modifier.weight(1f)) {
                     Text(stringResource(R.string.edit_recipe_photo_retake))
                 }
             }
         } else {
             EmptyItem(text = stringResource(R.string.edit_recipe_no_photo))
             Spacer(modifier = Modifier.weight(1f))
-            FlatSecondaryButton(onClick = onCapturePhoto) {
+            SecondaryButton(onClick = onCapturePhoto) {
                 Text(stringResource(R.string.all_take_photo))
             }
         }

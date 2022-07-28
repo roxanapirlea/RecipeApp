@@ -46,10 +46,13 @@ class EditRecipeIngredientsViewModel @Inject constructor(
                 .map { it.toUiModel() }
             val ingredients = getIngredientsUseCase(null).first().getOrElse { emptyList() }
                 .map {
+                    val quantity = it.quantity?.toFormattedString() ?: ""
+                    val quantityError = !isQuantityValid(quantity)
                     IngredientState(
                         it.id,
                         it.name,
-                        it.quantity?.toFormattedString() ?: "",
+                        quantity,
+                        quantityError,
                         it.quantityType.toUiModel()
                     )
                 }
@@ -63,17 +66,28 @@ class EditRecipeIngredientsViewModel @Inject constructor(
         }
     }
 
+    private fun isQuantityValid(quantity: String) =
+        quantity.isEmpty() || quantity.toDoubleOrNull() != null
+
     fun onIngredientNameChanged(text: String) {
         _state.update {
             val editing = it.editingIngredient.copy(name = text)
-            it.copy(editingIngredient = editing)
+            it.copy(
+                editingIngredient = editing,
+                canAddIngredient = text.isNotBlank() && !editing.isQuantityError
+            )
         }
     }
 
     fun onIngredientQuantityChanged(text: String) {
         _state.update {
-            val editing = it.editingIngredient.copy(quantity = text)
-            it.copy(editingIngredient = editing)
+            val quantityError = !isQuantityValid(text)
+            val editing =
+                it.editingIngredient.copy(quantity = text, isQuantityError = quantityError)
+            it.copy(
+                editingIngredient = editing,
+                canAddIngredient = editing.name.isNotBlank() && !quantityError
+            )
         }
     }
 
@@ -86,15 +100,18 @@ class EditRecipeIngredientsViewModel @Inject constructor(
 
     fun onSaveIngredient() {
         _state.update { state ->
-            val ingredient = state.editingIngredient
-            val quantityType =
-                if (ingredient.quantity.toDoubleOrNull() != null) ingredient.quantityType
-                else UiQuantityType.None
+            if (state.canAddIngredient) {
+                val ingredient = state.editingIngredient
+                val quantityType =
+                    if (ingredient.quantity.toDoubleOrNull() != null) ingredient.quantityType
+                    else UiQuantityType.None
 
-            state.copy(
-                ingredients = state.ingredients + ingredient.copy(quantityType = quantityType),
-                editingIngredient = IngredientState()
-            )
+                state.copy(
+                    ingredients = state.ingredients + ingredient.copy(quantityType = quantityType),
+                    editingIngredient = IngredientState(),
+                    canAddIngredient = false
+                )
+            } else state
         }
     }
 
@@ -114,7 +131,7 @@ class EditRecipeIngredientsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun sendForwardEvent() {
+    private fun sendForwardEvent() {
         val isExistingRecipe = state.value.isExistingRecipe
         if (isExistingRecipe)
             _state.update { it.copy(navigation = Navigation.ForwardEditing) }
@@ -122,39 +139,28 @@ class EditRecipeIngredientsViewModel @Inject constructor(
             _state.update { it.copy(navigation = Navigation.ForwardCreation) }
     }
 
-    fun onResetAndClose() {
-        _state.update { it.copy(showSaveDialog = false) }
-        viewModelScope.launch {
-            resetRecipeUseCase(null).fold(
-                { _state.update { it.copy(navigation = Navigation.Close) } },
-                { _state.update { it.copy(navigation = Navigation.Close) } }
-            )
-        }
-    }
-
-    fun onSaveAndClose() {
-        _state.update { it.copy(showSaveDialog = false) }
+    fun onBack() {
         viewModelScope.launch {
             setIngredientsUseCase(getAllIngredients()).fold(
-                { _state.update { it.copy(navigation = Navigation.Close) } },
-                { _state.update { it.copy(navigation = Navigation.Close) } }
+                { _state.update { it.copy(navigation = Navigation.Back) } },
+                { _state.update { it.copy(navigation = Navigation.Back) } }
             )
         }
-    }
-
-    fun onDismissDialog() {
-        _state.update { it.copy(showSaveDialog = false) }
-    }
-
-    fun onCheckShouldClose() {
-        _state.update { it.copy(showSaveDialog = true) }
     }
 
     fun onSelectPage(page: PageType) {
         viewModelScope.launch {
             setIngredientsUseCase(getAllIngredients()).fold(
-                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } },
-                { _state.update { it.copy(navigation = Navigation.ToPage(page)) } }
+                {
+                    _state.update {
+                        it.copy(navigation = Navigation.ToPage(page, state.value.isExistingRecipe))
+                    }
+                },
+                {
+                    _state.update {
+                        it.copy(navigation = Navigation.ToPage(page, state.value.isExistingRecipe))
+                    }
+                }
             )
         }
     }
@@ -165,7 +171,7 @@ class EditRecipeIngredientsViewModel @Inject constructor(
 
     private fun getAllIngredients() = state.value.ingredients
         .apply {
-            if (!state.value.editingIngredient.isEmpty())
+            if (state.value.canAddIngredient)
                 plus(state.value.editingIngredient)
         }
         .map {

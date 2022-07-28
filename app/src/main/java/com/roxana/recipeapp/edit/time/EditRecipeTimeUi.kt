@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.edit.time
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -17,17 +16,16 @@ import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.PageType
-import com.roxana.recipeapp.edit.SaveCreationDialog
 import com.roxana.recipeapp.edit.time.ui.EditRecipeTimeView
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
 fun EditRecipeTimeDestination(
     editRecipeTimeViewModel: EditRecipeTimeViewModel,
-    onNavFinish: () -> Unit = {},
+    onNavBack: () -> Unit = {},
     onCreationNavForward: () -> Unit = {},
     onEditNavForward: () -> Unit = {},
-    onNavToPage: (PageType) -> Unit = {},
+    onNavToPage: (pageType: PageType, isEdition: Boolean) -> Unit = { _, _ -> },
 ) {
     val state by rememberFlowWithLifecycle(editRecipeTimeViewModel.state)
         .collectAsState(EditRecipeTimeViewState())
@@ -37,8 +35,8 @@ fun EditRecipeTimeDestination(
             when (navigation) {
                 Navigation.ForwardCreation -> onCreationNavForward()
                 Navigation.ForwardEditing -> onEditNavForward()
-                Navigation.Close -> onNavFinish()
-                is Navigation.ToPage -> onNavToPage(navigation.page)
+                Navigation.Back -> onNavBack()
+                is Navigation.ToPage -> onNavToPage(navigation.page, navigation.isExistingRecipe)
             }
             editRecipeTimeViewModel.onNavigationDone()
         }
@@ -52,10 +50,7 @@ fun EditRecipeTimeDestination(
         onTotalChange = editRecipeTimeViewModel::onTotalChanged,
         onComputeTotal = editRecipeTimeViewModel::onComputeTotal,
         onValidate = editRecipeTimeViewModel::onValidate,
-        onClose = editRecipeTimeViewModel::onCheckShouldClose,
-        onResetAndClose = editRecipeTimeViewModel::onResetAndClose,
-        onSaveAndClose = editRecipeTimeViewModel::onSaveAndClose,
-        onDismissDialog = editRecipeTimeViewModel::onDismissDialog,
+        onBack = editRecipeTimeViewModel::onBack,
         onSelectPage = editRecipeTimeViewModel::onSelectPage,
     )
 }
@@ -69,10 +64,7 @@ fun EditRecipeTimeScreen(
     onWaitingChange: (String) -> Unit = {},
     onTotalChange: (String) -> Unit = {},
     onComputeTotal: () -> Unit = {},
-    onClose: () -> Unit = {},
-    onResetAndClose: () -> Unit = {},
-    onSaveAndClose: () -> Unit = {},
-    onDismissDialog: () -> Unit = {},
+    onBack: () -> Unit = {},
     onSelectPage: (PageType) -> Unit = {},
     onValidate: () -> Unit = {},
 ) {
@@ -89,18 +81,9 @@ fun EditRecipeTimeScreen(
         recipeAlreadyExists = state.isExistingRecipe,
         selectedPage = PageType.Time,
         onSelectPage = onSelectPage,
-        onClose = onClose,
+        onNavIcon = onBack,
     ) {
         Box(Modifier.fillMaxSize()) {
-            BackHandler(onBack = onClose)
-
-            if (state.showSaveDialog)
-                SaveCreationDialog(
-                    onSave = onSaveAndClose,
-                    onDelete = onResetAndClose,
-                    onDismiss = onDismissDialog
-                )
-
             EditRecipeTimeView(
                 state = state,
                 preparationFocusRequester = preparationFocusRequester,
