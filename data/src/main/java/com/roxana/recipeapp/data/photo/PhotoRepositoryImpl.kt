@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.data
+package com.roxana.recipeapp.data.photo
 
 import android.content.Context
 import com.roxana.recipeapp.domain.PhotoRepository

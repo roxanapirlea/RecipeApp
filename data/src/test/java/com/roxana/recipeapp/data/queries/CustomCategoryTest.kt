@@ -1,5 +1,8 @@
-package com.roxana.recipeapp.data
+package com.roxana.recipeapp.data.queries
 
+import com.roxana.recipeapp.data.CategoryForRecipe
+import com.roxana.recipeapp.data.CustomCategory
+import com.roxana.recipeapp.data.CustomCategoryQueries
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.equality.shouldBeEqualToIgnoringFields

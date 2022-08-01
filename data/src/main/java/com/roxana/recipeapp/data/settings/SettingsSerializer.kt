@@ -1,8 +1,9 @@
-package com.roxana.recipeapp.data
+package com.roxana.recipeapp.data.settings
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import com.google.protobuf.InvalidProtocolBufferException
+import com.roxana.recipeapp.data.Settings
 import java.io.InputStream
 import java.io.OutputStream
 

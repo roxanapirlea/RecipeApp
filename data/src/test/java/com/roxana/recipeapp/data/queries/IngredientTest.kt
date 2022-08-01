@@ -1,5 +1,7 @@
-package com.roxana.recipeapp.data
+package com.roxana.recipeapp.data.queries
 
+import com.roxana.recipeapp.data.Ingredient
+import com.roxana.recipeapp.data.IngredientQueries
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.equality.shouldBeEqualToIgnoringFields

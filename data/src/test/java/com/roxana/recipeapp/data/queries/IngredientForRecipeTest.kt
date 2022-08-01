@@ -1,5 +1,11 @@
-package com.roxana.recipeapp.data
+package com.roxana.recipeapp.data.queries
 
+import com.roxana.recipeapp.data.CustomQuantityType
+import com.roxana.recipeapp.data.Database
+import com.roxana.recipeapp.data.Ingredient
+import com.roxana.recipeapp.data.IngredientForRecipe
+import com.roxana.recipeapp.data.IngredientForRecipeQueries
+import com.roxana.recipeapp.data.recipe.DbQuantityType
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.equality.shouldBeEqualToIgnoringFields
@@ -10,8 +16,7 @@ class IngredientForRecipeTest {
     private lateinit var queries: IngredientForRecipeQueries
     private lateinit var db: Database
 
-    private val recipe = Recipe(1, "Crepe", null, null, null, null, null, null, null, null)
-    private val recipe2 = Recipe(2, "Donut", null, null, null, null, null, null, null, null)
+    private val recipes = listOf(recipe1, recipe2)
     private lateinit var ingredient1: Ingredient
     private lateinit var ingredient2: Ingredient
     private lateinit var quantity1: CustomQuantityType
@@ -21,29 +26,7 @@ class IngredientForRecipeTest {
     fun setUp() {
         db = createInMemoryDb()
         queries = db.ingredientForRecipeQueries
-
-        db.recipeQueries.insert(
-            recipe.name,
-            recipe.photo_path,
-            recipe.portions,
-            recipe.time_total,
-            recipe.time_preparation,
-            recipe.time_cooking,
-            recipe.time_waiting,
-            recipe.temperature,
-            recipe.temperature_type
-        )
-        db.recipeQueries.insert(
-            recipe2.name,
-            recipe2.photo_path,
-            recipe.portions,
-            recipe2.time_total,
-            recipe2.time_preparation,
-            recipe2.time_cooking,
-            recipe2.time_waiting,
-            recipe2.temperature,
-            recipe2.temperature_type
-        )
+        db.insertFakeRecipes(recipes)
         db.ingredientQueries.insert("ingredient1")
         db.ingredientQueries.insert("ingredient2")
         db.customQuantityTypeQueries.insert("quantity1")
@@ -70,12 +53,12 @@ class IngredientForRecipeTest {
     @Test
     fun returnInsertedItems_when_insertAndSelect() {
         // Given
-        val ingrNoQuantity = IngredientForRecipe(1, null, null, null, ingredient1.id, recipe.id)
-        val ingrNoQuantityType = IngredientForRecipe(1, 1.0, null, null, ingredient1.id, recipe.id)
+        val ingrNoQuantity = IngredientForRecipe(1, null, null, null, ingredient1.id, recipes[0].id)
+        val ingrNoQuantityType = IngredientForRecipe(1, 1.0, null, null, ingredient1.id, recipes[0].id)
         val ingrStandardQuantityType =
-            IngredientForRecipe(1, 1.0, DbQuantityType.CUP, null, ingredient1.id, recipe.id)
+            IngredientForRecipe(1, 1.0, DbQuantityType.CUP, null, ingredient1.id, recipes[0].id)
         val ingrCustomQuantityType =
-            IngredientForRecipe(1, 1.0, null, quantity1.id, ingredient1.id, recipe.id)
+            IngredientForRecipe(1, 1.0, null, quantity1.id, ingredient1.id, recipes[0].id)
 
         // When
         queries.insert(
@@ -117,38 +100,12 @@ class IngredientForRecipeTest {
     }
 
     @Test
-    fun returnUpdatedItem_when_Update() {
-        // Given
-        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipe.id)
-        val initialIngredient =
-            queries.getAll().executeAsList().first { it.quantity_name == DbQuantityType.CUP }
-
-        // When
-        queries.update(2.0, null, quantity1.id, ingredient2.id, initialIngredient.id)
-        val output = queries.getAll().executeAsList()
-
-        // Then
-        val expectedIngredient = IngredientForRecipe(
-            initialIngredient.id,
-            2.0,
-            null,
-            quantity1.id,
-            ingredient2.id,
-            recipe.id
-        )
-        output shouldHaveSize 1
-        output.first().shouldBeEqualToIgnoringFields(expectedIngredient, IngredientForRecipe::id)
-    }
-
-    @Test
     fun deleteItem_when_delete() {
         // Given
-        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipe.id)
-        val initialIngredient =
-            queries.getAll().executeAsList().first { it.quantity_name == DbQuantityType.CUP }
+        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipes[0].id)
 
         // When
-        queries.delete(initialIngredient.id)
+        queries.deleteByRecipeId(recipes[0].id)
         val output = queries.getAll().executeAsList()
 
         // Then
@@ -158,12 +115,12 @@ class IngredientForRecipeTest {
     @Test
     fun getItems_when_getByRecipeId() {
         // Given
-        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipe.id)
-        queries.insert(1.0, null, quantity1.id, ingredient1.id, recipe.id)
-        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipe2.id)
+        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipes[0].id)
+        queries.insert(1.0, null, quantity1.id, ingredient1.id, recipes[0].id)
+        queries.insert(1.0, DbQuantityType.CUP, null, ingredient1.id, recipes[1].id)
 
         // When
-        val output = queries.getIngredientByRecipeId(recipe.id).executeAsList()
+        val output = queries.getIngredientByRecipeId(recipes[0].id).executeAsList()
 
         // Then
         output shouldHaveSize 2

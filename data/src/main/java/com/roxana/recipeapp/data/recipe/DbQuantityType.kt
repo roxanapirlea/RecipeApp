@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.data
+package com.roxana.recipeapp.data.recipe
 
 enum class DbQuantityType {
     POUND,

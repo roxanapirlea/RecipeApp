@@ -1,4 +1,4 @@
-package com.roxana.recipeapp.data
+package com.roxana.recipeapp.data.recipe
 
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.QuantityType

@@ -1,4 +1,4 @@
-import com.roxana.recipeapp.data.DbTemperatureType;
+import com.roxana.recipeapp.data.recipe.DbTemperatureType;
 
 CREATE TABLE Recipe(
   id INTEGER PRIMARY KEY AUTOINCREMENT,

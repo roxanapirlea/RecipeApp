@@ -1,4 +1,4 @@
-import com.roxana.recipeapp.data.DbQuantityType;
+import com.roxana.recipeapp.data.recipe.DbQuantityType;
 
 CREATE TABLE IngredientForRecipe(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,21 +20,9 @@ insert:
 INSERT INTO IngredientForRecipe(quantity, quantity_name, quantity_type_id, ingredient_id, recipe_id)
 VALUES (?, ?, ?, ?, ?);
 
-delete:
-DELETE FROM IngredientForRecipe
-WHERE id = :id;
-
 deleteByRecipeId:
 DELETE FROM IngredientForRecipe
 WHERE recipe_id = :id;
-
-update:
-UPDATE IngredientForRecipe
-SET quantity = :quantity,
-    quantity_name = :quantity_name,
-    quantity_type_id = :quantity_type_id,
-    ingredient_id = :ingredient_id
-WHERE id = :id;
 
 getIngredientByRecipeId:
 SELECT IngredientForRecipe.id, IngredientForRecipe.quantity, IngredientForRecipe.quantity_name,

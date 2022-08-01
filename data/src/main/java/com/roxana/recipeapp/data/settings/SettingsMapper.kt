@@ -1,5 +1,6 @@
-package com.roxana.recipeapp.data
+package com.roxana.recipeapp.data.settings
 
+import com.roxana.recipeapp.data.Settings
 import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.domain.model.Temperature
 

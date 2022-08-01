@@ -71,4 +71,5 @@ dependencies {
     testImplementation libs.mockk
     testImplementation libs.kotest.assertions
     testImplementation libs.sqldelight.driver
+    testImplementation libs.kotlin.coroutines.test
 }
