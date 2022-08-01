@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.home
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetAvailableCategoriesUseCase
@@ -30,8 +29,7 @@ class HomeViewModel @Inject constructor(
     private val getCategoriesUseCase: GetAvailableCategoriesUseCase,
     private val getMaxTimesUseCase: GetMaxTimesUseCase,
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(HomeViewState(isLoading = true))
+    private val _state = MutableStateFlow(HomeViewState(isLoading = true))
     val state: StateFlow<HomeViewState> = _state.asStateFlow()
 
     private val _filters = MutableStateFlow(FiltersSelection())
@@ -114,7 +112,8 @@ class HomeViewModel @Inject constructor(
             )
     }
 
-    private fun RecipeSummary.toState() = RecipeState(id, name, photoPath, categories.map { it.toUiModel() })
+    private fun RecipeSummary.toState() =
+        RecipeState(id, name, photoPath, categories.map { it.toUiModel() })
 
     private fun computeFilterCount(filters: FiltersState): Int {
         var count = 0

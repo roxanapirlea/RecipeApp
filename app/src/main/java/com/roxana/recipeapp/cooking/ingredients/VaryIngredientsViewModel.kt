@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.cooking.ingredients
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,8 +20,7 @@ class VaryIngredientsViewModel @Inject constructor(
     private val getRecipeByIdUseCase: GetRecipeByIdUseCase
 ) : ViewModel() {
 
-    @VisibleForTesting
-    val _state = MutableStateFlow(VaryIngredientsState())
+    private val _state = MutableStateFlow(VaryIngredientsState())
     val state: StateFlow<VaryIngredientsState> = _state.asStateFlow()
 
     init {

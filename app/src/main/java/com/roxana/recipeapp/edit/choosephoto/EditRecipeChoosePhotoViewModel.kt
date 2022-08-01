@@ -1,12 +1,10 @@
 package com.roxana.recipeapp.edit.choosephoto
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.ClearPhotoUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetPhotoUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
-import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetPhotoUseCase
 import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,10 +22,8 @@ class EditRecipeChoosePhotoViewModel @Inject constructor(
     private val getPhotoUseCase: GetPhotoUseCase,
     private val setPhotoUseCase: SetPhotoUseCase,
     private val clearPhotoUseCase: ClearPhotoUseCase,
-    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(EditRecipeChoosePhotoViewState())
+    private val _state = MutableStateFlow(EditRecipeChoosePhotoViewState())
     val state: StateFlow<EditRecipeChoosePhotoViewState> = _state.asStateFlow()
 
     init {

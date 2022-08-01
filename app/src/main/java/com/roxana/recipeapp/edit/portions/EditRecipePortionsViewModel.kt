@@ -1,11 +1,9 @@
 package com.roxana.recipeapp.edit.portions
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetPortionsUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
-import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetPortionsUseCase
 import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,10 +20,8 @@ class EditRecipePortionsViewModel @Inject constructor(
     private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getPortionsUseCase: GetPortionsUseCase,
     private val setPortionsUseCase: SetPortionsUseCase,
-    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(EditRecipePortionsViewState())
+    private val _state = MutableStateFlow(EditRecipePortionsViewState())
     val state: StateFlow<EditRecipePortionsViewState> = _state.asStateFlow()
 
     init {

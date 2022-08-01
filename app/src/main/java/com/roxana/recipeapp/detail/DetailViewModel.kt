@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.detail
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,8 +23,7 @@ class DetailViewModel @Inject constructor(
     private val startRecipeEditingUseCase: StartRecipeEditingUseCase,
     private val deleteRecipeUseCase: DeleteRecipeUseCase
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(DetailViewState(isLoading = true))
+    private val _state = MutableStateFlow(DetailViewState(isLoading = true))
     val state: StateFlow<DetailViewState> = _state.asStateFlow()
 
     init {

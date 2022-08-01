@@ -45,7 +45,7 @@ fun EditRecipeTimeDestination(
     EditRecipeTimeScreen(
         state,
         onCookingChange = editRecipeTimeViewModel::onCookingChanged,
-        onPreparationChange = editRecipeTimeViewModel::onPreparationCookingChanged,
+        onPreparationChange = editRecipeTimeViewModel::onPreparationChanged,
         onWaitingChange = editRecipeTimeViewModel::onWaitingChanged,
         onTotalChange = editRecipeTimeViewModel::onTotalChanged,
         onComputeTotal = editRecipeTimeViewModel::onComputeTotal,

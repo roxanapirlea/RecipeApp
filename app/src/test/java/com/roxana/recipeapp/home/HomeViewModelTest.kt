@@ -14,7 +14,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
@@ -30,7 +30,7 @@ class HomeViewModelTest {
     private lateinit var viewModel: HomeViewModel
 
     @Test
-    fun setEmptyState_when_init_given_useCaseEmptyList() = runBlockingTest {
+    fun setEmptyState_when_init_given_useCaseEmptyList() = runTest {
         // Given
         every {
             getRecipesSummaryUseCase(any())
@@ -51,7 +51,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun setContentState_when_init_given_useCaseList() = runBlockingTest {
+    fun setContentState_when_init_given_useCaseList() = runTest {
         // Given
         val recipe1 = RecipeSummary(
             0,
