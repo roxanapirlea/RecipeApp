@@ -2,8 +2,8 @@ package com.roxana.recipeapp.data
 
 import android.content.Context
 import com.roxana.recipeapp.domain.PhotoRepository
+import com.roxana.recipeapp.domain.base.CommonDispatchers
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.time.Instant
@@ -13,13 +13,14 @@ private const val PHOTOS_PATH = "photo"
 private const val PHOTO_PREFIX = "photo_"
 
 class PhotoRepositoryImpl @Inject constructor(
-    @ApplicationContext val context: Context
+    @ApplicationContext private val context: Context,
+    private val dispatchers: CommonDispatchers
 ) : PhotoRepository {
 
     private val absoluteDirPath = "${context.filesDir}/$PHOTOS_PATH"
 
     override suspend fun copyTempFileToPermFile(tempPath: String): String? =
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io) {
             kotlin.runCatching {
                 val tempFile = File(tempPath)
                 val newFile = createFile(absoluteDirPath, getFileName()) ?: return@runCatching null
@@ -32,7 +33,7 @@ class PhotoRepositoryImpl @Inject constructor(
     private fun getFileName(): String = "$PHOTO_PREFIX${Instant.now().epochSecond}"
 
     private suspend fun createFile(path: String, name: String): File? =
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io) {
             kotlin.runCatching {
                 val dir = File(path)
                 if (!dir.exists())
@@ -42,7 +43,7 @@ class PhotoRepositoryImpl @Inject constructor(
         }
 
     override suspend fun deleteFile(path: String) {
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io) {
             val file = File(path)
             file.delete()
         }

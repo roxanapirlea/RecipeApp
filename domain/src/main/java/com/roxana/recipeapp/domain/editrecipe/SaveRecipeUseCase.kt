@@ -4,7 +4,7 @@ import com.roxana.recipeapp.domain.PhotoRepository
 import com.roxana.recipeapp.domain.RecipeCreationRepository
 import com.roxana.recipeapp.domain.RecipeRepository
 import com.roxana.recipeapp.domain.base.BaseSuspendableUseCase
-import kotlinx.coroutines.Dispatchers
+import com.roxana.recipeapp.domain.base.CommonDispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -12,11 +12,12 @@ import javax.inject.Inject
 class SaveRecipeUseCase @Inject constructor(
     private val recipeRepository: RecipeRepository,
     private val creationRepository: RecipeCreationRepository,
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
+    private val dispatchers: CommonDispatchers
 ) : BaseSuspendableUseCase<Any?, Unit>() {
 
     override suspend fun execute(input: Any?) {
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io) {
             val creationRecipe = creationRepository.getRecipe().first()
             val photoPath = creationRecipe.photoPath?.let {
                 photoRepository.copyTempFileToPermFile(it)
