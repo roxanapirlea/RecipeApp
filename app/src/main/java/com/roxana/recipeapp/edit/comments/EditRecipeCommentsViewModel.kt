@@ -1,11 +1,9 @@
 package com.roxana.recipeapp.edit.comments
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetCommentsUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
-import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetCommentsUseCase
 import com.roxana.recipeapp.domain.model.CreationComment
 import com.roxana.recipeapp.edit.PageType
@@ -23,16 +21,15 @@ class EditRecipeCommentsViewModel @Inject constructor(
     private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getCommentsUseCase: GetCommentsUseCase,
     private val setCommentsUseCase: SetCommentsUseCase,
-    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(EditRecipeCommentsViewState())
+    private val _state = MutableStateFlow(EditRecipeCommentsViewState())
     val state: StateFlow<EditRecipeCommentsViewState> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
             val isExistingRecipe = isRecipeExistingUseCase(null).getOrDefault(false)
             val comments = getCommentsUseCase(null).first().getOrElse { emptyList() }
+                .sortedBy { it.ordinal }
                 .map { it.detail }
             _state.update {
                 it.copy(
@@ -62,7 +59,7 @@ class EditRecipeCommentsViewModel @Inject constructor(
     }
 
     fun onCommentDone() {
-        if (state.value.editingComment.isEmpty()) onValidate() else onSaveComment()
+        if (state.value.canAddEditingComment) onSaveComment() else onValidate()
     }
 
     fun onDeleteComment(indexToDelete: Int) {
@@ -121,7 +118,7 @@ class EditRecipeCommentsViewModel @Inject constructor(
 
     private fun getAllComments() = state.value.comments
         .apply {
-            if (state.value.editingComment.isNotEmpty())
+            if (state.value.canAddEditingComment)
                 plus(state.value.editingComment)
         }
         .mapIndexed { index, instruction ->

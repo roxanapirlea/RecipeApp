@@ -16,4 +16,5 @@ dependencies {
     testImplementation libs.junit
     testImplementation libs.mockk
     testImplementation libs.kotest.assertions
+    testImplementation libs.kotlin.coroutines.test
 }

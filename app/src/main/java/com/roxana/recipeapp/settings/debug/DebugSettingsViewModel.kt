@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.settings.debug
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.debug.SetEditOnboardingValueUseCase
@@ -18,8 +17,7 @@ class DebugSettingsViewModel @Inject constructor(
     private val getEditOnboardingUseCase: GetEditOnboardingUseCase,
     private val setEditOnboardingValueUseCase: SetEditOnboardingValueUseCase
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(DebugSettingsViewState())
+    private val _state = MutableStateFlow(DebugSettingsViewState())
     val state: StateFlow<DebugSettingsViewState> = _state.asStateFlow()
 
     init {

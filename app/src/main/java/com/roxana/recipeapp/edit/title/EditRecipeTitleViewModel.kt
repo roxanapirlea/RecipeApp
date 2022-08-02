@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.edit.title
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetTitleUseCase
@@ -28,8 +27,7 @@ class EditRecipeTitleViewModel @Inject constructor(
     private val onboardingUseCase: GetEditOnboardingUseCase,
     private val setOnboardingDoneUseCase: SetEditOnboardingDoneUseCase
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(EditRecipeTitleViewState())
+    private val _state = MutableStateFlow(EditRecipeTitleViewState())
     val state: StateFlow<EditRecipeTitleViewState> = _state.asStateFlow()
 
     init {
@@ -38,10 +36,13 @@ class EditRecipeTitleViewModel @Inject constructor(
             val title = getTitleUseCase(null).first().getOrNull() ?: ""
             val isOnboardingDone = onboardingUseCase(null).first()
                 .getOrElse { GetEditOnboardingUseCase.Output(false) }.isDone
-            if (!isOnboardingDone) {
-                _state.update { it.copy(shouldRevealBackdrop = true) }
+            _state.update {
+                it.copy(
+                    title = title,
+                    isExistingRecipe = isExistingRecipe,
+                    shouldRevealBackdrop = !isOnboardingDone
+                )
             }
-            _state.value = EditRecipeTitleViewState(title, isExistingRecipe)
         }
     }
 

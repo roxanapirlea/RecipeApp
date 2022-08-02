@@ -2,15 +2,16 @@ package com.roxana.recipeapp.domain.home
 
 import com.roxana.recipeapp.domain.RecipeRepository
 import com.roxana.recipeapp.domain.base.BaseFlowUseCase
+import com.roxana.recipeapp.domain.base.CommonDispatchers
 import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.RecipeSummary
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GetRecipesSummaryUseCase @Inject constructor(
-    private val recipeRepository: RecipeRepository
+    private val recipeRepository: RecipeRepository,
+    private val dispatchers: CommonDispatchers
 ) : BaseFlowUseCase<GetRecipesSummaryUseCase.Input, List<RecipeSummary>>() {
     override fun execute(input: Input): Flow<List<RecipeSummary>> =
         recipeRepository.getRecipesSummary(
@@ -19,7 +20,7 @@ class GetRecipesSummaryUseCase @Inject constructor(
             input.cookingTime,
             input.preparationTime,
             input.category
-        ).flowOn(Dispatchers.IO)
+        ).flowOn(dispatchers.io)
 
     data class Input(
         val query: String = "",

@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.comment
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,8 +19,7 @@ class AddCommentViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    @VisibleForTesting
-    val _state = MutableStateFlow(AddCommentState())
+    private val _state = MutableStateFlow(AddCommentState())
     val state: StateFlow<AddCommentState> = _state.asStateFlow()
 
     fun onChangeComment(comment: String) {

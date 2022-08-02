@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.edit.photocapture
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.SetPhotoUseCase
@@ -16,8 +15,7 @@ import javax.inject.Inject
 class PhotoCaptureViewModel @Inject constructor(
     private val setPhotoUseCase: SetPhotoUseCase
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(PhotoCaptureViewState())
+    private val _state = MutableStateFlow(PhotoCaptureViewState())
     val state: StateFlow<PhotoCaptureViewState> = _state.asStateFlow()
 
     fun onPhotoTaken(photoPath: String) {

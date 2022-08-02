@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.edit.time
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetCookingTimeUseCase
@@ -8,7 +7,6 @@ import com.roxana.recipeapp.domain.editrecipe.GetPreparationTimeUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetTotalTimeUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetWaitingTimeUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
-import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetTimeUseCase
 import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,10 +26,8 @@ class EditRecipeTimeViewModel @Inject constructor(
     private val getWaitingTimeUseCase: GetWaitingTimeUseCase,
     private val getTotalTimeUseCase: GetTotalTimeUseCase,
     private val setTimeUseCase: SetTimeUseCase,
-    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(EditRecipeTimeViewState())
+    private val _state = MutableStateFlow(EditRecipeTimeViewState())
     val state: StateFlow<EditRecipeTimeViewState> = _state.asStateFlow()
 
     init {
@@ -56,7 +52,7 @@ class EditRecipeTimeViewModel @Inject constructor(
         _state.update { it.copy(cooking = time) }
     }
 
-    fun onPreparationCookingChanged(time: String) {
+    fun onPreparationChanged(time: String) {
         _state.update { it.copy(preparation = time) }
     }
 

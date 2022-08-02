@@ -1,4 +1,4 @@
-import com.roxana.recipeapp.data.DbCategoryType;
+import com.roxana.recipeapp.data.recipe.DbCategoryType;
 
 CREATE TABLE CategoryForRecipe(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,12 +15,6 @@ CREATE INDEX category_type_id ON CategoryForRecipe(category_id);
 insert:
 INSERT INTO CategoryForRecipe(name, category_id, recipe_id)
 VALUES (?, ?, ?);
-
-update:
-UPDATE CategoryForRecipe
-SET name = :name,
-    category_id = :category_id
-WHERE id = :id;
 
 delete:
 DELETE FROM CategoryForRecipe

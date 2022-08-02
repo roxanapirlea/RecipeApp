@@ -13,16 +13,23 @@ import com.roxana.recipeapp.domain.model.QuantityType
 import com.roxana.recipeapp.domain.model.Recipe
 import com.roxana.recipeapp.domain.model.Temperature
 import com.roxana.recipeapp.helpers.MainCoroutineRule
+import com.roxana.recipeapp.helpers.fakeEmptyRecipe
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
 import com.roxana.recipeapp.uimodel.UiTemperature
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainInOrder
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
@@ -155,5 +162,224 @@ class DetailViewModelTest {
         // Then
         val content = viewModel.state.value
         content.comments.shouldContainInOrder("comm1", "comm2")
+    }
+
+    @Test
+    fun setError_when_init_given_recipeError() {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        every {
+            getRecipeByIdUseCase(recipeId)
+        } returns flow { emit(Result.failure(IllegalAccessException())) }
+
+        // When
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
+
+        // Then
+        viewModel.state.value.isFetchingError.shouldBeTrue()
+    }
+
+    @Test
+    fun dismissError_when_onErrorDismissed_given_recipeError() {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        every {
+            getRecipeByIdUseCase(recipeId)
+        } returns flow { emit(Result.failure(IllegalAccessException())) }
+
+        // When - then
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
+        viewModel.state.value.isFetchingError.shouldBeTrue()
+
+        viewModel.onErrorDismissed()
+        viewModel.state.value.isFetchingError.shouldBeFalse()
+    }
+
+    @Test
+    fun setEditNav_when_onEdit_given_no_error() {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        every {
+            getRecipeByIdUseCase(recipeId)
+        } returns flow { emit(Result.success(fakeEmptyRecipe)) }
+        coEvery { startRecipeEditingUseCase(recipeId) } returns Result.success(Unit)
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
+
+        // When
+        viewModel.onEdit()
+
+        // Then
+        viewModel.state.value.navigation shouldBe Navigation.EDIT
+        coVerify { startRecipeEditingUseCase(recipeId) }
+    }
+
+    @Test
+    fun doNoting_when_onEdit_givenStartEditError() {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        every {
+            getRecipeByIdUseCase(recipeId)
+        } returns flow { emit(Result.success(fakeEmptyRecipe)) }
+        coEvery {
+            startRecipeEditingUseCase(recipeId)
+        } returns Result.failure(IllegalAccessException())
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
+
+        // When
+        viewModel.onEdit()
+
+        // Then
+        viewModel.state.value.navigation.shouldBeNull()
+    }
+
+    @Test
+    fun resetNav_when_onNavigationDone() {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        every {
+            getRecipeByIdUseCase(recipeId)
+        } returns flow { emit(Result.success(fakeEmptyRecipe)) }
+        coEvery { startRecipeEditingUseCase(recipeId) } returns Result.success(Unit)
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
+
+        // When - then
+        viewModel.onEdit()
+        viewModel.state.value.navigation shouldBe Navigation.EDIT
+        viewModel.onNavigationDone()
+        viewModel.state.value.navigation.shouldBeNull()
+    }
+
+    @Test
+    fun shouldShowDeleteMessage_when_onDelete() {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        every {
+            getRecipeByIdUseCase(recipeId)
+        } returns flow { emit(Result.success(fakeEmptyRecipe)) }
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
+
+        // When
+        viewModel.onDelete()
+
+        // Then
+        viewModel.state.value.shouldShowDeleteMessage.shouldBeTrue()
+    }
+
+    @Test
+    fun shouldStopShowingDeleteMessage_when_onUndoDelete() {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        every {
+            getRecipeByIdUseCase(recipeId)
+        } returns flow { emit(Result.success(fakeEmptyRecipe)) }
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
+
+        // When - then
+        viewModel.onDelete()
+        viewModel.state.value.shouldShowDeleteMessage.shouldBeTrue()
+        viewModel.onUndoDelete()
+        viewModel.state.value.shouldShowDeleteMessage.shouldBeFalse()
+    }
+
+    @Test
+    fun shouldDeleteRecipe_when_onDeleteMessageDismissed() = runTest {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        every {
+            getRecipeByIdUseCase(recipeId)
+        } returns flow { emit(Result.success(fakeEmptyRecipe)) }
+        coEvery { deleteRecipeUseCase(recipeId) } returns Result.success(Unit)
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
+        viewModel.onDelete()
+
+        // When
+        viewModel.onDeleteMessageDismissed()
+
+        // Then
+        viewModel.state.value.shouldShowDeleteMessage.shouldBeFalse()
+        coVerify { deleteRecipeUseCase(recipeId) }
+        viewModel.state.value.navigation shouldBe Navigation.BACK
+    }
+
+    @Test
+    fun doNothing_when_onDeleteMessageDismissed_given_deleteError() = runTest {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        every {
+            getRecipeByIdUseCase(recipeId)
+        } returns flow { emit(Result.success(fakeEmptyRecipe)) }
+        coEvery { deleteRecipeUseCase(recipeId) } returns Result.failure(IllegalAccessException())
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase
+            )
+        viewModel.onDelete()
+
+        // When
+        viewModel.onDeleteMessageDismissed()
+
+        // Then
+        viewModel.state.value.shouldShowDeleteMessage.shouldBeFalse()
+        viewModel.state.value.navigation.shouldBeNull()
     }
 }

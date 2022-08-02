@@ -1,11 +1,9 @@
 package com.roxana.recipeapp.edit.temperature
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetTemperatureUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
-import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetTemperatureUseCase
 import com.roxana.recipeapp.domain.temperature.GetPreferredTemperatureUseCase
 import com.roxana.recipeapp.edit.PageType
@@ -27,10 +25,8 @@ class EditRecipeTemperatureViewModel @Inject constructor(
     private val getTemperatureUseCase: GetTemperatureUseCase,
     private val setTemperatureUseCase: SetTemperatureUseCase,
     private val getPreferredTemperatureUseCase: GetPreferredTemperatureUseCase,
-    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(EditRecipeTemperatureViewState())
+    private val _state = MutableStateFlow(EditRecipeTemperatureViewState())
     val state: StateFlow<EditRecipeTemperatureViewState> = _state.asStateFlow()
 
     init {

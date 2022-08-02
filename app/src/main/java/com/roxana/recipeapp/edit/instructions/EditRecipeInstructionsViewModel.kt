@@ -1,11 +1,9 @@
 package com.roxana.recipeapp.edit.instructions
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetInstructionsUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
-import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetInstructionsUseCase
 import com.roxana.recipeapp.domain.model.CreationInstruction
 import com.roxana.recipeapp.edit.PageType
@@ -23,10 +21,8 @@ class EditRecipeInstructionsViewModel @Inject constructor(
     private val isRecipeExistingUseCase: IsRecipeExistingUseCase,
     private val getInstructionsUseCase: GetInstructionsUseCase,
     private val setInstructionsUseCase: SetInstructionsUseCase,
-    private val resetRecipeUseCase: ResetRecipeUseCase,
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(EditRecipeInstructionsViewState())
+    private val _state = MutableStateFlow(EditRecipeInstructionsViewState())
     val state: StateFlow<EditRecipeInstructionsViewState> = _state.asStateFlow()
 
     init {
@@ -62,7 +58,7 @@ class EditRecipeInstructionsViewModel @Inject constructor(
     }
 
     fun onInstructionDone() {
-        if (state.value.editingInstruction.isEmpty()) onValidate() else onSaveInstruction()
+        if (state.value.canAddInstruction) onSaveInstruction() else onValidate()
     }
 
     fun onDeleteInstruction(indexToDelete: Int) {
@@ -121,7 +117,7 @@ class EditRecipeInstructionsViewModel @Inject constructor(
 
     private fun getAllInstructions() = state.value.instructions
         .apply {
-            if (state.value.editingInstruction.isNotEmpty())
+            if (state.value.canAddInstruction)
                 plus(state.value.editingInstruction)
         }
         .mapIndexed { index, instruction ->

@@ -1,12 +1,10 @@
 package com.roxana.recipeapp.edit.categories
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.editrecipe.GetAvailableCategoriesUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetCategoriesUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
-import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetCategoriesUseCase
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.uimodel.UiCategoryType
@@ -27,10 +25,8 @@ class EditRecipeCategoriesViewModel @Inject constructor(
     private val getAvailableCategoriesUseCase: GetAvailableCategoriesUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val setCategoriesUseCase: SetCategoriesUseCase,
-    private val resetRecipeUseCase: ResetRecipeUseCase
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(EditRecipeCategoriesViewState())
+    private val _state = MutableStateFlow(EditRecipeCategoriesViewState())
     val state: StateFlow<EditRecipeCategoriesViewState> = _state.asStateFlow()
 
     init {

@@ -1,12 +1,10 @@
 package com.roxana.recipeapp.edit.ingredients
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.common.utilities.toFormattedString
 import com.roxana.recipeapp.domain.editrecipe.GetIngredientsUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
-import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetIngredientsUseCase
 import com.roxana.recipeapp.domain.model.CreationIngredient
 import com.roxana.recipeapp.domain.quantities.GetAllQuantityTypesUseCase
@@ -30,11 +28,9 @@ class EditRecipeIngredientsViewModel @Inject constructor(
     private val getPreferredQuantityTypesUseCase: GetPreferredQuantitiesUseCase,
     private val getAllQuantityTypesUseCase: GetAllQuantityTypesUseCase,
     private val getIngredientsUseCase: GetIngredientsUseCase,
-    private val setIngredientsUseCase: SetIngredientsUseCase,
-    private val resetRecipeUseCase: ResetRecipeUseCase,
+    private val setIngredientsUseCase: SetIngredientsUseCase
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(EditRecipeIngredientsViewState())
+    private val _state = MutableStateFlow(EditRecipeIngredientsViewState())
     val state: StateFlow<EditRecipeIngredientsViewState> = _state.asStateFlow()
 
     init {

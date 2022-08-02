@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.cooking
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,18 +22,17 @@ class CookingViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
-        private const val KEY_SAVE_PORTIONS_COEF = "key_save_portions_coef"
-        private const val KEY_SAVE_CHECKED_INSTRUCTIONS = "key_save_checked_instructions"
-        private const val KEY_SAVE_CHECKED_INGREDIENTS = "key_save_checked_ingredients"
+        internal const val KEY_SAVE_PORTIONS_COEF = "key_save_portions_coef"
+        internal const val KEY_SAVE_CHECKED_INSTRUCTIONS = "key_save_checked_instructions"
+        internal const val KEY_SAVE_CHECKED_INGREDIENTS = "key_save_checked_ingredients"
     }
 
-    @VisibleForTesting
-    val _state = MutableStateFlow(CookingViewState(isLoading = true))
+    private val _state = MutableStateFlow(CookingViewState(isLoading = true))
     val state: StateFlow<CookingViewState> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val recipeId: Int = savedStateHandle[CookingNode.KEY_ID]!!
+            val recipeId: Int = savedStateHandle.get<Int>(CookingNode.KEY_ID)!!
             val quantityMultiplier: Double = savedStateHandle.get<String>(
                 CookingNode.KEY_PORTIONS_MULTIPLIER
             )?.toDoubleOrNull() ?: 1.0
@@ -43,7 +41,7 @@ class CookingViewModel @Inject constructor(
                     { recipe ->
                         val nonNullPortions = recipe.portions?.toDouble() ?: 1.0
                         val multiplier =
-                            savedStateHandle[KEY_SAVE_PORTIONS_COEF] ?: quantityMultiplier
+                            savedStateHandle.get<Double>(KEY_SAVE_PORTIONS_COEF) ?: quantityMultiplier
                         val checkedIngredients = savedStateHandle.get<List<Int>>(
                             KEY_SAVE_CHECKED_INGREDIENTS
                         ) ?: emptyList()

@@ -1,6 +1,5 @@
 package com.roxana.recipeapp.settings
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.domain.quantities.GetAllQuantityTypesUseCase
@@ -28,8 +27,7 @@ class SettingsViewModel @Inject constructor(
     private val savePreferredQuantitiesUseCase: SavePreferredQuantitiesUseCase,
     private val savePreferredTemperatureUseCase: SavePreferredTemperatureUseCase
 ) : ViewModel() {
-    @VisibleForTesting
-    val _state = MutableStateFlow(SettingsViewState())
+    private val _state = MutableStateFlow(SettingsViewState())
     val state: StateFlow<SettingsViewState> = _state.asStateFlow()
 
     init {

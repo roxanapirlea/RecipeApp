@@ -14,16 +14,6 @@ insert:
 INSERT INTO Comment(name, ordinal, recipe_id)
 VALUES (?, ?, ?);
 
-update:
-UPDATE Comment
-SET name = :name,
-    ordinal = :ordinal
-WHERE id = :id;
-
-delete:
-DELETE FROM Comment
-WHERE id = :id;
-
 deleteByRecipeId:
 DELETE FROM Comment
 WHERE recipe_id = :id;
