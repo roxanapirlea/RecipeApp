@@ -1,10 +1,11 @@
-package com.roxana.recipeapp.ui.textfield
+package com.roxana.recipeapp.ui.basecomponents
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -12,8 +13,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipePrimaryTextField(
+fun RecipeOutlinedTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -22,7 +24,7 @@ fun RecipePrimaryTextField(
     label: String? = null,
     leading: @Composable (() -> Unit)? = null,
     trailing: @Composable (() -> Unit)? = null,
-    textStyle: TextStyle = MaterialTheme.typography.body1,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Default,
     capitalisation: KeyboardCapitalization = KeyboardCapitalization.Sentences,
@@ -44,7 +46,6 @@ fun RecipePrimaryTextField(
         keyboardActions = KeyboardActions { onImeAction() },
         textStyle = textStyle,
         singleLine = true,
-        colors = primaryOutlineTextFiledColors(),
         modifier = modifier
     )
 }
