@@ -6,7 +6,7 @@ buildscript {
     ext {
         projectMinSdk = 23
         projectTargetSdk = 31
-        projectCompileSdk = 32
+        projectCompileSdk = 33
     }
     repositories {
         google()

@@ -8,10 +8,11 @@ androidxLifecycle = "2.4.1"
 androidxTestEspresso = "3.4.0"
 androidxTestJunit = "1.1.3"
 androidxCamera = "1.2.0-alpha01"
-buildTools = "7.2.1"
+buildTools = "7.2.2"
 coil = "2.1.0"
 compose = "1.2.0-beta03"
 composeCompiler = "1.2.0-beta03"
+composeMaterial3 = "1.0.0-beta01"
 navCompose = "2.5.0-rc01"
 datastore = "1.0.0"
 desugaring = "1.1.5"
@@ -46,6 +47,7 @@ androidx-coreTesting = { module = "androidx.arch.core:core-testing", version.ref
 
 androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3" }
 androidx-compose-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 androidx-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 
