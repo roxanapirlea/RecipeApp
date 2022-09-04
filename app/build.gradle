@@ -66,6 +66,7 @@ dependencies {
     implementation libs.accompanist.bottomSheet
     implementation libs.accompanist.flow
     implementation libs.accompanist.permissions
+    implementation libs.accompanist.system.ui
 
     implementation libs.androidx.camera.camera2
     implementation libs.androidx.camera.lifecycle
