@@ -5,9 +5,9 @@ An Android app useful for saving recipes.
 
 ## Main features
 
-### Saving a recipe
+### Saving or editing a recipe
 
-<img src="/docs/images/add_recipe_backdrop.png" alt="Save recipe backdrop" width="200"/> <img src="/docs/images/add_recipe_categories.png" alt="Save recipe categories" width="200"/>
+<img src="/docs/images/edit_ingredients.png" alt="Edit recipe ingredients" width="200"/> <img src="/docs/images/edit_recipe_recap.png" alt="Edit recipe summary" width="200"/>
 
 ### Recipe list
 
