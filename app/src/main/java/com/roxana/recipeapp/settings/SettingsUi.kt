@@ -20,8 +20,7 @@ import com.roxana.recipeapp.uimodel.UiTemperature
 @Composable
 fun SettingsDestination(
     settingsViewModel: SettingsViewModel,
-    onNavBack: () -> Unit = {},
-    onNavDebugSettings: () -> Unit = {}
+    onNavBack: () -> Unit = {}
 ) {
     val state by rememberFlowWithLifecycle(settingsViewModel.state)
         .collectAsState(SettingsViewState())
@@ -29,7 +28,6 @@ fun SettingsDestination(
     SettingsScreen(
         state,
         onBack = onNavBack,
-        onDebugSettingsClicked = onNavDebugSettings,
         onTemperatureSelected = settingsViewModel::onTemperatureSelected,
         onMeasuringUnitChanged = settingsViewModel::onMeasuringUnitChanged
     )
@@ -40,7 +38,6 @@ fun SettingsDestination(
 fun SettingsScreen(
     state: SettingsViewState,
     onBack: () -> Unit = {},
-    onDebugSettingsClicked: () -> Unit = {},
     onTemperatureSelected: (UiTemperature) -> Unit = {},
     onMeasuringUnitChanged: (UiQuantityType, Boolean) -> Unit = { _, _ -> }
 ) {
@@ -50,7 +47,6 @@ fun SettingsScreen(
         SettingsView(
             state,
             modifier = Modifier.padding(contentPadding),
-            onDebugSettingsClicked = onDebugSettingsClicked,
             onTemperatureSelected = onTemperatureSelected,
             onMeasuringUnitChanged = onMeasuringUnitChanged
         )

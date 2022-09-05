@@ -32,13 +32,6 @@ object SettingsNode : CommonNode {
     override val args: List<NamedNavArgument> = emptyList()
 }
 
-object DebugSettingsNode : CommonNode {
-    private const val ROOT = "debug_settings"
-
-    override val route: String = ROOT
-    override val args: List<NamedNavArgument> = emptyList()
-}
-
 interface DetailNode : Node
 
 object RecipeDetailNode : DetailNode {

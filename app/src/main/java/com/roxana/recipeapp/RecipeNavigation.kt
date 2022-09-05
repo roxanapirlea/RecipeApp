@@ -23,8 +23,6 @@ import com.roxana.recipeapp.home.HomeDestination
 import com.roxana.recipeapp.home.HomeViewModel
 import com.roxana.recipeapp.settings.SettingsDestination
 import com.roxana.recipeapp.settings.SettingsViewModel
-import com.roxana.recipeapp.settings.debug.DebugSettingsDestination
-import com.roxana.recipeapp.settings.debug.DebugSettingsViewModel
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
@@ -58,14 +56,6 @@ fun RecipeNavigation() {
                 SettingsDestination(
                     settingsViewModel = settingsViewModel,
                     onNavBack = { navController.navigateUp() },
-                    onNavDebugSettings = { navController.navigate(DebugSettingsNode.route) }
-                )
-            }
-            composable(route = DebugSettingsNode.route) {
-                val debugSettingsViewModel = hiltViewModel<DebugSettingsViewModel>()
-                DebugSettingsDestination(
-                    debugSettingsViewModel = debugSettingsViewModel,
-                    onBack = { navController.navigateUp() }
                 )
             }
             composable(
