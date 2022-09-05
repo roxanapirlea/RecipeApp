@@ -4,13 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Badge
-import androidx.compose.material.BadgedBox
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,9 +22,11 @@ import com.roxana.recipeapp.R
 import com.roxana.recipeapp.home.HomeViewState
 import com.roxana.recipeapp.home.RecipeState
 import com.roxana.recipeapp.ui.FilterIcon
-import com.roxana.recipeapp.ui.textfield.SearchTextField
+import com.roxana.recipeapp.ui.SearchTextField
+import com.roxana.recipeapp.ui.basecomponents.Detail
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeListView(
     state: HomeViewState,
@@ -34,7 +38,7 @@ fun RecipeListView(
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp, start = 16.dp),
+        contentPadding = PaddingValues(16.dp),
         modifier = modifier
     ) {
         item {
@@ -49,8 +53,8 @@ fun RecipeListView(
                         badge = {
                             if (state.filtersSelectionCount != 0)
                                 Badge(
-                                    backgroundColor = MaterialTheme.colors.secondary,
-                                    contentColor = MaterialTheme.colors.onSecondary
+                                    containerColor = MaterialTheme.colorScheme.secondary,
+                                    contentColor = MaterialTheme.colorScheme.onSecondary
                                 ) { Text(state.filtersSelectionCount.toString()) }
                         }
                     ) { FilterIcon() }
@@ -58,16 +62,19 @@ fun RecipeListView(
             }
         }
         if (state.recipes.isEmpty()) {
-            item { Text(stringResource(R.string.home_empty_search)) }
+            item { Detail(stringResource(R.string.home_empty_search)) }
         } else {
             item {
-                RecipeRandomItem(onClick = onRandomRecipe)
+                RecipeRandomItem(
+                    onClick = onRandomRecipe,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
             }
             items(items = state.recipes, key = { recipe -> recipe.id }) { recipe ->
                 RecipeItem(
                     recipeState = recipe,
-                    index = recipe.id,
-                    onClick = onRecipeSelected
+                    onClick = onRecipeSelected,
+                    modifier = Modifier.padding(vertical = 4.dp)
                 )
             }
         }

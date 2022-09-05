@@ -1,14 +1,18 @@
 package com.roxana.recipeapp.home.ui
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,7 +22,6 @@ import com.google.accompanist.flowlayout.FlowRow
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.home.FiltersState
 import com.roxana.recipeapp.ui.SelectableCategory
-import com.roxana.recipeapp.ui.button.TwoButtonRow
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
 
@@ -36,66 +39,72 @@ fun FiltersView(
     Box(modifier.fillMaxSize()) {
         BackHandler(onBack = onCloseFiltersClicked)
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
         ) {
-            FlowRow(mainAxisAlignment = FlowMainAxisAlignment.Center) {
-                state.categories.forEachIndexed { index, category ->
-                    SelectableCategory(
-                        categoryType = category,
-                        isSelected = state.selectedCategory == category,
-                        index = index,
-                        onCategoryClicked = onCategoryClicked
+            item {
+                FlowRow(
+                    mainAxisAlignment = FlowMainAxisAlignment.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    state.categories.forEach { category ->
+                        SelectableCategory(
+                            categoryType = category,
+                            isSelected = state.selectedCategory == category,
+                            onCategoryClicked = onCategoryClicked
+                        )
+                    }
+                }
+            }
+            item { Spacer(modifier = Modifier.height(8.dp)) }
+            if (state.maxTotalTime != null) {
+                item {
+                    TimeSlider(
+                        label = stringResource(R.string.filters_select_time_total),
+                        selected = state.selectedTotalTime!!,
+                        max = state.maxTotalTime,
+                        onSelected = onTotalTimeSelected,
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            if (state.maxTotalTime != null) {
-                TimeSlider(
-                    label = stringResource(
-                        R.string.filters_select_time_total,
-                        state.selectedTotalTime!!
-                    ),
-                    selected = state.selectedTotalTime,
-                    max = state.maxTotalTime,
-                    onSelected = onTotalTimeSelected,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-            }
             if (state.maxCookingTime != null) {
-                Spacer(modifier = Modifier.height(8.dp))
-                TimeSlider(
-                    label = stringResource(
-                        R.string.filters_select_time_cooking,
-                        state.selectedCookingTime!!
-                    ),
-                    selected = state.selectedCookingTime,
-                    max = state.maxCookingTime,
-                    onSelected = onCookingTimeSelected,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
+                item {
+                    TimeSlider(
+                        label = stringResource(R.string.filters_select_time_cooking),
+                        selected = state.selectedCookingTime!!,
+                        max = state.maxCookingTime,
+                        onSelected = onCookingTimeSelected,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
             }
             if (state.maxPreparationTime != null) {
-                TimeSlider(
-                    label = stringResource(
-                        R.string.filters_select_time_preparation,
-                        state.selectedPreparationTime!!
-                    ),
-                    selected = state.selectedPreparationTime,
-                    max = state.maxPreparationTime,
-                    onSelected = onPreparationTimeSelected
-                )
+                item {
+                    TimeSlider(
+                        label = stringResource(R.string.filters_select_time_preparation),
+                        selected = state.selectedPreparationTime!!,
+                        max = state.maxPreparationTime,
+                        onSelected = onPreparationTimeSelected
+                    )
+                }
+            }
+            item {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp)
+                ) {
+                    FilledTonalButton(onClick = onResetFiltersClicked) {
+                        Text(stringResource(R.string.all_reset))
+                    }
+                    FilledTonalButton(onClick = onCloseFiltersClicked) {
+                        Text(stringResource(R.string.all_ok))
+                    }
+                }
             }
         }
-        TwoButtonRow(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            textStartButton = stringResource(R.string.all_reset),
-            onClickStartButton = onResetFiltersClicked,
-            textEndButton = stringResource(R.string.all_ok),
-            onClickEndButton = onCloseFiltersClicked
-        )
     }
 }
 

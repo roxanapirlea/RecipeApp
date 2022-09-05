@@ -243,7 +243,8 @@
     <string name="settings_measuring_units">Unités de mesure</string>
     <string name="settings_measuring_units_detail">Choisis les unités qui seront disponibles lors de l\'ajout d\'une nouvelle recette ou de la modification d\'une recette existante</string>
     <string name="debug_settings">Paramètres de debuggage</string>
-    <string name="filters_select_time_total">Temps total max: %dmin</string>
-    <string name="filters_select_time_cooking">Temps de cuisson max: %dmin</string>
-    <string name="filters_select_time_preparation">Temps de préparation max: %dmin</string>
+    <string name="filters_select_time_total">Temps total maximal</string>
+    <string name="filters_select_time_cooking">Temps de cuisson maximal</string>
+    <string name="filters_select_time_preparation">Temps de préparation maximal</string>
+    <string name="filters_select_time">%d min</string>
 </resources>

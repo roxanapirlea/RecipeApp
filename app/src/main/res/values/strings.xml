@@ -212,9 +212,10 @@
     <string name="settings_measuring_units">Measuring units</string>
     <string name="settings_measuring_units_detail">Choose the units that will be available when adding a new recipe or editing an existing one</string>
     <string name="debug_settings">Debug settings</string>
-    <string name="filters_select_time_total">Max total time: %dmin</string>
-    <string name="filters_select_time_cooking">Max cooking time: %dmin</string>
-    <string name="filters_select_time_preparation">Max preparation time: %dmin</string>
+    <string name="filters_select_time_total">Maximum total time</string>
+    <string name="filters_select_time_cooking">Maximum cooking time</string>
+    <string name="filters_select_time_preparation">Maximum preparation time</string>
+    <string name="filters_select_time">%d min</string>
     <string name="debug_settings_onboarding" translatable="false">Onboarding</string>
     <string name="debug_settings_onboarding_add_recipe" translatable="false">Add recipe onboarding done</string>
 </resources>
