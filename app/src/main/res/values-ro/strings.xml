@@ -31,6 +31,7 @@
     <string name="all_take_photo">Fă poză</string>
     <string name="all_captured_image">Imaginea capturată</string>
     <string name="all_camera_config_error">A apărut o problemă la configurarea camerei</string>
+    <string name="all_camera_capture_error">A apărut o problemă la capturarea imaginii</string>
     <string name="all_category_breakfast">Mic dejun</string>
     <string name="all_category_dessert">Desert</string>
     <string name="all_category_dinner">Cină</string>

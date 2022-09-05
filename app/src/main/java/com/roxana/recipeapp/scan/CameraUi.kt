@@ -33,14 +33,21 @@ import java.io.File
 fun CameraView(
     modifier: Modifier = Modifier,
     onImageFile: (File) -> Unit = {},
-    onConfigError: (Throwable) -> Unit
+    onConfigError: (Throwable) -> Unit,
+    onImageError: (Throwable) -> Unit,
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     var previewUseCase by remember { mutableStateOf<UseCase>(buildPreviewUseCase()) }
     val imageCaptureUseCase by remember { mutableStateOf(buildCaptureUseCase()) }
 
-    CameraCaptureView(modifier = modifier, imageCaptureUseCase, { previewUseCase = it }, onImageFile)
+    CameraCaptureView(
+        modifier = modifier,
+        imageCaptureUseCase,
+        { previewUseCase = it },
+        onImageFile,
+        onImageError
+    )
 
     LaunchedEffect(previewUseCase) {
         configureCameraProvider(
@@ -58,7 +65,8 @@ fun CameraCaptureView(
     modifier: Modifier = Modifier,
     imageCapture: ImageCapture,
     onPreviewUseCase: (UseCase) -> Unit,
-    onImageFile: (File) -> Unit
+    onImageFile: (File) -> Unit,
+    onImageError: (Throwable) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -74,8 +82,10 @@ fun CameraCaptureView(
                 .align(Alignment.BottomCenter),
             onClick = {
                 coroutineScope.launch {
-                    imageCapture.takePicture(context.executor)?.let {
-                        onImageFile(it)
+                    try {
+                        onImageFile(imageCapture.takePicture(context.executor)!!)
+                    } catch (e: Throwable) {
+                        onImageError(e)
                     }
                 }
             }

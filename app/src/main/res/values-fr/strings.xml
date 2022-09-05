@@ -31,6 +31,7 @@
     <string name="all_take_photo">Prendre une photo</string>
     <string name="all_captured_image">L\'image capturée</string>
     <string name="all_camera_config_error">Un problème est survenu lors de la configuration de la caméra</string>
+    <string name="all_camera_capture_error">Un problème est survenu lors de la prise de photo</string>
     <string name="all_category_breakfast">Petit déjeuner</string>
     <string name="all_category_dessert">Dessert</string>
     <string name="all_category_dinner">Dîner</string>

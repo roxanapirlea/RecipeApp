@@ -51,14 +51,18 @@ fun PhotoCaptureDestination(
     val snackbarHostState = remember { SnackbarHostState() }
     val localContext = LocalContext.current.applicationContext
 
-    if (state.isConfigError) {
-        LaunchedEffect(state.isConfigError) {
+    state.error?.let {
+        LaunchedEffect(state.error) {
+            val message = when (it) {
+                Error.CONFIG -> localContext.getString(R.string.all_camera_config_error)
+                Error.CAPTURE -> localContext.getString(R.string.all_camera_capture_error)
+            }
             snackbarHostState.showSnackbar(
-                message = localContext.getString(R.string.all_camera_config_error),
+                message = message,
                 duration = SnackbarDuration.Short
             )
             onBack()
-            photoCaptureViewModel.onConfigErrorDismissed()
+            photoCaptureViewModel.onErrorDismissed()
         }
     }
     if (state.shouldNavigateBack) {
@@ -84,7 +88,8 @@ fun PhotoCaptureDestination(
                         onImageTaken = photoCaptureViewModel::onPhotoTaken,
                         onAcceptPhoto = photoCaptureViewModel::onPhotoAdded,
                         onTakeAnotherPhoto = photoCaptureViewModel::onRetakePhoto,
-                        onConfigError = photoCaptureViewModel::onConfigError
+                        onConfigError = photoCaptureViewModel::onConfigError,
+                        onImageError = photoCaptureViewModel::onImageError,
                     )
                 cameraPermissionState.status.shouldShowRationale ->
                     CameraPermissionExplanation(
@@ -110,6 +115,7 @@ fun PhotoCaptureView(
     onAcceptPhoto: () -> Unit = {},
     onTakeAnotherPhoto: () -> Unit = {},
     onConfigError: () -> Unit = {},
+    onImageError: () -> Unit = {},
 ) {
     if (photoPath != null) {
         CapturedImage(
@@ -122,7 +128,12 @@ fun PhotoCaptureView(
         CameraView(
             modifier = modifier,
             onImageFile = { file -> onImageTaken(file.toUri().path!!) },
-            onConfigError = { onConfigError() }
+            onConfigError = {
+                onConfigError()
+            },
+            onImageError = {
+                onImageError()
+            }
         )
     }
 }

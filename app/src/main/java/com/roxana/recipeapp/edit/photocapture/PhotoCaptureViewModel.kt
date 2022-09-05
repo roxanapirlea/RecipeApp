@@ -39,10 +39,14 @@ class PhotoCaptureViewModel @Inject constructor(
     }
 
     fun onConfigError() {
-        _state.update { it.copy(isConfigError = true) }
+        _state.update { it.copy(error = Error.CONFIG) }
     }
 
-    fun onConfigErrorDismissed() {
-        _state.update { it.copy(isConfigError = false) }
+    fun onImageError() {
+        _state.update { it.copy(error = Error.CAPTURE) }
+    }
+
+    fun onErrorDismissed() {
+        _state.update { it.copy(error = null) }
     }
 }
