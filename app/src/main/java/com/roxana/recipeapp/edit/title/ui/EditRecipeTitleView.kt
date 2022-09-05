@@ -15,8 +15,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.title.EditRecipeTitleViewState
-import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
+import com.roxana.recipeapp.ui.basecomponents.Label
+import com.roxana.recipeapp.ui.basecomponents.RecipeOutlinedTextField
 
 @Composable
 fun EditRecipeTitleView(
@@ -32,12 +32,12 @@ fun EditRecipeTitleView(
             .fillMaxSize()
     ) {
         Spacer(modifier = Modifier.weight(3f))
-        LabelView(
+        Label(
             text = stringResource(R.string.edit_recipe_title_label),
             modifier = Modifier.padding(bottom = 8.dp),
         )
         Spacer(modifier = Modifier.weight(0.5f))
-        RecipeSecondaryTextField(
+        RecipeOutlinedTextField(
             value = state.title,
             onValueChange = onTitleChanged,
             placeholder = stringResource(R.string.edit_recipe_title_hint),

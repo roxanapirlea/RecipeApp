@@ -167,10 +167,10 @@
     <string name="home_empty_search">Nicio rețetă nu corespunde căutării tale</string>
     <string name="home_recipe_fetch_error">A apărut o problemă la recuperarea rețetelor tale</string>
     <string name="home_random_recipe">Alege o rețetă pentru mine</string>
-    <string name="edit_recipe_title_page">Titlu</string>
-    <string name="edit_recipe_photo_page">Fotografie</string>
+    <string name="edit_recipe_title_page">Titlul rețetei</string>
+    <string name="edit_recipe_photo_page">Fotografia rețetei</string>
     <string name="edit_recipe_categories_page">Categorii</string>
-    <string name="edit_recipe_portions_page">Porții</string>
+    <string name="edit_recipe_portions_page">Numărul de porții</string>
     <string name="edit_recipe_ingredients_page">Ingrediente</string>
     <string name="edit_recipe_instructions_page">Instrucțiuni</string>
     <string name="edit_recipe_temperature_page">Temperatură</string>

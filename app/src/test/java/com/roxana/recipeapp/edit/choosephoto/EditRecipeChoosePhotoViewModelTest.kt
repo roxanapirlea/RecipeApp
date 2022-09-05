@@ -4,7 +4,6 @@ import com.roxana.recipeapp.domain.editrecipe.ClearPhotoUseCase
 import com.roxana.recipeapp.domain.editrecipe.GetPhotoUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetPhotoUseCase
-import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.helpers.MainCoroutineRule
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -272,52 +271,6 @@ class EditRecipeChoosePhotoViewModelTest {
         viewModel.state.value.photoPath.shouldBeNull()
         viewModel.onBack()
         viewModel.state.value.navigation shouldBe Navigation.Back
-        coVerify(exactly = 0) { setPhotoUC(path) }
-    }
-
-    @Test
-    fun savePhotoAndToPage_when_onSelectPage_given_noErrorAndPhoto() {
-        // Given
-        viewModel =
-            EditRecipeChoosePhotoViewModel(isExistingUC, getPhotoUC, setPhotoUC, clearPhotoUC)
-        coEvery { setPhotoUC(any()) } returns Result.success(Unit)
-
-        // When
-        viewModel.onSelectPage(PageType.Ingredients)
-
-        // Then
-        viewModel.state.value.navigation shouldBe Navigation.ToPage(PageType.Ingredients, true)
-        coVerify { setPhotoUC(path) }
-    }
-
-    @Test
-    fun savePhotoAndBack_when_onSelectPage_given_errorAndPhoto() {
-        // Given
-        viewModel =
-            EditRecipeChoosePhotoViewModel(isExistingUC, getPhotoUC, setPhotoUC, clearPhotoUC)
-        coEvery { setPhotoUC(any()) } returns Result.failure(IllegalStateException())
-
-        // When
-        viewModel.onSelectPage(PageType.Ingredients)
-
-        // Then
-        viewModel.state.value.navigation shouldBe Navigation.ToPage(PageType.Ingredients, true)
-        coVerify { setPhotoUC(path) }
-    }
-
-    @Test
-    fun goToPage_when_onSelectPage_given_noErrorAndNoPhoto() {
-        // Given
-        every { getPhotoUC(null) } returns flow { emit(Result.success(null)) }
-        viewModel =
-            EditRecipeChoosePhotoViewModel(isExistingUC, getPhotoUC, setPhotoUC, clearPhotoUC)
-        coEvery { setPhotoUC(any()) } returns Result.success(Unit)
-
-        // When - then
-        viewModel.onClearPhoto()
-        viewModel.state.value.photoPath.shouldBeNull()
-        viewModel.onSelectPage(PageType.Ingredients)
-        viewModel.state.value.navigation shouldBe Navigation.ToPage(PageType.Ingredients, true)
         coVerify(exactly = 0) { setPhotoUC(path) }
     }
 

@@ -6,8 +6,6 @@ import com.roxana.recipeapp.domain.editrecipe.GetTitleUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
 import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetTitleUseCase
-import com.roxana.recipeapp.domain.onboarding.GetEditOnboardingUseCase
-import com.roxana.recipeapp.domain.onboarding.SetEditOnboardingDoneUseCase
 import com.roxana.recipeapp.edit.PageType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +22,6 @@ class EditRecipeTitleViewModel @Inject constructor(
     private val getTitleUseCase: GetTitleUseCase,
     private val setTitleUseCase: SetTitleUseCase,
     private val resetRecipeUseCase: ResetRecipeUseCase,
-    private val onboardingUseCase: GetEditOnboardingUseCase,
-    private val setOnboardingDoneUseCase: SetEditOnboardingDoneUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(EditRecipeTitleViewState())
     val state: StateFlow<EditRecipeTitleViewState> = _state.asStateFlow()
@@ -34,22 +30,12 @@ class EditRecipeTitleViewModel @Inject constructor(
         viewModelScope.launch {
             val isExistingRecipe = isRecipeExistingUseCase(null).getOrDefault(false)
             val title = getTitleUseCase(null).first().getOrNull() ?: ""
-            val isOnboardingDone = onboardingUseCase(null).first()
-                .getOrElse { GetEditOnboardingUseCase.Output(false) }.isDone
             _state.update {
                 it.copy(
                     title = title,
-                    isExistingRecipe = isExistingRecipe,
-                    shouldRevealBackdrop = !isOnboardingDone
+                    isExistingRecipe = isExistingRecipe
                 )
             }
-        }
-    }
-
-    fun onBackdropRevealed() {
-        viewModelScope.launch {
-            setOnboardingDoneUseCase.execute(null)
-            _state.update { it.copy(shouldRevealBackdrop = false) }
         }
     }
 

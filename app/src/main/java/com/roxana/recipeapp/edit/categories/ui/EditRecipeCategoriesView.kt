@@ -13,8 +13,8 @@ import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.categories.EditRecipeCategoriesViewState
-import com.roxana.recipeapp.ui.LabelView
 import com.roxana.recipeapp.ui.SelectableCategory
+import com.roxana.recipeapp.ui.basecomponents.Label
 import com.roxana.recipeapp.uimodel.UiCategoryType
 
 @Composable
@@ -29,17 +29,16 @@ fun EditRecipeCategoriesView(
             .fillMaxSize()
     ) {
         Spacer(modifier = Modifier.weight(3f))
-        LabelView(
+        Label(
             text = stringResource(R.string.edit_recipe_categories_label),
             modifier = Modifier.padding(bottom = 8.dp),
         )
         Spacer(modifier = Modifier.weight(0.5f))
         FlowRow(mainAxisAlignment = FlowMainAxisAlignment.Center) {
-            state.categories.forEachIndexed { index, categoryState ->
+            state.categories.forEach { categoryState ->
                 SelectableCategory(
                     categoryType = categoryState.categoryType,
                     isSelected = categoryState.isSelected,
-                    index = index,
                     onCategoryClicked = onCategoryClicked
                 )
             }

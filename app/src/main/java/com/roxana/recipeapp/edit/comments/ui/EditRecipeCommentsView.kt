@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,10 +23,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.comments.EditRecipeCommentsViewState
-import com.roxana.recipeapp.ui.DividerAlpha16
-import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.button.IconButtonCheckOutline
-import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
+import com.roxana.recipeapp.ui.basecomponents.DividerAlpha16
+import com.roxana.recipeapp.ui.basecomponents.Label
+import com.roxana.recipeapp.ui.basecomponents.RecipeOutlinedTextField
 
 @Composable
 fun EditRecipeCommentsView(
@@ -34,7 +33,6 @@ fun EditRecipeCommentsView(
     focusRequester: FocusRequester,
     onCommentChanged: (String) -> Unit = {},
     onCommentDone: () -> Unit = {},
-    onSaveComment: () -> Unit = {},
     onDelete: (Int) -> Unit = {},
 ) {
     Column(
@@ -52,19 +50,16 @@ fun EditRecipeCommentsView(
             Icon(
                 painterResource(R.drawable.ic_instructions),
                 contentDescription = null,
-                tint = MaterialTheme.colors.secondary,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(40.dp)
             )
-            LabelView(text = stringResource(R.string.all_comments))
+            Label(text = stringResource(R.string.all_comments))
         }
         Spacer(modifier = Modifier.weight(0.5f))
-        RecipeSecondaryTextField(
+        RecipeOutlinedTextField(
             value = state.editingComment,
             onValueChange = onCommentChanged,
             label = stringResource(R.string.edit_recipe_comment_hint),
-            trailing = if (state.canAddEditingComment) {
-                { IconButtonCheckOutline(onSaveComment) }
-            } else null,
             imeAction = ImeAction.Done,
             onImeAction = onCommentDone,
             modifier = Modifier.fillMaxWidth().focusRequester(focusRequester)

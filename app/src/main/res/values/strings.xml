@@ -135,10 +135,10 @@
     <string name="home_empty_search">No recipe corresponds to your search</string>
     <string name="home_recipe_fetch_error">There was a problem fetching your recipes</string>
     <string name="home_random_recipe">Pick a recipe for me</string>
-    <string name="edit_recipe_title_page">Title</string>
-    <string name="edit_recipe_photo_page">Photo</string>
+    <string name="edit_recipe_title_page">Recipe title</string>
+    <string name="edit_recipe_photo_page">Recipe photo</string>
     <string name="edit_recipe_categories_page">Categories</string>
-    <string name="edit_recipe_portions_page">Servings</string>
+    <string name="edit_recipe_portions_page">Number of servings</string>
     <string name="edit_recipe_ingredients_page">Ingredients</string>
     <string name="edit_recipe_instructions_page">Instructions</string>
     <string name="edit_recipe_temperature_page">Temperature</string>

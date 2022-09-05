@@ -1,39 +1,33 @@
 package com.roxana.recipeapp.edit.recap.ui
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.detail.ui.EmptyItem
-import com.roxana.recipeapp.detail.ui.IngredientView
-import com.roxana.recipeapp.detail.ui.InstructionView
-import com.roxana.recipeapp.detail.ui.ItemDetailsView
+import com.roxana.recipeapp.common.utilities.formatIngredient
+import com.roxana.recipeapp.detail.ui.ServingsView
+import com.roxana.recipeapp.detail.ui.TemperatureView
 import com.roxana.recipeapp.detail.ui.TimeView
 import com.roxana.recipeapp.edit.recap.IngredientState
 import com.roxana.recipeapp.edit.recap.RecapViewState
 import com.roxana.recipeapp.edit.recap.TimeState
 import com.roxana.recipeapp.ui.CategoriesView
-import com.roxana.recipeapp.ui.CenteredTitle
-import com.roxana.recipeapp.ui.LabelView
+import com.roxana.recipeapp.ui.ConsistentHeightRow
 import com.roxana.recipeapp.ui.RecipeImage
-import com.roxana.recipeapp.ui.button.TwoButtonRow
+import com.roxana.recipeapp.ui.basecomponents.Detail
+import com.roxana.recipeapp.ui.basecomponents.Label
+import com.roxana.recipeapp.ui.basecomponents.Title
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
 import com.roxana.recipeapp.uimodel.UiQuantityType
@@ -42,135 +36,110 @@ import com.roxana.recipeapp.uimodel.UiQuantityType
 fun RecapView(
     state: RecapViewState,
     modifier: Modifier = Modifier,
-    onSave: () -> Unit = {},
-    onEdit: () -> Unit = {},
 ) {
-    Column(modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(horizontal = 16.dp)
-        ) {
-            state.photoPath?.let {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 16.dp)
-                    ) {
-                        RecipeImage(
-                            path = it,
-                            modifier = Modifier.align(Alignment.Center)
-                        )
-                    }
-                }
-            }
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        state.photoPath?.let {
             item {
-                CategoriesView(
-                    categories = state.categories,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .fillMaxWidth(),
-                    categoryModifier = Modifier.padding(horizontal = 8.dp)
-                )
-            }
-            item {
-                CenteredTitle(
-                    text = state.title,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
-            }
-            state.portions?.let { portions ->
-                item {
-                    Text(
-                        text = LocalContext.current.resources.getQuantityString(
-                            R.plurals.detail_portions,
-                            portions.toInt(),
-                            portions
-                        ),
-                        color = MaterialTheme.colors.primary,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp)
-                    )
-                }
-            }
-            if (state.photoPath == null) {
-                item { EmptyItem(stringResource(R.string.edit_recipe_no_photo)) }
-            }
-            if (!state.time.isEmpty) {
-                item {
-                    TimeView(
-                        timeTotal = state.time.total,
-                        timeCooking = state.time.cooking,
-                        timePreparation = state.time.preparation,
-                        timeWaiting = state.time.waiting,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-                }
-            }
-            state.temperature?.let {
-                item {
-                    val unit = state.temperatureUnit?.let { stringResource(it.text) } ?: ""
-                    ItemDetailsView(
-                        text = stringResource(R.string.detail_temperature, it, unit),
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-                }
-            }
-            item {
-                LabelView(
-                    text = stringResource(R.string.all_ingredients),
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                )
-            }
-            if (state.ingredients.isEmpty())
-                item { EmptyItem(stringResource(R.string.detail_ingredients_empty)) }
-            else
-                items(state.ingredients) { ingredient ->
-                    IngredientView(
-                        name = ingredient.name,
-                        quantity = ingredient.quantity,
-                        quantityType = ingredient.quantityType
+                        .padding(top = 16.dp)
+                ) {
+                    RecipeImage(
+                        path = it,
+                        modifier = Modifier.align(Alignment.Center)
                     )
                 }
-            item {
-                LabelView(
-                    text = stringResource(R.string.all_instructions),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp, top = 20.dp),
-                )
-            }
-            if (state.instructions.isEmpty())
-                item { EmptyItem(stringResource(R.string.detail_instructions_empty)) }
-            else
-                itemsIndexed(state.instructions) { index, item ->
-                    InstructionView(index = index + 1, text = item)
-                }
-            if (state.comments.isNotEmpty()) {
-                item {
-                    LabelView(
-                        text = stringResource(R.string.all_comments),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 8.dp, top = 20.dp),
-                    )
-                }
-                items(state.comments) { Text(it, color = MaterialTheme.colors.onBackground) }
             }
         }
-        TwoButtonRow(
-            textStartButton = stringResource(R.string.edit_recipe_recap_continue_editing),
-            onClickStartButton = onEdit,
-            textEndButton = stringResource(R.string.all_save),
-            onClickEndButton = onSave
-        )
+        item {
+            CategoriesView(
+                categories = state.categories,
+                modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .fillMaxWidth(),
+            )
+        }
+        item {
+            Title(text = state.title)
+        }
+        if (state.photoPath == null) {
+            item {
+                Detail(stringResource(R.string.edit_recipe_no_photo), Modifier.padding(top = 8.dp))
+            }
+        }
+        if (!state.time.isEmpty) {
+            item {
+                TimeView(
+                    timeTotal = state.time.total,
+                    timeCooking = state.time.cooking,
+                    timePreparation = state.time.preparation,
+                    timeWaiting = state.time.waiting,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
+            }
+        }
+        item {
+            ConsistentHeightRow(
+                modifier = Modifier.padding(top = 16.dp),
+            ) {
+                state.temperature?.let {
+                    TemperatureView(
+                        it,
+                        state.temperatureUnit,
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                    )
+                }
+                state.portions?.let {
+                    ServingsView(
+                        it,
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                    )
+                }
+            }
+        }
+        item {
+            Label(
+                text = stringResource(R.string.all_ingredients),
+                modifier = Modifier.padding(top = 32.dp, bottom = 8.dp),
+            )
+        }
+        if (state.ingredients.isEmpty())
+            item { Detail(stringResource(R.string.detail_ingredients_empty)) }
+        else
+            items(state.ingredients) {
+                val ingredient = formatIngredient(it.name, it.quantity, it.quantityType)
+                Detail(ingredient)
+            }
+        item {
+            Label(
+                text = stringResource(R.string.all_instructions),
+                modifier = Modifier.padding(top = 32.dp, bottom = 8.dp),
+            )
+        }
+        if (state.instructions.isEmpty())
+            item { Detail(stringResource(R.string.detail_instructions_empty)) }
+        else
+            itemsIndexed(state.instructions) { index, item ->
+                Detail(stringResource(R.string.detail_instruction, index + 1, item))
+            }
+        if (state.comments.isNotEmpty()) {
+            item {
+                Label(
+                    text = stringResource(R.string.all_comments),
+                    modifier = Modifier.padding(top = 32.dp, bottom = 8.dp),
+                )
+            }
+            items(state.comments) { Detail(it) }
+        }
     }
 }
 
