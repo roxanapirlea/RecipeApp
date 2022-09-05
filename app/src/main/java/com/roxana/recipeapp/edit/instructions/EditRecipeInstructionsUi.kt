@@ -1,6 +1,6 @@
 package com.roxana.recipeapp.edit.instructions
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,6 +18,7 @@ import com.roxana.recipeapp.R
 import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.FabSave
+import com.roxana.recipeapp.edit.PageProgress
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.instructions.ui.EditRecipeInstructionsView
 import com.roxana.recipeapp.ui.basecomponents.AppBarBack
@@ -93,7 +94,12 @@ fun EditRecipeInstructionsScreen(
                 FabSave(onClick = onSaveInstruction)
         }
     ) { contentPadding ->
-        Box(Modifier.fillMaxSize().padding(contentPadding)) {
+        Column(Modifier.fillMaxSize().padding(contentPadding)) {
+            PageProgress(
+                recipeAlreadyExists = state.isExistingRecipe,
+                selected = PageType.Instructions,
+                onSelectPage = onSelectPage
+            )
             EditRecipeInstructionsView(
                 state = state,
                 focusRequester = focusRequester,

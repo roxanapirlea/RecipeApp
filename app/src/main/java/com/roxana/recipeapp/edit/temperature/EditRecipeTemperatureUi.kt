@@ -1,6 +1,6 @@
 package com.roxana.recipeapp.edit.temperature
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.edit.FabForward
+import com.roxana.recipeapp.edit.PageProgress
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.temperature.ui.EditRecipeTemperatureView
 import com.roxana.recipeapp.ui.basecomponents.AppBarBack
@@ -81,7 +82,12 @@ fun EditRecipeTemperatureScreen(
         },
         floatingActionButton = { if (state.isValid()) FabForward(onClick = onValidate) }
     ) { contentPadding ->
-        Box(Modifier.fillMaxSize().padding(contentPadding)) {
+        Column(Modifier.fillMaxSize().padding(contentPadding)) {
+            PageProgress(
+                recipeAlreadyExists = state.isExistingRecipe,
+                selected = PageType.Temperature,
+                onSelectPage = onSelectPage
+            )
             EditRecipeTemperatureView(
                 state = state,
                 focusRequester = focusRequester,
