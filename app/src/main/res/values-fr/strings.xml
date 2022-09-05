@@ -9,6 +9,7 @@
     <string name="all_edit">Modifier</string>
     <string name="all_reset">Réinitialiser</string>
     <string name="all_save">Enregistrer</string>
+    <string name="all_more_actions">Plus d\'actions</string>
     <string name="all_select">Selectionner…</string>
     <string name="all_settings">Paramètres</string>
     <string name="all_filters">Filtres</string>
@@ -214,18 +215,17 @@
     <string name="edit_recipe_photo_retake">Reprendre la photo</string>
     <string name="edit_recipe_no_photo">Aucune photo</string>
     <string name="edit_recipe_photo_save">Ajouter à la recette</string>
-    <plurals name="detail_portions">
-        <item quantity="one">(%d portion)</item>
-        <item quantity="many">(%d portions)</item>
-        <item quantity="other">(%d portions)</item>
-    </plurals>
+    <string name="detail_portions_label">Portions</string>
     <string name="detail_ingredients_empty">Aucun ingrédient fourni</string>
     <string name="detail_instructions_empty">Aucune instruction fournie</string>
-    <string name="detail_cooking_time">Temps de cuisson : %d min</string>
-    <string name="detail_preparation_time">Temps de préparation : %d min</string>
-    <string name="detail_waiting_time">Temps d\'attente : %d min</string>
-    <string name="detail_total_time">Temps total : %d min</string>
-    <string name="detail_temperature">Température : %1$d %2$s</string>
+    <string name="detail_comments_empty">Aucun commentaire</string>
+    <string name="detail_cooking_time">Cuisson</string>
+    <string name="detail_preparation_time">Préparation</string>
+    <string name="detail_waiting_time">Attente</string>
+    <string name="detail_total_time">Total</string>
+    <string name="detail_time">%d min</string>
+    <string name="detail_temperature_label">Température</string>
+    <string name="detail_temperature_value">%1$d %2$s</string>
     <string name="detail_edit_recipe">Modifier la recette</string>
     <string name="detail_start_cooking">Commencer à cuisiner</string>
     <string name="detail_recipe_fetch_error">Un problème est survenu lors de la récupération de ta recette</string>

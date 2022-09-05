@@ -1,6 +1,7 @@
 package com.roxana.recipeapp.ui
 
 import android.net.Uri
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -21,6 +22,20 @@ fun RecipeImage(
         modifier = modifier
             .size(250.dp, 250.dp)
             .clip(RoundedCornerShape(16.dp)),
+        model = Uri.parse(path),
+        contentDescription = stringResource(R.string.all_captured_image),
+        contentScale = ContentScale.Crop
+    )
+}
+
+@Composable
+fun RecipeImageFull(
+    path: String,
+    modifier: Modifier = Modifier
+) {
+    AsyncImage(
+        modifier = modifier
+            .fillMaxWidth(),
         model = Uri.parse(path),
         contentDescription = stringResource(R.string.all_captured_image),
         contentScale = ContentScale.Crop

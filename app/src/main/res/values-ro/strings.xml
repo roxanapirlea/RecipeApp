@@ -9,6 +9,7 @@
     <string name="all_edit">Editează</string>
     <string name="all_reset">Resetează</string>
     <string name="all_save">Salvează</string>
+    <string name="all_more_actions">Mai multe acțiuni</string>
     <string name="all_select">Selectează…</string>
     <string name="all_settings">Setări</string>
     <string name="all_filters">Filtre</string>
@@ -214,18 +215,17 @@
     <string name="edit_recipe_photo_retake">Faceți din nou fotografia</string>
     <string name="edit_recipe_no_photo">Nicio fotografie</string>
     <string name="edit_recipe_photo_save">Adaugă la rețetă</string>
-    <plurals name="detail_portions">
-        <item quantity="one">(%d porție)</item>
-        <item quantity="few">(%d porții)</item>
-        <item quantity="other">(%d porții)</item>
-    </plurals>
+    <string name="detail_portions_label">Porții</string>
     <string name="detail_ingredients_empty">Niciun ingredient</string>
     <string name="detail_instructions_empty">Nicio instrucțiune</string>
-    <string name="detail_cooking_time">Timpul de gătire: %d min</string>
-    <string name="detail_preparation_time">Timpul de pregătire: %d min</string>
-    <string name="detail_waiting_time">Timpul de așteptare: %d min</string>
-    <string name="detail_total_time">Timpul total: %d min</string>
-    <string name="detail_temperature">Temperatură: %1$d %2$s</string>
+    <string name="detail_comments_empty">Niciun comentariu</string>
+    <string name="detail_cooking_time">Gătire</string>
+    <string name="detail_preparation_time">Pregătire</string>
+    <string name="detail_waiting_time">Așteptare</string>
+    <string name="detail_total_time">Total</string>
+    <string name="detail_time">%d min</string>
+    <string name="detail_temperature_label">Temperatură</string>
+    <string name="detail_temperature_value">%1$d %2$s</string>
     <string name="detail_edit_recipe">Editează rețeta</string>
     <string name="detail_start_cooking">Începe gătitul</string>
     <string name="detail_recipe_fetch_error">A apărut o problemă la recuperarea rețetei</string>
