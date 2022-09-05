@@ -32,6 +32,7 @@
     <string name="all_captured_image">Imaginea capturată</string>
     <string name="all_camera_config_error">A apărut o problemă la configurarea camerei</string>
     <string name="all_camera_capture_error">A apărut o problemă la capturarea imaginii</string>
+    <string name="all_in_categories">Categorii: %s</string>
     <string name="all_category_breakfast">Mic dejun</string>
     <string name="all_category_dessert">Desert</string>
     <string name="all_category_dinner">Cină</string>
@@ -189,7 +190,9 @@
     <string name="edit_recipe_comments_page">Commentarii</string>
     <string name="edit_recipe_recap_page">Rezumat</string>
     <string name="edit_recipe_current_page">În curs de editare</string>
-    <string name="edit_recipe_show_steps">Afișează etapele de editare</string>
+    <string name="edit_recipe_step_completed">Etapa %d %s, terminată</string>
+    <string name="edit_recipe_step_current">Etapa %d %s, în curs de editare</string>
+    <string name="edit_recipe_step_next">Etapa %d %s</string>
     <string name="edit_title_new_recipe">Adaugă o rețetă</string>
     <string name="edit_title_existing_recipe">Editează o rețetă</string>
     <string name="edit_recipe_dialog_title">Păstezi informațiile completate?</string>

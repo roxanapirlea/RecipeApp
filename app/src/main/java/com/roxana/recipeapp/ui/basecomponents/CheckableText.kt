@@ -1,13 +1,15 @@
 package com.roxana.recipeapp.ui.basecomponents
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -21,14 +23,18 @@ fun CheckableText(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = { onCheckedChange(!checked) }),
+            .toggleable(
+                value = checked,
+                onValueChange = onCheckedChange
+            )
+            .semantics(mergeDescendants = true) { },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
             checked = checked,
             onCheckedChange = onCheckedChange,
             enabled = enabled,
-            modifier = Modifier.padding(end = 4.dp)
+            modifier = Modifier.padding(end = 4.dp).clearAndSetSemantics { }
         )
         text()
     }

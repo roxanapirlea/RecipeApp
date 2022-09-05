@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -60,7 +61,12 @@ private fun CardEndImageContent(
     endImage: (@Composable () -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics(mergeDescendants = true) {}
+    ) {
         Box(
             modifier = Modifier
                 .padding(start = 24.dp)
@@ -91,7 +97,7 @@ fun CardTitleDetail(
     title: String,
     detail: String
 ) {
-    ElevatedCard(modifier) {
+    ElevatedCard(modifier.semantics(mergeDescendants = true) {}) {
         Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             leadingIcon?.let { Box(modifier = Modifier.padding(end = 8.dp)) { it() } }
             Column {

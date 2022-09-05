@@ -24,10 +24,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.roxana.recipeapp.R
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import kotlinx.coroutines.launch
 
@@ -38,7 +42,8 @@ fun PageProgress(
     onSelectPage: (PageType) -> Unit = {}
 ) {
     val state = rememberLazyListState()
-    val pages = if (recipeAlreadyExists) pagesForEditRecipe(selected) else pagesForAddRecipe(selected)
+    val pages =
+        if (recipeAlreadyExists) pagesForEditRecipe(selected) else pagesForAddRecipe(selected)
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -62,12 +67,24 @@ fun PageProgress(
 
 @Composable
 fun ProgressPage(page: Page, index: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val context = LocalContext.current.applicationContext
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .padding(horizontal = 4.dp)
             .clip(CircleShape)
             .clickable(onClick = onClick)
+            .clearAndSetSemantics {
+                val pageName = context.getString(page.name)
+                val description = when {
+                    page.isCompleted ->
+                        context.getString(R.string.edit_recipe_step_completed, index, pageName)
+                    page.isSelected ->
+                        context.getString(R.string.edit_recipe_step_current, index, pageName)
+                    else -> context.getString(R.string.edit_recipe_step_next, index, pageName)
+                }
+                contentDescription = description
+            }
             .padding(4.dp)
     ) {
         if (page.isCompleted)
