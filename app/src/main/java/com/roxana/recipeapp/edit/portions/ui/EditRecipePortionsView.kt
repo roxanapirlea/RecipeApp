@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,8 +22,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.portions.EditRecipePortionsViewState
-import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
+import com.roxana.recipeapp.ui.basecomponents.Label
+import com.roxana.recipeapp.ui.basecomponents.RecipeOutlinedTextField
 
 @Composable
 fun EditRecipePortionsView(
@@ -47,13 +47,13 @@ fun EditRecipePortionsView(
             Icon(
                 painterResource(R.drawable.ic_portions),
                 contentDescription = null,
-                tint = MaterialTheme.colors.secondary,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(40.dp)
             )
-            LabelView(text = stringResource(R.string.edit_recipe_portions_label))
+            Label(text = stringResource(R.string.edit_recipe_portions_label))
         }
         Spacer(modifier = Modifier.weight(0.5f))
-        RecipeSecondaryTextField(
+        RecipeOutlinedTextField(
             value = state.portions,
             onValueChange = onPortionsChanged,
             placeholder = stringResource(R.string.edit_recipe_portions_hint),

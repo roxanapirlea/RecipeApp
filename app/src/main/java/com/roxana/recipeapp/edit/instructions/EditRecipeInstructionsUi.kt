@@ -1,23 +1,27 @@
 package com.roxana.recipeapp.edit.instructions
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.roxana.recipeapp.R
 import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
-import com.roxana.recipeapp.edit.EditRecipeBackdrop
 import com.roxana.recipeapp.edit.FabForward
 import com.roxana.recipeapp.edit.FabSave
+import com.roxana.recipeapp.edit.PageProgress
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.edit.instructions.ui.EditRecipeInstructionsView
+import com.roxana.recipeapp.ui.basecomponents.AppBarBack
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
@@ -55,7 +59,7 @@ fun EditRecipeInstructionsDestination(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditRecipeInstructionsScreen(
     state: EditRecipeInstructionsViewState,
@@ -73,26 +77,36 @@ fun EditRecipeInstructionsScreen(
         focusRequester.requestFocus()
     }
 
-    EditRecipeBackdrop(
-        recipeAlreadyExists = state.isExistingRecipe,
-        selectedPage = PageType.Instructions,
-        onSelectPage = onSelectPage,
-        onNavIcon = onBack
-    ) {
-        Box(Modifier.fillMaxSize()) {
+    Scaffold(
+        topBar = {
+            AppBarBack(
+                title = if (state.isExistingRecipe)
+                    stringResource(R.string.edit_title_existing_recipe)
+                else
+                    stringResource(R.string.edit_title_new_recipe),
+                onIconClick = onBack
+            )
+        },
+        floatingActionButton = {
+            if (state.editingInstruction.isBlank())
+                FabForward(onClick = onValidate)
+            else
+                FabSave(onClick = onSaveInstruction)
+        }
+    ) { contentPadding ->
+        Column(Modifier.fillMaxSize().padding(contentPadding)) {
+            PageProgress(
+                recipeAlreadyExists = state.isExistingRecipe,
+                selected = PageType.Instructions,
+                onSelectPage = onSelectPage
+            )
             EditRecipeInstructionsView(
                 state = state,
                 focusRequester = focusRequester,
                 onInstructionChanged = onInstructionChanged,
                 onInstructionDone = onInstructionDone,
-                onSaveInstruction = onSaveInstruction,
                 onDelete = onDelete
             )
-
-            if (state.editingInstruction.isBlank())
-                FabForward(modifier = Modifier.align(Alignment.BottomEnd), onValidate)
-            else
-                FabSave(modifier = Modifier.align(Alignment.BottomEnd), onSaveInstruction)
         }
     }
 }

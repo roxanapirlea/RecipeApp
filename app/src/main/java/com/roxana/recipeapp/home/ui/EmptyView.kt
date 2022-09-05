@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -16,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
-import com.roxana.recipeapp.ui.LabelView
+import com.roxana.recipeapp.ui.basecomponents.Label
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
@@ -36,29 +35,21 @@ fun EmptyView(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        PrimaryLabelView(
+        Label(
             stringResource(R.string.home_empty_description_save),
             Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         )
-        PrimaryLabelView(
+        Label(
             stringResource(R.string.home_empty_description_instructions),
             Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         )
-        PrimaryLabelView(
+        Label(
             stringResource(R.string.home_empty_description_quantities),
             Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         )
 
         Spacer(modifier = Modifier.weight(3f))
     }
-}
-
-@Composable
-fun PrimaryLabelView(
-    text: String,
-    modifier: Modifier = Modifier
-) {
-    LabelView(text = text, color = MaterialTheme.colors.primary, modifier = modifier)
 }
 
 @Preview(

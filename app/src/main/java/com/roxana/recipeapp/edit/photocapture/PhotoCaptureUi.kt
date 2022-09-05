@@ -7,14 +7,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,10 +35,9 @@ import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.permission.ui.CameraPermissionDenied
 import com.roxana.recipeapp.permission.ui.CameraPermissionExplanation
 import com.roxana.recipeapp.scan.CameraView
-import com.roxana.recipeapp.ui.AppBar
-import com.roxana.recipeapp.ui.button.SecondaryButton
+import com.roxana.recipeapp.ui.basecomponents.AppBarBack
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun PhotoCaptureDestination(
     photoCaptureViewModel: PhotoCaptureViewModel,
@@ -45,17 +48,21 @@ fun PhotoCaptureDestination(
     val state by rememberFlowWithLifecycle(photoCaptureViewModel.state)
         .collectAsState(PhotoCaptureViewState())
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
     val localContext = LocalContext.current.applicationContext
 
-    if (state.isConfigError) {
-        LaunchedEffect(state.isConfigError) {
-            scaffoldState.snackbarHostState.showSnackbar(
-                message = localContext.getString(R.string.all_camera_config_error),
+    state.error?.let {
+        LaunchedEffect(state.error) {
+            val message = when (it) {
+                Error.CONFIG -> localContext.getString(R.string.all_camera_config_error)
+                Error.CAPTURE -> localContext.getString(R.string.all_camera_capture_error)
+            }
+            snackbarHostState.showSnackbar(
+                message = message,
                 duration = SnackbarDuration.Short
             )
             onBack()
-            photoCaptureViewModel.onConfigErrorDismissed()
+            photoCaptureViewModel.onErrorDismissed()
         }
     }
     if (state.shouldNavigateBack) {
@@ -66,8 +73,8 @@ fun PhotoCaptureDestination(
     }
 
     Scaffold(
-        topBar = { AppBar(title = stringResource(R.string.home_title), onIconClick = onBack) },
-        scaffoldState = scaffoldState
+        topBar = { AppBarBack(title = stringResource(R.string.all_take_photo), onIconClick = onBack) },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { paddingValues ->
         Box(
             Modifier
@@ -81,7 +88,8 @@ fun PhotoCaptureDestination(
                         onImageTaken = photoCaptureViewModel::onPhotoTaken,
                         onAcceptPhoto = photoCaptureViewModel::onPhotoAdded,
                         onTakeAnotherPhoto = photoCaptureViewModel::onRetakePhoto,
-                        onConfigError = photoCaptureViewModel::onConfigError
+                        onConfigError = photoCaptureViewModel::onConfigError,
+                        onImageError = photoCaptureViewModel::onImageError,
                     )
                 cameraPermissionState.status.shouldShowRationale ->
                     CameraPermissionExplanation(
@@ -107,6 +115,7 @@ fun PhotoCaptureView(
     onAcceptPhoto: () -> Unit = {},
     onTakeAnotherPhoto: () -> Unit = {},
     onConfigError: () -> Unit = {},
+    onImageError: () -> Unit = {},
 ) {
     if (photoPath != null) {
         CapturedImage(
@@ -119,7 +128,12 @@ fun PhotoCaptureView(
         CameraView(
             modifier = modifier,
             onImageFile = { file -> onImageTaken(file.toUri().path!!) },
-            onConfigError = { onConfigError() }
+            onConfigError = {
+                onConfigError()
+            },
+            onImageError = {
+                onImageError()
+            }
         )
     }
 }
@@ -145,10 +159,10 @@ fun CapturedImage(
                 .padding(bottom = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            SecondaryButton(onClick = onTakeAnotherPhoto) {
+            FilledTonalButton(onClick = onTakeAnotherPhoto) {
                 Text(stringResource(R.string.edit_recipe_photo_retake))
             }
-            SecondaryButton(onClick = onAcceptPhoto) {
+            FilledTonalButton(onClick = onAcceptPhoto) {
                 Text(stringResource(R.string.edit_recipe_photo_save))
             }
         }

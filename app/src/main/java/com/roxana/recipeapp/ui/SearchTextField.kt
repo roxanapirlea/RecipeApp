@@ -1,21 +1,23 @@
-package com.roxana.recipeapp.ui.textfield
+package com.roxana.recipeapp.ui
 
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import com.roxana.recipeapp.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchTextField(
     value: String,
@@ -32,9 +34,10 @@ fun SearchTextField(
             Icon(Icons.Rounded.Search, null)
         },
         trailingIcon = {
-            IconButton(onClick = { onValueChange("") }) {
-                Icon(painterResource(R.drawable.ic_cross), stringResource(R.string.all_clear))
-            }
+            if (value.isNotEmpty())
+                IconButton(onClick = { onValueChange("") }) {
+                    Icon(Icons.Rounded.Clear, stringResource(R.string.all_clear))
+                }
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
@@ -42,7 +45,6 @@ fun SearchTextField(
             imeAction = ImeAction.Search
         ),
         singleLine = true,
-        colors = secondaryOutlineTextFiledColors(),
         modifier = modifier
     )
 }

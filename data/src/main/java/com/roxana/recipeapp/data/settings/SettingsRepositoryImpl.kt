@@ -21,11 +21,6 @@ class SettingsRepositoryImpl @Inject constructor(
             settings.unitsList.mapNotNull { it.toDomainModel() }
         }
 
-    override fun isEditOnboardingDone(): Flow<Boolean> =
-        settingsDataStore.data.map { settings ->
-            settings.editOnboardingDone
-        }
-
     override suspend fun setPreferredTemperatureUnit(temperature: Temperature) {
         settingsDataStore.updateData { current ->
             current.toBuilder()
@@ -39,14 +34,6 @@ class SettingsRepositoryImpl @Inject constructor(
             current.toBuilder()
                 .clearUnits()
                 .addAllUnits(units.map { it.toProto() })
-                .build()
-        }
-    }
-
-    override suspend fun setEditOnboarding(isDone: Boolean) {
-        settingsDataStore.updateData { current ->
-            current.toBuilder()
-                .setEditOnboardingDone(isDone)
                 .build()
         }
     }

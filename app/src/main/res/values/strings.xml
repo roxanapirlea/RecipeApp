@@ -9,6 +9,7 @@
     <string name="all_edit">Edit</string>
     <string name="all_reset">Reset</string>
     <string name="all_save">Save</string>
+    <string name="all_more_actions">More actions</string>
     <string name="all_select">Select…</string>
     <string name="all_settings">Settings</string>
     <string name="all_filters">Filters</string>
@@ -30,6 +31,8 @@
     <string name="all_take_photo">Take picture</string>
     <string name="all_captured_image">Captured image</string>
     <string name="all_camera_config_error">There was a problem configuring the camera</string>
+    <string name="all_camera_capture_error">There was a problem taking picture</string>
+    <string name="all_in_categories">Categories: %s</string>
     <string name="all_category_breakfast">Breakfast</string>
     <string name="all_category_dessert">Dessert</string>
     <string name="all_category_dinner">Dinner</string>
@@ -134,6 +137,16 @@
     <string name="home_empty_search">No recipe corresponds to your search</string>
     <string name="home_recipe_fetch_error">There was a problem fetching your recipes</string>
     <string name="home_random_recipe">Pick a recipe for me</string>
+    <string name="edit_recipe_title_title">Recipe title</string>
+    <string name="edit_recipe_photo_title">Recipe photo</string>
+    <string name="edit_recipe_categories_title">Categories</string>
+    <string name="edit_recipe_portions_title">Number of servings</string>
+    <string name="edit_recipe_ingredients_title">Ingredients</string>
+    <string name="edit_recipe_instructions_title">Instructions</string>
+    <string name="edit_recipe_temperature_title">Temperature</string>
+    <string name="edit_recipe_time_title">Time</string>
+    <string name="edit_recipe_comments_title">Comments</string>
+    <string name="edit_recipe_recap_title">Summary</string>
     <string name="edit_recipe_title_page">Title</string>
     <string name="edit_recipe_photo_page">Photo</string>
     <string name="edit_recipe_categories_page">Categories</string>
@@ -145,7 +158,9 @@
     <string name="edit_recipe_comments_page">Comments</string>
     <string name="edit_recipe_recap_page">Summary</string>
     <string name="edit_recipe_current_page">Currently editing</string>
-    <string name="edit_recipe_show_steps">Show edit steps</string>
+    <string name="edit_recipe_step_completed">Step %d %s, completed</string>
+    <string name="edit_recipe_step_current">Step %d %s, current</string>
+    <string name="edit_recipe_step_next">Step %d %s</string>
     <string name="edit_title_new_recipe">Add recipe</string>
     <string name="edit_title_existing_recipe">Edit recipe</string>
     <string name="edit_recipe_dialog_title">Keep filled information?</string>
@@ -182,41 +197,39 @@
     <string name="edit_recipe_photo_retake">Retake photo</string>
     <string name="edit_recipe_no_photo">No photo</string>
     <string name="edit_recipe_photo_save">Add to the recipe</string>
-    <plurals name="detail_portions">
-        <item quantity="one">(%d serving)</item>
-        <item quantity="other">(%d servings)</item>
-    </plurals>
+    <string name="detail_portions_label">Servings</string>
     <string name="detail_ingredients_empty">No ingredients provided</string>
     <string name="detail_instructions_empty">No instructions provided</string>
-    <string name="detail_cooking_time">Cooking time: %d min</string>
-    <string name="detail_preparation_time">Preparation time: %d min</string>
-    <string name="detail_waiting_time">Waiting time: %d min</string>
-    <string name="detail_total_time">Total time: %d min</string>
-    <string name="detail_temperature">Temperature: %1$d %2$s</string>
+    <string name="detail_comments_empty">No comments</string>
+    <string name="detail_instruction" translatable="false">%d. %s</string>
+    <string name="detail_cooking_time">Cooking</string>
+    <string name="detail_preparation_time">Preparation</string>
+    <string name="detail_waiting_time">Waiting</string>
+    <string name="detail_total_time">Total</string>
+    <string name="detail_time">%d min</string>
+    <string name="detail_temperature_label">Temperature</string>
+    <string name="detail_temperature_value">%1$d %2$s</string>
     <string name="detail_edit_recipe">Edit recipe</string>
     <string name="detail_start_cooking">Start cooking</string>
     <string name="detail_recipe_fetch_error">There was a problem fetching your recipe</string>
     <string name="detail_recipe_deleted">Recipe deleted</string>
     <string name="cooking_portions">Servings</string>
-    <string name="cooking_time">Time</string>
-    <string name="cooking_time_cooking">Cooking: %d min</string>
-    <string name="cooking_time_waiting">Waiting: %d min</string>
-    <string name="cooking_time_preparation">Preparation: %d min</string>
-    <string name="cooking_time_total">Total: %d min</string>
-    <string name="cooking_edit_by_ingredient">Modify by an ingredient quantity</string>
+    <string name="cooking_custom_portions">Custom…</string>
     <string name="cooking_plus">Increase by one</string>
     <string name="cooking_minus">Decrease by one</string>
     <string name="cooking_fetch_error">There was a problem retrieving the recipe</string>
     <string name="add_comment_placeholder">Add comment</string>
     <string name="vary_ingredients_type_hint">Ingredient</string>
     <string name="vary_ingredients_label">%1$s(%2$s)</string>
+    <string name="vary_ingredients_explanation">Choose an ingredient whose quantity you want to change. The other ingredients will be modified accordingly.</string>
     <string name="settings_temperature_unit">Temperature</string>
     <string name="settings_measuring_units">Measuring units</string>
     <string name="settings_measuring_units_detail">Choose the units that will be available when adding a new recipe or editing an existing one</string>
     <string name="debug_settings">Debug settings</string>
-    <string name="filters_select_time_total">Max total time: %dmin</string>
-    <string name="filters_select_time_cooking">Max cooking time: %dmin</string>
-    <string name="filters_select_time_preparation">Max preparation time: %dmin</string>
+    <string name="filters_select_time_total">Maximum total time</string>
+    <string name="filters_select_time_cooking">Maximum cooking time</string>
+    <string name="filters_select_time_preparation">Maximum preparation time</string>
+    <string name="filters_select_time">%d min</string>
     <string name="debug_settings_onboarding" translatable="false">Onboarding</string>
     <string name="debug_settings_onboarding_add_recipe" translatable="false">Add recipe onboarding done</string>
 </resources>

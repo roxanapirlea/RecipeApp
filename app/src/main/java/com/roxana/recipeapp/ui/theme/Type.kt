@@ -1,19 +1,17 @@
 package com.roxana.recipeapp.ui.theme
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.Typography
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.roxana.recipeapp.R
 
@@ -31,203 +29,200 @@ private val Raleway = FontFamily(
     Font(R.font.raleway_semibold, FontWeight.SemiBold)
 )
 
-val RecipesTypography = Typography(
-    h1 = TextStyle(
+val RecipeTypography: Typography = Typography(
+    displayLarge = TextStyle(
         fontFamily = Raleway,
-        fontSize = 98.sp,
-        fontWeight = FontWeight.Light,
-        letterSpacing = (-1.5).sp
-    ),
-    h2 = TextStyle(
-        fontFamily = Raleway,
-        fontSize = 61.sp,
-        fontWeight = FontWeight.Light,
-        letterSpacing = (-0.5).sp
-    ),
-    h3 = TextStyle(
-        fontFamily = Raleway,
-        fontSize = 49.sp,
-        fontWeight = FontWeight.Normal
-    ),
-    h4 = TextStyle(
-        fontFamily = Raleway,
-        fontSize = 35.sp,
         fontWeight = FontWeight.Normal,
-        letterSpacing = 0.25.sp
+        fontSize = 57.sp,
+        lineHeight = 64.sp,
+        letterSpacing = 0.sp
     ),
-    h5 = TextStyle(
+    displayMedium = TextStyle(
         fontFamily = Raleway,
+        fontWeight = FontWeight.Normal,
+        fontSize = 45.sp,
+        lineHeight = 52.sp,
+        letterSpacing = 0.sp
+    ),
+    displaySmall = TextStyle(
+        fontFamily = Raleway,
+        fontWeight = FontWeight.Normal,
+        fontSize = 36.sp,
+        lineHeight = 44.sp,
+        letterSpacing = 0.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = Raleway,
+        fontWeight = FontWeight.Medium,
+        fontSize = 32.sp,
+        lineHeight = 40.sp,
+        letterSpacing = 0.sp
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = Raleway,
+        fontWeight = FontWeight.Medium,
+        fontSize = 28.sp,
+        lineHeight = 36.sp,
+        letterSpacing = 0.sp
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = Raleway,
+        fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
-        fontWeight = FontWeight.Normal
+        lineHeight = 32.sp,
+        letterSpacing = 0.sp
     ),
-    h6 = TextStyle(
+    titleLarge = TextStyle(
         fontFamily = Raleway,
-        fontSize = 20.sp,
-        fontWeight = FontWeight.Medium,
-        letterSpacing = 0.15.sp
-    ),
-    subtitle1 = TextStyle(
-        fontFamily = Raleway,
-        fontSize = 16.sp,
         fontWeight = FontWeight.Normal,
+        fontSize = 22.sp,
+        lineHeight = 28.sp,
+        letterSpacing = 0.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = Raleway,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
         letterSpacing = 0.15.sp
     ),
-    subtitle2 = TextStyle(
+    titleSmall = TextStyle(
         fontFamily = Raleway,
+        fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        fontWeight = FontWeight.Medium,
+        lineHeight = 20.sp,
         letterSpacing = 0.1.sp
     ),
-    body1 = TextStyle(
+    bodyLarge = TextStyle(
         fontFamily = Poppins,
-        fontSize = 15.sp,
         fontWeight = FontWeight.Normal,
-        letterSpacing = 0.5.sp
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.15.sp
     ),
-    body2 = TextStyle(
+    bodyMedium = TextStyle(
         fontFamily = Poppins,
-        fontSize = 13.sp,
         fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
         letterSpacing = 0.25.sp
     ),
-    button = TextStyle(
+    bodySmall = TextStyle(
         fontFamily = Poppins,
-        fontSize = 13.sp,
-        fontWeight = FontWeight.Medium,
-        letterSpacing = 1.25.sp
-    ),
-    caption = TextStyle(
-        fontFamily = Poppins,
-        fontSize = 12.sp,
         fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
         letterSpacing = 0.4.sp
     ),
-    overline = TextStyle(
+    labelLarge = TextStyle(
         fontFamily = Poppins,
-        fontSize = 10.sp,
         fontWeight = FontWeight.Normal,
-        letterSpacing = 1.5.sp
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.1.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Normal,
+        fontSize = 11.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
     )
 )
 
-@Preview("typography")
 @Composable
-fun TypographyPreview() {
-    RecipeTheme {
-        Surface {
-            Column(
-                modifier = Modifier.padding(4.dp)
-            ) {
-                Text(
-                    text = "Headline 1",
-                    style = MaterialTheme.typography.h1
-                )
-                Text(
-                    text = "Headline 2",
-                    style = MaterialTheme.typography.h2
-                )
-                Text(
-                    text = "Headline 3",
-                    style = MaterialTheme.typography.h3
-                )
-                Text(
-                    text = "Headline 4",
-                    style = MaterialTheme.typography.h4
-                )
-                Text(
-                    text = "Headline 5",
-                    style = MaterialTheme.typography.h5
-                )
-                Text(
-                    text = "Headline 6",
-                    style = MaterialTheme.typography.h6
-                )
-                Text(
-                    text = "Subtitle 1",
-                    style = MaterialTheme.typography.subtitle1
-                )
-                Text(
-                    text = "Subtitle 2",
-                    style = MaterialTheme.typography.subtitle2
-                )
-                Text(
-                    text = "Body 1",
-                    style = MaterialTheme.typography.body1
-                )
-                Text(
-                    text = "Body 2",
-                    style = MaterialTheme.typography.body2
-                )
-                Text(
-                    text = "Caption",
-                    style = MaterialTheme.typography.caption
-                )
-                Text(
-                    text = "Overline",
-                    style = MaterialTheme.typography.overline
-                )
-            }
+fun TypographyMaterial3() {
+    Surface {
+        Column {
+            Text(
+                text = "Display Large",
+                style = MaterialTheme.typography.displayLarge
+            )
+            Text(
+                text = "Display Medium",
+                style = MaterialTheme.typography.displayMedium
+            )
+            Text(
+                text = "Display Small",
+                style = MaterialTheme.typography.displaySmall
+            )
+            Text(
+                text = "Headline Large",
+                style = MaterialTheme.typography.headlineLarge
+            )
+            Text(
+                text = "Headline Medium",
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Text(
+                text = "Headline Small",
+                style = MaterialTheme.typography.headlineSmall
+            )
+            Text(
+                text = "Title Large",
+                style = MaterialTheme.typography.titleLarge
+            )
+            Text(
+                text = "Title Medium",
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = "Title Small",
+                style = MaterialTheme.typography.titleSmall
+            )
+            Text(
+                text = "Body Large",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                text = "Body Medium",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "Body Small",
+                style = MaterialTheme.typography.bodySmall
+            )
+            Text(
+                text = "Label Large",
+                style = MaterialTheme.typography.labelLarge
+            )
+            Text(
+                text = "Label Medium",
+                style = MaterialTheme.typography.labelMedium
+            )
+            Text(
+                text = "Label Small",
+                style = MaterialTheme.typography.labelSmall
+            )
         }
     }
 }
 
-@Preview("Typography Dark")
+@Preview(
+    showSystemUi = true, showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
-fun TypographyDarkPreview() {
-    RecipeTheme(darkTheme = true) {
-        Surface {
-            Column(
-                modifier = Modifier.padding(4.dp)
-            ) {
-                Text(
-                    text = "Headline 1",
-                    style = MaterialTheme.typography.h1
-                )
-                Text(
-                    text = "Headline 2",
-                    style = MaterialTheme.typography.h2
-                )
-                Text(
-                    text = "Headline 3",
-                    style = MaterialTheme.typography.h3
-                )
-                Text(
-                    text = "Headline 4",
-                    style = MaterialTheme.typography.h4
-                )
-                Text(
-                    text = "Headline 5",
-                    style = MaterialTheme.typography.h5
-                )
-                Text(
-                    text = "Headline 6",
-                    style = MaterialTheme.typography.h6
-                )
-                Text(
-                    text = "Subtitle 1",
-                    style = MaterialTheme.typography.subtitle1
-                )
-                Text(
-                    text = "Subtitle 2",
-                    style = MaterialTheme.typography.subtitle2
-                )
-                Text(
-                    text = "Body 1",
-                    style = MaterialTheme.typography.body1
-                )
-                Text(
-                    text = "Body 2",
-                    style = MaterialTheme.typography.body2
-                )
-                Text(
-                    text = "Caption",
-                    style = MaterialTheme.typography.caption
-                )
-                Text(
-                    text = "Overline",
-                    style = MaterialTheme.typography.overline
-                )
-            }
-        }
+fun TypographyMaterial3LightPreview() {
+    RecipeTheme {
+        TypographyMaterial3()
+    }
+}
+
+@Preview(
+    showSystemUi = true, showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+fun TypographyMaterial3DarkPreview() {
+    RecipeTheme {
+        TypographyMaterial3()
     }
 }

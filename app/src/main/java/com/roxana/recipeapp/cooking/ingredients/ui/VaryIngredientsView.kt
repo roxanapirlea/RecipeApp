@@ -1,9 +1,12 @@
 package com.roxana.recipeapp.cooking.ingredients.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -15,8 +18,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.cooking.ingredients.VaryIngredientsState
-import com.roxana.recipeapp.ui.button.SecondaryButton
-import com.roxana.recipeapp.ui.textfield.RecipePrimaryTextField
+import com.roxana.recipeapp.ui.basecomponents.Explanation
+import com.roxana.recipeapp.ui.basecomponents.RecipeOutlinedTextField
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -42,7 +45,7 @@ fun VaryIngredientsView(
                 ingredient.quantity.toInt(),
                 ""
             )
-            RecipePrimaryTextField(
+            RecipeOutlinedTextField(
                 value = ingredient.quantityText,
                 onValueChange = onQuantityChanged,
                 label = stringResource(
@@ -57,11 +60,17 @@ fun VaryIngredientsView(
             )
         }
         if (state.updatedIngredient?.isQuantityInError == false)
-            SecondaryButton(
+            FilledTonalButton(
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(8.dp),
                 onClick = onValidate
             ) { Text(stringResource(R.string.all_validate)) }
+
+        Explanation(
+            stringResource(R.string.vary_ingredients_explanation),
+            modifier = Modifier.padding(top = 8.dp)
+        )
+        Spacer(modifier = Modifier.height(80.dp))
     }
 }

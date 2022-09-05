@@ -1,16 +1,18 @@
 package com.roxana.recipeapp.home
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -23,7 +25,7 @@ import com.roxana.recipeapp.ui.AddIcon
 import com.roxana.recipeapp.ui.BackIcon
 import com.roxana.recipeapp.ui.LoadingStateView
 import com.roxana.recipeapp.ui.SettingsIcon
-import com.roxana.recipeapp.ui.SlotAppBar
+import com.roxana.recipeapp.ui.basecomponents.AppBar
 import com.roxana.recipeapp.uimodel.UiCategoryType
 
 @Composable
@@ -36,12 +38,12 @@ fun HomeDestination(
     val state by rememberFlowWithLifecycle(homeViewModel.state)
         .collectAsState(HomeViewState(isLoading = true))
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
     val localContext = LocalContext.current.applicationContext
 
     if (state.isFetchingError) {
         LaunchedEffect(state.isFetchingError) {
-            scaffoldState.snackbarHostState.showSnackbar(
+            snackbarHostState.showSnackbar(
                 message = localContext.getString(R.string.home_recipe_fetch_error),
                 duration = SnackbarDuration.Short
             )
@@ -57,7 +59,7 @@ fun HomeDestination(
 
     HomeScreen(
         state,
-        scaffoldState,
+        snackbarHostState,
         onSettingsClicked = onNavSettings,
         onAddRecipeClicked = onNavAddRecipe,
         onRecipeSelected = onNavDetail,
@@ -73,10 +75,11 @@ fun HomeDestination(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     state: HomeViewState,
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onSettingsClicked: () -> Unit = {},
     onAddRecipeClicked: () -> Unit = {},
     onFiltersClicked: () -> Unit = {},
@@ -91,9 +94,9 @@ fun HomeScreen(
     onRandomRecipe: () -> Unit = {},
 ) {
     Scaffold(
-        scaffoldState = scaffoldState,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            SlotAppBar(
+            AppBar(
                 title = stringResource(R.string.home_title),
                 actions = {
                     if (!state.showFilters)

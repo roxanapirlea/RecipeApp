@@ -7,7 +7,6 @@ data class EditRecipeTitleViewState(
     val isExistingRecipe: Boolean = false,
     val showSaveDialog: Boolean = false,
     val navigation: Navigation? = null,
-    val shouldRevealBackdrop: Boolean = false
 )
 
 sealed class Navigation {

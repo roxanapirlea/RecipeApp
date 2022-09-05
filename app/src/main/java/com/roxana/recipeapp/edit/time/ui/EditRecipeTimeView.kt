@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,8 +29,8 @@ import com.roxana.recipeapp.edit.time.isCookingValid
 import com.roxana.recipeapp.edit.time.isPreparationValid
 import com.roxana.recipeapp.edit.time.isTotalValid
 import com.roxana.recipeapp.edit.time.isWaitingValid
-import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
+import com.roxana.recipeapp.ui.basecomponents.Label
+import com.roxana.recipeapp.ui.basecomponents.RecipeOutlinedTextField
 
 @Composable
 fun EditRecipeTimeView(
@@ -61,23 +61,22 @@ fun EditRecipeTimeView(
             Icon(
                 painterResource(R.drawable.ic_time),
                 contentDescription = null,
-                tint = MaterialTheme.colors.secondary,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(40.dp)
             )
-            LabelView(text = stringResource(R.string.edit_recipe_time_label))
+            Label(text = stringResource(R.string.edit_recipe_time_label))
         }
         Spacer(modifier = Modifier.weight(0.5f))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            RecipeSecondaryTextField(
+            RecipeOutlinedTextField(
                 value = state.cooking,
                 onValueChange = onCookingChange,
                 isError = !state.isCookingValid(),
                 label = stringResource(R.string.edit_recipe_time_cooking_hint),
                 keyboardType = KeyboardType.Number,
-                textStyle = MaterialTheme.typography.body1,
                 imeAction = ImeAction.Next,
                 onImeAction = { preparationFocusRequester.requestFocus() },
                 modifier = Modifier
@@ -86,13 +85,12 @@ fun EditRecipeTimeView(
                     .weight(1f)
                     .focusRequester(cookingFocusRequester)
             )
-            RecipeSecondaryTextField(
+            RecipeOutlinedTextField(
                 value = state.preparation,
                 onValueChange = onPreparationChange,
                 isError = !state.isPreparationValid(),
                 label = stringResource(R.string.edit_recipe_time_preparation_hint),
                 keyboardType = KeyboardType.Number,
-                textStyle = MaterialTheme.typography.body1,
                 imeAction = ImeAction.Next,
                 onImeAction = { waitingFocusRequester.requestFocus() },
                 modifier = Modifier
@@ -101,13 +99,12 @@ fun EditRecipeTimeView(
                     .weight(1f)
                     .focusRequester(preparationFocusRequester)
             )
-            RecipeSecondaryTextField(
+            RecipeOutlinedTextField(
                 value = state.waiting,
                 onValueChange = onWaitingChange,
                 isError = !state.isWaitingValid(),
                 label = stringResource(R.string.edit_recipe_time_waiting_hint),
                 keyboardType = KeyboardType.Number,
-                textStyle = MaterialTheme.typography.body1,
                 imeAction = ImeAction.Next,
                 onImeAction = { totalFocusRequester.requestFocus() },
                 modifier = Modifier
@@ -121,13 +118,12 @@ fun EditRecipeTimeView(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            RecipeSecondaryTextField(
+            RecipeOutlinedTextField(
                 value = state.total,
                 onValueChange = onTotalChange,
                 isError = !state.isTotalValid(),
                 label = stringResource(R.string.edit_recipe_time_total_hint),
                 keyboardType = KeyboardType.Number,
-                textStyle = MaterialTheme.typography.body1,
                 imeAction = ImeAction.Done,
                 onImeAction = onValidate,
                 modifier = Modifier

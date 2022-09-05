@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,8 +22,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.edit.temperature.EditRecipeTemperatureViewState
-import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.textfield.RecipeSecondaryTextField
+import com.roxana.recipeapp.ui.basecomponents.Label
+import com.roxana.recipeapp.ui.basecomponents.RecipeOutlinedTextField
 
 @Composable
 fun EditRecipeTemperatureView(
@@ -47,11 +47,11 @@ fun EditRecipeTemperatureView(
             Icon(
                 painterResource(R.drawable.ic_temperature),
                 contentDescription = null,
-                tint = MaterialTheme.colors.secondary,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(40.dp)
             )
             val temperatureUnit = stringResource(state.temperatureUnit.text)
-            LabelView(
+            Label(
                 text = stringResource(
                     R.string.edit_recipe_temperature_label,
                     temperatureUnit
@@ -59,7 +59,7 @@ fun EditRecipeTemperatureView(
             )
         }
         Spacer(modifier = Modifier.weight(0.5f))
-        RecipeSecondaryTextField(
+        RecipeOutlinedTextField(
             value = state.temperature,
             onValueChange = onTemperatureChanged,
             placeholder = stringResource(R.string.edit_recipe_temperature_hint),

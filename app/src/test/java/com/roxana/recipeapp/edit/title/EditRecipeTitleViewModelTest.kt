@@ -4,8 +4,6 @@ import com.roxana.recipeapp.domain.editrecipe.GetTitleUseCase
 import com.roxana.recipeapp.domain.editrecipe.IsRecipeExistingUseCase
 import com.roxana.recipeapp.domain.editrecipe.ResetRecipeUseCase
 import com.roxana.recipeapp.domain.editrecipe.SetTitleUseCase
-import com.roxana.recipeapp.domain.onboarding.GetEditOnboardingUseCase
-import com.roxana.recipeapp.domain.onboarding.SetEditOnboardingDoneUseCase
 import com.roxana.recipeapp.edit.PageType
 import com.roxana.recipeapp.helpers.MainCoroutineRule
 import io.kotest.matchers.booleans.shouldBeFalse
@@ -32,8 +30,6 @@ class EditRecipeTitleViewModelTest {
     private val getTitleUC: GetTitleUseCase = mockk(relaxed = true)
     private val setTitleUC: SetTitleUseCase = mockk(relaxed = true)
     private val resetRecipeUC: ResetRecipeUseCase = mockk(relaxed = true)
-    private val onboardUC: GetEditOnboardingUseCase = mockk(relaxed = true)
-    private val setOnboardDoneUC: SetEditOnboardingDoneUseCase = mockk(relaxed = true)
 
     private lateinit var viewModel: EditRecipeTitleViewModel
 
@@ -43,9 +39,6 @@ class EditRecipeTitleViewModelTest {
     fun setUp() {
         coEvery { isExistingUC(null) } returns Result.success(true)
         every { getTitleUC(null) } returns flow { emit(Result.success(title)) }
-        every { onboardUC(null) } returns flow {
-            emit(Result.success(GetEditOnboardingUseCase.Output(true)))
-        }
     }
 
     @Test
@@ -59,8 +52,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
 
         // Then
@@ -78,8 +69,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
 
         // Then
@@ -99,8 +88,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
 
         // Then
@@ -118,8 +105,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
 
         // Then
@@ -139,74 +124,10 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
 
         // Then
         viewModel.state.value.title.shouldBeEmpty()
-    }
-
-    @Test
-    fun setOnboarding_when_init() {
-        // Given
-        coEvery { onboardUC(null) } returns flow {
-            emit(Result.success(GetEditOnboardingUseCase.Output(true)))
-        }
-
-        // When
-        viewModel = EditRecipeTitleViewModel(
-            isExistingUC,
-            getTitleUC,
-            setTitleUC,
-            resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
-        )
-
-        // Then
-        viewModel.state.value.shouldRevealBackdrop.shouldBeFalse()
-    }
-
-    @Test
-    fun setOnboardingNotDone_when_init_given_error() {
-        // Given
-        coEvery {
-            onboardUC(null)
-        } returns flow { emit(Result.failure(IllegalStateException())) }
-
-        // When
-        viewModel = EditRecipeTitleViewModel(
-            isExistingUC,
-            getTitleUC,
-            setTitleUC,
-            resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
-        )
-
-        // Then
-        viewModel.state.value.shouldRevealBackdrop.shouldBeTrue()
-    }
-
-    @Test
-    fun resetBackdrop_when_onBackdropRevealed() {
-        // Given
-        viewModel = EditRecipeTitleViewModel(
-            isExistingUC,
-            getTitleUC,
-            setTitleUC,
-            resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
-        )
-        coEvery { setOnboardDoneUC(null) } returns Result.success(Unit)
-
-        // When
-        viewModel.onBackdropRevealed()
-
-        // Then
-        viewModel.state.value.shouldRevealBackdrop.shouldBeFalse()
     }
 
     @Test
@@ -218,8 +139,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
 
         // When
@@ -237,8 +156,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
         coEvery { setTitleUC(any()) } returns Result.success(Unit)
 
@@ -258,8 +175,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
         coEvery { setTitleUC(any()) } returns Result.failure(IllegalStateException())
 
@@ -278,8 +193,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
         coEvery { setTitleUC(any()) } returns Result.failure(IllegalStateException())
 
@@ -298,8 +211,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
 
         // When
@@ -317,8 +228,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
 
         // When - then
@@ -336,8 +245,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
         coEvery { setTitleUC(any()) } returns Result.success(Unit)
         viewModel.onCheckShouldClose()
@@ -360,8 +267,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
         coEvery { setTitleUC(any()) } returns Result.failure(IllegalStateException())
         viewModel.onCheckShouldClose()
@@ -383,8 +288,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
         coEvery { resetRecipeUC(null) } returns Result.success(Unit)
         viewModel.onCheckShouldClose()
@@ -407,8 +310,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
         coEvery { resetRecipeUC(any()) } returns Result.failure(IllegalStateException())
         viewModel.onCheckShouldClose()
@@ -430,8 +331,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
         coEvery { setTitleUC(any()) } returns Result.success(Unit)
 
@@ -451,8 +350,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
         coEvery { setTitleUC(any()) } returns Result.failure(IllegalStateException())
 
@@ -472,8 +369,6 @@ class EditRecipeTitleViewModelTest {
             getTitleUC,
             setTitleUC,
             resetRecipeUC,
-            onboardUC,
-            setOnboardDoneUC,
         )
         coEvery { setTitleUC(any()) } returns Result.success(Unit)
 

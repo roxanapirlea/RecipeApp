@@ -1,22 +1,23 @@
 package com.roxana.recipeapp.cooking
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.common.utilities.rememberFlowWithLifecycle
 import com.roxana.recipeapp.cooking.ui.CookingInProgressView
-import com.roxana.recipeapp.ui.AppBar
 import com.roxana.recipeapp.ui.LoadingStateView
+import com.roxana.recipeapp.ui.basecomponents.AppBarBack
 
 @Composable
 fun CookingDestination(
@@ -28,12 +29,12 @@ fun CookingDestination(
     val state by rememberFlowWithLifecycle(cookingViewModel.state)
         .collectAsState(CookingViewState(isLoading = true))
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
     val localContext = LocalContext.current.applicationContext
 
     if (state.isFetchingError) {
         LaunchedEffect(state.isFetchingError) {
-            scaffoldState.snackbarHostState.showSnackbar(
+            snackbarHostState.showSnackbar(
                 message = localContext.getString(R.string.cooking_fetch_error),
                 duration = SnackbarDuration.Short
             )
@@ -43,7 +44,7 @@ fun CookingDestination(
 
     CookingView(
         state,
-        scaffoldState,
+        snackbarHostState,
         onBack = onNavBack,
         onVaryIngredient = onNavVaryIngredient,
         onAddComment = onNavAddComment,
@@ -55,10 +56,11 @@ fun CookingDestination(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CookingView(
     state: CookingViewState,
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onBack: () -> Unit = {},
     onVaryIngredient: () -> Unit = {},
     onAddComment: () -> Unit = {},
@@ -70,9 +72,9 @@ fun CookingView(
 ) {
 
     Scaffold(
-        scaffoldState = scaffoldState,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            AppBar(title = stringResource(R.string.home_title), onIconClick = onBack)
+            AppBarBack(title = state.title, onIconClick = onBack)
         }
     ) { contentPadding ->
         when (state.isLoading) {
