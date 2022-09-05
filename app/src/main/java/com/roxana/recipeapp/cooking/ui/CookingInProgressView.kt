@@ -1,13 +1,14 @@
 package com.roxana.recipeapp.cooking.ui
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,10 +17,11 @@ import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.cooking.CookingViewState
 import com.roxana.recipeapp.cooking.TimeState
-import com.roxana.recipeapp.detail.ui.EmptyItem
-import com.roxana.recipeapp.ui.CenteredTitle
-import com.roxana.recipeapp.ui.LabelView
-import com.roxana.recipeapp.ui.button.SecondaryButton
+import com.roxana.recipeapp.detail.ui.TemperatureView
+import com.roxana.recipeapp.detail.ui.TimeView
+import com.roxana.recipeapp.ui.basecomponents.Detail
+import com.roxana.recipeapp.ui.basecomponents.FilledTonalIconTextButton
+import com.roxana.recipeapp.ui.basecomponents.Label
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
 @Composable
@@ -35,53 +37,36 @@ fun CookingInProgressView(
     onToggleInstructionCheck: (id: Short, isChecked: Boolean) -> Unit = { _, _ -> }
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(16.dp),
         modifier = modifier
     ) {
-
-        item {
-            CenteredTitle(
-                text = state.title,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-        }
         if (!state.time.isEmpty) {
             item {
-                LabelView(
-                    text = stringResource(R.string.cooking_time),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp, top = 16.dp),
+                TimeView(
+                    timeTotal = state.time.total,
+                    timeCooking = state.time.cooking,
+                    timePreparation = state.time.preparation,
+                    timeWaiting = state.time.waiting,
+                    modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
                 )
             }
         }
-        state.time.total?.let {
-            item { Text(stringResource(R.string.cooking_time_total, it)) }
-        }
-        state.time.cooking?.let {
-            item { Text(stringResource(R.string.cooking_time_cooking, it)) }
-        }
-        state.time.preparation?.let {
-            item { Text(stringResource(R.string.cooking_time_preparation, it)) }
-        }
-        state.time.waiting?.let {
-            item { Text(stringResource(R.string.cooking_time_waiting, it)) }
-        }
+
         state.temperature?.let {
             item {
-                val unit = state.temperatureUnit?.let { stringResource(it.text) } ?: ""
-                Text(
-                    text = stringResource(R.string.detail_temperature, it, unit),
-                    modifier = Modifier.padding(top = 16.dp)
+                TemperatureView(
+                    it,
+                    state.temperatureUnit,
+                    Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
                 )
             }
         }
+
         item {
-            LabelView(
+            Label(
                 text = stringResource(R.string.cooking_portions),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp, top = 16.dp),
+                    .padding(top = 32.dp, bottom = 8.dp, start = 16.dp, end = 16.dp),
             )
         }
         item {
@@ -89,24 +74,26 @@ fun CookingInProgressView(
                 state.selectedPortions,
                 onPortionsIncrease = onIncrementPortions,
                 onPortionsDecrease = onDecrementPortions,
-                onPortionsReset = onResetPortions
+                onPortionsReset = onResetPortions,
+                onCustomPortions = onVaryIngredient,
+                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
             )
         }
         item {
-            SecondaryButton(onClick = onVaryIngredient) {
-                Text(stringResource(R.string.cooking_edit_by_ingredient))
-            }
-        }
-        item {
-            LabelView(
+            Label(
                 text = stringResource(R.string.all_ingredients),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp, top = 16.dp),
+                    .padding(top = 32.dp, bottom = 8.dp, start = 16.dp, end = 16.dp),
             )
         }
         if (state.ingredients.isEmpty())
-            item { EmptyItem(stringResource(R.string.detail_ingredients_empty)) }
+            item {
+                Text(
+                    stringResource(R.string.detail_ingredients_empty),
+                    Modifier.padding(start = 16.dp, end = 16.dp)
+                )
+            }
         else
             items(state.ingredients) { ingredient ->
                 IngredientView(ingredient = ingredient) {
@@ -114,42 +101,58 @@ fun CookingInProgressView(
                 }
             }
         item {
-            LabelView(
+            Label(
                 text = stringResource(R.string.all_instructions),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp, top = 20.dp),
+                    .padding(top = 32.dp, bottom = 8.dp, start = 16.dp, end = 16.dp),
             )
         }
         if (state.instructions.isEmpty())
-            item { EmptyItem(stringResource(R.string.detail_instructions_empty)) }
+            item {
+                Text(
+                    stringResource(R.string.detail_instructions_empty),
+                    Modifier.padding(start = 16.dp, end = 16.dp)
+                )
+            }
         else
             items(state.instructions) { item ->
                 InstructionView(
                     instruction = item.instruction,
                     isChecked = item.isChecked,
-                    isCurrent = item.isCurrent,
                     onCheckChanged = { onToggleInstructionCheck(item.id, it) }
                 )
             }
-        if (state.comments.isNotEmpty()) {
+
+        item {
+            Label(
+                stringResource(R.string.all_comments),
+                Modifier.padding(top = 32.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
+            )
+        }
+        if (state.comments.isEmpty())
             item {
-                LabelView(
-                    text = stringResource(R.string.all_comments),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp, top = 20.dp),
+                Text(
+                    stringResource(R.string.detail_comments_empty),
+                    Modifier.padding(start = 16.dp, end = 16.dp)
                 )
             }
-            items(state.comments) { Text(it, color = MaterialTheme.colors.onBackground) }
-        }
-        item {
-            SecondaryButton(
-                onClick = onAddComment,
-                modifier = Modifier.padding(top = 16.dp)
-            ) {
-                Text(stringResource(id = R.string.all_add_comment))
+        else
+            items(state.comments) { item ->
+                Detail(
+                    text = item,
+                    Modifier.padding(start = 16.dp, end = 16.dp)
+                )
             }
+        item {
+            FilledTonalIconTextButton(
+                onClick = onAddComment,
+                text = { Text(stringResource(id = R.string.all_add_new)) },
+                leadingIcon = {
+                    Icon(Icons.Rounded.Add, contentDescription = null)
+                },
+                modifier = Modifier.padding(top = 8.dp, bottom = 16.dp, start = 16.dp, end = 16.dp)
+            )
         }
     }
 }
