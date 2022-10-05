@@ -1,26 +1,34 @@
 package com.roxana.recipeapp.cooking.ui
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.cooking.CookingViewState
 import com.roxana.recipeapp.cooking.TimeState
+import com.roxana.recipeapp.detail.ui.AddNewButton
 import com.roxana.recipeapp.detail.ui.TemperatureView
 import com.roxana.recipeapp.detail.ui.TimeView
+import com.roxana.recipeapp.edit.comments.ui.CommentText
 import com.roxana.recipeapp.ui.basecomponents.Detail
-import com.roxana.recipeapp.ui.basecomponents.FilledTonalIconTextButton
 import com.roxana.recipeapp.ui.basecomponents.Label
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
@@ -34,7 +42,10 @@ fun CookingInProgressView(
     onIncrementPortions: () -> Unit = {},
     onResetPortions: () -> Unit = {},
     onToggleIngredientCheck: (id: Int, isChecked: Boolean) -> Unit = { _, _ -> },
-    onToggleInstructionCheck: (id: Short, isChecked: Boolean) -> Unit = { _, _ -> }
+    onToggleInstructionCheck: (id: Short, isChecked: Boolean) -> Unit = { _, _ -> },
+    onEditComments: () -> Unit = {},
+    onDeleteComment: (Int) -> Unit = {},
+    onDoneEditComments: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = modifier
@@ -125,34 +136,57 @@ fun CookingInProgressView(
             }
 
         item {
-            Label(
-                stringResource(R.string.all_comments),
-                Modifier.padding(top = 32.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = 32.dp, bottom = 8.dp)
+            ) {
+                Label(
+                    stringResource(R.string.all_comments),
+                    Modifier.padding(horizontal = 16.dp)
+                )
+                if (state.commentState.isEditing)
+                    FilledTonalIconButton(onClick = onDoneEditComments) {
+                        Icon(
+                            Icons.Rounded.Check,
+                            stringResource(R.string.detail_recipe_finish_comments)
+                        )
+                    }
+                else
+                    FilledTonalIconButton(onClick = onEditComments) {
+                        Icon(
+                            painterResource(R.drawable.ic_edit),
+                            contentDescription = stringResource(R.string.all_edit)
+                        )
+                    }
+            }
         }
-        if (state.comments.isEmpty())
+        if (state.commentState.isEditing) {
+            itemsIndexed(state.commentState.comments) { index, comment ->
+                CommentText(
+                    comment = comment.text,
+                    index = index + 1,
+                    onDelete = { onDeleteComment(comment.id) })
+            }
             item {
-                Text(
-                    stringResource(R.string.detail_comments_empty),
-                    Modifier.padding(start = 16.dp, end = 16.dp)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            item {
+                AddNewButton(
+                    onClick = onAddComment,
+                    modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
-        else
-            items(state.comments) { item ->
+        } else {
+            items(state.commentState.comments) { comment ->
                 Detail(
-                    text = item,
-                    Modifier.padding(start = 16.dp, end = 16.dp)
+                    text = comment.text,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
             }
+        }
+
         item {
-            FilledTonalIconTextButton(
-                onClick = onAddComment,
-                text = { Text(stringResource(id = R.string.all_add_new)) },
-                leadingIcon = {
-                    Icon(Icons.Rounded.Add, contentDescription = null)
-                },
-                modifier = Modifier.padding(top = 8.dp, bottom = 16.dp, start = 16.dp, end = 16.dp)
-            )
+            Spacer(modifier = Modifier.height(90.dp))
         }
     }
 }
