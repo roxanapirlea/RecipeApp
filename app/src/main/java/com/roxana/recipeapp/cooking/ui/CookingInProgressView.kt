@@ -1,6 +1,9 @@
 package com.roxana.recipeapp.cooking.ui
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.FilledTonalIconButton
@@ -25,10 +27,9 @@ import com.roxana.recipeapp.R
 import com.roxana.recipeapp.cooking.CookingViewState
 import com.roxana.recipeapp.cooking.TimeState
 import com.roxana.recipeapp.detail.ui.AddNewButton
+import com.roxana.recipeapp.detail.ui.CommentView
 import com.roxana.recipeapp.detail.ui.TemperatureView
 import com.roxana.recipeapp.detail.ui.TimeView
-import com.roxana.recipeapp.edit.comments.ui.CommentText
-import com.roxana.recipeapp.ui.basecomponents.Detail
 import com.roxana.recipeapp.ui.basecomponents.Label
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 
@@ -160,27 +161,23 @@ fun CookingInProgressView(
                     }
             }
         }
-        if (state.commentState.isEditing) {
-            itemsIndexed(state.commentState.comments) { index, comment ->
-                CommentText(
-                    comment = comment.text,
-                    index = index + 1,
-                    onDelete = { onDeleteComment(comment.id) })
-            }
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-            item {
+        items(state.commentState.comments, { it.id }) { comment ->
+            CommentView(
+                comment = comment.text,
+                isDeletable = state.commentState.isEditing,
+                onDelete = { onDeleteComment(comment.id) },
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
+        item {
+            AnimatedVisibility(
+                visible = state.commentState.isEditing,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
                 AddNewButton(
                     onClick = onAddComment,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
-        } else {
-            items(state.commentState.comments) { comment ->
-                Detail(
-                    text = comment.text,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
                 )
             }
         }

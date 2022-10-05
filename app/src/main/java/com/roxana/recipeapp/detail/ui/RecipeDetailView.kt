@@ -1,6 +1,9 @@
 package com.roxana.recipeapp.detail.ui
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -28,7 +31,6 @@ import com.roxana.recipeapp.detail.CommentState
 import com.roxana.recipeapp.detail.DetailViewState
 import com.roxana.recipeapp.detail.IngredientState
 import com.roxana.recipeapp.detail.TimeState
-import com.roxana.recipeapp.edit.comments.ui.CommentText
 import com.roxana.recipeapp.ui.ConsistentHeightRow
 import com.roxana.recipeapp.ui.RecipeImageFull
 import com.roxana.recipeapp.ui.basecomponents.Detail
@@ -158,29 +160,23 @@ fun RecipeDetailView(
                         )
                     }
             }
-
         }
-        if (state.commentState.isEditing) {
-            itemsIndexed(state.commentState.comments) { index, comment ->
-                CommentText(
-                    comment = comment.text,
-                    index = index + 1,
-                    onDelete = { onDeleteComment(comment.id) })
-            }
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-            item {
+        items(state.commentState.comments, { it.id }) { comment ->
+            CommentView(
+                comment = comment.text,
+                isDeletable = state.commentState.isEditing,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
+        item {
+            AnimatedVisibility(
+                visible = state.commentState.isEditing,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
                 AddNewButton(
                     onClick = onAddComment,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
-        } else {
-            items(state.commentState.comments) { comment ->
-                Detail(
-                    text = comment.text,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
                 )
             }
         }
