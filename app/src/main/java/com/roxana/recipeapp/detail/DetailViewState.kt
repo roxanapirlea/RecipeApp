@@ -5,13 +5,14 @@ import com.roxana.recipeapp.uimodel.UiQuantityType
 import com.roxana.recipeapp.uimodel.UiTemperature
 
 data class DetailViewState(
+    val id: Int = 0,
     val title: String = "",
     val photoPath: String? = null,
     val categories: List<UiCategoryType> = emptyList(),
     val portions: Short? = null,
     val ingredients: List<IngredientState> = emptyList(),
     val instructions: List<String> = emptyList(),
-    val comments: List<String> = emptyList(),
+    val commentState: CommentState = CommentState(),
     val time: TimeState = TimeState(),
     val temperature: Short? = null,
     val temperatureUnit: UiTemperature? = null,
@@ -35,5 +36,15 @@ data class TimeState(
 ) {
     val isEmpty = total == null && cooking == null && preparation == null && waiting == null
 }
+
+data class CommentState(
+    val comments: List<Comment> = emptyList(),
+    val isEditing: Boolean = false
+)
+
+data class Comment(
+    val text: String,
+    val id: Int,
+)
 
 enum class Navigation { EDIT, BACK }

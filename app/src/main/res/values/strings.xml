@@ -213,6 +213,7 @@
     <string name="detail_start_cooking">Start cooking</string>
     <string name="detail_recipe_fetch_error">There was a problem fetching your recipe</string>
     <string name="detail_recipe_deleted">Recipe deleted</string>
+    <string name="detail_recipe_finish_comments">Finish editing comments</string>
     <string name="cooking_portions">Servings</string>
     <string name="cooking_custom_portions">Custom…</string>
     <string name="cooking_plus">Increase by one</string>

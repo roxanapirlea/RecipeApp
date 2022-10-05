@@ -244,6 +244,7 @@
     <string name="detail_start_cooking">Commencer à cuisiner</string>
     <string name="detail_recipe_fetch_error">Un problème est survenu lors de la récupération de ta recette</string>
     <string name="detail_recipe_deleted">Recette supprimée</string>
+    <string name="detail_recipe_finish_comments">Terminer la modification des commentaires</string>
     <string name="cooking_portions">Portions</string>
     <string name="cooking_custom_portions">Personnalizer…</string>
     <string name="cooking_plus">Plus un</string>

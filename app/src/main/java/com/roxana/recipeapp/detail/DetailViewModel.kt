@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.RecipeDetailNode
+import com.roxana.recipeapp.domain.comment.DeleteCommentUseCase
 import com.roxana.recipeapp.domain.detail.DeleteRecipeUseCase
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.domain.detail.StartRecipeEditingUseCase
@@ -21,7 +22,8 @@ class DetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase,
     private val startRecipeEditingUseCase: StartRecipeEditingUseCase,
-    private val deleteRecipeUseCase: DeleteRecipeUseCase
+    private val deleteRecipeUseCase: DeleteRecipeUseCase,
+    private val deleteCommentUseCase: DeleteCommentUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(DetailViewState(isLoading = true))
     val state: StateFlow<DetailViewState> = _state.asStateFlow()
@@ -33,6 +35,7 @@ class DetailViewModel @Inject constructor(
                 result.fold(
                     { recipe ->
                         val content = DetailViewState(
+                            id = recipe.id,
                             title = recipe.name,
                             photoPath = recipe.photoPath,
                             categories = recipe.categories.map { it.toUiModel() },
@@ -46,7 +49,11 @@ class DetailViewModel @Inject constructor(
                             },
                             instructions = recipe.instructions.sortedBy { it.ordinal }
                                 .map { it.name },
-                            comments = recipe.comments.sortedBy { it.ordinal }.map { it.name },
+                            commentState = CommentState(
+                                comments = recipe.comments.sortedBy { it.ordinal }
+                                    .map { Comment(it.name, it.ordinal.toInt()) },
+                                isEditing = state.value.commentState.isEditing
+                            ),
                             time = TimeState(
                                 total = recipe.timeTotal,
                                 cooking = recipe.timeCooking,
@@ -73,6 +80,24 @@ class DetailViewModel @Inject constructor(
             startRecipeEditingUseCase(recipeId).onSuccess {
                 _state.update { it.copy(navigation = Navigation.EDIT) }
             }
+        }
+    }
+
+    fun onEditComments() {
+        _state.update {
+            it.copy(commentState = it.commentState.copy(isEditing = true))
+        }
+    }
+
+    fun onDoneEditComments() {
+        _state.update {
+            it.copy(commentState = it.commentState.copy(isEditing = false))
+        }
+    }
+
+    fun onDeleteComment(id: Int) {
+        viewModelScope.launch {
+            deleteCommentUseCase(DeleteCommentUseCase.Input(state.value.id, id))
         }
     }
 

@@ -244,6 +244,7 @@
     <string name="detail_start_cooking">Începe gătitul</string>
     <string name="detail_recipe_fetch_error">A apărut o problemă la recuperarea rețetei</string>
     <string name="detail_recipe_deleted">Rețeta a fost ștearsă</string>
+    <string name="detail_recipe_finish_comments">Finalizează editarea comentariilor</string>
     <string name="cooking_portions">Porții</string>
     <string name="cooking_custom_portions">Personalizați…</string>
     <string name="cooking_plus">Plus unu</string>

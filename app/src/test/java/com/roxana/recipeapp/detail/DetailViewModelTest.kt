@@ -2,6 +2,7 @@ package com.roxana.recipeapp.detail
 
 import androidx.lifecycle.SavedStateHandle
 import com.roxana.recipeapp.RecipeDetailNode.KEY_ID
+import com.roxana.recipeapp.domain.comment.DeleteCommentUseCase
 import com.roxana.recipeapp.domain.detail.DeleteRecipeUseCase
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.domain.detail.StartRecipeEditingUseCase
@@ -43,6 +44,7 @@ class DetailViewModelTest {
     private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase = mockk(relaxed = true)
     private val startRecipeEditingUseCase: StartRecipeEditingUseCase = mockk(relaxed = true)
     private val deleteRecipeUseCase: DeleteRecipeUseCase = mockk(relaxed = true)
+    private val deleteCommentUseCase: DeleteCommentUseCase = mockk(relaxed = true)
     private lateinit var viewModel: DetailViewModel
 
     @Test
@@ -74,7 +76,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
 
         // Then
@@ -119,7 +122,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
 
         // Then
@@ -156,12 +160,15 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
 
         // Then
         val content = viewModel.state.value
-        content.comments.shouldContainInOrder("comm1", "comm2")
+        content.commentState.isEditing.shouldBeFalse()
+        content.commentState.comments
+            .shouldContainInOrder(Comment("comm1", 1), Comment("comm2", 2))
     }
 
     @Test
@@ -179,7 +186,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
 
         // Then
@@ -201,7 +209,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
         viewModel.state.value.isFetchingError.shouldBeTrue()
 
@@ -223,7 +232,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
 
         // When
@@ -250,7 +260,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
 
         // When
@@ -274,7 +285,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
 
         // When - then
@@ -297,7 +309,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
 
         // When
@@ -320,7 +333,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
 
         // When - then
@@ -344,7 +358,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
         viewModel.onDelete()
 
@@ -371,7 +386,8 @@ class DetailViewModelTest {
                 savedStateHandle,
                 getRecipeByIdUseCase,
                 startRecipeEditingUseCase,
-                deleteRecipeUseCase
+                deleteRecipeUseCase,
+                deleteCommentUseCase
             )
         viewModel.onDelete()
 
@@ -381,5 +397,67 @@ class DetailViewModelTest {
         // Then
         viewModel.state.value.shouldShowDeleteMessage.shouldBeFalse()
         viewModel.state.value.navigation.shouldBeNull()
+    }
+
+    @Test
+    fun changeEditingComment_when_onEditCommentsAndOnDoneEditComments() {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        val recipeModel = Recipe(
+            id = recipeId,
+            name = "fake name",
+            photoPath = null,
+            portions = 2,
+            categories = listOf(CategoryType.DINNER, CategoryType.DESSERT),
+            ingredients = listOf(Ingredient(1, "ingr", 3.0, QuantityType.CUP)),
+            instructions = listOf(Instruction(1, "instr1"), Instruction(2, "instr2")),
+            comments = listOf(Comment(1, "comm1"), Comment(2, "comm2")),
+            timeTotal = 7,
+            timeCooking = 4,
+            timeWaiting = 2,
+            timePreparation = 1,
+            temperature = 150,
+            temperatureUnit = Temperature.CELSIUS
+        )
+        every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase,
+                deleteCommentUseCase
+            )
+
+        // When - then
+        viewModel.onEditComments()
+        viewModel.state.value.commentState.isEditing.shouldBeTrue()
+        viewModel.onDoneEditComments()
+        viewModel.state.value.commentState.isEditing.shouldBeFalse()
+    }
+
+    @Test
+    fun deleteComment_when_OnDeleteComment() {
+        // Given
+        val commentToDeleteId = 123
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(KEY_ID)!! } returns recipeId
+        val recipeModel = fakeEmptyRecipe.copy(id = recipeId)
+        every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
+        viewModel =
+            DetailViewModel(
+                savedStateHandle,
+                getRecipeByIdUseCase,
+                startRecipeEditingUseCase,
+                deleteRecipeUseCase,
+                deleteCommentUseCase
+            )
+
+        // When
+        viewModel.onDeleteComment(commentToDeleteId)
+
+        // Then
+        coVerify { deleteCommentUseCase(DeleteCommentUseCase.Input(recipeId, commentToDeleteId)) }
     }
 }
