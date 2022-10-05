@@ -194,6 +194,10 @@ class RecipeRepositoryImpl @Inject constructor(
         commentDao.insert(comment, nextOrdinal.toShort(), recipeId.toLong())
     }
 
+    override suspend fun deleteComment(recipeId: Int, commentId: Int) {
+        commentDao.deleteByRecipeAndOrdinal(recipeId.toLong(), commentId.toShort())
+    }
+
     override fun getMaxTotalTime(): Flow<Short?> {
         return recipeDao.getMaxTotalTime().map { it.MAX?.toShort() }
     }

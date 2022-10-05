@@ -23,4 +23,8 @@ class CommentDao @Inject constructor(
     fun deleteByRecipeId(recipeId: Long) {
         queries.deleteByRecipeId(recipeId)
     }
+
+    fun deleteByRecipeAndOrdinal(recipeId: Long, ordinal: Short) {
+        queries.deleteByRecipeIdAndOrdinal(recipeId, ordinal)
+    }
 }

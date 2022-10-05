@@ -1,6 +1,10 @@
 package com.roxana.recipeapp.detail.ui
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,23 +14,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roxana.recipeapp.R
 import com.roxana.recipeapp.common.utilities.formatIngredient
+import com.roxana.recipeapp.detail.CommentState
 import com.roxana.recipeapp.detail.DetailViewState
 import com.roxana.recipeapp.detail.IngredientState
 import com.roxana.recipeapp.detail.TimeState
 import com.roxana.recipeapp.ui.ConsistentHeightRow
 import com.roxana.recipeapp.ui.RecipeImageFull
 import com.roxana.recipeapp.ui.basecomponents.Detail
-import com.roxana.recipeapp.ui.basecomponents.FilledTonalIconTextButton
 import com.roxana.recipeapp.ui.basecomponents.Label
 import com.roxana.recipeapp.ui.theme.RecipeTheme
 import com.roxana.recipeapp.uimodel.UiCategoryType
@@ -36,7 +43,10 @@ import com.roxana.recipeapp.uimodel.UiQuantityType
 fun RecipeDetailView(
     state: DetailViewState,
     modifier: Modifier = Modifier,
-    onAddCommentClicked: () -> Unit = {},
+    onAddComment: () -> Unit = {},
+    onEditComments: () -> Unit = {},
+    onDeleteComment: (Int) -> Unit = {},
+    onDoneEditComments: () -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth()
@@ -127,36 +137,48 @@ fun RecipeDetailView(
             }
 
         item {
-            Label(
-                stringResource(R.string.all_comments),
-                Modifier
-                    .padding(top = 32.dp, bottom = 8.dp)
-                    .padding(horizontal = 16.dp)
-            )
-        }
-        if (state.comments.isEmpty())
-            item {
-                Text(
-                    stringResource(R.string.detail_comments_empty),
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = 32.dp, bottom = 8.dp)
+            ) {
+                Label(
+                    stringResource(R.string.all_comments),
                     Modifier.padding(horizontal = 16.dp)
                 )
+                if (state.commentState.isEditing)
+                    FilledTonalIconButton(onClick = onDoneEditComments) {
+                        Icon(
+                            Icons.Rounded.Check,
+                            stringResource(R.string.detail_recipe_finish_comments)
+                        )
+                    }
+                else
+                    FilledTonalIconButton(onClick = onEditComments) {
+                        Icon(
+                            painterResource(R.drawable.ic_edit),
+                            contentDescription = stringResource(R.string.all_edit)
+                        )
+                    }
             }
-        else
-            items(state.comments) { item ->
-                Detail(
-                    text = item,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+        }
+        items(state.commentState.comments, { it.id }) { comment ->
+            CommentView(
+                comment = comment.text,
+                isDeletable = state.commentState.isEditing,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
+        item {
+            AnimatedVisibility(
+                visible = state.commentState.isEditing,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                AddNewButton(
+                    onClick = onAddComment,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
                 )
             }
-        item {
-            FilledTonalIconTextButton(
-                onClick = onAddCommentClicked,
-                text = { Text(stringResource(id = R.string.all_add_new)) },
-                leadingIcon = {
-                    Icon(Icons.Rounded.Add, contentDescription = null)
-                },
-                modifier = Modifier.padding(horizontal = 16.dp).padding(top = 8.dp)
-            )
         }
 
         item {
@@ -183,7 +205,7 @@ fun DetailContentViewPreviewLight() {
                     IngredientState("Eggs", 1.0, UiQuantityType.None)
                 ),
                 instructions = listOf("Mix everything together", "Cook in a pan"),
-                comments = listOf("Put oil in the pan", "Excellent with chocolate"),
+                commentState = CommentState(),
                 time = TimeState(6, 3, 2, 1),
                 temperature = 180
             )
@@ -209,7 +231,7 @@ fun DetailContentViewPreviewDark() {
                     IngredientState("Eggs", 1.0, UiQuantityType.None)
                 ),
                 instructions = listOf("Mix everything together", "Cook in a pan"),
-                comments = listOf("Put oil in the pan", "Excellent with chocolate"),
+                commentState = CommentState(),
                 time = TimeState(6, 3, 2, 1)
             )
         )

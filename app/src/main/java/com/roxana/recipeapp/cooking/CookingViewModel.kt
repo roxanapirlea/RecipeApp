@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roxana.recipeapp.CookingNode
+import com.roxana.recipeapp.domain.comment.DeleteCommentUseCase
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
 import com.roxana.recipeapp.uimodel.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import kotlin.math.floor
 @HiltViewModel
 class CookingViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase
+    private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase,
+    private val deleteCommentUseCase: DeleteCommentUseCase
 ) : ViewModel() {
 
     companion object {
@@ -50,6 +52,7 @@ class CookingViewModel @Inject constructor(
                         ) ?: emptyList()
 
                         val state = CookingViewState(
+                            id = recipe.id,
                             title = recipe.name,
                             portions = recipe.portions,
                             selectedPortions = nonNullPortions * multiplier,
@@ -74,7 +77,11 @@ class CookingViewModel @Inject constructor(
                                     )
                                 }
                                 .updateCurrent(),
-                            comments = recipe.comments.sortedBy { it.ordinal }.map { it.name },
+                            commentState = CommentState(
+                                comments = recipe.comments.sortedBy { it.ordinal }
+                                    .map { Comment(it.name, it.ordinal.toInt()) },
+                                isEditing = state.value.commentState.isEditing
+                            ),
                             time = TimeState(
                                 total = recipe.timeTotal,
                                 cooking = recipe.timeCooking,
@@ -162,6 +169,24 @@ class CookingViewModel @Inject constructor(
         _state.value = content.copy(
             instructions = newInstructions.updateCurrent()
         )
+    }
+
+    fun onEditComments() {
+        _state.update {
+            it.copy(commentState = it.commentState.copy(isEditing = true))
+        }
+    }
+
+    fun onDoneEditComments() {
+        _state.update {
+            it.copy(commentState = it.commentState.copy(isEditing = false))
+        }
+    }
+
+    fun onDeleteComment(id: Int) {
+        viewModelScope.launch {
+            deleteCommentUseCase(DeleteCommentUseCase.Input(state.value.id, id))
+        }
     }
 
     fun onDismissError() {

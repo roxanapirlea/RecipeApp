@@ -19,6 +19,7 @@ interface RecipeRepository {
     suspend fun getRecipeById(id: Int): Recipe
     fun getRecipeByIdAsFlow(id: Int): Flow<Recipe>
     suspend fun addComment(recipeId: Int, comment: String)
+    suspend fun deleteComment(recipeId: Int, commentId: Int)
     fun getMaxTotalTime(): Flow<Short?>
     fun getMaxCookingTime(): Flow<Short?>
     fun getMaxPreparationTime(): Flow<Short?>

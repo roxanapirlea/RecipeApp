@@ -89,6 +89,9 @@ fun DetailDestination(
         onAddCommentClicked = onNavAddComment,
         onEditClicked = detailViewModel::onEdit,
         onDeleteClicked = detailViewModel::onDelete,
+        onEditComments = detailViewModel::onEditComments,
+        onDoneEditComments = detailViewModel::onDoneEditComments,
+        onDeleteComment = detailViewModel::onDeleteComment,
     )
 }
 
@@ -102,6 +105,9 @@ fun DetailScreen(
     onAddCommentClicked: () -> Unit = {},
     onEditClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {},
+    onEditComments: () -> Unit = {},
+    onDeleteComment: (Int) -> Unit = {},
+    onDoneEditComments: () -> Unit = {},
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
@@ -134,7 +140,10 @@ fun DetailScreen(
             else -> RecipeDetailView(
                 state = state,
                 modifier = Modifier.padding(contentPadding),
-                onAddCommentClicked = onAddCommentClicked
+                onAddComment = onAddCommentClicked,
+                onEditComments = onEditComments,
+                onDoneEditComments = onDoneEditComments,
+                onDeleteComment = onDeleteComment,
             )
         }
     }

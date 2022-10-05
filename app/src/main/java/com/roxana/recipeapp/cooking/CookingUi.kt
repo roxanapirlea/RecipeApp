@@ -53,6 +53,9 @@ fun CookingDestination(
         onResetPortions = cookingViewModel::onResetPortions,
         onToggleIngredientCheck = cookingViewModel::toggleIngredientCheck,
         onToggleInstructionCheck = cookingViewModel::toggleInstructionCheck,
+        onEditComments = cookingViewModel::onEditComments,
+        onDoneEditComments = cookingViewModel::onDoneEditComments,
+        onDeleteComment = cookingViewModel::onDeleteComment
     )
 }
 
@@ -68,7 +71,10 @@ fun CookingView(
     onIncrementPortions: () -> Unit = {},
     onResetPortions: () -> Unit = {},
     onToggleIngredientCheck: (id: Int, isChecked: Boolean) -> Unit = { _, _ -> },
-    onToggleInstructionCheck: (id: Short, isChecked: Boolean) -> Unit = { _, _ -> }
+    onToggleInstructionCheck: (id: Short, isChecked: Boolean) -> Unit = { _, _ -> },
+    onEditComments: () -> Unit = {},
+    onDeleteComment: (Int) -> Unit = {},
+    onDoneEditComments: () -> Unit = {},
 ) {
 
     Scaffold(
@@ -89,6 +95,9 @@ fun CookingView(
                 onResetPortions = onResetPortions,
                 onToggleIngredientCheck = onToggleIngredientCheck,
                 onToggleInstructionCheck = onToggleInstructionCheck,
+                onEditComments = onEditComments,
+                onDoneEditComments = onDoneEditComments,
+                onDeleteComment = onDeleteComment
             )
         }
     }

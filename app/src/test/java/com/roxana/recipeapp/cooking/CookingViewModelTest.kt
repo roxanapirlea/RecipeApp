@@ -2,10 +2,15 @@ package com.roxana.recipeapp.cooking
 
 import androidx.lifecycle.SavedStateHandle
 import com.roxana.recipeapp.CookingNode
+import com.roxana.recipeapp.domain.comment.DeleteCommentUseCase
 import com.roxana.recipeapp.domain.detail.GetRecipeByIdAsFlowUseCase
+import com.roxana.recipeapp.domain.model.CategoryType
 import com.roxana.recipeapp.domain.model.Comment
 import com.roxana.recipeapp.domain.model.Ingredient
 import com.roxana.recipeapp.domain.model.Instruction
+import com.roxana.recipeapp.domain.model.QuantityType
+import com.roxana.recipeapp.domain.model.Recipe
+import com.roxana.recipeapp.domain.model.Temperature
 import com.roxana.recipeapp.helpers.MainCoroutineRule
 import com.roxana.recipeapp.helpers.fakeEmptyRecipe
 import com.roxana.recipeapp.uimodel.toUiModel
@@ -13,6 +18,7 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -29,6 +35,7 @@ class CookingViewModelTest {
     var mainCoroutineRule = MainCoroutineRule()
 
     private val getRecipeByIdUseCase: GetRecipeByIdAsFlowUseCase = mockk(relaxed = true)
+    private val deleteCommentUseCase: DeleteCommentUseCase = mockk(relaxed = true)
     private val savedStateHandle: SavedStateHandle = mockk(relaxed = true)
     private lateinit var viewModel: CookingViewModel
 
@@ -53,7 +60,7 @@ class CookingViewModelTest {
     @Test
     fun setIsLoading_when_init_given_nothingCalledYet() = runTest {
         // When
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // Then
         viewModel.state.value.isLoading.shouldBeTrue()
@@ -68,7 +75,7 @@ class CookingViewModelTest {
         }
 
         // When
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // Then
         viewModel.state.value.isFetchingError.shouldBeTrue()
@@ -82,7 +89,7 @@ class CookingViewModelTest {
         }
 
         // When - then
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
         viewModel.state.value.isFetchingError.shouldBeTrue()
         viewModel.onDismissError()
         viewModel.state.value.isFetchingError.shouldBeFalse()
@@ -106,7 +113,7 @@ class CookingViewModelTest {
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
 
         // When
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // Then
         viewModel.state.value.title shouldBe recipe.name
@@ -126,7 +133,13 @@ class CookingViewModelTest {
             InstructionState(otherInstruction.ordinal, otherInstruction.name, false, true),
             InstructionState(instruction.ordinal, instruction.name, false, false)
         )
-        viewModel.state.value.comments shouldBe listOf(otherComment.name, comment.name)
+        viewModel.state.value.commentState shouldBe CommentState(
+            listOf(
+                Comment(otherComment.name, otherComment.ordinal.toInt()),
+                Comment(comment.name, comment.ordinal.toInt())
+            ),
+            false
+        )
         viewModel.state.value.temperature shouldBe recipe.temperature
         viewModel.state.value.temperatureUnit shouldBe recipe.temperatureUnit?.toUiModel()
         viewModel.state.value.isLoading.shouldBeFalse()
@@ -143,7 +156,7 @@ class CookingViewModelTest {
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
 
         // When
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // Then
         viewModel.state.value.portions shouldBe portions
@@ -166,7 +179,7 @@ class CookingViewModelTest {
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
 
         // When
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // Then
         viewModel.state.value.title shouldBe localRecipe.name
@@ -204,7 +217,7 @@ class CookingViewModelTest {
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
 
         // When
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // Then
         viewModel.state.value.title shouldBe localRecipe.name
@@ -238,7 +251,7 @@ class CookingViewModelTest {
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
 
         // When
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // Then
         viewModel.state.value.ingredients shouldBe listOf(
@@ -275,7 +288,7 @@ class CookingViewModelTest {
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
 
         // When
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // Then
         viewModel.state.value.instructions shouldBe listOf(
@@ -291,7 +304,7 @@ class CookingViewModelTest {
         val ingredient = Ingredient(1, "ingredient", 6.0, null)
         val localRecipe = recipe.copy(portions = portions, ingredients = listOf(ingredient))
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
         val multiplier: Double = (portions + 1.0) / portions
 
         // When
@@ -320,7 +333,7 @@ class CookingViewModelTest {
         val ingredient = Ingredient(1, "ingredient", 6.0, null)
         val localRecipe = recipe.copy(portions = portions, ingredients = listOf(ingredient))
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
         val multiplier: Double = (portions - 1.0) / portions
 
         // When
@@ -349,7 +362,7 @@ class CookingViewModelTest {
         val ingredient = Ingredient(1, "ingredient", 6.0, null)
         val localRecipe = recipe.copy(portions = portions, ingredients = listOf(ingredient))
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // When
         viewModel.onDecrementPortions()
@@ -376,7 +389,7 @@ class CookingViewModelTest {
         val ingredient = Ingredient(1, "ingredient", 6.0, null)
         val localRecipe = recipe.copy(portions = portions, ingredients = listOf(ingredient))
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
         viewModel.onDecrementPortions()
 
         // When
@@ -405,7 +418,7 @@ class CookingViewModelTest {
         val ingredient = Ingredient(1, "ingredient", 6.0, null)
         val localRecipe = recipe.copy(portions = portions, ingredients = listOf(ingredient))
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // When - then
         viewModel.toggleIngredientCheck(ingredient.id, true)
@@ -428,7 +441,7 @@ class CookingViewModelTest {
             instructions = listOf(instruction, otherInstruction),
         )
         coEvery { getRecipeByIdUseCase(any()) } returns flow { emit(Result.success(localRecipe)) }
-        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase)
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
 
         // When - then
         viewModel.toggleInstructionCheck(otherInstruction.ordinal, true)
@@ -459,5 +472,53 @@ class CookingViewModelTest {
             savedStateHandle[CookingViewModel.KEY_SAVE_CHECKED_INSTRUCTIONS] =
                 listOf(instruction.ordinal)
         }
+    }
+
+    @Test
+    fun changeEditingComment_when_onEditCommentsAndOnDoneEditComments() {
+        // Given
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(CookingNode.KEY_ID)!! } returns recipeId
+        val recipeModel = Recipe(
+            id = recipeId,
+            name = "fake name",
+            photoPath = null,
+            portions = 2,
+            categories = listOf(CategoryType.DINNER, CategoryType.DESSERT),
+            ingredients = listOf(Ingredient(1, "ingr", 3.0, QuantityType.CUP)),
+            instructions = listOf(Instruction(1, "instr1"), Instruction(2, "instr2")),
+            comments = listOf(Comment(1, "comm1"), Comment(2, "comm2")),
+            timeTotal = 7,
+            timeCooking = 4,
+            timeWaiting = 2,
+            timePreparation = 1,
+            temperature = 150,
+            temperatureUnit = Temperature.CELSIUS
+        )
+        every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
+
+        // When - then
+        viewModel.onEditComments()
+        viewModel.state.value.commentState.isEditing.shouldBeTrue()
+        viewModel.onDoneEditComments()
+        viewModel.state.value.commentState.isEditing.shouldBeFalse()
+    }
+
+    @Test
+    fun deleteComment_when_OnDeleteComment() {
+        // Given
+        val commentToDeleteId = 123
+        val recipeId = 1
+        every { savedStateHandle.get<Int>(CookingNode.KEY_ID)!! } returns recipeId
+        val recipeModel = fakeEmptyRecipe.copy(id = recipeId)
+        every { getRecipeByIdUseCase(recipeId) } returns flow { emit(Result.success(recipeModel)) }
+        viewModel = CookingViewModel(savedStateHandle, getRecipeByIdUseCase, deleteCommentUseCase)
+
+        // When
+        viewModel.onDeleteComment(commentToDeleteId)
+
+        // Then
+        coVerify { deleteCommentUseCase(DeleteCommentUseCase.Input(recipeId, commentToDeleteId)) }
     }
 }
