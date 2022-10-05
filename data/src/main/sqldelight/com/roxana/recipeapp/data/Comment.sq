@@ -18,6 +18,11 @@ deleteByRecipeId:
 DELETE FROM Comment
 WHERE recipe_id = :id;
 
+deleteByRecipeIdAndOrdinal:
+DELETE FROM Comment
+WHERE recipe_id = :id
+AND ordinal = :ordinal;
+
 getByRecipeId:
 SELECT *
 FROM Comment
